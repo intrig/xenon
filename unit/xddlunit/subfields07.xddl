@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="MessageID" length="8"/>
+    <record name="data">
+      <switch expr="MessageID">
+        <case value="#01">
+          <field name="NumPilots" length="8"/>
+          <field name="NGHBR_PN" length="8"/>
+          <field name="Reserved" length="8"/>
+        </case>
+      </switch>
+    </record>
+  </start>
+</xddl>

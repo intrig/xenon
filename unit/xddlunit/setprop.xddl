@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <type name="Message Types" id="msg-type">
+    <item key="#01" value="SessionClose"/>
+    <item key="#02" value="KeepAliveRequest"/>
+    <item key="#03" value="KeepAliveResponse"/>
+  </type>
+  <start>
+    <field name="A" length="8" type="#msg-type"/>
+    <prop name="Name" value="1"/>
+    <field name="B" length="8" type="#msg-type"/>
+  </start>
+</xddl>

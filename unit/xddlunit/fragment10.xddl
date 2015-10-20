@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <export>
+    <prop name="a" value="0"/>
+  </export>
+  <comment>Referencing fields in previous fragments</comment>
+  <record id="b">
+    <field name="q" length="8"/>
+    <field name="B" length="a"/>
+  </record>
+  <start>
+    <field name="A" length="8"/>
+    <setprop name="a" value="A"/>
+    <fragment href="#b"/>
+  </start>
+</xddl>

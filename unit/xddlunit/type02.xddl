@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Type with XML characters</comment>
+  <type name="XML Char Type" id="xmlchars">
+    <item key="0" value="&gt;"/>
+    <item key="1" value="&lt;"/>
+    <item key="2" value="&quot;"/>
+  </type>
+  <start>
+    <field name="first" length="8" type="#xmlchars"/>
+    <field name="second" length="8" type="#xmlchars"/>
+    <field name="third" length="8" type="#xmlchars"/>
+    <field name="fourth" length="8" type="#xmlchars"/>
+  </start>
+</xddl>

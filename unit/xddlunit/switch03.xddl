@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="doo" length="8"/>
+    <switch expr="doo">
+      <case value="0">
+        <field name="zero" length="8"/>
+      </case>
+      <case value="1">
+        <field name="one" length="8"/>
+      </case>
+      <case value="2">
+        <field name="two" length="8"/>
+      </case>
+    </switch>
+  </start>
+</xddl>

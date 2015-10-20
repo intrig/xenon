@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>peek into switch element with default</comment>
+  <start>
+    <peek name="pd" length="4" offset="4"/>
+    <switch expr="pd">
+      <case value="0">
+        <field name="security header" length="4"/>
+        <field name="protocol descriminator" length="4"/>
+      </case>
+      <default>
+        <field name="bearer identity" length="4"/>
+        <field name="protocol descriminator" length="4"/>
+      </default>
+    </switch>
+  </start>
+</xddl>

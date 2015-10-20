@@ -1,0 +1,2742 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- 
+    LTE NAS
+    3GPP TS 24.301 V12.4.0 (2014-03)
+    3rd Generation Parnership Project;
+    Technical Specification Group Core Network and Terminals;
+    Non-Access-Stratum (NAS) protocol for Evolved Packet System (EPS);
+    Stage 3 (Relese 12)
+  -->
+  <export>
+    <!-- extern -->
+    <prop name="Name"/>
+    <prop name="NasName1"/>
+    <prop name="NasName2"/>
+    <prop name="Direction"/>
+    <prop name="Ciphered"/>
+    <!-- local -->
+    <prop name="esm_contained"/>
+    <prop name="sh_ciphered"/>
+  </export>
+  <!-- TYPES -->
+  <!-- misc types -->
+  <type id="NasMessageNameType">
+    <script>
+      description = oob("NasName1")
+      n2 = oob("NasName2")
+      if (n2!="") then
+         description = description .. " | " .. n2
+      end
+    </script>
+  </type>
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <type id="1111">
+    <item key="@1111" value=" "/>
+  </type>
+  <type name="IPv4 address" id="ipv4">
+    <script>
+    description = string.format("%d.%d.%d.%d", 
+      slice(0,8),
+      slice(8,8),
+      slice(16,8),
+      slice(24,8))
+   </script>
+  </type>
+  <type name="IPv6 address" id="ipv6">
+    <script>
+    description = string.format("%x:%x:%x:%x:%x:%x:%x:%x", 
+      slice(0, 16), 
+      slice(16, 16), 
+      slice(32, 16), 
+      slice(48, 16), 
+      slice(64, 16), 
+      slice(80, 16), 
+      slice(96, 16), 
+      slice(112, 16))
+  </script>
+  </type>
+  <type id="BCD-4bit">
+    <!-- TODO: complete this table, see UMTS NAS -->
+    <range start="@0000" end="@1111" value=" "/>
+  </type>
+  <type id="test-procedures">
+    <item key="0" value="Test Procedure"/>
+  </type>
+  <record id="mcc-mnc">
+    <field name="MCC digit 2" length="4" type="#BCD-4bit"/>
+    <field name="MCC digit 1" length="4" type="#BCD-4bit"/>
+    <field name="MNC digit 3" length="4" type="#BCD-4bit"/>
+    <field name="MCC digit 3" length="4" type="#BCD-4bit"/>
+    <field name="MNC digit 2" length="4" type="#BCD-4bit"/>
+    <field name="MNC digit 1" length="4" type="#BCD-4bit"/>
+  </record>
+  <!-- This is just a regular NAS message -->
+  <!-- TODO: This is way to complicated -->
+  <record id="NASOnlyMessage_V">
+    <peek name="pd" length="4" offset="4"/>
+    <switch expr="pd">
+      <case value="@0010">
+        <!-- EPS session management messages -->
+        <peek name="sh" length="4" offset="0"/>
+        <!-- TODO: peek workaround -->
+        <field name="EPS bearer identity" length="4" type="TS-24.007.xddl#table-11.5"/>
+        <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+        <field name="Procedure Transaction Identity" length="8" type="TS-24.007.xddl#table-11.6"/>
+        <switch expr="sh">
+          <case value="@0000">
+            <!-- not security protected -->
+            <fragment href="#8.3"/>
+          </case>
+          <case value="@0001"/>
+          <case value="@0010"/>
+          <case value="@0011"/>
+          <case value="@0100">
+            <fragment href="#8.2.23"/>
+          </case>
+          <case value="@1100">
+            <!-- The following lines fail due to {Message type} -->
+            <!-- 
+            <setprop name="Name" value="{Message type}" type="#9.8.1"/>
+            <setprop name="NasName1" value="{Message type}" type="#9.8.1"/>
+            -->
+            <fragment href="#8.2.25"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@0111">
+        <!-- EPS mobility management messages -->
+        <peek name="sh" length="4" offset="0"/>
+        <!-- TODO: peek workaround -->
+        <field name="Security header type" length="4" type="#9.3.1"/>
+        <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+        <switch expr="sh">
+          <case value="@0000">
+            <!-- not security protected -->
+            <fragment href="#8.2"/>
+          </case>
+          <case value="@0001"/>
+          <case value="@0010"/>
+          <case value="@0011"/>
+          <case value="@0100">
+            <fragment href="#8.2.23"/>
+          </case>
+          <case value="@1100">
+            <fragment href="#8.2.25"/>
+            <setprop name="Name" type="#service-request-type" value="0"/>
+            <setprop name="NasName1" type="#service-request-type" value="0"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@1111">
+        <!-- Test Procedures -->
+        <field name="Security header type" length="4" type="#9.3.1"/>
+        <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+        <field name="Authentication code" length="32"/>
+        <field name="Sequence number" length="8"/>
+      </case>
+    </switch>
+  </record>
+  <!-- This is inserted from the rrc xddl  -->
+  <record id="NASMessage_V">
+    <peek name="pd" length="4" offset="4"/>
+    <switch expr="pd">
+      <case value="@0010">
+        <!-- EPS session management messages -->
+        <peek name="sh" length="4" offset="0"/>
+        <!-- TODO: peek workaround -->
+        <field name="Security header type" length="4" type="#9.3.1"/>
+        <setprop name="sh_ciphered" value="({Security header type} == 2) or ({Security header type} == 4)"/>
+        <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+        <switch expr="sh">
+          <case value="@0000">
+            <!-- not security protected -->
+            <fragment href="#8.3"/>
+          </case>
+          <case value="@0001"/>
+          <case value="@0010"/>
+          <case value="@0011"/>
+          <case value="@0100">
+            <fragment href="#8.2.23"/>
+          </case>
+          <case value="@1100">
+            <fragment href="#8.2.25"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@0111">
+        <!-- EPS mobility management messages -->
+        <peek name="sh" length="4" offset="0"/>
+        <field name="Security header type" length="4" type="#9.3.1"/>
+        <setprop name="sh_ciphered" value="({Security header type} == 2) or ({Security header type} == 4)"/>
+        <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+        <switch expr="sh">
+          <case value="@0000">
+            <!-- not security protected -->
+            <fragment href="#8.2"/>
+          </case>
+          <case value="@0001"/>
+          <case value="@0010"/>
+          <case value="@0011"/>
+          <case value="@0100">
+            <fragment href="#8.2.23"/>
+          </case>
+          <case value="@1100">
+            <fragment href="#8.2.25"/>
+            <setprop name="Name" type="#service-request-type" value="0"/>
+            <setprop name="NasName1" type="#service-request-type" value="0"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@1111">
+        <!-- Test Procedures -->
+        <setprop name="NasName1" type="#test-procedures" value="0"/>
+        <field name="Security header type" length="4" type="#9.3.1"/>
+        <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+        <field name="Authentication code" length="32"/>
+        <field name="Sequence number" length="8"/>
+      </case>
+    </switch>
+  </record>
+  <type id="9.3.1">
+    <!-- 9.3.1 -->
+    <item key="@0000" value="Plain NAS Message"/>
+    <item key="@0001" value="Integrity protected"/>
+    <item key="@0010" value="Integrity protected and ciphered"/>
+    <item key="@0011" value="Integrity protected with new EPS securty context"/>
+    <item key="@0100" value="Integrity protected and ciphered with new EPS securty context"/>
+    <item key="@1100" value="Security header for the SERVICE REQUEST message"/>
+    <range start="@1101" end="@1111" value="not used in this version of the protocol"/>
+    <range start="@0000" end="@1111" value="reserved"/>
+  </type>
+  <!-- Section 8.2 EPS mobility management messages -->
+  <record name="EPS mobility management messages" id="8.2">
+    <field name="Message type" length="8" type="#9.8.1"/>
+    <setprop name="Name" type="#9.8.1" value="{Message type}"/>
+    <setprop name="NasName1" type="#9.8.1" value="{Message type}"/>
+    <switch expr="{Message type}">
+      <case value="@01000010">
+        <!-- 8.2.1 Attach accept -->
+        <fragment href="#8.2.1"/>
+      </case>
+      <case value="@01000011">
+        <!-- 8.2.2 Attach complete -->
+        <fragment href="#8.2.2"/>
+      </case>
+      <case value="@01000100">
+        <!-- 8.2.3 Attach reject -->
+        <fragment href="#8.2.3"/>
+      </case>
+      <case value="@01000001">
+        <!-- 8.2.4 Attach request -->
+        <fragment href="#8.2.4"/>
+      </case>
+      <case value="@01011100">
+        <!-- 8.2.5 Authentication failure -->
+        <fragment href="#8.2.5"/>
+      </case>
+      <case value="@01010010">
+        <!-- Authentication request 8.2.7 -->
+        <fragment href="#8.2.7"/>
+      </case>
+      <case value="@01010011">
+        <!-- Authentication response 8.2.8 -->
+        <fragment href="#8.2.8"/>
+      </case>
+      <case value="@01100100">
+        <!-- 8.2.9 CS service notification -->
+        <fragment href="#8.2.9"/>
+      </case>
+      <case value="@01000101">
+        <!-- Detach request 8.2.11 -->
+        <fragment href="#8.2.11"/>
+      </case>
+      <case value="@01100010">
+        <!-- Downlink NAS transport 8.2.12 -->
+        <fragment href="#8.2.12"/>
+      </case>
+      <case value="@01100001">
+        <!-- EMM information 8.2.13 -->
+        <fragment href="#8.2.13"/>
+      </case>
+      <case value="@01100000">
+        <!-- EMM status 8.2.14 -->
+        <fragment href="#8.2.14"/>
+      </case>
+      <case value="@01001100">
+        <!-- Extended service request 8.2.15 -->
+        <fragment href="#8.2.15"/>
+      </case>
+      <case value="@01010000">
+        <!-- GUTI reallocation command 8.2.16 -->
+        <fragment href="#8.2.16"/>
+      </case>
+      <case value="@01010101">
+        <!-- Identity request 8.2.18 -->
+        <fragment href="#8.2.18"/>
+      </case>
+      <case value="@01010110">
+        <!-- Identity response 8.2.19 -->
+        <fragment href="#8.2.19"/>
+      </case>
+      <case value="@01011101">
+        <!-- Security mode command 8.2.20 -->
+        <fragment href="#8.2.20"/>
+      </case>
+      <case value="@01011110">
+        <!-- Security mode complete 8.2.21 -->
+        <fragment href="#8.2.21"/>
+      </case>
+      <case value="@01011111">
+        <!-- Security mode reject 8.2.22 -->
+        <fragment href="#8.2.22"/>
+      </case>
+      <case value="@01001110">
+        <!-- Service reject 8.2.24 -->
+        <fragment href="#8.2.24"/>
+      </case>
+      <case value="@01001001">
+        <!-- Tracking area update accept 8.2.26 -->
+        <fragment href="#8.2.26"/>
+      </case>
+      <case value="@01001011">
+        <!-- Tracking area update reject 8.2.28 -->
+        <fragment href="#8.2.28"/>
+      </case>
+      <case value="@01001000">
+        <!-- Tracking area update request 8.2.29 -->
+        <fragment href="#8.2.29"/>
+      </case>
+      <case value="@01100011">
+        <!-- Uplink NAS transport 8.2.30 -->
+        <fragment href="#8.2.30"/>
+      </case>
+      <case value="@01101000">
+        <!-- Downlink generic NAS transport 8.2.31 -->
+        <fragment href="#8.2.31"/>
+      </case>
+      <case value="@01101001">
+        <!-- Uplink generic NAS transport 8.2.32 -->
+        <fragment href="#8.2.32"/>
+      </case>
+    </switch>
+  </record>
+  <type name="Message types for EPS mobility management" id="9.8.1">
+    <!-- 9.8 -->
+    <item key="@01000001" value="Attach request"/>
+    <item key="@01000010" value="Attach accept"/>
+    <item key="@01000011" value="Attach complete"/>
+    <item key="@01000100" value="Attach reject"/>
+    <item key="@01000101" value="Detach request"/>
+    <item key="@01000110" value="Detach accept"/>
+    <item key="@01001000" value="Tracking area update request"/>
+    <item key="@01001001" value="Tracking area update accept"/>
+    <item key="@01001010" value="Tracking area update complete"/>
+    <item key="@01001011" value="Tracking area update reject"/>
+    <item key="@01001100" value="Extended service request"/>
+    <item key="@01001110" value="Service reject"/>
+    <item key="@01010000" value="GUTI reallocation command"/>
+    <item key="@01010001" value="GUTI reallocation complete"/>
+    <item key="@01010010" value="Authentication request"/>
+    <item key="@01010011" value="Authentication response"/>
+    <item key="@01010100" value="Authentication reject"/>
+    <item key="@01011100" value="Authentication failure"/>
+    <item key="@01010101" value="Identity request"/>
+    <item key="@01010110" value="Identity response"/>
+    <item key="@01011101" value="Security mode command"/>
+    <item key="@01011110" value="Security mode complete"/>
+    <item key="@01011111" value="Security mode reject"/>
+    <item key="@01100000" value="EMM status"/>
+    <item key="@01100001" value="EMM information"/>
+    <item key="@01100010" value="Downlink NAS transport"/>
+    <item key="@01100011" value="Uplink NAS transport"/>
+    <item key="@01100100" value="CS Service notification"/>
+    <item key="@01101000" value="Downlink generic NAS transport"/>
+    <item key="@01101001" value="Uplink generic NAS transport"/>
+  </type>
+  <type name="Message types for EPS session management" id="9.8.2">
+    <item key="@11000001" value="Activate default EPS bearer context request"/>
+    <item key="@11000010" value="Activate default EPS bearer context accept"/>
+    <item key="@11000011" value="Activate default EPS bearer context reject"/>
+    <item key="@11000101" value="Activate dedicated EPS bearer context request"/>
+    <item key="@11000110" value="Activate dedicated EPS bearer context accept"/>
+    <item key="@11000111" value="Activate dedicated EPS bearer context reject"/>
+    <item key="@11001001" value="Modify EPS bearer context request"/>
+    <item key="@11001010" value="Modify EPS bearer context accept"/>
+    <item key="@11001011" value="Modify EPS bearer context reject"/>
+    <item key="@11001101" value="Deactivate EPS bearer context request"/>
+    <item key="@11001110" value="Deactivate EPS bearer context accept"/>
+    <item key="@11010000" value="PDN connectivity request"/>
+    <item key="@11010001" value="PDN connectivity reject"/>
+    <item key="@11010010" value="PDN disconnect request"/>
+    <item key="@11010011" value="PDN disconnect reject"/>
+    <item key="@11010100" value="Bearer resource allocation request"/>
+    <item key="@11010101" value="Bearer resource allocation reject"/>
+    <item key="@11010110" value="Bearer resource modification request"/>
+    <item key="@11010111" value="Bearer resource modification reject"/>
+    <item key="@11011001" value="ESM information request"/>
+    <item key="@11011010" value="ESM information response"/>
+    <item key="@11011011" value="Notification"/>
+    <item key="@11101000" value="ESM status"/>
+  </type>
+  <record name="Attach accept" id="8.2.1">
+    <fragment href="#9.9.2.9"/>
+    <fragment href="#figure-9.9.3.10.1"/>
+    <record name="T3412 value" href="#9.9.3.16"/>
+    <record name="TAI list" href="#9.9.3.33"/>
+    <record name="ESM Message Container" href="#9.9.3.15"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#F">
+              <record name="Additional update result" href="#9.9.3.0A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#50">
+              <record name="GUTI" href="#9.9.3.12"/>
+            </case>
+            <case value="#13">
+              <record name="Location area identification" href="#9.9.2.2"/>
+            </case>
+            <case value="#23">
+              <record name="MS identity" href="#9.9.2.3"/>
+            </case>
+            <case value="#53">
+              <record name="EMM cause" href="#9.9.3.9"/>
+            </case>
+            <case value="#17">
+              <record name="T3402 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#59">
+              <record name="T3423 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#4A">
+              <record name="Equivalent PLMNs" href="#9.9.2.8"/>
+            </case>
+            <case value="#34">
+              <record name="Emergency number list" href="#9.9.3.37"/>
+            </case>
+            <case value="#64">
+              <record name="EPS network feature support" href="#9.9.3.12A"/>
+            </case>
+            <case value="#5E">
+              <record name="T3412 extended value" href="#9.9.3.16B"/>
+            </case>
+            <case value="#F1">
+              <record name="T3324 value" href="#9.9.3.16"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Attach complete" id="8.2.2">
+    <record name="ESM message container" href="#9.9.3.15"/>
+  </record>
+  <record name="Attach reject" id="8.2.3">
+    <record name="EMM cause" href="#9.9.3.9"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#78">
+              <record name="ESM message container" href="#9.9.3.15"/>
+            </case>
+            <case value="#5F">
+              <record name="T3346 value" href="#9.9.3.16A"/>
+            </case>
+            <case value="#16">
+              <record name="T3402 value" href="#9.9.3.16A"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Attach Request" id="8.2.4">
+    <record name="NAS key set identifier" href="#9.9.3.21"/>
+    <record name="EPS attach type" href="#9.9.3.11"/>
+    <record name="EPS mobile identity" href="#9.9.3.12"/>
+    <record name="UE network capability" href="#9.9.3.34"/>
+    <record name="ESM Message Container" href="#9.9.3.15"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#9">
+              <record name="TMSI status" href="#9.9.3.31"/>
+            </case>
+            <case value="#F">
+              <record name="Additional update type" href="#9.9.3.0B"/>
+            </case>
+            <case value="#0D">
+              <record name="Device properties" href="#9.9.2.0A"/>
+            </case>
+            <case value="#0E">
+              <record name="Old GUTI type" href="#9.9.3.45"/>
+            </case>
+            <case value="#0C">
+              <record name="MS network feature support " href="#9.9.3.20A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#19">
+              <record name="Old TMSI signature" href="#9.9.3.26"/>
+            </case>
+            <case value="#50">
+              <record name="Additional GUTI" href="#9.9.3.12"/>
+            </case>
+            <case value="#52">
+              <record name="Last visited registered TAI" href="#9.9.3.32"/>
+            </case>
+            <case value="#5C">
+              <record name="DRX parameter" href="#9.9.3.8"/>
+            </case>
+            <case value="#31">
+              <record name="MS network capability" href="#9.9.3.20"/>
+            </case>
+            <case value="#13">
+              <record name="Old location area identification" href="#9.9.2.2"/>
+            </case>
+            <case value="#11">
+              <record name="Mobile station classmark 2" href="#9.9.2.4"/>
+            </case>
+            <case value="#20">
+              <record name="Mobile station classmark 3" href="#9.9.2.5"/>
+            </case>
+            <case value="#40">
+              <record name="Supported Codecs" href="#9.9.2.10"/>
+            </case>
+            <case value="#5D">
+              <record name="Voice domain preference and UE&apos;s usage setting" href="#9.9.3.44"/>
+            </case>
+            <case value="#10">
+              <record name="TMSI ased NRI container" href="#9.9.3.24A"/>
+            </case>
+            <case value="#F1">
+              <record name="T3324 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#6A">
+              <record name="T3412 extended value" href="#9.9.3.16B"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Authentication failure" id="8.2.5">
+    <record name="EMM cause" href="#9.9.3.9"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#30">
+              <record name="Authentication failure parameter" href="#9.9.3.1"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Authentication request" id="8.2.7">
+    <fragment href="#9.9.2.9"/>
+    <record name="NAS key set identifier" href="#9.9.3.21"/>
+    <record name="Authentication parameter RAND (EPS Challenge)" href="#9.9.3.3"/>
+    <record name="Authentication parameter AUTN (EPS Challenge)" href="#9.9.3.2"/>
+  </record>
+  <record name="Authentication response" id="8.2.8">
+    <record name="Authentication response parameter" href="#9.9.3.4.1"/>
+  </record>
+  <record name="CS service notification" id="8.2.9">
+    <record name="Paging identity" href="#9.9.3.25A"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#60">
+              <record name="CLI" href="#9.9.3.38"/>
+            </case>
+            <case value="#61">
+              <record name="SS Code" href="#9.9.3.39"/>
+            </case>
+            <case value="#62">
+              <record name="LCS indicator" href="#9.9.3.40"/>
+            </case>
+            <case value="#63">
+              <record name="LCS client identity" href="#9.9.3.41"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Detach request" id="8.2.11">
+    <switch expr="Direction">
+      <case value="1">
+        <!-- UE originating detach -->
+        <record name="NAS key set identifier" href="#9.9.3.21"/>
+        <record name="Detach Type" href="#9.9.3.7a"/>
+        <record name="EPS mobile identity" href="#9.9.3.12"/>
+      </case>
+      <case value="0">
+        <!-- UE terminated detach -->
+        <fragment href="#9.9.2.9"/>
+        <record name="Detach Type" href="#9.9.3.7b"/>
+        <repeat name="optional elements">
+          <peek name="IEI type" length="1" offset="0"/>
+          <switch expr="{IEI type}">
+            <case value="1">
+              <!-- type 1 -->
+              <field name="IEI" length="4"/>
+              <switch expr="IEI"/>
+            </case>
+            <case value="0">
+              <!-- type 4 -->
+              <field name="IEI" length="8"/>
+              <switch expr="IEI">
+                <case value="#53">
+                  <record name="EMM cause" href="#9.9.3.9"/>
+                </case>
+              </switch>
+            </case>
+          </switch>
+        </repeat>
+      </case>
+    </switch>
+  </record>
+  <record name="Downlink NAS transport" id="8.2.12">
+    <record name="NAS message container" href="#9.9.3.22"/>
+  </record>
+  <record name="EMM information" id="8.2.13">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#43">
+              <record name="Full name for network" href="#9.9.3.24"/>
+            </case>
+            <case value="#45">
+              <record name="Short name for network" href="#9.9.3.24"/>
+            </case>
+            <case value="#46">
+              <record name="Local time zone" href="#9.9.3.29"/>
+            </case>
+            <case value="#47">
+              <record name="Universal time and local time zone" href="#9.9.3.30"/>
+            </case>
+            <case value="#49">
+              <record name="Network daylight saving time" href="#9.9.3.6"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="EMM status" id="8.2.14">
+    <record name="EMM cause" href="#9.9.3.9"/>
+  </record>
+  <record name="Extended service request" id="8.2.15">
+    <record name="NAS key set identifier" href="#9.9.3.21"/>
+    <record name="Service type" href="#9.9.3.27"/>
+    <record name="M-TMSI" href="#9.9.2.3"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0B">
+              <record name="CSFB response" href="#9.9.3.5"/>
+            </case>
+            <case value="#0D">
+              <record name="Device properties" href="#9.9.2.0A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#57">
+              <record name="EPS bearer context status" href="#9.9.2.1"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="GUTI reallocation command" id="8.2.16">
+    <record name="GUTI" href="#9.9.3.12"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#54">
+              <record name="TAI list" href="#9.9.3.33"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="GUTI reallocation complete" id="8.2.17"/>
+  <record name="Identity request" id="8.2.18">
+    <fragment href="#9.9.2.9"/>
+    <record name="Identity type" href="#9.9.3.17"/>
+  </record>
+  <record name="Identity response" id="8.2.19">
+    <record name="Mobile identity" href="#9.9.2.3"/>
+  </record>
+  <record name="Security mode command" id="8.2.20">
+    <record name="Selected NAS security algorithms" href="#9.9.3.23"/>
+    <fragment href="#9.9.2.9"/>
+    <record name="NAS key set identifier" href="#9.9.3.21"/>
+    <record name="Replayed UE Security Capabilities" href="#9.9.3.36"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0C">
+              <record name="IMEISV request" href="#9.9.3.18"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#55">
+              <record name="Replayed nonceUE" href="#9.9.3.25"/>
+            </case>
+            <case value="#56">
+              <record name="NonceMME" href="#9.9.3.25"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Security mode complete" id="8.2.21">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#23">
+              <record name="IMEISV" href="#9.9.2.3"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Security mode reject" id="8.2.22">
+    <record name="EMM cause" href="#9.9.3.9"/>
+  </record>
+  <record name="ESM or EMM" id="8.2.23">
+    <field name="Message Authentication Code" length="8 * 4"/>
+    <field name="Sequence Number" length="8"/>
+    <if expr="!(sh_ciphered and Ciphered)">
+      <record name="NAS Message">
+        <peek name="pd" length="4" offset="4"/>
+        <switch expr="pd">
+          <case value="2">
+            <field name="EPS bearer identity" length="4" type="TS-24.007.xddl#table-11.5"/>
+            <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+            <field name="Procedure transaction identity" length="8" type="TS-24.007.xddl#table-11.6"/>
+            <fragment href="#8.3"/>
+          </case>
+          <case value="@1111">
+            <!-- Test Procedures -->
+            <setprop name="NasName1" type="#test-procedures" value="0"/>
+            <field name="Security header type" length="4" type="#9.3.1"/>
+            <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+            <field name="Authentication code" length="32"/>
+            <field name="Sequence number" length="8"/>
+          </case>
+          <default>
+            <field name="Security header type" length="4" type="#9.3.1"/>
+            <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+            <fragment href="#8.2"/>
+          </default>
+        </switch>
+      </record>
+    </if>
+  </record>
+  <record name="Service reject" id="8.2.24">
+    <record name="EMM cause" href="#9.9.3.9"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5B">
+              <record name="T3442 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#5F">
+              <record name="T3346 value" href="#9.9.3.16A"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Service request" id="8.2.25">
+    <record name="KSI and sequence number" href="#9.9.3.19"/>
+    <record name="Message authentication code (short)" href="#9.9.3.28"/>
+  </record>
+  <record name="Tracking area update accept" id="8.2.26">
+    <fragment href="#9.9.2.9"/>
+    <record name="EPS Update Result" href="#9.9.3.13"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0F">
+              <record name="Additional update result" href="#9.9.3.0A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5A">
+              <record name="T3412 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#50">
+              <record name="GUTI" href="#9.9.3.12"/>
+            </case>
+            <case value="#54">
+              <record name="TAI list" href="#9.9.3.33"/>
+            </case>
+            <case value="#57">
+              <record name="EPS bearer context status" href="#9.9.2.1"/>
+            </case>
+            <case value="#13">
+              <record name="Location area identification" href="#9.9.2.2"/>
+            </case>
+            <case value="#23">
+              <record name="MS identity" href="#9.9.2.3"/>
+            </case>
+            <case value="#53">
+              <record name="EMM cause" href="#9.9.3.9"/>
+            </case>
+            <case value="#17">
+              <record name="T3402 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#59">
+              <record name="T3423 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#4A">
+              <record name="Equivalent PLMNs" href="#9.9.2.8"/>
+            </case>
+            <case value="#34">
+              <record name="Emergency number list" href="#9.9.3.37"/>
+            </case>
+            <case value="#64">
+              <record name="EPS network feature support EPS" href="#9.9.3.12A"/>
+            </case>
+            <case value="#5E">
+              <record name="T3412 extended value" href="#9.9.3.16B"/>
+            </case>
+            <case value="#F1">
+              <record name="T3324 value" href="#9.9.3.16"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Tracking area update reject" id="8.2.28">
+    <record name="EMM cause" href="#9.9.3.9"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5F">
+              <record name="T3346 value" href="#9.9.3.16A"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Tracking area update request" id="8.2.29">
+    <record name="NAS key set identifier" href="#9.9.3.21"/>
+    <record name="EPS update type" href="#9.9.3.14"/>
+    <record name="Old GUTI" href="#9.9.3.12"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0F">
+              <record name="Additional update type" href="#9.9.3.0B"/>
+            </case>
+            <case value="#0B">
+              <record name="Non-current native NAS key set identifier" href="#9.9.3.21"/>
+            </case>
+            <case value="#08">
+              <record name="GPRS ciphering key sequence number" href="#9.9.3.4A"/>
+            </case>
+            <case value="#0A">
+              <record name="UE radio capability information update needed" href="#9.9.3.35"/>
+            </case>
+            <case value="#09">
+              <record name="TMSI status" href="#9.9.3.31"/>
+            </case>
+            <case value="#0E">
+              <record name="Old GUTI type" href="#9.9.3.45"/>
+            </case>
+            <case value="#0D">
+              <record name="Device properties" href="#9.9.2.0A"/>
+            </case>
+            <case value="#0C">
+              <record name="MS network feature support " href="#9.9.3.20A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#19">
+              <record name="Old P-TMSI signature" href="#9.9.3.26"/>
+            </case>
+            <case value="#50">
+              <record name="Additional GUTI" href="#9.9.3.12"/>
+            </case>
+            <case value="#55">
+              <record name="NonceUE" href="#9.9.3.25"/>
+            </case>
+            <case value="#58">
+              <record name="UE network capability" href="#9.9.3.34"/>
+            </case>
+            <case value="#52">
+              <record name="Last visited registered TAI" href="#9.9.3.32"/>
+            </case>
+            <case value="#5C">
+              <record name="DRX parameter" href="#9.9.3.8"/>
+            </case>
+            <case value="#57">
+              <record name="EPS bearer context status" href="#9.9.2.1"/>
+            </case>
+            <case value="#31">
+              <record name="MS network capability" href="#9.9.3.20"/>
+            </case>
+            <case value="#13">
+              <record name="Old location area identification" href="#9.9.2.2"/>
+            </case>
+            <case value="#11">
+              <record name="Mobile station classmark 2" href="#9.9.2.4"/>
+            </case>
+            <case value="#20">
+              <record name="Mobile station classmark 3" href="#9.9.2.5"/>
+            </case>
+            <case value="#40">
+              <record name="Supported Codecs" href="#9.9.2.10"/>
+            </case>
+            <case value="#5D">
+              <record name="Voice domain preference and UE&apos;s usage setting" href="#9.9.3.44"/>
+            </case>
+            <case value="#10">
+              <record name="TMSI ased NRI container" href="#9.9.3.24A"/>
+            </case>
+            <case value="#F1">
+              <record name="T3324 value" href="#9.9.3.16"/>
+            </case>
+            <case value="#6A">
+              <record name="T3412 extended value" href="#9.9.3.16B"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Uplink NAS transport" id="8.2.30">
+    <record name="NAS message container" href="#9.9.3.22"/>
+  </record>
+  <record name="Downlink generic NAS transport" id="8.2.31">
+    <record name="Generic message container type" href="#9.9.3.42"/>
+    <record name="Generic message container" href="#9.9.3.43"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#65">
+              <record name="Additional information" href="#9.9.2.0"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Uplink generic NAS transport" id="8.2.32">
+    <record name="Generic message container type" href="#9.9.3.42"/>
+    <record name="Generic message container" href="#9.9.3.43"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#65">
+              <record name="Additional information" href="#9.9.2.0"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <!-- Section 8.3 EPS session management messages -->
+  <record name="EPS session management messages" id="8.3">
+    <field name="Message type" length="8" type="#9.8.2"/>
+    <setprop name="Name" type="#9.8.2" value="{Message type}"/>
+    <switch expr="esm_contained">
+      <case value="0">
+        <setprop name="NasName1" type="#9.8.2" value="{Message type}"/>
+      </case>
+      <case value="1">
+        <setprop name="NasName2" type="#9.8.2" value="{Message type}"/>
+      </case>
+    </switch>
+    <switch expr="{Message type}">
+      <case value="@11000110">
+        <!-- Activate dedicated EPS bearer context accept 8.3.1 -->
+        <fragment href="#8.3.1"/>
+      </case>
+      <case value="@11000111">
+        <!-- Activate dedicated EPS bearer context reject 8.3.2 -->
+        <fragment href="#8.3.2"/>
+      </case>
+      <case value="@11000101">
+        <!-- Activate dedicated EPS bearer context request 8.3.3 -->
+        <fragment href="#8.3.3"/>
+      </case>
+      <case value="@11000010">
+        <!-- Activate default EPS bearer context accept 8.3.4 -->
+        <fragment href="#8.3.4"/>
+      </case>
+      <case value="@11000011">
+        <!-- Activate default EPS bearer context reject 8.3.5 -->
+        <fragment href="#8.3.5"/>
+      </case>
+      <case value="@11000001">
+        <!-- Activate default EPS bearer context request 8.3.6 -->
+        <fragment href="#8.3.6"/>
+      </case>
+      <case value="@11010101">
+        <!-- Bearer resource allocation reject 8.3.7 -->
+        <fragment href="#8.3.7"/>
+      </case>
+      <case value="@11010100">
+        <!-- Bearer resource allocation request 8.3.8 -->
+        <fragment href="#8.3.8"/>
+      </case>
+      <case value="@11010111">
+        <!-- Bearer resource modification reject 8.3.9 -->
+        <fragment href="#8.3.9"/>
+      </case>
+      <case value="@11010110">
+        <!-- Bearer resource modification request #todo 8.3.10 -->
+        <fragment href="#8.3.10"/>
+      </case>
+      <case value="@11001110">
+        <!-- Deactivate EPS bearer context accept 8.3.11 -->
+        <fragment href="#8.3.11"/>
+      </case>
+      <case value="@11001101">
+        <!-- Deactivate EPS bearer context request 8.3.12 -->
+        <fragment href="#8.3.12"/>
+      </case>
+      <case value="@11011010">
+        <!-- ESM information response 8.3.14 -->
+        <fragment href="#8.3.14"/>
+      </case>
+      <case value="@11011011">
+        <!-- Notification 8.3.18A -->
+        <fragment href="#8.3.18A"/>
+      </case>
+      <case value="@11101000">
+        <!-- ESM status 8.3.15 -->
+        <fragment href="#8.3.15"/>
+      </case>
+      <case value="@11001010">
+        <!-- Modify EPS bearer context accept 8.3.16 -->
+        <fragment href="#8.3.16"/>
+      </case>
+      <case value="@11001011">
+        <!-- Modify EPS bearer context reject 8.3.17 -->
+        <fragment href="#8.3.17"/>
+      </case>
+      <case value="@11001001">
+        <!-- Modify EPS bearer context request 8.3.18 -->
+        <fragment href="#8.3.18"/>
+      </case>
+      <case value="@11010001">
+        <!-- PDN connectivity reject 8.3.19 -->
+        <fragment href="#8.3.19"/>
+      </case>
+      <case value="@11010000">
+        <!-- PDN connectivity request 8.3.20 -->
+        <fragment href="#8.3.20"/>
+      </case>
+      <case value="@11010011">
+        <!-- PDN disconnect reject 8.3.21 -->
+        <fragment href="#8.3.21"/>
+      </case>
+      <case value="@11010010">
+        <!-- PDN disconnect request 8.3.22 -->
+        <fragment href="#8.3.22"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Activate dedicated EPS bearer context accept" id="8.3.1">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Activate dedicated EPS bearer context reject" id="8.3.2">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Activate dedicated EPS bearer context request" id="8.3.3">
+    <fragment href="#9.9.2.9"/>
+    <record name="Linked EPS Bearer Identity" href="#9.9.4.6"/>
+    <record name="EPS quality of service" href="#9.9.4.3"/>
+    <record name="TFT" href="#9.9.4.16"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#08">
+              <record name="Radio priority" href="#9.9.4.13"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5D">
+              <record name="Transaction identifier" href="#9.9.4.17"/>
+            </case>
+            <case value="#30">
+              <record name="Negotiated QoS" href="#9.9.4.12"/>
+            </case>
+            <case value="#32">
+              <record name="Negotiated LLC SAPI" href="#9.9.4.7"/>
+            </case>
+            <case value="#34">
+              <record name="Packet flow Identifier" href="#9.9.4.8"/>
+            </case>
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Activate default EPS bearer context accept" id="8.3.4">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Activate default EPS bearer context reject" id="8.3.5">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Activate default EPS bearer context request" id="8.3.6">
+    <record name="EPS QoS" href="#9.9.4.3"/>
+    <record name="Access point name" href="#9.9.4.1"/>
+    <record name="PDN address" href="#9.9.4.9"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#08">
+              <record name="Radio priority" href="#9.9.4.13"/>
+            </case>
+            <case value="#0B">
+              <record name="Connectivity type" href="#9.9.4.2A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5D">
+              <record name="Transaction identifier" href="#9.9.4.17"/>
+            </case>
+            <case value="#30">
+              <record name="Negotiated QoS" href="#9.9.4.12"/>
+            </case>
+            <case value="#32">
+              <record name="Negotiated LLC SAPI" href="#9.9.4.7"/>
+            </case>
+            <case value="#34">
+              <record name="Packet flow Identifier" href="#9.9.4.8"/>
+            </case>
+            <case value="#5E">
+              <record name="APN-AMBR" href="#9.9.4.2"/>
+            </case>
+            <case value="#58">
+              <record name="ESM cause" href="#9.9.4.4"/>
+            </case>
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Bearer resource allocation reject" id="8.3.7">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+            <case value="#37">
+              <record name="T3396 value" href="#9.9.3.16B"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Bearer resource allocation request" id="8.3.8">
+    <fragment href="#9.9.2.9"/>
+    <record name="Linked EPS Bearer Identity" href="#9.9.4.6"/>
+    <record name="Traffic flow aggregate" href="#9.9.4.15"/>
+    <record name="Required Traffic Flow QoS" href="#9.9.4.3"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0C">
+              <record name="Device properties" href="#9.9.2.0A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Bearer resource modification reject" id="8.3.9">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+            <case value="#37">
+              <record name="T3396 value" href="#9.9.3.16B"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Bearer resource modification request" id="8.3.10">
+    <fragment href="#9.9.2.9"/>
+    <record name="EPS bearer identity for packet filter" href="#9.9.4.6"/>
+    <record name="Traffic flow aggregate" href="#9.9.4.15"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0C">
+              <record name="Device properties" href="#9.9.2.0A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5B">
+              <record name="Required traffic flow QoS" href="#9.9.4.3"/>
+            </case>
+            <case value="#58">
+              <record name="ESM cause" href="#9.9.4.4"/>
+            </case>
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Deactivate EPS bearer context accept" id="8.3.11">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Deactivate EPS bearer context request" id="8.3.12">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+            <case value="#37">
+              <record name="T3396 value" href="#9.9.3.16B"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="ESM information response" id="8.3.14">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#28">
+              <record name="Access point name" href="#9.9.4.1"/>
+            </case>
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="ESM status" id="8.3.15">
+    <record name="ESM cause" href="#9.9.4.4"/>
+  </record>
+  <record name="Modify EPS bearer context accept" id="8.3.16">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Modify EPS bearer context reject" id="8.3.17">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Modify EPS bearer context request" id="8.3.18">
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#08">
+              <record name="Radio priority" href="#9.9.4.13"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#5B">
+              <record name="New EPS QoS" href="#9.9.4.3"/>
+            </case>
+            <case value="#36">
+              <record name="TFT" href="#9.9.4.16"/>
+            </case>
+            <case value="#30">
+              <record name="New QoS" href="#9.9.4.12"/>
+            </case>
+            <case value="#32">
+              <record name="Negotiated LLC SAPI" href="#9.9.4.7"/>
+            </case>
+            <case value="#34">
+              <record name="Packet flow Identifier" href="#9.9.4.8"/>
+            </case>
+            <case value="#5E">
+              <record name="APN-AMBR" href="#9.9.4.2"/>
+            </case>
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="Notification" id="8.3.18A">
+    <record name="Notification indicator" href="#9.9.4.7A"/>
+  </record>
+  <record name="PDN connectivity reject" id="8.3.19">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+            <case value="#37">
+              <record name="T3396 value" href="#9.9.3.16B"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="PDN connectivity request" id="8.3.20">
+    <record name="PDN type" href="#9.9.4.10"/>
+    <record name="Request Type" href="#9.9.4.14"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI">
+            <case value="#0D">
+              <record name="ESM information transfer flag" href="#9.9.4.5"/>
+            </case>
+            <case value="#0C">
+              <record name="Device properties" href="#9.9.2.0A"/>
+            </case>
+          </switch>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#28">
+              <record name="Access point name" href="#9.9.4.1"/>
+            </case>
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="PDN disconnect reject" id="8.3.21">
+    <record name="ESM cause" href="#9.9.4.4"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record name="PDN disconnect request" id="8.3.22">
+    <fragment href="#9.9.2.9"/>
+    <record name="Linked EPS Bearer Identity" href="#9.9.4.6"/>
+    <repeat name="optional elements">
+      <peek name="IEI type" length="1" offset="0"/>
+      <switch expr="{IEI type}">
+        <case value="1">
+          <!-- type 1 -->
+          <field name="IEI" length="4"/>
+          <switch expr="IEI"/>
+        </case>
+        <case value="0">
+          <!-- type 4 -->
+          <field name="IEI" length="8"/>
+          <switch expr="IEI">
+            <case value="#27">
+              <record name="Protocol configuration options" href="#9.9.4.11"/>
+            </case>
+          </switch>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <!-- IE FRAGMENTS -->
+  <!-- 9.9.2 Common information elements -->
+  <record name="Additional information" id="9.9.2.0">
+    <field name="Length" length="8"/>
+    <field name="Additional information value" length="8 * Length"/>
+  </record>
+  <record name="Device properties" id="9.9.2.0A">
+    <fragment href="TS-24.008.xddl#10.5.7.8"/>
+  </record>
+  <record name="EPS bearer context status" id="9.9.2.1">
+    <field name="Length" length="8"/>
+    <field name="EBI (7)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (6)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (5)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (4)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (3)" length="1" type="#zero"/>
+    <field name="EBI (2)" length="1" type="#zero"/>
+    <field name="EBI (1)" length="1" type="#zero"/>
+    <field name="EBI (0)" length="1" type="#zero"/>
+    <field name="EBI (15)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (14)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (13)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (12)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (11)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (10)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (9)" length="1" type="#9.9.2.1.1"/>
+    <field name="EBI (8)" length="1" type="#9.9.2.1.1"/>
+  </record>
+  <type name="EBI(5) - EBI(15)" id="9.9.2.1.1">
+    <item key="@0" value="BEARER CONTEXT-INACTIVE"/>
+    <item key="@1" value="BEARER CONTEXT-ACTIVE"/>
+  </type>
+  <record name="Location area identification" id="9.9.2.2">
+    <fragment href="TS-24.008.xddl#10.5.1.3"/>
+  </record>
+  <record name="Mobile identity" id="9.9.2.3">
+    <fragment href="TS-24.008.xddl#10.5.1.4"/>
+  </record>
+  <record name="Mobile station classmark 2" id="9.9.2.4">
+    <fragment href="TS-24.008.xddl#10.5.1.6"/>
+  </record>
+  <record name="Mobile station classmark 3" id="9.9.2.5">
+    <fragment href="TS-24.008.xddl#10.5.1.7"/>
+  </record>
+  <record name="NAS security params from E-UTRA" id="9.9.2.6">
+    <record name="NAS Security Parameters from E-UTRA">
+      <field name="Spare" length="4"/>
+      <field name="DL NAS COUNT value" length="4"/>
+    </record>
+  </record>
+  <record name="NAS security parameters to E-UTRA" id="9.9.2.7">
+    <record name="NAS Security Parameters to E-UTRA">
+      <field name="Nonce MME" length="4 * 8"/>
+      <field name="Spare" length="1"/>
+      <field name="Cyphering Algorithm" length="3"/>
+      <!-- TODO: encoding -->
+      <field name="Spare" length="1"/>
+      <field name="Integrity Protection Algorithm" length="3"/>
+      <!-- TODO: encoding -->
+      <field name="Spare" length="4"/>
+      <field name="TCS" length="1"/>
+      <!-- TODO: encoding -->
+      <field name="NAS Key Set Identifier" length="3"/>
+      <!-- TODO: encoding -->
+    </record>
+  </record>
+  <record name="PLMN list" id="9.9.2.8">
+    <fragment href="TS-24.008.xddl#10.5.1.13"/>
+  </record>
+  <record id="9.9.2.9">
+    <field name="Spare half octet" length="4" type="#zero"/>
+  </record>
+  <record name="Supported codec list" id="9.9.2.10">
+    <fragment href="TS-24.008.xddl#10.5.4.32"/>
+  </record>
+  <!-- 9.9.3 EPS Mobility Management (EMM) information elements -->
+  <record name="Additional update result" id="9.9.3.0A">
+    <field name="Spare" length="2" type="#zero"/>
+    <field name="value" length="2" type="#9.9.3.0A.1"/>
+  </record>
+  <type name="Additional update result value (octet 1)" id="9.9.3.0A.1">
+    <item key="@00" value="no additional information"/>
+    <item key="@01" value="CS Fallback not preferred"/>
+    <item key="@10" value="SMS only"/>
+    <item key="@11" value="reserved"/>
+  </type>
+  <record name="Additional update type" id="9.9.3.0B">
+    <field name="Spare" length="3" type="#zero"/>
+    <field name="AUTV" length="1" type="#9.9.3.0B.1"/>
+  </record>
+  <type name="Additional update type value (AUTV) (octet 1)" id="9.9.3.0B.1">
+    <item key="@0" value="No additional information"/>
+    <item key="@1" value="SMS only"/>
+  </type>
+  <record name="Authentication failure parameter" id="9.9.3.1">
+    <fragment href="TS-24.008.xddl#10.5.3.2.2"/>
+  </record>
+  <record name="Authentication parameter AUTN" id="9.9.3.2">
+    <fragment href="TS-24.008.xddl#10.5.75.1"/>
+  </record>
+  <record name="Authentication parameter RAND" id="9.9.3.3">
+    <fragment href="TS-24.008.xddl#10.5.75"/>
+  </record>
+  <record name="Authentication response parameter" id="9.9.3.4.1">
+    <field name="Length" length="8"/>
+    <field name="RES" length="8 * Length"/>
+  </record>
+  <record name="Ciphering key sequence number" id="9.9.3.4A">
+    <fragment href="TS-24.008.xddl#10.5.1.2"/>
+  </record>
+  <record name="CSFB response" id="9.9.3.5">
+    <field name="spare" length="1" type="#zero"/>
+    <field name="Response" length="3" type="#9.9.3.5.1"/>
+  </record>
+  <type name="CSFB response value (octet 1)" id="9.9.3.5.1">
+    <item key="@000" value="CS fallback rejected by the UE"/>
+    <item key="@001" value="CS fallback accepted by the UE"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <record name="Daylight saving time" id="9.9.3.6">
+    <fragment href="TS-24.008.xddl#10.5.3.12"/>
+  </record>
+  <record name="Detach type (UE to network)" id="9.9.3.7a">
+    <field name="Switch Off" length="1" type="#9.9.3.7.1c"/>
+    <field name="Detach Type" length="3" type="#9.9.3.7.1a"/>
+  </record>
+  <record name="Detach type (network to UE)" id="9.9.3.7b">
+    <field name="Switch Off" length="1" type="#zero"/>
+    <field name="Detach Type" length="3" type="#9.9.3.7.1b"/>
+  </record>
+  <type name="Detach type (UE to network)" id="9.9.3.7.1a">
+    <item key="@001" value="EPS detach"/>
+    <item key="@010" value="IMSI detach"/>
+    <item key="@011" value="combined EPS/IMSI detach"/>
+    <item key="@110" value="reserved"/>
+    <item key="@111" value="reserved"/>
+    <range start="@000" end="@111" value="combined EPS/IMSI detach"/>
+  </type>
+  <type name="Detach type (network to UE)" id="9.9.3.7.1b">
+    <item key="@001" value="re-attach required"/>
+    <item key="@010" value="re-attach not required"/>
+    <item key="@011" value="IMSI detach"/>
+    <item key="@110" value="reserved"/>
+    <item key="@111" value="reserved"/>
+    <range start="@000" end="@111" value="re-attach not required"/>
+  </type>
+  <type name="Switch off" id="9.9.3.7.1c">
+    <item key="@0" value="normal detach"/>
+    <item key="@1" value="switch off"/>
+  </type>
+  <record name="DRX parameter" id="9.9.3.8">
+    <fragment href="TS-24.008.xddl#10.5.5.6"/>
+  </record>
+  <record name="EMM cause" id="9.9.3.9">
+    <field name="Cause" length="8" type="#9.9.3.9.1"/>
+  </record>
+  <type name="EMM cause information element" id="9.9.3.9.1">
+    <item key="@00000010" value="IMSI unknown in HSS"/>
+    <item key="@00000011" value="Illegal UE"/>
+    <item key="@00000101" value="IMEI not accepted"/>
+    <item key="@00000110" value="Illegal ME"/>
+    <item key="@00000111" value="EPS services not allowed"/>
+    <item key="@00001000" value="EPS services and non-EPS services not allowed"/>
+    <item key="@00001001" value="UE identity cannot be derived by the network"/>
+    <item key="@00001010" value="Implicitly detached"/>
+    <item key="@00001011" value="PLMN not allowed"/>
+    <item key="@00001100" value="Tracking Area not allowed"/>
+    <item key="@00001101" value="Roaming not allowed in this tracking area"/>
+    <item key="@00001110" value="EPS services not allowed in this PLMN"/>
+    <item key="@00001111" value="No suitable cells in tracking area"/>
+    <item key="@00010000" value="MSC temporarily not reachable"/>
+    <item key="@00010001" value="Network failure"/>
+    <item key="@00010010" value="CS domain not available"/>
+    <item key="@00010011" value="ESM failure"/>
+    <item key="@00010100" value="MAC failure"/>
+    <item key="@00010101" value="Synch failure"/>
+    <item key="@00010110" value="Congestion"/>
+    <item key="@00010111" value="UE security capabilities mismatch"/>
+    <item key="@00011000" value="Security mode rejected, unspecified"/>
+    <item key="@00011001" value="Not authorized for this CSG"/>
+    <item key="@00011010" value="Non-EPS authentication unacceptable"/>
+    <item key="@00100011" value="Requested service option not authorized in this PLMN"/>
+    <item key="@00100111" value="CS service temporarily not available"/>
+    <item key="@00101000" value="No EPS bearer context activated"/>
+    <item key="@00101010" value="Severe netork failure"/>
+    <item key="@01011111" value="Semantically incorrect message"/>
+    <item key="@01100000" value="Invalid mandatory information"/>
+    <item key="@01100001" value="Message type non-existent or not implemented"/>
+    <item key="@01100010" value="Message type not compatible with the protocol state"/>
+    <item key="@01100011" value="Information element non-existent or not implemented"/>
+    <item key="@01100100" value="Conditional IE error"/>
+    <item key="@01100101" value="Message not compatible with the protocol state"/>
+    <item key="@01101111" value="Protocol error, unspecified"/>
+    <range start="@00000000" end="@11111111" value="protocol error, unspecified"/>
+  </type>
+  <record id="figure-9.9.3.10.1">
+    <record name="EPS attach result">
+      <field name="Spare" length="1" type="#zero"/>
+      <field name="EPS attach result value" length="3" type="#9.9.3.10"/>
+    </record>
+  </record>
+  <type id="9.9.3.10">
+    <item key="@001" value="EPS only"/>
+    <item key="@010" value="combined EPS/IMSI attach"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <record name="EPS attach type" id="9.9.3.11">
+    <field name="Spare" length="1" type="#zero"/>
+    <field name="EPSAttachType" length="3" type="#9.9.3.11.1"/>
+  </record>
+  <type id="9.9.3.11.1">
+    <item key="@001" value="EPS attach"/>
+    <item key="@010" value="combined EPS/IMSI attach"/>
+    <item key="@110" value="EPS emergency attach"/>
+    <item key="@111" value="reserved"/>
+  </type>
+  <record name="EPS mobility identity" id="9.9.3.12">
+    <field name="Length" length="8"/>
+    <peek name="it" length="3" offset="5"/>
+    <!-- identity type -->
+    <switch expr="it">
+      <case value="@110">
+        <!-- GUTI -->
+        <field name="spare" length="4" type="#1111"/>
+        <field name="odd/even indicator" length="1">
+          <item key="@0" value="even number of identity digits and also when the GUTI is used"/>
+          <item key="@1" value="odd number of identity digits"/>
+        </field>
+        <field name="Type of identity" length="3">
+          <item key="@001" value="IMSI"/>
+          <item key="@110" value="GUTI"/>
+          <item key="@011" value="IMEI"/>
+        </field>
+        <fragment href="#mcc-mnc"/>
+        <field name="MME Group ID" length="16"/>
+        <field name="MME Code" length="8"/>
+        <field name="M-TMSI" length="32"/>
+      </case>
+      <case value="@001"/>
+      <case value="@011">
+        <!-- IMSI and IMEI -->
+        <field name="Identity digit 1" length="4"/>
+        <field name="odd/even indicator" length="1">
+          <item key="@0" value="even number of identity digits and also when the GUTI is used"/>
+          <item key="@1" value="odd number of identity digits"/>
+        </field>
+        <field name="Type of identity" length="3">
+          <item key="@001" value="IMSI"/>
+          <item key="@110" value="GUTI"/>
+          <item key="@011" value="IMEI"/>
+        </field>
+        <field name="Identity digits" length="(Length - 1) * 8"/>
+      </case>
+    </switch>
+  </record>
+  <record name="EPS network feature support" id="9.9.3.12A">
+    <field name="Length" length="8"/>
+    <field name="Spare" length="2" type="#zero"/>
+    <field name="ESRPS" length="1" type="#9.9.3.12A.1e"/>
+    <field name="CS-LCS" length="2" type="#9.9.3.12A.1d"/>
+    <field name="EPC-LCS" length="1" type="#9.9.3.12A.1c"/>
+    <field name="EMC BS" length="1" type="#9.9.3.12A.1b"/>
+    <field name="IMS VoPS" length="1" type="#9.9.3.12A.1a"/>
+  </record>
+  <type name="IMS voice over PS session indicator (IMS VoPS) (octet 3, bit 1)" id="9.9.3.12A.1a">
+    <item key="@0" value="IMS voice over PS session in S1 mode not supported"/>
+    <item key="@1" value="IMS voice over PS session in S1 mode supported"/>
+  </type>
+  <type name="Emergency bearer services indicator (EMC BS) (octet 3, bit 2)" id="9.9.3.12A.1b">
+    <item key="@0" value="emergency bearer services in S1 mode not supported"/>
+    <item key="@1" value="emergency bearer services in S1 mode supported"/>
+  </type>
+  <type name="Location services indicator in EPC (EPC-LCS) (octet 3, bit 3)" id="9.9.3.12A.1c">
+    <item key="@0" value="location services via EPC not supported"/>
+    <item key="@1" value="location services via EPC supported"/>
+  </type>
+  <type name="Location services indicator in CS (CS-LCS) (octet 3, bit 4 to 5)" id="9.9.3.12A.1d">
+    <item key="@00" value="no information about support of location services via CS domain is available"/>
+    <item key="@01" value="location services via CS domain supported"/>
+    <item key="@10" value="location services via CS domain not supported"/>
+    <item key="@11" value="reserved"/>
+  </type>
+  <type name="Support of EXTENDED SERVICE REQUEST for packet services (ESRPS) (octet3, bit6)" id="9.9.3.12A.1e">
+    <item key="@0" value="network does not support use of EXTENDED SERVICE REQUEST to request for packet services"/>
+    <item key="@1" value="network supports use of EXTENDED SERVICE REQUEST to request for packet services"/>
+  </type>
+  <record name="EPS update result" id="9.9.3.13">
+    <field name="Spare" length="1" type="#zero"/>
+    <field name="Update Result" length="3" type="#9.9.3.13.1"/>
+  </record>
+  <type name="EPS update result" id="9.9.3.13.1">
+    <item key="@000" value="TA updated"/>
+    <item key="@001" value="combined TA/LA updated"/>
+    <item key="@100" value="TA updated and ISR activated"/>
+    <item key="@101" value="combined TA/LA updated and ISR activated"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <record name="EPS update type" id="9.9.3.14">
+    <field name="Active Flag" length="1" type="#9.9.3.14.1b"/>
+    <field name="Update Type" length="3" type="#9.9.3.14.1a"/>
+  </record>
+  <type name="EPS update" id="9.9.3.14.1a">
+    <item key="@000" value="TA updating"/>
+    <item key="@001" value="combined TA/LA updating"/>
+    <item key="@010" value="combined TA/LA updating with IMSI attach"/>
+    <item key="@011" value="periodic updating"/>
+    <item key="@100" value="unused; shall be interpreted as &apos;TA updating&apos; if received by the network"/>
+    <item key="@101" value="unused; shall be interpreted as &apos;TA updating&apos; if received by the network"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <type name="EPS update" id="9.9.3.14.1b">
+    <item key="@0" value="No bearer establishment requested"/>
+    <item key="@1" value="Bearer establishment requested"/>
+  </type>
+  <record name="ESM message container" id="9.9.3.15">
+    <field name="Length" length="16"/>
+    <record name="ESM Message" length="8 * Length">
+      <setprop name="esm_contained" value="1"/>
+      <field name="EPS bearer identity" length="4" type="TS-24.007.xddl#table-11.5"/>
+      <field name="Protocol discriminator" length="4" type="TS-24.007.xddl#11.2"/>
+      <field name="Procedure Transaction Identity" length="8" type="TS-24.007.xddl#table-11.6"/>
+      <fragment href="#8.3"/>
+    </record>
+  </record>
+  <record name="GPRS timer" id="9.9.3.16">
+    <fragment href="TS-24.008.xddl#10.5.7.3"/>
+  </record>
+  <record name="GPRS timer 2" id="9.9.3.16A">
+    <fragment href="TS-24.008.xddl#10.5.7.4"/>
+  </record>
+  <record name="GPRS timer 3" id="9.9.3.16B">
+    <fragment href="TS-24.008.xddl#10.5.7.4a"/>
+  </record>
+  <record name="Identity type 2" id="9.9.3.17">
+    <fragment href="TS-24.008.xddl#10.5.5.9"/>
+  </record>
+  <record name="IMEISV request" id="9.9.3.18">
+    <fragment href="TS-24.008.xddl#10.5.5.10"/>
+  </record>
+  <record name="KSI and sequence number" id="9.9.3.19">
+    <field name="KSI" length="3" type="#9.9.3.21.1b"/>
+    <field name="Sequence number" length="5"/>
+  </record>
+  <record name="MS network capability" id="9.9.3.20">
+    <fragment href="TS-24.008.xddl#10.5.5.12"/>
+  </record>
+  <record name="MS network feature support" id="9.9.3.20A">
+    <fragment href="TS-24.008.xddl#10.5.1.15"/>
+  </record>
+  <record name="NAS key set identifier" id="9.9.3.21">
+    <field name="TSC" length="1" type="#9.9.3.21.1a"/>
+    <field name="NAS key set identifier" length="3" type="#9.9.3.21.1b"/>
+  </record>
+  <type id="9.9.3.21.1a">
+    <item key="@0" value="native security context"/>
+    <item key="@1" value="mapped security context"/>
+  </type>
+  <type id="9.9.3.21.1b">
+    <item key="@111" value="no key is available (UE to network); reserved (network to UE)"/>
+    <range start="@000" end="@110" value="NAS key set identifier"/>
+  </type>
+  <record name="NAS message container" id="9.9.3.22">
+    <field name="Length" length="8"/>
+    <record name="NAS message container contents" href="TS-24.011.xddl#7.2"/>
+  </record>
+  <record name="NAS security algorithms" id="9.9.3.23">
+    <field name="spare" length="1" type="#zero"/>
+    <field name="Type of ciphering algorithm" length="3" type="#9.9.3.23.1b"/>
+    <field name="spare" length="1" type="#zero"/>
+    <field name="Type of integrity protection algorithm" length="3" type="#9.9.3.23.1a"/>
+  </record>
+  <type name="Type of integrity protection algorithm" id="9.9.3.23.1a">
+    <item key="@000" value="EPS integrity algorithm EIA0 (null integrity protection algorithm)"/>
+    <item key="@001" value="EPS integrity algorithm 128-EIA1"/>
+    <item key="@010" value="EPS integrity algorithm 128-EIA2"/>
+    <item key="@011" value="EPS integrity algorithm 128-EIA3"/>
+    <item key="@100" value="EPS integrity algorithm EIA4"/>
+    <item key="@101" value="EPS integrity algorithm EIA5"/>
+    <item key="@110" value="EPS integrity algorithm EIA6"/>
+    <item key="@111" value="EPS integrity algorithm EIA7"/>
+  </type>
+  <type name="Type of ciphering algorithm" id="9.9.3.23.1b">
+    <item key="@000" value="EPS encryption algorithm 128-EEA0 (null ciphering algorithm)"/>
+    <item key="@001" value="EPS encryption algorithm 128-EEA1"/>
+    <item key="@010" value="EPS encryption algorithm 128-EEA2"/>
+    <item key="@011" value="EPS encryption algorithm 128-EEA3"/>
+    <item key="@100" value="EPS encryption algorithm EEA4"/>
+    <item key="@101" value="EPS encryption algorithm EEA5"/>
+    <item key="@110" value="EPS encryption algorithm EEA6"/>
+    <item key="@111" value="EPS encryption algorithm EEA7"/>
+  </type>
+  <record name="Network name" id="9.9.3.24">
+    <fragment href="TS-24.008.xddl#10.5.3.5a"/>
+  </record>
+  <record name="Network resource identifier container" id="9.9.3.24A">
+    <fragment href="TS-24.008.xddl#10.5.5.31"/>
+  </record>
+  <record name="Nonce" id="9.9.3.25">
+    <field name="Value" length="32"/>
+  </record>
+  <type name="Paging identity value (octet 2)" id="9.9.3.25A.1">
+    <item key="@0" value="IMSI"/>
+    <item key="@1" value="TMSI"/>
+  </type>
+  <record name="Pagining identity" id="9.9.3.25A">
+    <field name="Spare" length="7" type="#zero"/>
+    <field name="value" length="1" type="#9.9.3.25A.1"/>
+  </record>
+  <record name="P-TMSI signature" id="9.9.3.26">
+    <fragment href="TS-24.008.xddl#10.5.5.8"/>
+  </record>
+  <record name="Service type" id="9.9.3.27">
+    <field name="Service type value" length="4" type="#9.9.3.27.1"/>
+  </record>
+  <type name="Service type" id="9.9.3.27.1">
+    <item key="@0000" value="mobile originating CS fallback or 1xCS fallback"/>
+    <item key="@0001" value="mobile terminating CS fallback or 1xCS fallback"/>
+    <item key="@0010" value="mobile originating CS fallback emergency call or 1xCS fallback emergency call"/>
+    <item key="@0011" value="unused; shall be interpreted as &apos;mobile originating CS fallback or 1xCS fallback&apos;, if received by the network"/>
+    <item key="@0100" value="unused; shall be interpreted as &apos;mobile originating CS fallback or 1xCS fallback&apos;, if received by the network"/>
+    <item key="@1000" value="packet services via S1"/>
+    <item key="@1001" value="unused; shall be interpreted as &apos;packet services via S1&apos;, if received by the network"/>
+    <item key="@1010" value="unused; shall be interpreted as &apos;packet services via S1&apos;, if received by the network"/>
+    <item key="@1011" value="unused; shall be interpreted as &apos;packet services via S1&apos;, if received by the network"/>
+    <range start="@0000" end="@1111" value="reserved"/>
+  </type>
+  <record name="Short MAC" id="9.9.3.28">
+    <field name="Short MAC" length="16"/>
+  </record>
+  <record name="Time zone" id="9.9.3.29">
+    <fragment href="TS-24.008.xddl#10.5.3.8"/>
+  </record>
+  <record name="Time zone and time" id="9.9.3.30">
+    <fragment href="TS-24.008.xddl#10.5.3.9"/>
+  </record>
+  <record name="TMSI status" id="9.9.3.31">
+    <fragment href="TS-24.008.xddl#10.5.5.4"/>
+  </record>
+  <record name="Tracking area identity" id="9.9.3.32">
+    <fragment href="#mcc-mnc"/>
+    <field name="TAC" length="16"/>
+  </record>
+  <record name="Tracking area identity list" id="9.9.3.33">
+    <field name="Length" length="8"/>
+    <record name="Contents" length="8 * Length">
+      <field name="Spare" length="1" type="#zero"/>
+      <field name="TypeOfList" length="2" type="#9.9.3.33.1a"/>
+      <!-- TODO: spaces in name -->
+      <field name="NumElements" length="5" type="#9.9.3.33.1b"/>
+      <!-- TODO: spaces in name -->
+      <switch expr="TypeOfList">
+        <case value="@00">
+          <fragment href="#mcc-mnc"/>
+          <repeat name="Num Elements" num="NumElements + 1">
+            <field name="TAC" length="16"/>
+          </repeat>
+        </case>
+        <case value="@01">
+          <fragment href="#mcc-mnc"/>
+          <field name="TAC" length="16"/>
+        </case>
+        <case value="@10">
+          <repeat num="NumElements + 1">
+            <fragment href="#mcc-mnc"/>
+            <field name="TAC" length="16"/>
+          </repeat>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <type id="9.9.3.33.1a">
+    <item key="@00" value="list of TACs belonging to PLMN, with non-consecutive TAC values"/>
+    <item key="@01" value="list of TACs belonging to PLMN, with consecutive TAC values"/>
+    <item key="@10" value="list of TAIs belonging to differenet PLMNs"/>
+    <item key="@11" value="reserved"/>
+  </type>
+  <type id="9.9.3.33.1b">
+    <script>
+      description = string.format("%d %s", key + 1, (key == 0) and "element" or "elements")
+    </script>
+  </type>
+  <record name="UE network capability" id="9.9.3.34">
+    <field name="Length" length="8"/>
+    <!-- TODO: should be able to remove this record container and just explicitly calculate 
+               the length in the last octets (8-15). -->
+    <record name="Contents" length="8 * Length">
+      <!-- Byte 1 (octet 3) -->
+      <field name="128-EEA0" length="1" type="#9.9.3.34.1a"/>
+      <field name="128-EEA1" length="1" type="#9.9.3.34.1a"/>
+      <field name="128-EEA2" length="1" type="#9.9.3.34.1a"/>
+      <field name="128-EEA3" length="1" type="#9.9.3.34.1a"/>
+      <field name="EEA4" length="1" type="#9.9.3.34.1a"/>
+      <field name="EEA5" length="1" type="#9.9.3.34.1a"/>
+      <field name="EEA6" length="1" type="#9.9.3.34.1a"/>
+      <field name="EEA7" length="1" type="#9.9.3.34.1a"/>
+      <!-- Byte 2 (octet 4) -->
+      <field name="EIA0" length="1" type="#9.9.3.34.1b"/>
+      <field name="128-EIA1" length="1" type="#9.9.3.34.1b"/>
+      <field name="128-EIA2" length="1" type="#9.9.3.34.1b"/>
+      <field name="128-EIA3" length="1" type="#9.9.3.34.1b"/>
+      <field name="EIA4" length="1" type="#9.9.3.34.1b"/>
+      <field name="EIA5" length="1" type="#9.9.3.34.1b"/>
+      <field name="EIA6" length="1" type="#9.9.3.34.1b"/>
+      <field name="EIA7" length="1" type="#9.9.3.34.1b"/>
+      <!-- Byte 3 (octet 5*) -->
+      <if expr="Length &gt;= 3">
+        <field name="UEA0" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA1" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA2" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA3" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA4" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA5" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA6" length="1" type="#9.9.3.34.1a"/>
+        <field name="UEA7" length="1" type="#9.9.3.34.1a"/>
+      </if>
+      <!-- Byte 4 (octet 6*) -->
+      <if expr="Length &gt;= 4">
+        <field name="UCS2" length="1" type="#9.9.3.34.1c"/>
+        <field name="UIA1" length="1" type="#9.9.3.34.1b"/>
+        <field name="UIA2" length="1" type="#9.9.3.34.1b"/>
+        <field name="UIA3" length="1" type="#9.9.3.34.1b"/>
+        <field name="UIA4" length="1" type="#9.9.3.34.1b"/>
+        <field name="UIA5" length="1" type="#9.9.3.34.1b"/>
+        <field name="UIA6" length="1" type="#9.9.3.34.1b"/>
+        <field name="UIA7" length="1" type="#9.9.3.34.1b"/>
+      </if>
+      <!-- Byte 5 (octet 7*) -->
+      <if expr="Length &gt;= 5">
+        <field name="spare" length="1" type="#zero"/>
+        <field name="spare" length="1" type="#zero"/>
+        <field name="H.245-ASH" length="1" type="#9.9.3.34.1h"/>
+        <field name="ACC-CSFB" length="1" type="#9.9.3.34.1g"/>
+        <field name="LPP" length="1" type="#9.9.3.34.1e"/>
+        <field name="LCS" length="1" type="#9.9.3.34.1d"/>
+        <field name="1xSR-VCC" length="1" type="#9.9.3.34.1f"/>
+        <field name="NF" length="1" type="#9.9.3.34.1d"/>
+      </if>
+      <!-- Byte 6+ (octet 8*-15*) -->
+      <if expr="Length &gt;= 6">
+        <repeat>
+          <field name="Spare" length="8" type="#zero"/>
+        </repeat>
+      </if>
+    </record>
+  </record>
+  <type name="UE network capability information element" id="9.9.3.34.1a">
+    <item key="@0" value=" "/>
+    <item key="@1" value="EPS encryption algorithm supported"/>
+  </type>
+  <type id="9.9.3.34.1b">
+    <item key="@0" value=" "/>
+    <item key="@1" value="EPS integrity algorithm supported"/>
+  </type>
+  <type id="9.9.3.34.1c">
+    <item key="@0" value="UE has a preference for the default alphabet"/>
+    <item key="@1" value="UE has no preference between the use of the default alphabet and the use of UCS2"/>
+  </type>
+  <type id="9.9.3.34.1d">
+    <item key="@0" value=" "/>
+    <item key="@1" value="notification supported"/>
+  </type>
+  <type id="9.9.3.34.1e">
+    <item key="@0" value=" "/>
+    <item key="@1" value="LTE Positioning Protocol supported"/>
+  </type>
+  <type id="9.9.3.34.1f">
+    <item key="@0" value=" "/>
+    <item key="@1" value="SRVCC from E-UTRAN to cdma2000® 1x CS supported"/>
+  </type>
+  <type id="9.9.3.34.1g">
+    <item key="@0" value="eNodeB-based access class control for CSFB not supported"/>
+    <item key="@1" value="eNodeB-based access class control for CSFB supported"/>
+  </type>
+  <type id="9.9.3.34.1h">
+    <item key="@0" value="H.245 after SRVCC handover capability not supported"/>
+    <item key="@1" value="H.245 after SRVCC handover capability supported"/>
+  </type>
+  <record name="UE radio capability information update needed" id="9.9.3.35">
+    <field name="spare" length="3" type="#zero"/>
+    <field name="Update Needed Flag" length="1" type="#9.9.3.35.1"/>
+  </record>
+  <type name="UE radio capability information update needed (octet 1)" id="9.9.3.35.1">
+    <item key="0" value="UE radio capability information update not needed"/>
+    <item key="1" value="UE radio capability information update needed"/>
+  </type>
+  <record name="UE security capability" id="9.9.3.36">
+    <record name="UE Security Capability">
+      <field name="Length" length="8"/>
+      <record name="Contents" length="8 * Length">
+        <!-- TODO: remove this record -->
+        <!-- Byte 1 (octet 3) -->
+        <!-- reusing the type #9.9.3.34.1a -->
+        <field name="128-EEA0" length="1" type="#9.9.3.34.1a"/>
+        <field name="128-EEA1" length="1" type="#9.9.3.34.1a"/>
+        <field name="128-EEA2" length="1" type="#9.9.3.34.1a"/>
+        <field name="128-EEA3" length="1" type="#9.9.3.34.1a"/>
+        <field name="EEA4" length="1" type="#9.9.3.34.1a"/>
+        <field name="EEA5" length="1" type="#9.9.3.34.1a"/>
+        <field name="EEA6" length="1" type="#9.9.3.34.1a"/>
+        <field name="EEA7" length="1" type="#9.9.3.34.1a"/>
+        <!-- Byte 2 (octet 4) -->
+        <!-- reusing the type #9.9.3.34.1b -->
+        <field name="EIA0" length="1" type="#9.9.3.34.1b"/>
+        <field name="128-EIA1" length="1" type="#9.9.3.34.1b"/>
+        <field name="128-EIA2" length="1" type="#9.9.3.34.1b"/>
+        <field name="128-EIA3" length="1" type="#9.9.3.34.1b"/>
+        <field name="EIA4" length="1" type="#9.9.3.34.1b"/>
+        <field name="EIA5" length="1" type="#9.9.3.34.1b"/>
+        <field name="EIA6" length="1" type="#9.9.3.34.1b"/>
+        <field name="EIA7" length="1" type="#9.9.3.34.1b"/>
+        <!-- Byte 3 (octet 5*) -->
+        <if expr="Length &gt;= 3">
+          <field name="UEA0" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA1" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA2" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA3" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA4" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA5" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA6" length="1" type="#9.9.3.34.1a"/>
+          <field name="UEA7" length="1" type="#9.9.3.34.1a"/>
+        </if>
+        <!-- Byte 4 (octet 6*) -->
+        <if expr="Length &gt;= 4">
+          <field name="Spare" length="1" type="#zero"/>
+          <field name="UIA1" length="1" type="#9.9.3.34.1b"/>
+          <field name="UIA2" length="1" type="#9.9.3.34.1b"/>
+          <field name="UIA3" length="1" type="#9.9.3.34.1b"/>
+          <field name="UIA4" length="1" type="#9.9.3.34.1b"/>
+          <field name="UIA5" length="1" type="#9.9.3.34.1b"/>
+          <field name="UIA6" length="1" type="#9.9.3.34.1b"/>
+          <field name="UIA7" length="1" type="#9.9.3.34.1b"/>
+        </if>
+        <!-- Byte 5 (octet 7*) -->
+        <if expr="Length &gt;= 5">
+          <field name="Spare" length="1" type="#zero"/>
+          <field name="GEA1" length="1" type="#9.9.3.34.1a"/>
+          <field name="GEA2" length="1" type="#9.9.3.34.1a"/>
+          <field name="GEA3" length="1" type="#9.9.3.34.1a"/>
+          <field name="GEA4" length="1" type="#9.9.3.34.1a"/>
+          <field name="GEA5" length="1" type="#9.9.3.34.1a"/>
+          <field name="GEA6" length="1" type="#9.9.3.34.1a"/>
+          <field name="GEA7" length="1" type="#9.9.3.34.1a"/>
+        </if>
+      </record>
+    </record>
+  </record>
+  <record name="Emergency number list" id="9.9.3.37">
+    <fragment href="TS-24.008.xddl#10.5.3.13"/>
+  </record>
+  <record name="CLI" id="9.9.3.38">
+    <field name="Length" length="8"/>
+    <field name="value" length="8 * Length"/>
+    <!-- TODO: encoding -->
+  </record>
+  <record name="SS Code" id="9.9.3.39">
+    <field name="SS Code" length="8"/>
+    <!-- TODO: encoding -->
+  </record>
+  <record name="LCS indicator" id="9.9.3.40">
+    <field name="LCS Indicator" length="8" type="#9.9.3.40.1"/>
+  </record>
+  <type name="LCS indicator value" id="9.9.3.40.1">
+    <item key="@00000000" value="Normal, unspecified in this version of the protocol"/>
+    <item key="@00000001" value="MT-LR"/>
+    <range start="@00000010" end="@11111111" value="Normal, unspecified in this version of the protocol"/>
+  </type>
+  <record name="LCS client identity" id="9.9.3.41">
+    <field name="Length" length="8"/>
+    <field name="value" length="8 * Length"/>
+    <!-- TODO: encoding -->
+  </record>
+  <record name="Generic message container type" id="9.9.3.42">
+    <field name="Generic message container type information element" length="8" type="#9.9.3.42.1"/>
+  </record>
+  <type name="Generic message container type information element" id="9.9.3.42.1">
+    <item key="@00000000" value="Reserved"/>
+    <item key="@00000001" value="LTE Positioning Protocol (LPP) message container"/>
+    <item key="@00000010" value="Location services message container"/>
+    <range start="@00000011" end="@01111111" value="Unused"/>
+    <range start="@10000000" end="@11111111" value="Reserved"/>
+  </type>
+  <record name="Generic message container" id="9.9.3.43">
+    <field name="Length" length="16"/>
+    <field name="Generic message container contents" length="8 * Length"/>
+  </record>
+  <record name="Voice domain preference and UE&apos;s usage setting" id="9.9.3.44">
+    <fragment href="TS-24.008.xddl#10.5.5.28"/>
+  </record>
+  <record name="GUTI type" id="9.9.3.45">
+    <field name="spare" length="3" type="#zero"/>
+    <field name="GUTI type" length="1" type="#9.9.3.45.1"/>
+  </record>
+  <type name="GUTI type information element" id="9.9.3.45.1">
+    <item key="@0" value="Native GUTI"/>
+    <item key="@1" value="Mapped GUTI"/>
+  </type>
+  <!-- 9.9.4 EPS Session Management (ESM) information elements -->
+  <record name="Access point name" id="9.9.4.1">
+    <fragment href="TS-24.008.xddl#10.5.6.1"/>
+  </record>
+  <record name="APN aggregate maximum bit rate" id="9.9.4.2">
+    <!-- TODO: encoding -->
+    <field name="Length" length="8"/>
+    <record name="Contents" length="8 * Length">
+      <field name="APN-AMBR for downlink" length="8"/>
+      <field name="APN-AMBR for uplink" length="8"/>
+      <if expr="Length &gt;= 3">
+        <field name="APN-AMBR for downlink (extended)" length="8"/>
+      </if>
+      <if expr="Length &gt;= 4">
+        <field name="APN-AMBR for uplink (extended)" length="8"/>
+      </if>
+      <if expr="Length &gt;= 5">
+        <field name="APN-AMBR for downlink (extended-2)" length="8"/>
+      </if>
+      <if expr="Length &gt;= 6">
+        <field name="APN-AMBR for uplink (extended-2)" length="8"/>
+      </if>
+    </record>
+  </record>
+  <record name="Connectivity type" id="9.9.4.2A">
+    <fragment href="TS-24.008.xddl#10.5.6.19"/>
+  </record>
+  <record name="EPS quality of service" id="9.9.4.3">
+    <field name="Length" length="8"/>
+    <field name="QCI" length="8" type="#9.9.4.3.1a"/>
+    <if expr="Length &gt;= 2">
+      <field name="Maximum bit rate for uplink" length="8" type="#9.9.4.3.1b"/>
+    </if>
+    <if expr="Length &gt;= 3">
+      <field name="Maximum bit rate for downlink" length="8" type="#9.9.4.3.1b"/>
+    </if>
+    <if expr="Length &gt;= 4">
+      <field name="Guaranteed bit rate for uplink" length="8" type="#9.9.4.3.1b"/>
+    </if>
+    <if expr="Length &gt;= 5">
+      <field name="Guaranteed bit rate for downlink" length="8" type="#9.9.4.3.1b"/>
+    </if>
+    <if expr="Length &gt;= 6">
+      <field name="Maximum bit rate for uplink (extended)" length="8" type="#9.9.4.3.1c"/>
+    </if>
+    <if expr="Length &gt;= 7">
+      <field name="Maximum bit rate for downlink (extended)" length="8" type="#9.9.4.3.1c"/>
+    </if>
+    <if expr="Length &gt;= 8">
+      <field name="Guaranteed bit rate for uplink (extended)" length="8" type="#9.9.4.3.1d"/>
+    </if>
+    <if expr="Length &gt;= 9">
+      <field name="Guaranteed bit rate for downlink (extended)" length="8" type="#9.9.4.3.1d"/>
+    </if>
+    <if expr="Length &gt;= 10">
+      <field name="Maximum bit rate for uplink (extended-2)" length="8" type="#9.9.4.3.1e"/>
+    </if>
+    <if expr="Length &gt;= 11">
+      <field name="Maximum bit rate for downlink (extended-2)" length="8" type="#9.9.4.3.1e"/>
+    </if>
+    <if expr="Length &gt;= 12">
+      <field name="Guaranteed bit rate for uplink (extended-2)" length="8" type="#9.9.4.3.1f"/>
+    </if>
+    <if expr="Length &gt;= 13">
+      <field name="Guaranteed bit rate for downlink (extended-2)" length="8" type="#9.9.4.3.1f"/>
+    </if>
+  </record>
+  <type name="EPS quality of service" id="9.9.4.3.1a">
+    <item key="@00000000" value="Reserved"/>
+    <item key="@00000001" value="QCI 1"/>
+    <item key="@00000010" value="QCI 2"/>
+    <item key="@00000011" value="QCI 3"/>
+    <item key="@00000100" value="QCI 4"/>
+    <item key="@00000101" value="QCI 5"/>
+    <item key="@00000110" value="QCI 6"/>
+    <item key="@00000111" value="QCI 7"/>
+    <item key="@00001000" value="QCI 8"/>
+    <item key="@00001001" value="QCI 9"/>
+    <range start="@00001010" end="@01111111" value="Reserved"/>
+    <range start="@10000000" end="@11111110" value="Operator-specific QCIs"/>
+    <item key="@11111111" value="Reserved"/>
+  </type>
+  <type name="Maximimum bitrate for uplink" id="9.9.4.3.1b">
+    <script>
+      if (key == 0) then 
+          if (prop("Direction") == 1) then description = "Subscribed maximum bit rate for uplink"
+          else description = "Reserved"
+          end
+      elseif (key &gt;= 0b00000001 and key &lt;= 0b00111111) then description = key .. " kbps"
+      elseif (key &gt;= 0b01000000 and key &lt;= 0b01111111) then description = (64 + (key - 0b01000000) * 8) .. " kbps"
+      elseif (key &gt;= 0b10000000 and key &lt;= 0b11111110) then description = (576 + (key - 0b10000000) * 64) .. " kbps"
+      elseif (key == 0b11111111) then description = "0 kbps" 
+      end
+    </script>
+  </type>
+  <type name="Maximimum bitrate for uplink (extended)" id="9.9.4.3.1c">
+    <script>
+      if (key == 0) then description = Description("Maximum bit rate for uplink")
+      elseif (key &gt;= 0b00000001 and key &lt;= 0b01001010) then description = (8600 + (key * 100)) .. " kbps"
+      elseif (key &gt;= 0b01001011 and key &lt;= 0b10111010) then description = (16 + ((key - 0b01001010) * 1)) .. " Mbps"
+      elseif (key &gt;= 0b10111011 and key &lt;= 0b11111010) then description = (128 + ((key - 0b10111010) * 2)) .. " Mbps"
+      end
+    </script>
+  </type>
+  <type name="Gaurenteed bit rate for uplink (extended)" id="9.9.4.3.1d">
+    <script>
+      if (key == 0) then description = Description("Guaranteed bit rate for uplink")
+      elseif (key &gt;= 0b00000001 and key &lt;= 0b01001010) then description = (8600 + (key * 100)) .. " kbps"
+      elseif (key &gt;= 0b01001011 and key &lt;= 0b10111010) then description = (16 + ((key - 0b01001010) * 1)) .. " Mbps"
+      elseif (key &gt;= 0b10111011 and key &lt;= 0b11111010) then description = (128 + ((key - 0b10111010) * 2)) .. " Mbps"
+      end
+    </script>
+  </type>
+  <type name="Maximimum bitrate for uplink (extended-2)" id="9.9.4.3.1e">
+    <script>
+      if (key == 0) then description = Description("Maximum bit rate for uplink")
+      elseif (key &gt;= 0b00000001 and key &lt;= 0b00111101) then description = (256 + (key * 4)) .. " Mbps"
+      elseif (key &gt;= 0b00111110 and key &lt;= 0b10100001) then description = (500 + ((key - 0b00111101) * 10)) .. " Mbps"
+      elseif (key &gt;= 0b10100010 and key &lt;= 0b11110110) then description = (1500 + ((key - 0b10100001) * 100)) .. " Mbps"
+      end
+    </script>
+  </type>
+  <type name="Gaurenteed bit rate for uplink-2" id="9.9.4.3.1f">
+    <script>
+      if (key == 0) then description = Description("Gaurenteed bit rate for uplink")
+      elseif (key &gt;= 0b00000001 and key &lt;= 0b00111101) then description = (256 + (key * 4)) .. " Mbps"
+      elseif (key &gt;= 0b00111110 and key &lt;= 0b10100001) then description = (500 + ((key - 0b00111101) * 10)) .. " Mbps"
+      elseif (key &gt;= 0b10100010 and key &lt;= 0b11110110) then description = (1500 + ((key - 0b10100001) * 100)) .. " Mbps"
+      end
+    </script>
+  </type>
+  <record name="ESM cause" id="9.9.4.4">
+    <field name="Cause" length="8" type="#9.9.4.4.1"/>
+  </record>
+  <type name="ESM cause" id="9.9.4.4.1">
+    <item key="@00001000" value="Operator Determined Barring"/>
+    <item key="@00011010" value="Insufficient resources"/>
+    <item key="@00011011" value="Missing or unknown APN"/>
+    <item key="@00011100" value="Unknown PDN type"/>
+    <item key="@00011101" value="User authentication failed"/>
+    <item key="@00011110" value="Request rejected by Serving GW or PDN GW"/>
+    <item key="@00011111" value="Request rejected, unspecified"/>
+    <item key="@00100000" value="Service option not supported"/>
+    <item key="@00100001" value="Requested service option not subscribed"/>
+    <item key="@00100010" value="Service option temporarily out of order"/>
+    <item key="@00100011" value="PTI already in use"/>
+    <item key="@00100100" value="Regular deactivation"/>
+    <item key="@00100101" value="EPS QoS not accepted"/>
+    <item key="@00100110" value="Network failure"/>
+    <item key="@00100111" value="Reactivation requested"/>
+    <item key="@00101001" value="Semantic error in the TFT operation"/>
+    <item key="@00101010" value="Syntactical error in the TFT operation"/>
+    <item key="@00101011" value="Unknown EPS bearer context"/>
+    <item key="@00101100" value="Semantic errors in packet filter(s)"/>
+    <item key="@00101101" value="Syntactical errors in packet filter(s)"/>
+    <item key="@00101110" value="Unused"/>
+    <item key="@00101111" value="PTI mismatch"/>
+    <item key="@00110001" value="Last PDN disconnection not allowed"/>
+    <item key="@00110010" value="PDN type IPv4 only allowed"/>
+    <item key="@00110011" value="PDN type IPv6 only allowed"/>
+    <item key="@00110100" value="Single address bearers only allowed"/>
+    <item key="@00110101" value="ESM information not received"/>
+    <item key="@00110110" value="PDN connection does not exist"/>
+    <item key="@00110111" value="Multiple PDN connections for a given APN not allowed"/>
+    <item key="@00111000" value="Collision with network initiated request"/>
+    <item key="@00111011" value="Unsupported QCI value"/>
+    <item key="@00111100" value="Bearer handling not supported"/>
+    <item key="@01000001" value="Maximum number of EPS bearers reached"/>
+    <item key="@01000010" value="Requested APN not supported in current RAT and PLMN combination"/>
+    <item key="@01010001" value="Invalid PTI value"/>
+    <item key="@01011111" value="Semantically incorrect message"/>
+    <item key="@01100000" value="Invalid mandatory information"/>
+    <item key="@01100001" value="Message type non-existent or not implemented"/>
+    <item key="@01100010" value="Message type not compatible with the protocol state"/>
+    <item key="@01100011" value="Information element non-existent or not implemented"/>
+    <item key="@01100100" value="Conditional IE error"/>
+    <item key="@01100101" value="Message not compatible with the protocol state"/>
+    <item key="@01101111" value="Protocol error, unspecified"/>
+    <item key="@01110000" value="APN restriction value incompatible with active EPS bearer context"/>
+    <range start="@00000000" end="@11111111" value="unknown"/>
+    <script>
+      local e = EnumValue()
+      if (e == "unknown") then
+        if (Value("Direction") == 0) then -- to UE
+          description = "Service option temporarily out of order"
+        else
+          description = "Protocol error, unspecified"
+        end
+      else
+        description = e
+      end 
+    </script>
+  </type>
+  <record name="ESM information transfer flag" id="9.9.4.5">
+    <field name="spare" length="3"/>
+    <field name="EIT value" length="1" type="#9.9.4.5.1"/>
+  </record>
+  <type name="ESM information transfer flag" id="9.9.4.5.1">
+    <item key="@0" value="security protected ESM information transfer not required"/>
+    <item key="@1" value="security protected ESM information transfer required"/>
+  </type>
+  <record name="Linked EPS bearer identity" id="9.9.4.6">
+    <field name="value" length="4" type="#9.9.4.6.1"/>
+  </record>
+  <type name="Linked IPS bearer identity" id="9.9.4.6.1">
+    <item key="@0101" value="EPS bearer identity value 5"/>
+    <item key="@0110" value="EPS bearer identity value 6"/>
+    <item key="@0111" value="EPS bearer identity value 7"/>
+    <item key="@1000" value="EPS bearer identity value 8"/>
+    <item key="@1001" value="EPS bearer identity value 9"/>
+    <item key="@1010" value="EPS bearer identity value 10"/>
+    <item key="@1011" value="EPS bearer identity value 11"/>
+    <item key="@1100" value="EPS bearer identity value 12"/>
+    <item key="@1101" value="EPS bearer identity value 13"/>
+    <item key="@1110" value="EPS bearer identity value 14"/>
+    <item key="@1111" value="EPS bearer identity value 15"/>
+    <range start="@0000" end="@0100" value="Reserved"/>
+  </type>
+  <record name="LLC service access point identifier)" id="9.9.4.7">
+    <fragment href="TS-24.008.xddl#10.5.6.9"/>
+  </record>
+  <record name="Notification indicator information element" id="9.9.4.7A">
+    <field name="Length" length="8"/>
+    <field name="Notification indicator value" length="8" type="#9.9.4.7A.1"/>
+  </record>
+  <type name="Notification indicator value" id="9.9.4.7A.1">
+    <item key="@00000001" value="SRVCC handover cancelled, IMS session re-establishment required "/>
+    <range start="@00000010" end="@01111111" value="Unused, shall be ignored if received by the UE"/>
+    <range start="@00000000" end="@11111111" value="reserved"/>
+  </type>
+  <record name="Packet flow identifier" id="9.9.4.8">
+    <fragment href="TS-24.008.xddl#10.5.6.11"/>
+  </record>
+  <record name="PDN address" id="9.9.4.9">
+    <field name="Length" length="8"/>
+    <field name="spare" length="5" type="#zero"/>
+    <field name="PDN type" length="3" type="#9.9.4.9.1"/>
+    <switch expr="{PDN type}">
+      <case value="@001">
+        <field name="IPv4 address" length="32" type="#ipv4"/>
+      </case>
+      <case value="@010">
+        <field name="IPv6 interface identifier" length="8 * 8"/>
+      </case>
+      <case value="@011">
+        <field name="IPv6 interface identifier" length="8 * 8"/>
+        <field name="IPv4 address" length="32" type="#ipv4"/>
+      </case>
+    </switch>
+  </record>
+  <type name="PDN type value (octet 3)" id="9.9.4.9.1">
+    <item key="@001" value="IPv4"/>
+    <item key="@010" value="IPv6"/>
+    <item key="@011" value="IPv4v6"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <record name="PDN type" id="9.9.4.10">
+    <field name="Spare" length="1"/>
+    <field name="PDN Type" length="3" type="#9.9.4.10.1"/>
+  </record>
+  <type id="9.9.4.10.1">
+    <item key="@001" value="IPv4"/>
+    <item key="@010" value="IPv6"/>
+    <item key="@011" value="IPv4v6"/>
+    <item key="@100" value="unused, interpreted as IPv6"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <record name="Protocol Configuration Options" id="9.9.4.11">
+    <fragment href="TS-24.008.xddl#10.5.6.3"/>
+  </record>
+  <record name="Quality of service" id="9.9.4.12">
+    <fragment href="TS-24.008.xddl#10.5.6.5"/>
+  </record>
+  <record name="Radio Priority" id="9.9.4.13">
+    <fragment href="TS-24.008.xddl#10.5.7.2"/>
+  </record>
+  <record name="Request type" id="9.9.4.14">
+    <fragment href="TS-24.008.xddl#10.5.6.17"/>
+  </record>
+  <record name="Traffic flow aggregate description" id="9.9.4.15">
+    <fragment href="#9.9.4.16"/>
+  </record>
+  <record name="Traffic flow template" id="9.9.4.16">
+    <fragment href="TS-24.008.xddl#10.5.6.12"/>
+  </record>
+  <record name="Transaction identifier" id="9.9.4.17">
+    <fragment href="TS-24.008.xddl#10.5.6.7"/>
+  </record>
+  <type id="service-request-type">
+    <item key="@0" value="Service request"/>
+  </type>
+</xddl>

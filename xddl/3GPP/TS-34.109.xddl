@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl version="2.0000">
+  <!-- Terminal logical test interface -->
+  <!-- 3GPP TS 34.109 V10.1.0 (2011-12) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Radio Access Network; -->
+  <!-- Terminal logical test interface; -->
+  <!-- Special conformance testing functions -->
+  <!-- (Release 10) -->
+  <!-- TYPES -->
+  <!-- misc types -->
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <!-- Section 6 Message definitions and contents -->
+  <!-- Test Control (TC) Information Elements -->
+  <record name="Close UE Test Loop" id="6.2">
+    <field name="UE test loop mode" length="8" type="#6.2a"/>
+    <switch expr="{UE test loop mode}">
+      <case value="0">
+        <field name="Length" length="8" type="#6.2c"/>
+        <repeat name="LB setup list" num="Length/3">
+          <field name="Uplink RLC SDU Size" length="16"/>
+          <field name="Reserved" length="3" type="#zero"/>
+          <field name="RB Identity Number" length="5" type="#6.2d"/>
+        </repeat>
+      </case>
+    </switch>
+  </record>
+  <type id="6.2a">
+    <item key="0" value="UE Test Loop Mode 1"/>
+    <item key="1" value="UE Test Loop Mode 2"/>
+  </type>
+  <type id="6.2b">
+    <item key="0" value="DCCH Dummy Transmission Disabled"/>
+    <item key="1" value="DCCH Dummy Transmission Enabled"/>
+  </type>
+  <type name="Length of UE Test Loop Mode 1 LB setup IE" id="6.2c">
+    <range start="0" end="4"/>
+  </type>
+  <type name="RB Identity Number Range" id="6.2d">
+    <range start="5" end="32"/>
+  </type>
+  <record name="CLOSE UE TEST LOOP COMPLETE" id="6.3"/>
+  <record name="OPEN UE TEST LOOP" id="6.4"/>
+  <record name="OPEN UE TEST LOOP COMPLETE" id="6.5"/>
+  <record name="ACTIVATE RB TEST MODE" id="6.6"/>
+  <record name="ACTIVATE RB TEST MODE COMPLETE" id="6.7"/>
+  <record name="DEACTIVATE RB TEST MODE" id="6.8"/>
+  <record name="DEACTIVATE RB TEST MODE COMPLETE" id="6.9"/>
+  <record name="RESET UE POSITIONING STORED INFORMATION" id="6.10">
+    <field name="UE Positioning Technology" length="8" type="#6.10"/>
+  </record>
+  <type name="UE Positioning Technology" id="6.10">
+    <item key="0" value="AGPS"/>
+    <item key="1" value="AGNSS"/>
+    <range start="1" end="#FF" value="Reserved"/>
+  </type>
+</xddl>

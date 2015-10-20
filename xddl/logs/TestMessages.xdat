@@ -1,0 +1,677 @@
+#Single Message Tests
+
+:session cdma2000 1xRTT
+
+
+# Neighbor List Message (f-csch #03 - 03) 
+01010110039A04000500000077152533 
+
+# Extended Channel Assignment Message (f-csch #15 - 21)
+01 01 01 60 15 A9 7F 10 35 41 C8 88 77 15 25 33 
+
+# ASSIGN_MODE 000
+010101801501844400157907302B7890ABC2201E4008F8002E2AA4556677889900112233
+
+# ASSIGN_MODE 001
+010101801501844400558306222B7890ABC2201E4008F8002CAAA45566778899001122334455667788
+
+# ASSIGN_MODE 004
+01010180150184440135830672222196AB20A01E7018FA202CAAA45564778899385122334455667788
+
+# General Neighbor List Message (f-csch #16 - 22)
+0101016016A97F1F034070CA7CB1E5326AB30A41E7718FA202CAAA458447788993851223B44576
+
+# NGHBR_PILOT_REC_TYPE 001
+0101016016A97F1F028070CA7CB1E5326EB32A41E7718FA202CAAA458447788993851223B44576
+
+# NGHBR_PILOT_REC_TYPE 010  (2)
+0101016016A97F1F028070CA7CB1E5326EB34A41E7718FA202CAAA498447788993851223B44576
+
+# NGHBR_PILOT_REC_TYPE 011  (3)
+0101016016A97F1F028070CA7CB1E5326EB36641F4218FA212CB845C10277C8993851227B44576
+
+# NGHBR_PILOT_REC_TYPE 100  (4)
+0101016016A97F1F028070CA7CB1E5326EB39E4DF4218FA3D2CBD45C10277CC994141226544576
+
+# User Zone Identification Message (f-csch #17 - 23)
+01 01 01 60 17 A9 7F 10 35 41 C8 88 77 15 25 33 
+0101016017A97F063541C88877265445
+
+# Private Neighbor List Messag (f-dsch #18 - 24)
+0101016018A97E202141C880771525332669CD4644C576F421
+
+# Extended Global Service Redirection Message 3.7.2.3.2.27 (f-csch #1A - 26)
+# Causes failure in released version
+#010101601AA97E202141C880771525332669CD4644C576F421
+
+
+# Does not cause failure (switch/default) in released version 1.2.9
+010101601AA97E202141C88077
+
+# Causes failure (switch/default)  in released version 1.2.9
+#010101601AA97E202141C8807715
+
+# Extended CDMA Channel List Message 3.7.2.3.2.28 (f-csch #1B - 27)
+010101609BA97E2023418890F21535332670F14654C576F461
+
+010101601BA97E2023D9D0F0470D05336669
+
+
+# ANSI-41 System Parameters Message 3.7.2.3.2.30 (f-csch #1D - 29)
+010101229DA97E2023418890F215FF33267C514654C576F4617D1E016769C8771580
+
+# MC-RR Parameters Message 3.7.2.3.2.31 (f-csch #1E - 30)
+010101509EA97E2023418990FA15FF33267C514655C5760161FD1E11676DC8771580010107CA9EA37E202341D990F215FFBFFBFDB3C65EC576F4617D1601676FCE7715E04D3F91439A1B71F823D9D0F0
+
+
+
+# ANSI-41 RAND Message 3.7.2.3.2.32 (f-csch #1F - 31) 
+0101010C1F9A0400050000000000
+
+# Enhanced Access Parameters Message 3.7.2.3.2.33 (f-csch #20 - 32)
+0101014AA0A97F202B458990FA15FF33267C514655C5764361FD3F11676DC8771580010147CA9EA37E2023485990F275FFBFFBFDB3C65EC576F6617D1601677C4E7715E04D3991439A1B71F823
+
+# Security Mode Command Message 3.7.2.3.2.35 (f-csch #22 - 34) 
+01010107225B84000500
+
+# Universal Page Message 3.7.2.3.2.36 (f-csch #23 - 35) 
+0101010B235B8C00050005000040
+
+# Authentication Request Message 3.7.2.3.2.37 (f-csch #2C - 44) 
+010101262C5B8C00050005000040FF33267C514655C5764361FD3F11676DC8771580010147CA9EA37E
+
+# BCMC Service Parameters Message 3.7.2.3.2.38 (f-csch #2D - 45) 
+
+#OK
+0101013F2D5B8C3E5D1C1000A0307F37767C5146D5C57446727373126CED4F4221E08A7947CA9EA27E011901262D581C3E650005010100026D4F8C3E65000100
+
+# Alternative Technologies Information Message (f-csch #2F - 47) 
+010101802F01844401143E04302B7890ABC2201E4008F800
+
+
+
+# Order Message (f-dsch #01 - 01)
+01 01 02 38 01 A9 74 14 95 41 C0
+
+# Order Message (f-dsch #01 - 01) - Case 2 - No CON_REF_INCL
+01 01 02 38 01 A9 74 48 95 41 C0
+
+# Order Message (f-dsch #01 - 01) - Case 3 - No Order-specific fields AND No CON_REF_INCL
+0101023801A974481541C0
+
+
+# Extended Neighbor List Update Message (f-dsch #1A - 26)
+01 01 02 60 1A A9 7F 10 35 41 C8 88 77 15 25 33 
+
+
+# Power Up Function Completion Message (f-dsch #1E - 30)
+01 01 02 60 1E A9 7F 14 95 41 C0 88 77 15 25 33 
+
+# Power Up Function Completion Message (f-dsch #1E - 30) Case 2 - LOC_IND set to 0
+01 01 02 18 1E A9 7E  
+
+
+# EVDO (C.S0024-B)
+
+# 3.3.3.1 Default Packet Application (#15 - 21)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102011500000010500301FF
+
+# 3.3.3.2 Default Packet Application (#15 - 21)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011500000010510301FF
+
+# 3.4.4.3 Default Packet Application (#15 - 21) - In Use -  
+010200150000000100
+
+# 3.3.3.1 Default Packet Application (#16 - 22)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102011600000010500301FF
+
+# 3.3.3.2 Default Packet Application (#16 - 22)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011600000010510301FF
+
+# 3.4.4.3 Default Packet Application (#16 - 22) - In Use -  
+010200160000000100
+
+# 3.3.3.1 Default Packet Application (#17 - 23)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102011700000010500301FF
+
+# 3.3.3.2 Default Packet Application (#17 - 23)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011700000010510301FF
+
+# 3.4.4.3 Default Packet Application (#17 - 23) - In Use -  
+010200170000000100
+
+
+
+# 3.3.3.1 Default Packet Application (#14 - 20)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102011400000010500301FF
+
+# 3.3.3.2 Default Packet Application (#14 - 20)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011400000010510301FF
+
+# 3.4.4.3.1 Default Packet Application (#14 - 20) - In Use - Reset(0) 
+010200140000000100
+# 3.4.4.3.2 Default Packet Application (#14 - 20) - In Use - ResetAck(1) 
+010200140000000101
+# 3.4.4.3.3 Default Packet Application (#14 - 20) - In Use - Nak(2) 
+010200140000000C020200000801020000070009
+
+# 3.5.4.2.1 Default Packet Application (#14 - 20) - In Use - LocationRequest(3) 
+010200140000000103
+# 3.5.4.2.2 Default Packet Application (#14 - 20) - In Use - LocationNotification(4) 
+0102001400000009040102060708090A
+# 3.5.4.2.3 Default Packet Application (#14 - 20) - In Use - LocationAssignment(5) 
+010200140000000905030105060708090A
+# 3.5.4.2.4 Default Packet Application (#14 - 20) - In Use - LocationComplete(6) 
+01020014000000020603
+
+# 3.6.4.2.1 Default Packet Application (#14 - 20) - In Use - XonRequest(7) 
+010200140000000107
+# 3.6.4.2.2 Default Packet Application (#14 - 20) - In Use - XonResponse(8) 
+010200140000000108
+# 3.6.4.2.3 Default Packet Application (#14 - 20) - In Use - XoffRequest(9) 
+010200140000000109
+# 3.6.4.2.4 Default Packet Application (#14 - 20) - In Use - XoffResponse(0xA - 10) 
+01020014000000010A
+# 3.6.4.2.5 Default Packet Application (#14 - 20) - In Use - DataReady(0xB - 11) 
+01020014000000020B03
+# 3.6.4.2.6 Default Packet Application (#14 - 20) - In Use - DataReadyAck(0xC - 12) 
+01020014000000020C03
+
+
+
+# 5.2.5.3.1 Stream Protocol (#13 - 19)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+010201130000001050030B00030001000200030004
+
+# 5.2.5.3.2 Stream Protocol (#13 - 19)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011300000010510303000300
+
+# 5.2.6 Stream Protocol (#13 - 19) - In Use -  
+0102001300000000
+
+# 5.3.5.3.1 Virtual Stream Protocol (#19 - 25)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+010201190000000C500304FF03000104FF020300
+
+# 5.3.5.3.2 Virtual Stream Protocol (#19 - 25)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+010201190000000C510304FF03000104FF020300
+
+# 5.3.6.2.1 Virtual Stream Protocol (#19 - 25) - In Use -  
+01020019000000020507
+
+
+# 6.2.5.3.1 Session Management Protocol (#10 - 16)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102011000000010500303FF0CA8
+0102011000000010500303FF0001
+
+# 6.2.5.3.2 Session Management (#10 - 16)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011000000010510303FF0CA8
+0102011000000010510303FF0000
+
+# 6.2.6.2.1 Session Management (#10 - 16) - In Use - SessionClose(01)  
+0102001000000010010304030507
+010200100000001001030483050709
+
+01020010000000100104050605070104
+
+# 6.3.6.3.1 Address Management Protocol (#11 - 17)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102011100000010500305FF0001
+0102011100000010500305FE01
+0102011100000010500305FD01
+0102011100000010500305FC01
+0102011100000010500305FB01
+
+# 6.3.6.3.1 Address Management Protocol (#11 - 17)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102011100000010510305FF0001
+0102011100000010510305FB01
+
+# 6.3.7.2.1 Address Management Protocol (#11 - 17) - In Use - UATIRequest(0)  
+01020011000000020003
+# 6.3.7.2.2 Address Management Protocol (#11 - 17) - In Use - UATIAssignment(1)  
+010200110000001E010301020000000000000000000000006E0300030950
+# 6.3.7.2.3 Address Management Protocol (#11 - 17) - In Use - UATIComplete(2)  
+010200110000002E020303020000
+# 6.3.7.2.4 Address Management Protocol (#11 - 17) - In Use - HardwareIDRequest(3)  
+01020011000000020304
+# 6.3.7.2.5 Address Management Protocol (#11 - 17) - In Use - HardwareIDResponse(3)  
+010200110000000A04050000070400000009
+
+
+## No In Confgiruation Messages for Session Configuration Protocol
+
+# 6.4.6.2.1 Session Configuration Protocol (#12 - 17) - In Use - ConfigurationComplete(0)  
+010200120000000400040007
+
+# 6.4.6.2.2 Session Configuration Protocol (#12 - 17) - In Use - ConfigurationStart(1)  
+010200120000000401
+
+# 6.4.6.2.3 Session Configuration Protocol (#12 - 17) - In Use - ConfigurationRequest(0x50)  
+01020012000000055003020100
+010200120000000550030200FF
+
+# 6.4.6.2.4 Session Configuration Protocol (#12 - 17) - In Use - ConfigurationResponse(0x51)  
+01020012000000055103020101
+
+# 6.4.6.2.5 Session Configuration Protocol (#12 - 17) - In Use - SoftConfigurationComplete(02)  
+0102001200000007020302C00940
+
+# 6.4.6.2.6 Session Configuration Protocol (#12 - 17) - In Use - LockConfiguration(03)  
+01020012000000020304
+
+# 6.4.6.2.7 Session Configuration Protocol (#12 - 17) - In Use - LockConfigurationAck(04)  
+01020012000000020406
+
+# 6.4.6.2.8 Session Configuration Protocol (#12 - 17) - In Use - UnLockConfiguration(05)  
+01020012000000020506
+
+# 6.4.6.2.9 Session Configuration Protocol (#12 - 17) - In Use - UnLockConfigurationAck(06)  
+01020012000000020603
+
+# 6.4.6.2.10 Session Configuration Protocol (#12 - 17) - In Use - DeletePersonality(07)  
+010200120000000507033245
+
+# 6.4.6.2.11 Session Configuration Protocol (#12 - 17) - In Use - DeletePersonalityAck(08)  
+01020012000000020803
+
+# 6.4.6.2.12 Session Configuration Protocol (#12 - 17) - In Use - AttributeUpdateRequest(0x52)  
+01020012000000055203020100
+
+# 6.4.6.2.13 Session Configuration Protocol (#12 - 17) - In Use - AttributeUpdateAccept(0x53)  
+01020012000000025303
+
+# 6.4.6.2.13 Session Configuration Protocol (#12 - 17) - In Use - AttributeUpdateReject(0x54)  
+01020012000000025403
+
+
+# 7.2.5.3.1 Air-Link Management Protocol (#A - 10)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010A00000005500302FF00
+0102010A000000055003020800
+
+# 7.2.5.3.2 Air-Link Management Protocol (#A - 10)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102010A00000005510302FF01
+
+# 7.2.6.2 Air-Link Management Consolidation Protocol (#A - 10) - In Use - Redirect (0)  
+0102000A000000080002000007000009
+
+# 7.2.6.2 Air-Link Management Consolidation Protocol (#A - 10) - In Use - ConnectionFailureReport (1)  
+0102000A000000260102120007000009000000000000000000000000000000012007800016000034
+
+# 7.2.6.3 Air-Link Management Consolidation Protocol (#A - 10) - In Use - ConnectionFailureReportAck (2)  
+0102000A000000020202
+
+# 7.3.5.3.1 Initialization State Protocol (#B - 11)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010B000000055003
+
+# 7.3.5.3.2 Initialization State Protocol (#B - 11)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102010B000000055103
+
+# 7.3.6.2 Initialization State Consolidation Protocol (#B - 11) - In Use - Sync (0)  
+0102000B000000080202002000000039
+
+
+# 7.4.5.3.1 Idle State Protocol (#C - 12)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010C0000000950030400048005
+
+# 7.4.5.3.2 Idle State Protocol (#C - 12)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102010C0000000951030400048005
+
+
+# 7.4.6.2.1 Idle State Protocol (#C - 12) - In Use - Page (0)  
+0102000C0000000800
+
+# 7.4.6.2.2 Idle State Protocol (#C - 12) - In Use - ConnectionRequest (1)  
+0102000C00000008010310
+
+# 7.4.6.2.3 Idle State Protocol (#C - 12) - In Use - ConnectionDeny (2)  
+0102000C00000008020420
+
+# 7.7.5.3.1 Connected State Protocol (#D - 13)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010D000000055003
+
+# 7.7.5.3.2 Connected State Protocol (#D - 13)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102010D000000055103
+
+# 7.7.6.2.1 Connected State Protocol (#D - 13) - In Use -ConnectionClose(0)  
+0102000D0000000A007000001304
+
+# 7.8.5.3.1 Route Update Protocol (#E - 14)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010E000000105003050203040506070809
+
+# 7.8.5.3.2 Route Update Protocol (#E - 14)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102010E0000000B5103060103040506070809
+
+# 7.8.6.2.3 Route Update Protocol (#E - 14) - In Use - TrafficChannelComplete(2)  
+0102000E0000000A0270
+
+# 7.11.5.3.1 Overhead Messages Protocol (#F - 15)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010F00000010500305FF0103FE0105FD000107FC0001
+
+# 7.11.5.3.2 Overhead Messages Protocol (#F - 15)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+0102010F00000010510305FF0103FE0105FD000107FC0001
+
+# 7.11.6.2.1 Overhead Messages Protocol (#F - 15) - In Use - QuickConfig(0)  
+0102000F0000001A0070001E3403FE01058385C060
+
+# 7.11.6.2.1 Overhead Messages Protocol (#F - 15) - In Use - SectorParameters(1)  
+0102000F000003600170000000000000000000000000000010E70058385C06000102000F00000022017000000000080A0000072B840000063A20069E41F18042804300
+
+# 8.3.5.3.1 Packet Consolidation Protocol (09)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+01020109000000025003
+
+# 8.3.5.3.2 Packet Consolidation Protocol (09)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+01020109000000025103
+
+# 8.3.6.2 Packet Consolidation Protocol (09) - In Use - (no sub messages defined)  
+0102000900000000
+
+# 8.3.5.3.1 Security Protocol (08)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+01020108000000025003
+
+# 8.3.5.3.2 Security Protocol (08)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+01020108000000025103
+
+# 8.3.6.2 Security Protocol (08) - In Use - (no sub messages defined)  
+0102000800000000
+
+# 8.5.5.3.1 Key Exchange Protocol (05)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+01020105000000025003
+
+# 8.5.5.3.2 Key Exchange Protocol (05)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+01020105000000025103
+
+# 8.5.6.2 Key Exchange Protocol (05) - In Use - (no sub messages defined)  
+0102000500000000
+
+# 8.7.5.3.1 Authentication Protocol (06) - In Configuration - ConfigurationRequest  (#50 - 80) 
+01020106000000105003
+
+# 8.7.5.3.2 Authentication Protocol (06) - In Configuration - ConfigurationResponse  (#51 - 81) 
+01020106000000105103
+
+# 8.9.4.3.1 Encryption Protocol (07)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+01020107000000025003
+
+# 8.9.4.3.2 Encryption Protocol (07)  - In Configuration  - ConfigurationResponse(#51 - 81) 
+01020107000000025103
+
+# 8.9.5.2 Encryption Protocol (07) - In Use - (no sub messages defined)  
+0102000700000000
+
+
+# 9.2.5.3.1 Control Channel Mac Protocol (01) - In Configuration - ConfigurationRequest (#50 - 80)   
+01020101000000105003
+
+# 9.2.6 Control Channel Mac Protocol - In Use - (no sub messages defined)  
+0102000100000000
+
+# 9.4.5.3.1 Access Channel Mac Protocol (02)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010200000020500301010102030405060708
+010201020000002050030100010203040506070890
+
+# 9.4.5.3.2 Access Channel Mac Protocol (02)  - In Configuration  - ConfigurationRequest(#51 - 81) 
+01020102000000085103010101020304
+
+
+# 9.4.6.2.5 Access Channel Mac Protocol (02) - In Use - ACAck (00) 
+010200020000000800
+
+# 9.4.6.2.6 Access Channel Mac Protocol (02) - In Use - AccessParameters (01)  
+01020002000000400103010201060000001050
+
+# 9.6.5.3.1 Forward Traffic Channel Mac Protocol (03)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+0102010300000020500301010102030405060708
+010201030000002050030100010203040506070809
+0102010300000020500301FD0102
+0102010300000020500301FF0102
+0102010300000021500301FF010201FD0102010001020304050607080901010102030405060708090A
+
+# 9.6.6.2.2 Forward Traffic Channel Mac Protocol (03) - In Use - FixedModeEnables (00) 
+0102000300000020000319FF01
+
+# 9.6.6.2.3 Forward Traffic Channel Mac Protocol (03) - In Use - FixedModeXoff (01) 
+010200030000002001
+
+# 9.9.5.3.1 Reverse Traffic Channel Mac Protocol (04)  - In Configuration  - ConfigurationRequest(#50 - 80) 
+010201040000002050030101010203040506070809
+010201040000002050030100010203040506070809
+
+# 9.9.5.3.2 Reverse Traffic Channel Mac Protocol (04)  - In Configuration  - ConfigurationResponse(#51 - 81)
+010201040000000851030101010203
+010201040000000851030100010203
+
+# 9.9.6.3.2 Reverse Traffic Channel Mac Protocol (04) - In Use - RTCAck (00) 
+010200040000000100
+
+# 9.9.6.3.3 Reverse Traffic Channel Mac Protocol (04) - In Use - BroadcastReverseRateLimit (01) 
+0102000400000003010483
+
+# 9.9.6.3.4 Reverse Traffic Channel Mac Protocol (04) - In Use - UnicastReverseRateLimit (02) 
+01020004000000020254
+
+:session LTE NAS
+
+# Attach accept 8.2.1  (#42 - 66)
+0301022700000000171A4202030607411100000200141235DB0102220100010137171A456203F60741115305500119130102020303
+
+# Attach Request 8.2.4  (#41 - 65)
+030102220100010137171A4166030307411100051253DB0102190001015000520102E06005975C01E03101021301A9744815110301010220012902021522925D010122
+
+# Detach Request 8.2.11  (#45 - 69)
+0301022700010137171A456203F607411100020001190001
+
+# Extended service request 8.2.15  (#4C - 76)
+0301022700010137171A4C6203F60741570050208B0B0001
+
+0301022700010137171A4C6203F60741570050208B0B0D11
+
+# Security mode command 8.2.20  (#5D - 93)
+0301022700010137171A5D0003050741570050208B0B0001
+
+# Tracking area update accept 8.2.26  (#49 - 73)
+0301022700010137171A49025AF6500AF60050208B0B00010301025406000101370002496257050041130050208B0B64010101023801A974481541C0
+
+# Tracking area update reject  8.2.28 (#4B - 75)
+030102220100010137171A4B025F0101
+
+# Tracking area update request 8.2.29  (#48 - 72)
+0301022700010137171A487203F60741570050208B0B00015D0106580500010137071A456203F007411103020001190001
+
+# Downlink generic NAS transport 8.2.31  (#68 - 104)
+0301022700010137171A68620300054157005020650603015D010626
+
+# Uplink generic NAS transport 8.2.32  (#69 - 105)
+0301022700010137171A69620300054157005020650603015D010626
+
+# Activate default EPS bearer context accept 8.3.4 (#C2 - 194)
+030102220100010137171235C227060100090107
+
+# Activate default EPS bearer context reject 8.3.5 (#C3 - 195)
+030102220100010137171235C32701
+
+# ESM information response 8.3.14 (#DA - 218)
+030102220100010137171235DA0101
+
+# Notification 8.3.18A (#DB - 219)
+030102220100010137171235DB0101
+
+# PDN connectivity request 8.3.20 (#D0 - 208)
+030102220100010137171235D011D1280D0C414343455353204E414D452027060100090107
+
+
+# UMTS NAS Messages
+
+:session UTRA NAS
+
+
+# 9.1 Radio Resource Management (TS-04.18-08.xddl)
+
+# 9.1.1 Additional Assignment
+
+020200063B7DF102720205067CA100
+
+
+# 9.1.2 Assignment command
+
+020200062E7D7102320501067CA1000102030405060708090A0B0C62860F01020304050607080901020304051001020363011103146115621664176718436419520366057201017CE2001901801C0102031D0502071E0203040506070809012101049301014C030221010304
+
+
+# 9.1.4 Assignment Failure
+
+020200062F05
+
+
+# 9.1.5 Channel mode modify
+
+02020006100571020301050403022A012A3B
+
+
+
+# 9.1.6 Channel mode modify acknowledge
+
+020201061705710203
+
+
+# 9.1.7 Channel release
+   #10.5.2.31
+   #10.5.2.1a - 73
+   #10.5.2.14b - 74
+   #10.5.1.10 - 8
+   #10.5.2.14c - C
+   #10.5.2.1c - 75
+   #10.5.2.1d - 76
+   #10.5.2.1b - 62
+
+020200060D 05 730401060700 74043A000435 83 C1 750102 760105 62800102030405060708090A0B0C0D0E0F
+
+
+# 9.1.9 Ciphering mode command
+   #10.5.2.10
+   #10.5.2.9
+
+0202000635 1 5
+
+
+# 9.1.18 Immediate assignment
+   #10.5.2.25b
+   #10.5.2.26
+   #10.5.2.5
+   #10.5.2.30
+   #10.5.2.40
+   #10.5.2.21
+   #10.5.2.38 - 7C
+   #10.5.2.16
+
+020200063F 7 1 719203 023304 20 0177 7C5F00 4141020332050607
+
+
+# 9.1.28a RR Initialisation Request
+
+020201063C65030203040000020384050607080901
+
+
+
+
+# 9.2 Mobility Management (TS-24.008-9.xddl)
+
+
+
+# Authentication Reject 9.2.1
+
+0202000511
+
+# Authentication Request 9.2.2
+
+020200051202E40000000000000000000000000000FF20100102030405060708090A0B0C0D0E0F10
+
+# CM Re-establishment request 9.2.4
+
+02020005280203001000033A0002
+
+02020005280203001000033A0002131234560109D1
+
+# CM Service Prompt 9.2.5a (37 #25)
+
+02020005253A
+
+# CM Service Reject 9.2.6 (34 #22)
+
+020201052214
+
+020201052214360155
+
+# Location Updating Accept 9.2.13 (2 #2)
+
+02020005020294001700170100A1A24A06000000000000340305100102030405060708090A16100102030405060708090A
+
+# MM information 9.2.15a (#32
+
+0202000532 43029A17 45029A17 463A 4712205160301031 480300000F 490102
+
+
+# Alerting - 9.3.1.1 (1 #1) Downlink - Invoke Component (A1)
+
+02020003011C0FA10D02010580010202010319041E02A2837E020304022010
+
+# Alerting - 9.3.1.1 (1 #1) Downlink - Return Result Component (A2)
+
+02020003011C0FA20D02010530010202010319041E02A2837E020304022010
+
+
+# Disconnect (Network to Mobile) - 9.3.7.1 (1 #1) 
+
+02020003250302A20D1C14A10F020202018003021E0202027E0203041E0203047E030102037B0180
+
+
+# Attach Request - 9.4.1 (1 #1)
+
+0202010801080FA10D01010508010202010319041E02A2837E020304022010
+
+# Detach Request - 9.4.5.1 (5 #5)
+
+0202000805082517
+
+# Detach Request - 9.4.5.2 (5 #5)
+
+0202010805081804353F0102123456151903010203
+
+# Routing area update request - 9.4.14 (8 #8)
+
+0202010808081804353F0102123456151903010203
+
+0202010808081804353F010217341804190301021403020304
+
+0202010808081804353F01021234561519030102030202000805082517020200082802011727050117010102A2
+
+
+# Service request - 9.4.20 (C #C)
+
+020201080C000604353F0102123202151935010236020000D1
+
+
+# Activate PDP Context Request - 9.5.1 (1 #1)
+
+0202010A41080810353701021234561519030102030202000805082517020200082802011727050117010102A2
+
+
+
+# SMS (Short Message Request) -  CP-DATA (1 #01)
+
+0202000901080317412001040506070809070B0400007102
+
+02020009010803174120000481060708E9070904000071020400000102
+
+# SMS (Short Message Request) -  CP-ERROR (16 #10)
+
+020200091008
+
+
+
+# UTRA RLC (Radio Link Control) Messages
+
+:session UTRA RLC
+
+# UMD PDU 9.2.1.3
+
+0205040511010203
+
+# AMD PDU 9.2.1.4
+
+02050105110102030605

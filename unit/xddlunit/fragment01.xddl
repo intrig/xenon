@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <record name="External Fragment" id="f1">
+    <field name="z" length="8"/>
+  </record>
+</xddl>

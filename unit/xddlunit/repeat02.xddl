@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>variable repeat</comment>
+  <start>
+    <field name="length" length="8"/>
+    <!-- this is actually the repeat 
+    count, not length, oh well -->
+    <repeat name="repeat" num="length">
+      <field name="a" length="4"/>
+      <field name="b" length="4"/>
+    </repeat>
+  </start>
+</xddl>

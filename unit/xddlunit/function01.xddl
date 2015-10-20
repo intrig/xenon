@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>padding to 8 bits</comment>
+  <start>
+    <field name="a" length="8"/>
+    <field name="b" length="a"/>
+    <pad name="c" mod="8"/>
+  </start>
+</xddl>

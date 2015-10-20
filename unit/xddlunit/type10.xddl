@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Forward type references</comment>
+  <start>
+    <field name="first" length="1" type="#bool"/>
+    <field name="second" length="1" type="#bool"/>
+    <field name="third" length="1" type="#bool"/>
+    <field name="fourth" length="1" type="#bool"/>
+    <field name="fifth" length="1" type="#bool"/>
+    <field name="sixth" length="1" type="#bool"/>
+    <field name="seventh" length="1" type="#bool"/>
+    <field name="eigth" length="1" type="#bool"/>
+  </start>
+  <type name="Boolean Type" id="bool">
+    <item key="0" value="Goodbye World!"/>
+    <item key="1" value="Hello World!"/>
+  </type>
+</xddl>

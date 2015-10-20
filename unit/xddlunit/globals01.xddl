@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Shadowing Global Properites</comment>
+  <export>
+    <prop name="X" value="0"/>
+  </export>
+  <record id="frag">
+    <field name="Y" length="X"/>
+  </record>
+  <start>
+    <field name="X" length="8"/>
+    <fragment href="#frag"/>
+  </start>
+</xddl>

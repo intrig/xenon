@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Formatted enums</comment>
+  <type id="BAND_CLASS_0">
+    <item key="0" value="800 MHz cellular band is not supported"/>
+    <item key="1" value="800 MHz cellular band is supported"/>
+  </type>
+  <type id="BAND_CLASS_1">
+    <item key="0" value="is not"/>
+    <item key="1" value="is"/>
+    <script>
+    description = string.format("1.8 to 2.0 GHz PCS band %s supported", 
+      EnumValue(key))
+  </script>
+  </type>
+  <type id="BAND_CLASS_2">
+    <script>
+    description = string.format("872 to 960 MHz TACS band %s supported", 
+      key and "is" or "is not")
+  </script>
+  </type>
+  <start>
+    <field name="BC 0" length="8" type="#BAND_CLASS_0"/>
+    <field name="BC 1" length="8" type="#BAND_CLASS_1"/>
+    <field name="BC 2" length="8" type="#BAND_CLASS_2"/>
+  </start>
+</xddl>

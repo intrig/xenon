@@ -1,0 +1,157 @@
+IDM RRC PDU:
+
+C308CFC91F50E4B95B000100000002480664ed6a90578200ec65452024e0010000523ee4082fc150224892c682400002c0a0006720607e1f5e139b8ed17dac7787c784e060
+
+                        Item 2: id-NAS-PDU
+                            ProtocolIE-Field
+                                id: id-NAS-PDU (26)
+                                criticality: reject (0)
+                                value
+                                    NAS-PDU: 276b5482bc1007632a2901270008000291f720417e0a8112...
+                                    Non-Access-Stratum (NAS)PDU
+                                        0010 .... = Security header type: Integrity protected and ciphered (2)
+                                        .... 0111 = Protocol discriminator: EPS mobility management messages (0x07)
+                                        Message authentication code: 0x6b5482bc
+                                        Sequence number: 16
+                                        0000 .... = Security header type: Plain NAS message, not security protected (0)
+                                        .... 0111 = Protocol discriminator: EPS mobility management messages (0x07)
+                                        NAS EPS Mobility Management Message Type: Uplink NAS transport (0x63)
+                                        NAS message container
+                                            Length: 42
+                                            NAS message container content: 2901270008000291f720417e0a8112449634120000160500...
+                                                GSM A-I/F DTAP - CP-DATA
+                                                    Protocol Discriminator: SMS messages
+                                                        .... 1001 = Protocol discriminator: SMS messages (0x09)
+                                                        0... .... = TI flag: allocated by sender
+                                                        .010 .... = TIO: 2
+                                                    DTAP Short Message Service Message Type: CP-DATA (0x01)
+                                                    CP-User Data
+                                                        Length: 39
+                                                        RPDU (not displayed)
+                                                GSM A-I/F RP - RP-DATA (MS to Network)
+                                                    Message Type RP-DATA (MS to Network)
+                                                    RP-Message Reference
+                                                        RP-Message Reference: 0x08 (8)
+                                                    RP-Origination Address
+                                                        Length: 0
+                                                    RP-Destination Address - (7)
+                                                        Length: 2
+                                                        1... .... = Extension: No Extension
+                                                        .001 .... = Type of number: International Number (0x01)
+                                                        .... 0001 = Numbering plan identification: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                                        BCD Digits: 7
+                                                    RP-User Data
+                                                        Length: 32
+                                                        TPDU (not displayed)
+                                                GSM SMS TPDU (GSM 03.40) SMS-SUBMIT
+                                                    0... .... = TP-RP: TP Reply Path parameter is not set in this SMS SUBMIT/DELIVER
+                                                    .1.. .... = TP-UDHI: The beginning of the TP UD field contains a Header in addition to the short message
+                                                    ..0. .... = TP-SRR: A status report is not requested
+                                                    ...0 0... = TP-VPF: TP-VP field not present (0)
+                                                    .... .0.. = TP-RD: Instruct SC to accept duplicates
+                                                    .... ..01 = TP-MTI: SMS-SUBMIT (1)
+                                                    TP-MR: 126
+                                                    TP-Destination-Address - (2144694321)
+                                                        Length: 10 address digits
+                                                        1... .... :  No extension
+                                                        .000 .... :  Type of number: (0) Unknown
+                                                        .... 0001 :  Numbering plan: (1) ISDN/telephone (E.164/E.163)
+                                                        TP-DA Digits: 2144694321
+                                                    TP-PID: 0
+                                                        00.. .... :  defines formatting for subsequent bits
+                                                        ..0. .... :  no telematic interworking, but SME-to-SME protocol
+                                                        ...0 0000 :  the SM-AL protocol being used between the SME and the MS (0)
+                                                    TP-DCS: 0
+                                                        00.. .... = Coding Group Bits: General Data Coding indication (0)
+                                                        Special case, GSM 7 bit default alphabet
+                                                    TP-User-Data-Length: (22) depends on Data-Coding-Scheme
+                                                    TP-User-Data
+                                                        User-Data Header
+                                                            User Data Header Length (5)
+                                                            IE: Concatenated short messages, 8-bit reference number (SMS Control)
+                                                                Information Element Identifier: 0x00
+                                                                Length: 3
+                                                                Message identifier: 57
+                                                                Message parts: 3
+                                                                Message part number: 3
+                                                            .... ...0 :  Fill bits
+                                                        SMS text: xzasdmnbvcxzasd
+
+
+IDM RRC PDU:
+C308CFC91ED08BA1AB00010000000248101564f0954576c120ec74412033e0006000523ef3082f2150224892c68240001400a0006700403c1dee87a9f2f2fdee3f076bb9fa7cbcaf639fc9dafe6e8f3f23d0f7fa7ea78babd7d8fc3dee87a9f2f2fdee3f076bb9fa7cbcaf639fc9dafe6e8f3f23d0f7fa7ea78babd7d8fc3dee87a9f2f2fdee3f076bb9fa7cbcaf639fc9dafe6e8f3f23d0f7fa7ea78babd7d8fc3dee87a9f2f2fdee3f076bb9fa7cbcaf639fc9dafe6e8f3f23d0f7fa60
+                                    
+                        Item 2: id-NAS-PDU
+                            ProtocolIE-Field
+                                id: id-NAS-PDU (26)
+                                criticality: reject (0)
+                                value
+                                    NAS-PDU: 2784aa2bb6090763a209019f0003000291f79841790a8112...
+                                    Non-Access-Stratum (NAS)PDU
+                                        0010 .... = Security header type: Integrity protected and ciphered (2)
+                                        .... 0111 = Protocol discriminator: EPS mobility management messages (0x07)
+                                        Message authentication code: 0x84aa2bb6
+                                        Sequence number: 9
+                                        0000 .... = Security header type: Plain NAS message, not security protected (0)
+                                        .... 0111 = Protocol discriminator: EPS mobility management messages (0x07)
+                                        NAS EPS Mobility Management Message Type: Uplink NAS transport (0x63)
+                                        NAS message container
+                                            Length: 162
+                                            NAS message container content: 09019f0003000291f79841790a8112449634120000a00500...
+                                                GSM A-I/F DTAP - CP-DATA
+                                                    Protocol Discriminator: SMS messages
+                                                        .... 1001 = Protocol discriminator: SMS messages (0x09)
+                                                        0... .... = TI flag: allocated by sender
+                                                        .000 .... = TIO: 0
+                                                    DTAP Short Message Service Message Type: CP-DATA (0x01)
+                                                    CP-User Data
+                                                        Length: 159
+                                                        RPDU (not displayed)
+                                                GSM A-I/F RP - RP-DATA (MS to Network)
+                                                    Message Type RP-DATA (MS to Network)
+                                                    RP-Message Reference
+                                                        RP-Message Reference: 0x03 (3)
+                                                    RP-Origination Address
+                                                        Length: 0
+                                                    RP-Destination Address - (7)
+                                                        Length: 2
+                                                        1... .... = Extension: No Extension
+                                                        .001 .... = Type of number: International Number (0x01)
+                                                        .... 0001 = Numbering plan identification: ISDN/Telephony Numbering (Rec ITU-T E.164) (0x01)
+                                                        BCD Digits: 7
+                                                    RP-User Data
+                                                        Length: 152
+                                                        TPDU (not displayed)
+                                                GSM SMS TPDU (GSM 03.40) SMS-SUBMIT
+                                                    0... .... = TP-RP: TP Reply Path parameter is not set in this SMS SUBMIT/DELIVER
+                                                    .1.. .... = TP-UDHI: The beginning of the TP UD field contains a Header in addition to the short message
+                                                    ..0. .... = TP-SRR: A status report is not requested
+                                                    ...0 0... = TP-VPF: TP-VP field not present (0)
+                                                    .... .0.. = TP-RD: Instruct SC to accept duplicates
+                                                    .... ..01 = TP-MTI: SMS-SUBMIT (1)
+                                                    TP-MR: 121
+                                                    TP-Destination-Address - (2144694321)
+                                                        Length: 10 address digits
+                                                        1... .... :  No extension
+                                                        .000 .... :  Type of number: (0) Unknown
+                                                        .... 0001 :  Numbering plan: (1) ISDN/telephone (E.164/E.163)
+                                                        TP-DA Digits: 2144694321
+                                                    TP-PID: 0
+                                                        00.. .... :  defines formatting for subsequent bits
+                                                        ..0. .... :  no telematic interworking, but SME-to-SME protocol
+                                                        ...0 0000 :  the SM-AL protocol being used between the SME and the MS (0)
+                                                    TP-DCS: 0
+                                                        00.. .... = Coding Group Bits: General Data Coding indication (0)
+                                                        Special case, GSM 7 bit default alphabet
+                                                    TP-User-Data-Length: (160) depends on Data-Coding-Scheme
+                                                    TP-User-Data
+                                                        User-Data Header
+                                                            User Data Header Length (5)
+                                                            IE: Concatenated short messages, 8-bit reference number (SMS Control)
+                                                                Information Element Identifier: 0x00
+                                                                Length: 3
+                                                                Message identifier: 56
+                                                                Message parts: 2
+                                                                Message part number: 1
+                                                            .... ...0 :  Fill bits
+                                                        SMS text: poiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoiuytrewqpoi

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <type name="Message Types" id="msg-type">
+    <item key="#01" value="SessionClose"/>
+    <item key="#02" value="KeepAliveRequest"/>
+    <item key="#03" value="KeepAliveResponse"/>
+  </type>
+  <type name="Mnemonic" id="mini-type">
+    <item key="#00" value="(PHY)"/>
+    <item key="#01" value="(CCMP)"/>
+    <item key="#02" value="(ACMP)"/>
+    <item key="#03" value="(FTCMP)"/>
+    <item key="#04" value="(RTCMP)"/>
+    <item key="#05" value="(KEP)"/>
+    <item key="#06" value="(AP)"/>
+    <item key="#07" value="(EP)"/>
+    <item key="#08" value="(SP)"/>
+  </type>
+  <type id="name-type">
+    <script>
+      description = string.format("%s %s",
+        Description("msg"),
+        Description("layer"))
+  </script>
+  </type>
+  <start>
+    <prop name="DataName" value="0"/>
+    <field name="msg" length="8" type="#msg-type"/>
+    <field name="layer" length="8" type="#mini-type"/>
+    <setprop name="DataName" type="#name-type" value="0"/>
+  </start>
+</xddl>

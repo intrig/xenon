@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <record name="coo">
+      <if expr="1">
+        <field name="a5" length="2"/>
+        <field name="b5" length="3"/>
+      </if>
+      <field name="boo" length="1"/>
+      <field name="zoo" length="1"/>
+      <field name="moo" length="1"/>
+    </record>
+  </start>
+</xddl>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0.
+  
+   Please contact sales@intrig.com if these licensing terms are not
+   suitable for your needs.
+
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="PAP (RFC-1334)">
+  <!-- Types -->
+  <type name="PAP Code" id="PAPCode">
+    
+      <item key="1" value="Authenticate-Request"/>
+      <item key="2" value="Authenticate-Ack"/>
+      <item key="3" value="Authenticate-Nak"/>
+    
+  </type>
+
+  <!-- Fragments -->
+  <fragment name="Auth-Request" id="Request">
+    <field name="PeerIdLength" length="8"/>
+    <field name="PeerId" length="PeerIdLength * 8" type="PPP.xddl#ascii"/>
+    <field name="PasswdLength" length="8"/>
+    <field name="Password" length="PasswdLength * 8" type="PPP.xddl#ascii"/>
+  </fragment>
+
+  <fragment name="Auth-AckNack" id="AckNack">
+    <field name="MsgLength" length="8"/>
+    <field name="Msg" length="MsgLength * 8" type="PPP.xddl#ascii"/>
+  </fragment>
+
+  <fragment name="PAP-Protocol" id="PAP">
+    <field name="Code" length="8" type="#PAPCode"/>
+    <field name="Identifier" length="8"/>
+    <field name="Length" length="16"/>
+    <record name="Data" length="(Length-4) * 8" import="true">
+      <switch expr="Code">
+        <case value="1">
+          <fragment href="#Request"/>
+        </case>
+        <case value="2"/>
+        <case value="3">
+          <fragment href="#AckNack"/>
+        </case>
+      </switch>
+    </record>
+  </fragment>
+
+  <structure>
+    <fragment href="#PAP"/>
+  </structure>
+
+</xddl>

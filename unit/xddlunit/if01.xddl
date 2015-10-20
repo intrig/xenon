@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>If Test</comment>
+  <start>
+    <field name="foo" length="1"/>
+    <if expr="1">
+      <field name="a" length="2"/>
+      <field name="b" length="3"/>
+    </if>
+    <if expr="0">
+      <field name="c" length="3"/>
+      <field name="d" length="2"/>
+    </if>
+    <field name="goo" length="2"/>
+  </start>
+</xddl>

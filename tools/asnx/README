@@ -1,0 +1,67 @@
+classes
+
+ast
+    Number
+    Range
+    Name
+
+    Assignment
+        TypeAssignment
+
+    AssignmentList
+
+    ElementTypeList
+
+    AlternativeTypeList
+    
+    ModuleBody
+
+    ModuleDefinition
+
+    // Types
+    
+    Type
+        DefinedType
+        BuiltinType
+            SequenceType
+            ChoiceType
+            IntegerType
+        Subtype
+            SequenceOfType
+            SpecSubtype
+        NamedType
+        NullType
+        OctetString
+
+    SubtypeSpec
+        SizeConstraint(SybtypeSpec *)
+        SingleValue
+        ValueRange
+
+    
+    // Values
+    
+
+    SizeConstraintSpec
+        SizeConstraint
+
+    Value
+        BuiltinValue
+            BooleanValue
+            NullValue
+            SpecialRealValue
+            SignedNumber
+            HexString
+            BinaryString
+            CharString
+
+        DefinedValue
+    NamedValue
+
+    ValueAssignment 
+
+
+
+
+
+

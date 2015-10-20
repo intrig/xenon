@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0.
+  
+   Please contact sales@intrig.com if these licensing terms are not
+   suitable for your needs.
+
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="PPP-LCP">
+  <comment>&lt;b&gt;PPP Link Control Protocol XDDL Protocol Specification&lt;/b&gt;&lt;p&gt;Copyright &amp;copy; 2002 Intrig &lt;a href="www.intrig.com"&gt;www.intrig.com&lt;/a&gt;&lt;/p&gt;</comment>
+
+  <type name="TBDEnum" id="TBDEnum">
+    <enum/>
+  </type>
+
+  <type name="LCP Code" id="LCPCode">
+    
+      <item key="0" value="Vendor Specific (RFC 2153)"/>
+      <item key="1" value="Configure-Request"/>
+      <item key="2" value="Configure-Ack"/>
+      <item key="3" value="Configure-Nak"/>
+      <item key="4" value="Configure-Reject"/>
+      <item key="5" value="Terminate-Request"/>
+      <item key="6" value="Terminate-Ack"/>
+      <item key="7" value="Code-Reject"/>
+      <item key="8" value="Protocol-Reject"/>
+      <item key="9" value="Echo-Request"/>
+      <item key="10" value="Echo-Reply"/>
+      <item key="11" value="Discard-Request"/>
+      <item key="12" value="Identification (RFC 1570)"/>
+      <item key="13" value="Time-Remaining (RFC 1570)"/>
+    
+  </type>
+
+  <type name="ConfigurationOptionType" id="ConfigurationOptionType">
+    
+      <item key="0" value="Vendor Specific (RFC 2153)"/>
+      <item key="1" value="Maximum-Receive-Unit (RFC 1661)"/>
+      <item key="3" value="Authentication-Protocol (RFC 1334,1661,1994)"/>
+      <item key="4" value="Quality-Protocol (RFC 1661)"/>
+      <item key="5" value="Magic-Number (RFC 1661)"/>
+      <item key="7" value="Protocol-Field-Compression (Deprecated) (RFC 1661)"/>
+      <item key="8" value="Address-and-Control-Field-Compression (RFC 1661)"/>
+      <item key="9" value="FCS-Alternatives (RFC 1570)"/>
+      <item key="10" value="Self-Describing-Pad (RFC 1570)"/>
+      <item key="11" value="Numbered-Mode (RFC 1663)"/>
+      <item key="12" value="Identification (RFC 1570)"/>
+      <item key="13" value="Callback (RFC 1570)"/>
+      <item key="14" value="Connect-Time (Deprecated)"/>
+      <item key="15" value="Compound-Frames (Deprecated) (RFC 1570)"/>
+      <item key="16" value="Nominal-Data-Encapsulation (Deprecated)"/>
+      <item key="17" value="Multilink Max-Receive-Reconstructed-Unit (MRRU) (RFC 1990)"/>
+      <item key="18" value="Multilink Short Sequence Number Header Format (RFC 1990)"/>
+      <item key="19" value="Multilink Endpoint Discriminator (RFC 1990)"/>
+      <item key="20" value="Proprietary"/>
+      <item key="21" value="DCE-Identifier"/>
+      <item key="22" value="MP+ Procedure Option (RFC 1934)"/>
+      <item key="23" value="Link Discriminator for BACP (RFC 2125)"/>
+      <item key="24" value="LCP-Authentication-Option"/>
+      <item key="25" value="COBS, Consistent Overhead Byte Stuffing"/>
+      <item key="26" value="Prefix Elision (RFC 2686)"/>
+      <item key="27" value="Multilink header format (RFC 2686)"/>
+      <item key="28" value="Internationalization (RFC 2484)"/>
+      <item key="29" value="Simple Data Link on SONET/SDH (RFC 2823)"/>
+      <item key="30" value="Reserved until 14-Oct-2002"/>
+    
+  </type>
+
+  <fragment name="Configuration-Option" id="ConfigurationOption">
+    <field name="Type" length="8" type="#ConfigurationOptionType"/>
+    <field name="Length" length="8"/>
+    <record name="Data" length="(Length-2) * 8" import="true">
+      <switch expr="Type">
+        <case value="1">
+          <field name="Maximum_Receive_Unit" length="16"/>
+        </case>
+        <case value="3">
+          <fragment href="RFC-1661.xddl#AuthData"/>
+        </case>
+        <case value="4">
+          <fragment href="RFC-1661.xddl#QualityProtocol"/>
+        </case>
+        <case value="5">
+          <fragment href="RFC-1661.xddl#MagicNumber"/>
+        </case>
+        <case value="9">
+          <fragment href="RFC-1570.xddl#FCS_Alternatives"/>
+        </case>
+        <case value="10">
+          <fragment href="RFC-1570.xddl#SelfDescribingPad"/>
+        </case>
+        <case value="11">
+          <fragment href="RFC-1663.xddl#NumberedMode"/>
+        </case>
+        <case value="12">
+          <fragment href="RFC-1570.xddl#Identification"/>
+        </case>
+        <case value="13">
+          <fragment href="RFC-1570.xddl#Callback"/>
+        </case>
+        <case value="17">
+          <fragment href="RFC-1990.xddl#Multilink_MRRU"/>
+        </case>
+        <case value="19">
+          <fragment href="RFC-1990.xddl#Multilink_Endpoint_Discriminator"/>
+        </case>
+        <case value="22">
+          <fragment href="RFC-1934.xddl#MP_Plus_Procedure_Option"/>
+        </case>
+        <case value="23">
+          <fragment href="RFC-2125.xddl#LinkDiscriminator"/>
+        </case>
+        <case value="26">
+          <fragment href="RFC-2686.xddl#PrefixElision"/>
+        </case>
+        <case value="27">
+          <fragment href="RFC-2686.xddl#MultilinkHeaderFormat"/>
+        </case>
+        <case value="28">
+          <fragment href="RFC-2484.xddl#Internationalization"/>
+        </case>
+      </switch>
+    </record>
+  </fragment>
+
+  <fragment name="LCP-Protocol" id="LCP">
+    <field name="Code" length="8" default="1" type="#LCPCode"/>
+    <field name="Identifier" length="8"/>
+    <field name="Length" length="16"/>
+    <record name="Data" length="(Length-4) * 8" import="true">
+      <switch expr="Code">
+        <case value="13">
+          <field name="MagicNumber" length="32"/>
+          <field name="RemainingSecs" length="32"/>
+          <if expr="(Length-12) * 8">
+            <field name="Data" length="(Length-12) * 8"/>
+          </if>
+        </case>
+        <case value="12">
+          <field name="MagicNumber" length="32"/>
+          <if expr="(Length-8) * 8">
+            <field name="Message" length="(Length-8) * 8"/>
+          </if>
+        </case>
+        <case value="11"/>
+        <case value="10"/>
+        <case value="9">
+          <field name="MagicNumber" length="32"/>
+          <if expr="(Length-8) * 8">
+            <field name="Data" length="(Length-8) * 8"/>
+          </if>
+        </case>
+        <case value="8">
+          <field name="RejectedProtocol" length="16" type="#TBDEnum"/>
+          <field name="RejectedInformation" length="(Length-6) * 8"/>
+        </case>
+        <case value="7">
+          <fragment href="#LCP"/>
+        </case>
+        <case value="6"/>
+        <case value="5">
+          <field name="Data" length="(Length-4) * 8"/>
+        </case>
+        <case value="4"/>
+        <case value="3"/>
+        <case value="2"/>
+        <case value="1">
+          <fragment href="#ConfigurationOption"/>
+        </case>
+        <case value="0">
+          <fragment href="RFC-2153.xddl#VendorSpecific"/>
+        </case>
+      </switch>
+    </record>
+  </fragment>
+
+  <structure>
+    <fragment href="#LCP"/>
+  </structure>
+
+</xddl>

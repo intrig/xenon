@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <record name="Non-NormativeData">
+      <field name="TIME_STAMP_INCL" length="8"/>
+      <if expr="TIME_STAMP_INCL">
+        <field name="TIME_STAMP" length="8"/>
+      </if>
+    </record>
+    <field name="f1" length="8"/>
+  </start>
+</xddl>

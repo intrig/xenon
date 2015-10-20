@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2011 Intrig (www.intrig.com)
+   
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl xmlns="http://www.intrig.com/2007/XDDLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.intrig.com/2007/XDDLSchema http://www.intrig.com/2007/XDDLSchema.xsd">
+  <comment>
+    3GPP2 C.S0015-B 
+    Version 2.0 
+    Date: September 30, 2005 
+    Short Message Service (SMS) for Wideband Spread Spectrum Systems 
+    Release B 
+  </comment>
+  <export>
+    <prop name="Name"/>
+  </export>
+  <type id="string">
+    <script>
+    description = string.format("%s", key)
+  </script>
+  </type>
+  <type id="string7">
+    <script>
+    description = string.format("%s", ascii7(key))
+  </script>
+  </type>
+  <!-- Section 3.4 -->
+  <type name="SMS Transport Layer Messages" id="3.4-1">
+    <item key="@00000000" value="SMS Point-to-Point"/>
+    <item key="@00000001" value="SMS Broadcast"/>
+    <item key="@00000010" value="SMS Acknowledge"/>
+    <range start="@00000011" end="@11111111" value="Reserved"/>
+  </type>
+  <record name="Message Format" id="3.4.1">
+    <prop name="NUMBER_TYPE" value="0"/>
+    <field name="SMS_MSG_TYPE" length="8" type="#3.4-1"/>
+    <setprop name="Name" type="#3.4-1" value="SMS_MSG_TYPE"/>
+    <repeat name="Parameter Records" min="1">
+      <field name="PARAMETER_ID" length="8" type="#3.4.3-1"/>
+      <field name="PARAMETER_LEN" length="8"/>
+      <record name="Parameter Data" length="8*PARAMETER_LEN">
+        <switch expr="PARAMETER_ID">
+          <case value="@00000000">
+            <field name="IDENTIFIER" length="16" type="#3.4.3.1-1"/>
+          </case>
+          <case value="@00000001">
+            <field name="CATEGORY" length="16" type="#3.4.3.2-1"/>
+          </case>
+          <case value="@00000010"/>
+          <case value="@00000100">
+            <field name="DIGIT_MODE" length="1" type="#DIGIT_MODE"/>
+            <field name="NUMBER_MODE" length="1" type="#NUMBER_MODE"/>
+            <if expr="DIGIT_MODE == 1">
+              <switch expr="NUMBER_MODE">
+                <case value="0">
+                  <field name="NUMBER_TYPE" length="3" type="#EIATIA-95-B-6.7.1.3.2.4-2"/>
+                  <field name="NUMBER_PLAN" length="4" type="#EIATIA-95-B-6.7.1.3.2.4-3"/>
+                </case>
+                <case value="1">
+                  <field name="NUMBER_TYPE" length="3" type="#SMS3.4.3.3-1"/>
+                </case>
+              </switch>
+            </if>
+            <field name="SMS_NUM_FIELDS" length="8"/>
+            <switch expr="DIGIT_MODE">
+              <case value="0">
+                <repeat name="SMS_DIGIT_REPEAT" num="SMS_NUM_FIELDS">
+                  <field name="CHARi" length="4" type="#EIATIA-95-B-6.7.1.3.2.4-4"/>
+                </repeat>
+              </case>
+              <case value="1">
+                <switch expr="NUMBER_MODE">
+                  <case value="0">
+                    <field name="CHARi" length="8*SMS_NUM_FIELDS" type="#string"/>
+                  </case>
+                  <case value="1">
+                    <switch expr="NUMBER_TYPE">
+                      <case value="@010">
+                        <field name="CHARi" length="8*SMS_NUM_FIELDS" type="#string"/>
+                      </case>
+                      <default>
+                        <field name="CHARi" length="32" type="#ip_address"/>
+                      </default>
+                    </switch>
+                  </case>
+                </switch>
+              </case>
+            </switch>
+            <pad name="RESERVED" mod="8"/>
+          </case>
+          <case value="@00000011"/>
+          <case value="@00000101">
+            <field name="TYPE" length="3" type="#SMS3.4.3.4-1"/>
+            <field name="ODD" length="1"/>
+            <field name="SMS_NUM_FIELDS" length="8"/>
+            <field name="CHARi" length="8*SMS_NUM_FIELDS" type="#string"/>
+            <field name="RESERVED" length="4"/>
+          </case>
+          <case value="@00000110">
+            <field name="REPLY_SEQ" length="6"/>
+            <field name="RESERVED" length="2"/>
+          </case>
+          <case value="@00000111">
+            <field name="REPLY_SEQ" length="6"/>
+            <field name="ERROR_CLASS" length="2" type="#Error Report Class"/>
+            <if expr="ERROR_CLASS != @00">
+              <field name="CAUSE_CODE" length="8">
+                <comment>type should be TIAEIA-41-D_SMS_CauseCode</comment>
+              </field>
+            </if>
+          </case>
+          <case value="@00001000">
+            <repeat name="Bearer Data Records" min="1">
+              <field name="SUBPARAMETER_ID" length="8" type="#SMS4.5-1"/>
+              <field name="SUBPARAM_LEN" length="8"/>
+              <record name="SUBPARAMETER_DATA" length="8*SUBPARAM_LEN">
+                <switch expr="SUBPARAMETER_ID">
+                  <case value="@00000000">
+                    <field name="MESSAGE_TYPE" length="4" type="#SMS4.5.1-1"/>
+                    <field name="MESSAGE_ID" length="16"/>
+                    <field name="RESERVED" length="4"/>
+                  </case>
+                  <case value="@00000001">
+                    <field name="MSG_ENCODING" length="5" type="#TSB-58-C-9-1"/>
+                    <if expr="MSG_ENCODING == @00001">
+                      <field name="MESSAGE_TYPE" length="8"/>
+                    </if>
+                    <field name="SMS_NUM_FIELDS" length="8"/>
+                    <switch expr="MSG_ENCODING">
+                      <case value="@00000"/>
+                      <case value="@00111"/>
+                      <case value="@01000">
+                        <field name="CHARi" length="SMS_NUM_FIELDS * 8" type="#string"/>
+                      </case>
+                      <case value="@00010"/>
+                      <case value="@00011">
+                        <field name="CHARi" length="SMS_NUM_FIELDS * 7" type="#string7"/>
+                      </case>
+                    </switch>
+                    <pad name="RESERVED" mod="8"/>
+                  </case>
+                  <case value="@00000010">
+                    <field name="RESPONSE_CODE" length="8"/>
+                  </case>
+                  <case value="@00000100"/>
+                  <case value="@00000011">
+                    <field name="YEAR" length="8">
+                      <comment>2 Digit BCD</comment>
+                    </field>
+                    <field name="MONTH" length="8"/>
+                    <field name="DAY" length="8"/>
+                    <field name="HOURS" length="8"/>
+                    <field name="MINUTES" length="8"/>
+                    <field name="SECONDS" length="8"/>
+                  </case>
+                  <case value="@00000101">
+                    <field name="VALIDITY" length="8">
+                      <comment>type should be SMS4.5.6-1</comment>
+                    </field>
+                  </case>
+                  <case value="@00000110">
+                    <field name="YEAR" length="8">
+                      <comment>2 Digit BCD</comment>
+                    </field>
+                    <field name="MONTH" length="8"/>
+                    <field name="DAY" length="8"/>
+                    <field name="HOURS" length="8"/>
+                    <field name="MINUTES" length="8"/>
+                    <field name="SECONDS" length="8"/>
+                  </case>
+                  <case value="@00000111">
+                    <field name="DELIVERY_TIME" length="8">
+                      <comment>type should be SMS4.5.6-1</comment>
+                    </field>
+                  </case>
+                  <case value="@00001000">
+                    <field name="PRIORITY" length="2" type="#SMS4.5.9-1"/>
+                    <field name="RESERVED" length="6"/>
+                  </case>
+                  <case value="@00001001">
+                    <field name="PRIVACY" length="2" type="#SMS4.5.10-1"/>
+                    <field name="RESERVED" length="6"/>
+                  </case>
+                  <case value="@00001010">
+                    <field name="USER_ACK_REQ" length="1"/>
+                    <field name="DAK_REQ" length="1"/>
+                    <field name="RESERVED" length="6"/>
+                  </case>
+                  <case value="@00001011">
+                    <field name="MESSAGE_CT" length="8"/>
+                  </case>
+                  <case value="@00001100">
+                    <field name="ALERT_PRIORITY" length="2" type="#SMS4.5.13-1"/>
+                    <field name="RESERVED" length="6"/>
+                  </case>
+                  <case value="@00001101">
+                    <field name="LANGUAGE" length="8" type="#TSB-58-C_9-2"/>
+                  </case>
+                  <case value="@00001110">
+                    <field name="DIGIT_MODE" length="1" type="#DIGIT_MODE"/>
+                    <field name="NUMBER_MODE" length="1" type="#NUMBER_MODE"/>
+                    <if expr="DIGIT_MODE == 1">
+                      <switch expr="NUMBER_MODE">
+                        <case value="0">
+                          <field name="NUMBER_TYPE" length="3" type="#EIATIA-95-B-6.7.1.3.2.4-2"/>
+                          <field name="NUMBER_PLAN" length="4" type="#EIATIA-95-B-6.7.1.3.2.4-3"/>
+                        </case>
+                        <case value="1">
+                          <field name="NUMBER_TYPE" length="3" type="#SMS3.4.3.3-1"/>
+                        </case>
+                      </switch>
+                    </if>
+                    <field name="SMS_NUM_FIELDS" length="8"/>
+                    <switch expr="DIGIT_MODE">
+                      <case value="0">
+                        <repeat num="SMS_NUM_FIELDS">
+                          <field name="CHARi" length="4" type="#EIATIA-95-B-6.7.1.3.2.4-4"/>
+                        </repeat>
+                      </case>
+                      <case value="1">
+                        <switch expr="NUMBER_MODE">
+                          <case value="0">
+                            <field name="CHARi" length="8*SMS_NUM_FIELDS"/>
+                          </case>
+                          <case value="1">
+                            <switch expr="NUMBER_TYPE">
+                              <case value="@010">
+                                <field name="CHARi" length="8*SMS_NUM_FIELDS" type="#string"/>
+                              </case>
+                              <default>
+                                <field name="CHARi" length="32" type="#ip_address"/>
+                              </default>
+                            </switch>
+                          </case>
+                        </switch>
+                      </case>
+                    </switch>
+                    <pad name="RESERVED" mod="8"/>
+                  </case>
+                  <case value="@00001111">
+                    <field name="MSG_DISPLAY_MODE" length="2" type="#SMS4.5.16-1"/>
+                    <field name="RESERVED" length="6"/>
+                  </case>
+                  <case value="@00010000">
+                    <repeat name="Multiple Encoding User Data Records" min="1">
+                      <field name="MSG_ENCODING" length="5" type="#TSB-58-C-9-1"/>
+                      <if expr="MSG_ENCODING == @00001">
+                        <field name="MESSAGE_TYPE" length="8"/>
+                      </if>
+                      <field name="SMS_NUM_FIELDS" length="8"/>
+                      <switch expr="MSG_ENCODING">
+                        <case value="@00000"/>
+                        <case value="@00111"/>
+                        <case value="@01000">
+                          <field name="CHARi" length="SMS_NUM_FIELDS * 8" type="#string"/>
+                        </case>
+                        <case value="@00010"/>
+                        <case value="@00011">
+                          <field name="CHARi" length="SMS_NUM_FIELDS * 7" type="#string7"/>
+                        </case>
+                      </switch>
+                    </repeat>
+                    <pad name="RESERVED" mod="8"/>
+                  </case>
+                </switch>
+              </record>
+            </repeat>
+          </case>
+        </switch>
+      </record>
+    </repeat>
+  </record>
+  <type name="Parameter Definitions" id="3.4.3-1">
+    <comment>Transport Layer Parameter Definitions</comment>
+    <item key="@00000000" value="Teleservice Identifier"/>
+    <item key="@00000001" value="Service Category"/>
+    <item key="@00000010" value="Originating Address"/>
+    <item key="@00000011" value="Originating Subaddress"/>
+    <item key="@00000100" value="Destination Address"/>
+    <item key="@00000101" value="Destination Subaddress"/>
+    <item key="@00000110" value="Bearer Reply Option"/>
+    <item key="@00000111" value="Cause Codes"/>
+    <item key="@00001000" value="Bearer Data"/>
+    <range start="@00001001" end="@11111111" value="reserved"/>
+  </type>
+  <type name="Supported Teleservices" id="3.4.3.1-1">
+    <!-- actual table is from N.S0005-0, Table 175 -->
+    <item key="0" value="Not Used"/>
+    <item key="1" value="Reserved for maintenance"/>
+    <range start="2" end="4095" value="Reserved for assignment by TIA/EIA-41"/>
+    <item key="4096" value="AMPS Extended Protocol Enhanced Services"/>
+    <item key="4097" value="CDMA Cellular Paging Teleservice"/>
+    <item key="4098" value="CDMA Cellular Messaging Teleservice"/>
+    <item key="4099" value="CDMA Voice Mail Notification"/>
+    <range start="4100" end="32512" value="Reserved for assignment by TIA/EIA-41"/>
+    <item key="32513" value="TDMA Cellular Messaging Teleservice"/>
+    <range start="32514" end="32639" value="Reserved for assignment by this Standard for TDMA MS-based SMEs."/>
+    <range start="32640" end="32767" value="Reserved for carrier specific teleservices for TDMA MS-based SMEs."/>
+    <range start="32768" end="49151" value="Reserved for node specific teleservices."/>
+    <range start="49152" end="65525" value="Reserved for carrier specific teleservices."/>
+  </type>
+  <record name="Service Category" id="3.4.3.2">
+    <field name="PARAMETER_ID" length="8"/>
+    <field name="PARAMETER_LEN" length="8"/>
+    <field name="CATEGORY" length="16" type="#3.4.3.2-1"/>
+  </record>
+  <type name="Service Categories" id="3.4.3.2-1">
+    <item key="#0000" value="Unknown or unspecified"/>
+    <item key="#0001" value="Emergency Broadcasts"/>
+    <item key="#0002" value="Administrative"/>
+    <item key="#0003" value="Maintenance"/>
+    <item key="#0004" value="General News - Local"/>
+    <item key="#0005" value="General News - Regional"/>
+    <item key="#0006" value="General News - National"/>
+    <item key="#0007" value="General News - International"/>
+    <item key="#0008" value="Business/Financial News - Local"/>
+    <item key="#0009" value="Business/Financial News - Regional"/>
+    <item key="#000A" value="Business/Financial News - National"/>
+    <item key="#000B" value="Business/Financial News - International"/>
+    <item key="#000C" value="Sports News - Local"/>
+    <item key="#000D" value="Sports News - Regional"/>
+    <item key="#000E" value="Sports News - National"/>
+    <item key="#000F" value="Sports News - International"/>
+    <item key="#0010" value="Entertainment News - Local"/>
+    <item key="#0011" value="Entertainment News - Regional"/>
+    <item key="#0012" value="Entertainment News - National"/>
+    <item key="#0013" value="Entertainment News - International"/>
+    <item key="#0014" value="Local Weather"/>
+    <item key="#0015" value="Area Traffic Reports"/>
+    <item key="#0016" value="Local Airport Flight Schedules"/>
+    <item key="#0017" value="Restaurants"/>
+    <item key="#0018" value="Lodgings"/>
+    <item key="#0019" value="Retail Directory"/>
+    <item key="#001A" value="Advertisements"/>
+    <item key="#001B" value="Stock Quotes"/>
+    <item key="#001C" value="Employment Opportunities"/>
+    <item key="#001D" value="Medical/Health/Hospitals"/>
+    <item key="#001E" value="Technology News"/>
+    <item key="#001F" value="Multi-category"/>
+    <range start="#0020" end="#FFFF" value="Reserved"/>
+  </type>
+  <type name="95B Number Types" id="EIATIA-95-B-6.7.1.3.2.4-2">
+    <item key="@000" value="Unknown"/>
+    <item key="@001" value="International number"/>
+    <item key="@010" value="National number"/>
+    <item key="@011" value="Network-specific number"/>
+    <item key="@100" value="Subscriber number"/>
+    <item key="@101" value="Reserved"/>
+    <item key="@110" value="Abbreviated number"/>
+    <item key="@111" value="Reserved for extension"/>
+  </type>
+  <type name="Data Network Address Number Types" id="SMS3.4.3.3-1">
+    <item key="@000" value="Unknown"/>
+    <item key="@001" value="Internet Protocol (RFC 791)"/>
+    <item key="@010" value="Internet Email Address (RFC 822)"/>
+    <range start="@011" end="@111" value="Reserved"/>
+  </type>
+  <type name="95B Numbering Plans" id="EIATIA-95-B-6.7.1.3.2.4-3">
+    <item key="@0000" value="Unknown"/>
+    <item key="@0001" value="ISDN/Telephony numbering plan (CCITT E.164 and CCITT E.163)"/>
+    <item key="@0010" value="Reserved"/>
+    <item key="@0011" value="Data numbering plan (CCITT X.121)"/>
+    <item key="@0100" value="Telex numbering plan (CCITT F.69)"/>
+    <range start="@0101" end="@1000" value="Reserved"/>
+    <item key="@1001" value="Private numbering plan"/>
+    <range start="@1010" end="@1110" value="Reserved"/>
+    <item key="@1111" value="Reserved for extension"/>
+  </type>
+  <type name="95B Representation of DTMF Digits" id="EIATIA-95-B-6.7.1.3.2.4-4">
+    <item key="@0000" value="Reserved"/>
+    <item key="@0001" value="1"/>
+    <item key="@0010" value="2"/>
+    <item key="@0011" value="3"/>
+    <item key="@0100" value="4"/>
+    <item key="@0101" value="5"/>
+    <item key="@0110" value="6"/>
+    <item key="@0111" value="7"/>
+    <item key="@1000" value="8"/>
+    <item key="@1001" value="9"/>
+    <item key="@1010" value="0"/>
+    <item key="@1011" value="*"/>
+    <item key="@1100" value="#"/>
+    <range start="@1101" end="@1111" value="Reserved"/>
+  </type>
+  <type name="Subaddress Type Values" id="SMS3.4.3.4-1">
+    <item key="@000" value="NSAP (CCITT Recommendation X.213 or ISO 8348 AD2)"/>
+    <item key="@001" value="User-specified"/>
+    <range start="@010" end="@111" value="Reserved"/>
+  </type>
+  <type name="Error Report Class" id="Error Report Class">
+    <item key="@00" value="no error"/>
+    <item key="@01" value="reserved"/>
+    <item key="@10" value="temporary error condition"/>
+    <item key="@11" value="permanent error condition"/>
+  </type>
+  <type name="Bearer Data Subparameter Identifiers" id="SMS4.5-1">
+    <item key="@00000000" value="Message Identifier"/>
+    <item key="@00000001" value="User Data"/>
+    <item key="@00000010" value="User Response Code"/>
+    <item key="@00000011" value="Message Center Time Stamp"/>
+    <item key="@00000100" value="Validity Period - Absolute"/>
+    <item key="@00000101" value="Validity Period - Relative"/>
+    <item key="@00000110" value="Deferred Delivery Time - Absolute"/>
+    <item key="@00000111" value="Deferred Delivery Time - Relative"/>
+    <item key="@00001000" value="Priority Indicator"/>
+    <item key="@00001001" value="Privacy Indicator"/>
+    <item key="@00001010" value="Reply Option"/>
+    <item key="@00001011" value="Number of Messages"/>
+    <item key="@00001100" value="Alert on Message Delivery"/>
+    <item key="@00001101" value="Language Indicator"/>
+    <item key="@00001110" value="Call-Back Number"/>
+    <item key="@00001111" value="Message Display Mode"/>
+    <item key="@00010000" value="Multiple Encoding User Data"/>
+    <range start="@00010001" end="@11111111" value="Reserved"/>
+  </type>
+  <type name="Message Types" id="SMS4.5.1-1">
+    <item key="@0000" value="Reserved"/>
+    <item key="@0001" value="Deliver (mobile-terminated only)"/>
+    <item key="@0010" value="Submit (mobile-originated only)"/>
+    <item key="@0011" value="Cancellation (mobile-orginated only)"/>
+    <item key="@0100" value="Delivery Acknowledgment (mobile-terminated only)"/>
+    <item key="@0101" value="User Acknowledgment (either direction)"/>
+    <range start="@0110" end="@1111" value="Reserved"/>
+  </type>
+  <type name="Data Field Encoding Assignments" id="TSB-58-C-9-1">
+    <item key="@00000" value="Octet or unspecified (8 bits)"/>
+    <item key="@00001" value="Extended Protocol Message (variable)"/>
+    <item key="@00010" value="7-bit ASCII (7 bits)"/>
+    <item key="@00011" value="IA5 (7 bits)"/>
+    <item key="@00100" value="UNICODE (16 bits)"/>
+    <item key="@00101" value="Shift-JIS (8 or 16)"/>
+    <item key="@00110" value="Korean (8 or 16)"/>
+    <item key="@00111" value="Latin/Hebrew (8 bits)"/>
+    <item key="@01000" value="Latin (8 bits)"/>
+    <range start="@01001" end="@11111" value="Reserved"/>
+  </type>
+  <type name="Priority Indicator Values" id="SMS4.5.9-1">
+    <item key="@00" value="Normal"/>
+    <item key="@01" value="Interactive"/>
+    <item key="@10" value="Urgent"/>
+    <item key="@11" value="Emergency"/>
+  </type>
+  <type name="Privacy Indicator Values" id="SMS4.5.10-1">
+    <item key="@00" value="Not restricted"/>
+    <item key="@01" value="Restricted"/>
+    <item key="@10" value="Confidential"/>
+    <item key="@11" value="Secret"/>
+  </type>
+  <type name="ALERT_PRIORITY Values" id="SMS4.5.13-1">
+    <item key="@00" value="Use Mobile default alert"/>
+    <item key="@01" value="Use Low-priority alert"/>
+    <item key="@10" value="Use Medium-priority alert"/>
+    <item key="@11" value="Use High-priority alert"/>
+  </type>
+  <type name="Language Indicator Value Assignments" id="TSB-58-C_9-2">
+    <item key="@00000000" value="Unknown or unspecified"/>
+    <item key="@00000001" value="English"/>
+    <item key="@00000010" value="French"/>
+    <item key="@00000011" value="Spanish"/>
+    <item key="@00000100" value="Japanese"/>
+    <item key="@00000101" value="Korean"/>
+    <item key="@00000110" value="Chinese"/>
+    <item key="@00000111" value="Hebrew"/>
+    <range start="@00001000" end="@11111111" value="Reserved"/>
+  </type>
+  <type name="Message Display Mode Indicator Values" id="SMS4.5.16-1">
+    <item key="@00" value="Immediate Display"/>
+    <item key="@01" value="Mobile default setting"/>
+    <item key="@10" value="User Invoke"/>
+    <item key="@11" value="Reserved"/>
+  </type>
+  <type id="ip_address">
+    <script>
+  description = string.format("%d.%d.%d.%d", 
+    slice(0,8),
+    slice(8,8),
+    slice(16,8),
+    slice(24,8))
+ </script>
+  </type>
+  <type id="DIGIT_MODE">
+    <item key="0" value="4-bit DTMF"/>
+    <item key="1" value="8-bit binary"/>
+  </type>
+  <type id="NUMBER_MODE">
+    <item key="0" value="ANSI T1.607"/>
+    <item key="1" value="data network address"/>
+  </type>
+</xddl>

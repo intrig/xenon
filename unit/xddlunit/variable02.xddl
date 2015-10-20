@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="top" length="8"/>
+    <prop name="evdo" value="top"/>
+    <if expr="evdo">
+      <field name="EVDO is set" length="8"/>
+    </if>
+    <if expr="!evdo">
+      <field name="EVDO not set" length="8"/>
+    </if>
+  </start>
+</xddl>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="MessageID" length="8"/>
+    <fragment href="#f1"/>
+  </start>
+  <record name="Fragment One" id="f1">
+    <switch expr="MessageID">
+      <case value="1">
+        <field name="x" length="8"/>
+      </case>
+      <default>
+        <field name="y" length="8"/>
+      </default>
+    </switch>
+  </record>
+</xddl>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="type" length="4"/>
+    <record name="data" length="10">
+      <field name="a" length="5"/>
+      <pad name="reserved" mod="8" offset="2"/>
+    </record>
+    <field name="a" length="8"/>
+    <pad name="reserved" mod="8"/>
+  </start>
+</xddl>

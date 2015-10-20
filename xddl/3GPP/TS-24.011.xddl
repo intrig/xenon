@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl version="2.0000">
+  <!-- Point-toPoint(PP) Short Message Service (SMS) -->
+  <!-- 3GPP TS 24.011 V10.0.0 (2011-02) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Core Network and Terminals; -->
+  <!-- Point-to-Point (PP) Short Message Service (SMS) -->
+  <!-- support on mobile radio interface -->
+  <!-- (Release 9) -->
+  <export>
+    <!-- extern -->
+    <prop name="Direction"/>
+    <prop name="BCDNumberCount"/>
+    <!-- local -->
+    <prop name="LengthIndicator"/>
+    <prop name="mti"/>
+  </export>
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <!-- Section 7.2 Messages for short message or notification transfer on CM -->
+  <record name="Messages for short message or notification transfer on CM" id="7.2">
+    <record name="TI">
+      <field name="TI flag" length="1" type="TS-24.007.xddl#11.3a"/>
+      <field name="TIO" length="3"/>
+    </record>
+    <field name="PD" length="4" default="9" type="TS-24.007.xddl#11.2"/>
+    <field name="Message type" length="8" type="#8.1.3"/>
+    <switch expr="{Message type}">
+      <case value="@00000001">
+        <record name="CP User data" href="#8.1.4.1"/>
+      </case>
+      <case value="@00010000">
+        <record name="CP Cause" href="#8.1.4.2"/>
+      </case>
+      <!-- CP ACK - no data -->
+      <case value="@00000100"/>
+    </switch>
+  </record>
+  <!-- Section 8.1 CP-messages -->
+  <type name="Message types for short message and notification transfer on CM" id="8.1.3">
+    <item key="@00000001" value="CP DATA"/>
+    <item key="@00000100" value="CP ACK"/>
+    <item key="@00010000" value="CP ERROR"/>
+    <range start="@00000000" end="@11111111" value="unused"/>
+  </type>
+  <record name="CP-User data element" id="8.1.4.1">
+    <!-- field name="CPUserDataIEI" length="8" default="#00" /-->
+    <field name="LengthIndicator" length="8" type="#8.1.4.1a"/>
+    <record name="RPDU" href="#8.2"/>
+  </record>
+  <type name="CP-User data length range" id="8.1.4.1a">
+    <range start="1" end="248"/>
+  </type>
+  <record name="CP-Cause" id="8.1.4.2">
+    <!-- field name="CPCauseIEI" length="8" default="#00" /-->
+    <field name="spare" length="1" type="#zero"/>
+    <field name="Cause value" length="7" default="111" type="#8.2a"/>
+  </record>
+  <type name="Content and Coding of CP-Cause" id="8.2a">
+    <item key="17" value="Network failure "/>
+    <item key="22" value="Congestion "/>
+    <item key="81" value="Invalid Transaction Identifier value "/>
+    <item key="95" value="Semantically incorrect message "/>
+    <item key="96" value="Invalid mandatory information "/>
+    <item key="97" value="Message type non-existent or not implemented "/>
+    <item key="98" value="Message not compatible with the short message protocol state "/>
+    <item key="99" value="Information element non-existent or not implemented "/>
+    <item key="111" value="Protocol error, unspecified"/>
+    <range start="0" end="255" value="Protocol error, unspecified"/>
+  </type>
+  <!-- Section 8.2 RP messages -->
+  <record name="RP-messages" id="8.2">
+    <field name="spare" length="5" type="#zero"/>
+    <switch expr="Direction">
+      <case value="0">
+        <!-- Network to MS -->
+        <field name="MTI" length="3" default="@001" type="#8.3b"/>
+        <setprop name="mti" value="MTI"/>
+      </case>
+      <case value="1">
+        <!-- MS to Network -->
+        <field name="MTI" length="3" default="@000" type="#8.3a"/>
+        <setprop name="mti" value="MTI"/>
+      </case>
+      <default>
+        <field name="MTI" length="3"/>
+        <setprop name="mti" value="MTI"/>
+      </default>
+    </switch>
+    <field name="Message Reference" length="8"/>
+    <switch expr="Direction">
+      <case value="0">
+        <!-- Network to MS -->
+        <switch expr="mti">
+          <case value="@001">
+            <!-- RP-DATA (n->ms) -->
+            <record name="RP-Originator Address" href="#8.2.5.1"/>
+            <record name="RP-Destination Address" href="#8.2.5.2"/>
+            <record name="RP-User Data" href="#8.2.5.3"/>
+          </case>
+          <case value="@011">
+            <!-- RP-ACK (n->ms) -->
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #41">
+              <record name="RP-User Data">
+                <field name="IEI" length="8" default="#41"/>
+                <fragment href="#8.2.5.3"/>
+              </record>
+            </if>
+          </case>
+          <case value="@101">
+            <!-- RP-ERROR (n->ms) -->
+            <record name="RP-Cause" href="#8.2.5.4"/>
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #41">
+              <record name="RP-User Data">
+                <field name="IEI" length="8" default="#41"/>
+                <fragment href="#8.2.5.3"/>
+              </record>
+            </if>
+          </case>
+          <default/>
+        </switch>
+      </case>
+      <case value="1">
+        <!-- MS to Network -->
+        <switch expr="mti">
+          <case value="@000">
+            <!-- RP-DATA (ms->n) -->
+            <record name="RP-Originator Address" href="#8.2.5.1"/>
+            <record name="RP-Destination Address" href="#8.2.5.2"/>
+            <record name="RP-User Data" href="#8.2.5.3"/>
+          </case>
+          <case value="@010">
+            <!-- RP-ACK (ms->n) -->
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #41">
+              <record name="RP-User Data">
+                <field name="IEI" length="8" default="#41"/>
+                <fragment href="#8.2.5.3"/>
+              </record>
+            </if>
+          </case>
+          <case value="@100">
+            <!-- RP-ERROR (ms->n) -->
+            <record name="RP-Cause" href="#8.2.5.4"/>
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #41">
+              <record name="RP-User Data">
+                <field name="IEI" length="8" default="#41"/>
+                <fragment href="#8.2.5.3"/>
+              </record>
+            </if>
+          </case>
+          <case value="@110"/>
+          <!-- RP-SMMA (ms->n) -->
+          <default>
+            <!-- empty (must be last so it doesn't continue with next case) -->
+          </default>
+        </switch>
+      </case>
+      <default>
+        <field name="Data" length="(LengthIndicator-2)*8"/>
+      </default>
+    </switch>
+  </record>
+  <type name="RP Message Type Indicator (MS to Network)" id="8.3a">
+    <item key="@000" value="RP-DATA"/>
+    <item key="@001" value="Reserved"/>
+    <item key="@010" value="RP-ACK"/>
+    <item key="@011" value="Reserved"/>
+    <item key="@100" value="RP-ERROR"/>
+    <item key="@101" value="Reserved"/>
+    <item key="@110" value="RP-SMMA"/>
+    <item key="@111" value="Reserved"/>
+  </type>
+  <type name="RP Message Type Indicator (Network to MS)" id="8.3b">
+    <item key="@000" value="Reserved"/>
+    <item key="@001" value="RP-DATA"/>
+    <item key="@010" value="Reserved"/>
+    <item key="@011" value="RP-ACK"/>
+    <item key="@100" value="Reserved"/>
+    <item key="@101" value="RP-ERROR"/>
+    <item key="@110" value="Reserved"/>
+    <item key="@111" value="Reserved"/>
+  </type>
+  <record name="RP-Originator Address" id="8.2.5.1">
+    <!-- field name="RPOriginatorAddressIEI" length="8" default="#00" /-->
+    <switch expr="Direction">
+      <case value="0">
+        <!-- Network to MS -->
+        <field name="Length" length="8" default="2" type="#8.2.5.1a"/>
+        <setprop name="BCDNumberCount" value="Length-1"/>
+        <fragment href="#8.2.5.1-Numbers"/>
+      </case>
+      <case value="1"/>
+      <!-- MS to Network -->
+      <default>
+        <field name="Length" length="8" default="0" type="#8.2.5.1b"/>
+      </default>
+    </switch>
+  </record>
+  <type name="RP-Originator Address length range (Network to MS)" id="8.2.5.1a">
+    <range start="2" end="11"/>
+  </type>
+  <type name="RP-Originator Address length range (MS to Network)" id="8.2.5.1b">
+    <range start="0" end="0"/>
+  </type>
+  <record name="RP Address Number List" id="8.2.5.1-Numbers">
+    <field name="Extention" length="1" default="1" type="TS-24.007.xddl#11.2.2.1c"/>
+    <field name="type of number" length="3" type="TS-24.008.xddl#10.5.118a"/>
+    <switch expr="{type of number}">
+      <case value="@000"/>
+      <!-- Unknown Number Type -->
+      <case value="@001"/>
+      <!-- International Number -->
+      <case value="@010"/>
+      <!-- National Number -->
+      <case value="@100">
+        <!-- Dedicated Access, Short Code -->
+        <field name="Numbering plan identification" length="4" type="TS-24.008.xddl#10.5.118b"/>
+      </case>
+      <default>
+        <field name="Numbering plan identification" length="4"/>
+      </default>
+    </switch>
+    <!-- repeat num="(RPOriginatorAddressLen-1)*2" name="BCDNumberList" >
+   < TODO: reverse nibble order >
+   <field name="Number digit" length="4" type="umts-types.xddl#BCD-Addr" default="@1111" />
+  </repeat-->
+    <record name="BCD Number List (10 octets)" href="TS-24.008.xddl#10.5.4.9-BCD"/>
+  </record>
+  <record name="RP-Destination Address" id="8.2.5.2">
+    <!-- field name="RPDestinationAddressIEI" length="8" default="#00" /-->
+    <switch expr="Direction">
+      <case value="1">
+        <!-- MS to Network -->
+        <field name="Length" length="8" default="2" type="#8.2.5.2a"/>
+        <setprop name="BCDNumberCount" value="Length-1"/>
+        <fragment href="#8.2.5.1-Numbers"/>
+      </case>
+      <case value="0"/>
+      <!-- Network to MS -->
+      <default>
+        <field name="Length" length="8" default="0" type="#8.2.5.2b"/>
+      </default>
+    </switch>
+  </record>
+  <type name="RP-Destination Address length range (Network to MS)" id="8.2.5.2a">
+    <range start="2" end="11"/>
+  </type>
+  <type name="RP-Destination Address length range (MS to Network)" id="8.2.5.2b">
+    <range start="0" end="0"/>
+  </type>
+  <record name="RP-User Data" id="8.2.5.3">
+    <!-- field name="RPUserDataIEI" length="8" default="#41" /-->
+    <field name="Length" length="8" type="#8.2.5.3a"/>
+    <record name="TPDU">
+      <comment>TS 23.040, sec. 9.2 (SM-TL, Short Message Transport Layer)</comment>
+      <record name="TPDU-Content" length="Length*8">
+        <fragment href="TS-23.040.xddl#9.2.2"/>
+        <pad/>
+      </record>
+    </record>
+  </record>
+  <type name="RP-User data length range" id="8.2.5.3a">
+    <range start="1" end="234"/>
+  </type>
+  <record name="RP-Cause" id="8.2.5.4">
+    <!-- field name="RPCauseIEI" length="8" default="#00" /-->
+    <field name="Length" length="8"/>
+    <record name="RPCauseData">
+      <field name="Ext" length="1" default="0" type="TS-24.007.xddl#11.2.2.1c"/>
+      <switch expr="mti">
+        <case value="@100">
+          <!-- RP-ERROR (ms->n) -->
+          <field name="Cause value" length="7" type="#8.4b"/>
+        </case>
+        <case value="@101">
+          <!-- RP-ERROR (n->ms) -->
+          <field name="Cause value" length="7" type="#8.4a"/>
+        </case>
+        <case value="@110">
+          <!-- RP-SMMA (ms->n) -->
+          <field name="Cause value" length="7" type="#8.4c"/>
+        </case>
+        <default>
+          <field name="Cause value" length="7"/>
+        </default>
+      </switch>
+      <if expr="Length &gt; 1">
+        <record name="Diagnostic field" length="(Length - 1) * 8">
+          <!-- TODO: decode -->
+        </record>
+      </if>
+    </record>
+  </record>
+  <type name="RP Cause Value (mobile originating)" id="8.4a">
+    <range start="0" end="0" value="Temporary failure"/>
+    <item key="1" value="Unassigned (unallocated) number"/>
+    <range start="2" end="7" value="Temporary failure"/>
+    <item key="8" value="Operator determined barring"/>
+    <range start="9" end="9" value="Temporary failure"/>
+    <item key="10" value="Call barred"/>
+    <item key="11" value="Reserved"/>
+    <range start="12" end="20" value="Temporary failure"/>
+    <item key="21" value="Short message transfer rejected"/>
+    <range start="22" end="26" value="Temporary failure"/>
+    <item key="27" value="Destination out of order"/>
+    <item key="28" value="Unidentified subscriber"/>
+    <item key="29" value="Facility rejected"/>
+    <item key="30" value="Unknown subscriber"/>
+    <range start="31" end="37" value="Temporary failure"/>
+    <item key="38" value="Network out of order"/>
+    <range start="39" end="40" value="Temporary failure"/>
+    <item key="41" value="Temporary failure"/>
+    <item key="42" value="Congestion"/>
+    <range start="43" end="46" value="Temporary failure"/>
+    <item key="47" value="Resources unavailable, unspecified"/>
+    <range start="48" end="49" value="Temporary failure"/>
+    <item key="50" value="Requested facility not subscribed"/>
+    <range start="51" end="68" value="Temporary failure"/>
+    <item key="69" value="Requested facility not implemented"/>
+    <range start="70" end="80" value="Temporary failure"/>
+    <item key="81" value="Invalid short message transfer reference value"/>
+    <range start="82" end="94" value="Temporary failure"/>
+    <item key="95" value="Semantically incorrect message"/>
+    <item key="96" value="Invalid mandatory information"/>
+    <item key="97" value="Message type non-existent or not implemented"/>
+    <item key="98" value="Message not compatible with short message protocol state"/>
+    <item key="99" value="Information element non-existent or not implemented"/>
+    <range start="100" end="110" value="Temporary failure"/>
+    <item key="111" value="Protocol error, unspecified"/>
+    <range start="112" end="126" value="Temporary failure"/>
+    <item key="127" value="Interworking, unspecified"/>
+    <comment>All other cause values shall be treated as cause number 41, "Temporary Failure".</comment>
+  </type>
+  <type name="RP Cause Value (mobile terminating)" id="8.4b">
+    <range start="0" end="21" value="Temporary failure"/>
+    <item key="22" value="Memory capacity exceeded"/>
+    <range start="23" end="80" value="Temporary failure"/>
+    <item key="81" value="Invalid short message transfer reference value"/>
+    <range start="82" end="94" value="Temporary failure"/>
+    <item key="95" value="Semantically incorrect message"/>
+    <item key="96" value="Invalid mandatory information"/>
+    <item key="97" value="Message type non-existent or not implemented"/>
+    <item key="98" value="Message not compatible with short message protocol state"/>
+    <item key="99" value="Information element non-existent or not implemented"/>
+    <range start="100" end="110" value="Temporary failure"/>
+    <item key="111" value="Protocol error, unspecified"/>
+    <range start="112" end="127" value="Temporary failure"/>
+    <comment>All other cause values shall be treated as cause number 41, "Temporary Failure".</comment>
+  </type>
+  <type name="RP Cause Value (memory available)" id="8.4c">
+    <range start="0" end="30" value="Temporary failure"/>
+    <item key="30" value="Unknown subscriber (Permanent)"/>
+    <range start="31" end="37" value="Temporary failure"/>
+    <item key="38" value="Network out of order"/>
+    <range start="39" end="40" value="Temporary failure"/>
+    <item key="41" value="Temporary failure"/>
+    <item key="42" value="Congestion"/>
+    <range start="43" end="46" value="Temporary failure"/>
+    <item key="47" value="Resources unavailable, unspecified"/>
+    <range start="48" end="68" value="Temporary failure"/>
+    <item key="69" value="Requested facility not implemented (Permanent)"/>
+    <range start="70" end="94" value="Temporary failure"/>
+    <item key="95" value="Semantically incorrect message (Permanent)"/>
+    <item key="96" value="Invalid mandatory information (Permanent)"/>
+    <item key="97" value="Message type non-existent or not implemented (Permanent)"/>
+    <item key="98" value="Message not compatible with short message protocol state (Permanent)"/>
+    <item key="99" value="Information element non-existent or not implemented (Permanent)"/>
+    <range start="100" end="110" value="Temporary failure"/>
+    <item key="111" value="Protocol error, unspecified (Permanent)"/>
+    <range start="112" end="126" value="Temporary failure"/>
+    <item key="127" value="Interworking, unspecified (Permanent)"/>
+    <comment>All other cause values shall be treated as cause number 41, "Temporary Failure".</comment>
+  </type>
+</xddl>

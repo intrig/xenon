@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0.
+  
+   Please contact sales@intrig.com if these licensing terms are not
+   suitable for your needs.
+
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="RFC-1570">
+  <!-- Types -->
+  <type name="Self Describing Pad Type" id="SelfDescribingPadType">
+    <script>
+    description = string.format("Largest number of padding octets is %d", key)
+  </script>
+  </type>
+
+  <type name="Operation Type" id="Operation">
+    
+      <item key="0" value="Location is determined by user authentication"/>
+      <item key="1" value="Dialing string"/>
+      <item key="2" value="Location identifier"/>
+      <item key="3" value="E.164 number"/>
+      <item key="4" value="Distinguished name"/>
+    
+  </type>
+
+  <!-- Fragments -->
+  <fragment name="FCS-Alternatives" id="FCS_Alternatives">
+    <field name="FCS_Alternatives" length="8"/>
+  </fragment>
+
+  <fragment name="FCS-Alternatives" id="SelfDescribingPad">
+    <field name="SelfDescribingPad" length="8" type="#SelfDescribingPadType"/>
+  </fragment>
+
+  <fragment name="Identification" id="Identification">
+    <field name="MagicNumber" length="32" type="PPP.xddl#MagicNumber"/>
+    <if expr="(Length-6) * 8">
+      <field name="Message" length="(Length-6) * 8" type="PPP.xddl#ascii"/>
+    </if>
+  </fragment>
+
+  <fragment name="Callback" id="Callback">
+    <field name="Operation" length="8" type="#Operation"/>
+    <if expr="(Length-3) * 8">
+      <field name="Message" length="(Length-3) * 8" type="PPP.xddl#ascii"/>
+    </if>
+  </fragment>
+
+</xddl>

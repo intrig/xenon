@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <!-- pad should not be there and extra should be length 14 -->
+    <record name="data" length="14">
+      <pad/>
+    </record>
+  </start>
+</xddl>

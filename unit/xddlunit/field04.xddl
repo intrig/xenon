@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <export>
+    <prop name="glob" value="1"/>
+  </export>
+  <oob>
+    <record id="frag">
+      <field name="goo" length="8"/>
+      <fragment href="fragment01.xddl#f1"/>
+    </record>
+  </oob>
+  <start>
+    <field name="boo" length="8"/>
+    <fragment href="#frag"/>
+  </start>
+</xddl>

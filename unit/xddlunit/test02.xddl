@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="RECORD_TYPE" length="8"/>
+    <field name="RECORD_LEN" length="8"/>
+    <record name="INFO_REC_TYPE_SPEC_FLDS" length="RECORD_LEN * 8">
+      <repeat name="CHARi_LIST">
+        <field name="CHARi" length="8"/>
+      </repeat>
+    </record>
+  </start>
+</xddl>

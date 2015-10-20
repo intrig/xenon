@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+include(${CMAKE_SOURCE_DIR}/xenonunit.txt)
+add_executable(expression expressionunit.cpp)
+enable_testing()
+add_test(expression expression)

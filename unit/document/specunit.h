@@ -1,0 +1,55 @@
+#pragma once
+//-- Copyright 2015 Intrig
+//-- see https://github.com/intrig/xenon for license
+
+#include <ict/unit.h>
+
+class doc_unit
+{
+    public:
+    doc_unit();
+
+    void register_tests(ict::unit_test<doc_unit> & ut) {
+        ut.skip();
+        ut.cont();
+        ut.add(&doc_unit::sanity);
+        ut.add(&doc_unit::constructor_file);
+        ut.add(&doc_unit::parse_file);
+
+        ut.skip(&doc_unit::absolute);
+        ut.add(&doc_unit::index2);
+        ut.add(&doc_unit::index3);
+
+        ut.skip(&doc_unit::ip_protocol);
+        ut.skip(&doc_unit::search_paths);
+
+        ut.add(&doc_unit::icd);
+        ut.add(&doc_unit::fail1);
+        ut.add(&doc_unit::fail2);
+        ut.add(&doc_unit::fail3);
+
+        ut.add(&doc_unit::fieldtypes);
+        ut.add(&doc_unit::allTypes);
+        ut.skip();
+        ut.cont();
+        //ut.add(&doc_unit::endian);
+
+    }
+
+    /* Tests */
+    void sanity();
+    void constructor_file();
+    void parse_file();
+    void absolute();
+    void index2();
+    void index3();
+    void ip_protocol();
+    void search_paths();
+    void icd();
+    void fail1();
+    void fail2();
+    void fail3();
+
+    void fieldtypes();
+    void allTypes();
+};

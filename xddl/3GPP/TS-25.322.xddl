@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>
+  Radio Link Control (RLC)
+  
+  3GPP TS 25.322 V10.1.0 (2011-06)
+  3rd Generation Partnership Project;
+  Technical Specification Group Radio Access Network;
+  Radio Link Control (RLC) protocol specification
+  (Release 10)
+  </comment>
+  <export>
+    <!-- extern -->
+    <prop name="LengthIndicatorSize"/>
+    <!-- local -->
+    <prop name="LI1" value="1"/>
+    <prop name="LI2"/>
+    <prop name="LI3"/>
+    <prop name="LI4"/>
+    <prop name="LI5"/>
+    <prop name="LI6"/>
+    <prop name="LI7"/>
+    <prop name="LI8"/>
+    <prop name="LI9"/>
+    <prop name="LI10"/>
+    <prop name="E1"/>
+    <prop name="E2"/>
+    <prop name="E3"/>
+    <prop name="E4"/>
+    <prop name="E5"/>
+    <prop name="E6"/>
+    <prop name="E7"/>
+    <prop name="E8"/>
+    <prop name="E9"/>
+    <prop name="E10"/>
+  </export>
+  <!-- TYPES -->
+  <!-- misc types -->
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <!-- Section 9.1 Protocol data units -->
+  <record name="Control PDUs" id="9.1.2">
+    <!--field name="DC" length="1" type="#RLC:D/C Field" /-->
+    <field name="PDU_Type" length="3" type="#9.2.2.2"/>
+    <switch expr="PDU_Type">
+      <case value="@000">
+        <record name="STATUS PDU" href="#9.2.1.5"/>
+      </case>
+      <case value="@001"/>
+      <case value="@010">
+        <record name="RESET PDU" href="#9.2.1.7"/>
+      </case>
+    </switch>
+  </record>
+  <!-- Section 9.2 Formats and parameters -->
+  <!-- Section 9.2.1 Formats -->
+  <record name="TMD PDU" id="9.2.1.2">
+    <record name="TMD PDU">
+      <repeat>
+        <field name="Data" length="8"/>
+      </repeat>
+    </record>
+  </record>
+  <record name="UMD PDU" id="9.2.1.3">
+    <record name="UMD PDU">
+      <record name="UMD_PDU_Block">
+        <field name="Sequence Number" length="7"/>
+        <field name="E" length="1" type="#9.2.2.5"/>
+        <if expr="E">
+          <switch expr="LengthIndicatorSize">
+            <case value="0">
+              <record name="UMD Length Indicators (7-bit)" href="#9.2.1.3a"/>
+            </case>
+            <case value="1">
+              <record name="UMD Length Indicators (15-bit)" href="#9.2.1.3b"/>
+            </case>
+          </switch>
+          <record name="UMD Data Fields" href="#9.2.1.3c"/>
+        </if>
+      </record>
+      <pad/>
+    </record>
+  </record>
+  <!-- TODO The following is not used- determine if this is needed - -->
+  <type id="Length Indicator Size">
+    <item key="0" value="7-bit Length Indicator"/>
+    <item key="1" value="15-bit Length Indicator"/>
+  </type>
+  <record name="UMD Length Indicators (7-bit)" id="9.2.1.3a">
+    <field name="LI1" length="7" type="#9.2.2.8a"/>
+    <field name="E1" length="1" type="#9.2.2.5"/>
+    <if expr="E1">
+      <field name="LI2" length="7" type="#9.2.2.8a"/>
+      <field name="E2" length="1" type="#9.2.2.5"/>
+      <if expr="E2">
+        <field name="LI3" length="7" type="#9.2.2.8a"/>
+        <field name="E3" length="1" type="#9.2.2.5"/>
+        <if expr="E3">
+          <field name="LI4" length="7" type="#9.2.2.8a"/>
+          <field name="E4" length="1" type="#9.2.2.5"/>
+          <if expr="E4">
+            <field name="LI5" length="7" type="#9.2.2.8a"/>
+            <field name="E5" length="1" type="#9.2.2.5"/>
+            <if expr="E5">
+              <field name="LI6" length="7" type="#9.2.2.8a"/>
+              <field name="E6" length="1" type="#9.2.2.5"/>
+              <if expr="E6">
+                <field name="LI7" length="7" type="#9.2.2.8a"/>
+                <field name="E7" length="1" type="#9.2.2.5"/>
+                <if expr="E7">
+                  <field name="LI8" length="7" type="#9.2.2.8a"/>
+                  <field name="E8" length="1" type="#9.2.2.5"/>
+                  <if expr="E8">
+                    <field name="LI9" length="7" type="#9.2.2.8a"/>
+                    <field name="E9" length="1" type="#9.2.2.5"/>
+                    <if expr="E9">
+                      <field name="LI10" length="7" type="#9.2.2.8a"/>
+                      <field name="E10" length="1" type="#9.2.2.5"/>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <record name="UMD Length Indicators (15-bit)" id="9.2.1.3b">
+    <field name="LI1" length="15" type="#9.2.2.8c"/>
+    <field name="E1" length="1" type="#9.2.2.5"/>
+    <if expr="E1">
+      <field name="LI2" length="15" type="#9.2.2.8c"/>
+      <field name="E2" length="1" type="#9.2.2.5"/>
+      <if expr="E2">
+        <field name="LI3" length="15" type="#9.2.2.8c"/>
+        <field name="E3" length="1" type="#9.2.2.5"/>
+        <if expr="E3">
+          <field name="LI4" length="15" type="#9.2.2.8c"/>
+          <field name="E4" length="1" type="#9.2.2.5"/>
+          <if expr="E4">
+            <field name="LI5" length="15" type="#9.2.2.8c"/>
+            <field name="E5" length="1" type="#9.2.2.5"/>
+            <if expr="E5">
+              <field name="LI6" length="15" type="#9.2.2.8c"/>
+              <field name="E6" length="1" type="#9.2.2.5"/>
+              <if expr="E6">
+                <field name="LI7" length="15" type="#9.2.2.8c"/>
+                <field name="E7" length="1" type="#9.2.2.5"/>
+                <if expr="E7">
+                  <field name="LI8" length="15" type="#9.2.2.8c"/>
+                  <field name="E8" length="1" type="#9.2.2.5"/>
+                  <if expr="E8">
+                    <field name="LI9" length="15" type="#9.2.2.8c"/>
+                    <field name="E9" length="1" type="#9.2.2.5"/>
+                    <if expr="E9">
+                      <field name="LI10" length="15" type="#9.2.2.8c"/>
+                      <field name="E10" length="1" type="#9.2.2.5"/>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <record name="UMD Data Fields" id="9.2.1.3c">
+    <prop name="special" value="LengthIndicatorSize ? #7FFB : #7C"/>
+    <switch expr="(LI1 == 0) or (LI1 &gt;= special)">
+      <case value="1">
+        <prop name="dummy" value="0"/>
+      </case>
+      <default>
+        <field name="Data1" length="LI1*8"/>
+      </default>
+    </switch>
+    <if expr="E1">
+      <switch expr="(LI2 == 0) or (LI2 &gt;= special)">
+        <case value="1">
+          <prop name="dummy" value="0"/>
+        </case>
+        <default>
+          <field name="Data2" length="LI2*8"/>
+        </default>
+      </switch>
+      <if expr="E2">
+        <switch expr="(LI3 == 0) or (LI3 &gt;= special)">
+          <case value="1">
+            <prop name="dummy" value="0"/>
+          </case>
+          <default>
+            <field name="Data3" length="LI3*8"/>
+          </default>
+        </switch>
+        <if expr="E3">
+          <switch expr="(LI4 == 0) or (LI4 &gt;= special)">
+            <case value="1">
+              <prop name="dummy" value="0"/>
+            </case>
+            <default>
+              <field name="Data4" length="LI4*8"/>
+            </default>
+          </switch>
+          <if expr="E4">
+            <switch expr="(LI5 == 0) or (LI5 &gt;= special)">
+              <case value="1">
+                <prop name="dummy" value="0"/>
+              </case>
+              <default>
+                <field name="Data5" length="LI5*8"/>
+              </default>
+            </switch>
+            <if expr="E5">
+              <switch expr="(LI6 == 0) or (LI6 &gt;= special)">
+                <case value="1">
+                  <prop name="dummy" value="0"/>
+                </case>
+                <default>
+                  <field name="Data6" length="LI6*8"/>
+                </default>
+              </switch>
+              <if expr="E6">
+                <switch expr="(LI7 == 0) or (LI7 &gt;= special)">
+                  <case value="1">
+                    <prop name="dummy" value="0"/>
+                  </case>
+                  <default>
+                    <field name="Data7" length="LI7*8"/>
+                  </default>
+                </switch>
+                <if expr="E7">
+                  <switch expr="(LI8 == 0) or (LI8 &gt;= special)">
+                    <case value="1">
+                      <prop name="dummy" value="0"/>
+                    </case>
+                    <default>
+                      <field name="Data8" length="LI8*8"/>
+                    </default>
+                  </switch>
+                  <if expr="E8">
+                    <switch expr="(LI9 == 0) or (LI9 &gt;= special)">
+                      <case value="1">
+                        <prop name="dummy" value="0"/>
+                      </case>
+                      <default>
+                        <field name="Data9" length="LI9*8"/>
+                      </default>
+                    </switch>
+                    <if expr="E9">
+                      <switch expr="(LI10 == 0) or (LI10 &gt;= special)">
+                        <case value="1">
+                          <prop name="dummy" value="0"/>
+                        </case>
+                        <default>
+                          <field name="Data10" length="LI10*8"/>
+                        </default>
+                      </switch>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <record name="AMD PDU" id="9.2.1.4">
+    <record name="AMD PDU">
+      <setprop name="LI1" value="1"/>
+      <record name="AMD_PDU_Block">
+        <field name="DC" length="1" type="#9.2.2.1"/>
+        <switch expr="DC">
+          <!-- Control -->
+          <case value="0">
+            <record name="Control PDU" href="#9.1.2"/>
+          </case>
+          <case value="1">
+            <!-- Data -->
+            <field name="Sequence Number" length="12"/>
+            <field name="P" length="1" type="#9.2.2.4"/>
+            <field name="HE" length="2" type="#9.2.2.7"/>
+            <if expr="HE == 1">
+              <switch expr="LengthIndicatorSize">
+                <case value="0">
+                  <record name="AMD Length Indicators (7-bit)" href="#9.2.1.4a"/>
+                </case>
+                <case value="1">
+                  <record name="AMD Length Indicators (15-bit)" href="#9.2.1.4b"/>
+                </case>
+              </switch>
+              <record name="AMD Data Fields)" href="#9.2.1.4c"/>
+            </if>
+          </case>
+        </switch>
+      </record>
+      <pad/>
+    </record>
+  </record>
+  <record name="AMD Length Indicators (7-bit)" id="9.2.1.4a">
+    <field name="LI1" length="7" type="#9.2.2.8b"/>
+    <field name="E1" length="1" type="#9.2.2.5"/>
+    <if expr="E1">
+      <field name="LI2" length="7" type="#9.2.2.8b"/>
+      <field name="E2" length="1" type="#9.2.2.5"/>
+      <if expr="E2">
+        <field name="LI3" length="7" type="#9.2.2.8b"/>
+        <field name="E3" length="1" type="#9.2.2.5"/>
+        <if expr="E3">
+          <field name="LI4" length="7" type="#9.2.2.8b"/>
+          <field name="E4" length="1" type="#9.2.2.5"/>
+          <if expr="E4">
+            <field name="LI5" length="7" type="#9.2.2.8b"/>
+            <field name="E5" length="1" type="#9.2.2.5"/>
+            <if expr="E5">
+              <field name="LI6" length="7" type="#9.2.2.8b"/>
+              <field name="E6" length="1" type="#9.2.2.5"/>
+              <if expr="E6">
+                <field name="LI7" length="7" type="#9.2.2.8b"/>
+                <field name="E7" length="1" type="#9.2.2.5"/>
+                <if expr="E7">
+                  <field name="LI8" length="7" type="#9.2.2.8b"/>
+                  <field name="E8" length="1" type="#9.2.2.5"/>
+                  <if expr="E8">
+                    <field name="LI9" length="7" type="#9.2.2.8b"/>
+                    <field name="E9" length="1" type="#9.2.2.5"/>
+                    <if expr="E9">
+                      <field name="LI10" length="7" type="#9.2.2.8b"/>
+                      <field name="E10" length="1" type="#9.2.2.5"/>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <record name="AMD Length Indicators (15-bit)" id="9.2.1.4b">
+    <field name="LI1" length="15" type="#9.2.2.8d"/>
+    <field name="E1" length="1" type="#9.2.2.5"/>
+    <if expr="E1">
+      <field name="LI2" length="15" type="#9.2.2.8d"/>
+      <field name="E2" length="1" type="#9.2.2.5"/>
+      <if expr="E2">
+        <field name="LI3" length="15" type="#9.2.2.8d"/>
+        <field name="E3" length="1" type="#9.2.2.5"/>
+        <if expr="E3">
+          <field name="LI4" length="15" type="#9.2.2.8d"/>
+          <field name="E4" length="1" type="#9.2.2.5"/>
+          <if expr="E4">
+            <field name="LI5" length="15" type="#9.2.2.8d"/>
+            <field name="E5" length="1" type="#9.2.2.5"/>
+            <if expr="E5">
+              <field name="LI6" length="15" type="#9.2.2.8d"/>
+              <field name="E6" length="1" type="#9.2.2.5"/>
+              <if expr="E6">
+                <field name="LI7" length="15" type="#9.2.2.8d"/>
+                <field name="E7" length="1" type="#9.2.2.5"/>
+                <if expr="E7">
+                  <field name="LI8" length="15" type="#9.2.2.8d"/>
+                  <field name="E8" length="1" type="#9.2.2.5"/>
+                  <if expr="E8">
+                    <field name="LI9" length="15" type="#9.2.2.8d"/>
+                    <field name="E9" length="1" type="#9.2.2.5"/>
+                    <if expr="E9">
+                      <field name="LI10" length="15" type="#9.2.2.8d"/>
+                      <field name="E10" length="1" type="#9.2.2.5"/>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <record name="AMD Data Fields" id="9.2.1.4c">
+    <prop name="special" value="LengthIndicatorSize ? #7FFB : #7C"/>
+    <prop name="piggyback" value="LengthIndicatorSize ? #7FFE : #7E"/>
+    <switch expr="(LI1 == 0) or (LI1 &gt;= special)">
+      <case value="1">
+        <if expr="LI1 == piggyback">
+          <fragment href="#9.2.1.6"/>
+        </if>
+      </case>
+      <default>
+        <field name="Data1" length="LI1*8"/>
+      </default>
+    </switch>
+    <if expr="E1">
+      <switch expr="(LI2 == 0) or (LI2 &gt;= special)">
+        <case value="1">
+          <if expr="LI2 == piggyback">
+            <fragment href="#9.2.1.6"/>
+          </if>
+        </case>
+        <default>
+          <field name="Data2" length="LI2*8"/>
+        </default>
+      </switch>
+      <if expr="E2">
+        <switch expr="(LI3 == 0) or (LI3 &gt;= special)">
+          <case value="1">
+            <if expr="LI3 == piggyback">
+              <fragment href="#9.2.1.6"/>
+            </if>
+          </case>
+          <default>
+            <field name="Data3" length="LI3*8"/>
+          </default>
+        </switch>
+        <if expr="E3">
+          <switch expr="(LI4 == 0) or (LI4 &gt;= special)">
+            <case value="1">
+              <if expr="LI4 == piggyback">
+                <fragment href="#9.2.1.6"/>
+              </if>
+            </case>
+            <default>
+              <field name="Data4" length="LI4*8"/>
+            </default>
+          </switch>
+          <if expr="E4">
+            <switch expr="(LI5 == 0) or (LI5 &gt;= special)">
+              <case value="1">
+                <if expr="LI5 == piggyback">
+                  <fragment href="#9.2.1.6"/>
+                </if>
+              </case>
+              <default>
+                <field name="Data5" length="LI5*8"/>
+              </default>
+            </switch>
+            <if expr="E5">
+              <switch expr="(LI6 == 0) or (LI6 &gt;= special)">
+                <case value="1">
+                  <if expr="LI6 == piggyback">
+                    <fragment href="#9.2.1.6"/>
+                  </if>
+                </case>
+                <default>
+                  <field name="Data6" length="LI6*8"/>
+                </default>
+              </switch>
+              <if expr="E6">
+                <switch expr="(LI7 == 0) or (LI7 &gt;= special)">
+                  <case value="1">
+                    <if expr="LI7 == piggyback">
+                      <fragment href="#9.2.1.6"/>
+                    </if>
+                  </case>
+                  <default>
+                    <field name="Data7" length="LI7*8"/>
+                  </default>
+                </switch>
+                <if expr="E7">
+                  <switch expr="(LI8 == 0) or (LI8 &gt;= special)">
+                    <case value="1">
+                      <if expr="LI8 == piggyback">
+                        <fragment href="#9.2.1.6"/>
+                      </if>
+                    </case>
+                    <default>
+                      <field name="Data8" length="LI8*8"/>
+                    </default>
+                  </switch>
+                  <if expr="E8">
+                    <switch expr="(LI9 == 0) or (LI9 &gt;= special)">
+                      <case value="1">
+                        <if expr="LI9 == piggyback">
+                          <fragment href="#9.2.1.6"/>
+                        </if>
+                      </case>
+                      <default>
+                        <field name="Data9" length="LI9*8"/>
+                      </default>
+                    </switch>
+                    <if expr="E9">
+                      <switch expr="(LI10 == 0) or (LI10 &gt;= special)">
+                        <case value="1">
+                          <if expr="LI10 == piggyback">
+                            <fragment href="#9.2.1.6"/>
+                          </if>
+                        </case>
+                        <default>
+                          <field name="Data10" length="LI10*8"/>
+                        </default>
+                      </switch>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <record name="STATUS PDU" id="9.2.1.5">
+    <!-- TODO - resolve the "calling sequence" so as to include the following fields here
+       <field name="PDU_Type" length="3" /> 
+       <field name="DC" length="1" /> 
+   -->
+    <repeat name="SUFI">
+      <fragment href="#9.2.2.11"/>
+    </repeat>
+  </record>
+  <record name="Piggybacked STATUS PDU" id="9.2.1.6">
+    <record name="STATUS">
+      <field name="R2" length="1" type="#zero"/>
+      <record name="Control PDU" href="#9.1.2"/>
+    </record>
+  </record>
+  <record name="RESET, RESET ACK PDU" id="9.2.1.7">
+    <!-- TODO - resolve the "calling sequence" so as to include the following fields here
+       <field name="PDU_Type" length="3" /> 
+       <field name="DC" length="1" /> 
+   -->
+    <field name="RSN" length="1"/>
+    <field name="R1" length="3" type="#zero"/>
+    <field name="HFNI" length="20"/>
+  </record>
+  <!-- Section 9.2.2 Parameters -->
+  <type name="D/C Field" id="9.2.2.1">
+    <item key="0" value="Control PDU"/>
+    <item key="1" value="Data PDU"/>
+  </type>
+  <type name="PDU Type" id="9.2.2.2">
+    <item key="@000" value="STATUS"/>
+    <item key="@001" value="RESET"/>
+    <item key="@010" value="RESET ACK"/>
+    <range start="@011" end="@111" value="Reserved"/>
+  </type>
+  <type name="Polling bit (P)" id="9.2.2.4">
+    <item key="0" value="Status report not requested"/>
+    <item key="1" value="Request a status report"/>
+  </type>
+  <type name="Extension bit (E)" id="9.2.2.5">
+    <item key="0" value="Next field is data, piggybacked STATUS PDU or padding"/>
+    <item key="1" value="Next field is Length Indicator and E bit"/>
+  </type>
+  <type name="Header Extension Type (HE)" id="9.2.2.7">
+    <item key="@00" value="Succeeding octet contains data"/>
+    <item key="@01" value="Succeeding octet contains a length indicator and E bit"/>
+    <item key="@10" value="This value is the special value of HE field and indicates that the succeeding octet contains data and the last octet of the PDU is the last octet of an SDU."/>
+    <item key="@11" value="Reserved (PDUs with this coding will be discarded)."/>
+  </type>
+  <type name="Length Indicator (LI) (7-bit) UMD" id="9.2.2.8a">
+    <item key="@0000000" value="Previous RLC PDU was exactly filled with the last segment of an RLC SDU and there is no &quot;Length Indicator&quot; that indicates the end of the RLC SDU in the previous RLC PDU"/>
+    <range start="@0000001" end="@1111011"/>
+    <item key="@1111100" value="First data octet in this RLC PDU is the first octet of an RLC SDU"/>
+    <item key="@1111101" value="The first data octet in this RLC PDU is the first octet of an RLC SDU and the last octet in this RLC PDU is the last octet of the same RLC SDU."/>
+    <item key="@1111110" value="The RLC PDU contains a segment of an SDU but neither the first octet nor the last octet of this SDU."/>
+    <item key="@1111111" value="Rest of the RLC PDU is padding"/>
+  </type>
+  <type name="Length Indicator (LI) (7-bit) AMD" id="9.2.2.8b">
+    <item key="@0000000" value="Previous RLC PDU was exactly filled with the last segment of an RLC SDU and there is no &quot;Length Indicator&quot; that indicates the end of the RLC SDU in the previous RLC PDU"/>
+    <range start="@0000001" end="@1111011"/>
+    <item key="@1111100" value="Reserved (PDUs with this coding will be discarded."/>
+    <item key="@1111101" value="Reserved (PDUs with this coding will be discarded."/>
+    <item key="@1111110" value="The rest of the RLC PDU includes a piggybacked STATUS PDU."/>
+    <item key="@1111111" value="Rest of the RLC PDU is padding"/>
+  </type>
+  <type name="Length Indicator (LI) (15-bit) UMD" id="9.2.2.8c">
+    <item key="#00" value="Previous RLC PDU was exactly filled with the last segment of an RLC SDU and there is no &quot;Length Indicator&quot; that indicates the end of the RLC SDU in the previous RLC PDU"/>
+    <range start="#01" end="#7FF9"/>
+    <item key="#7FFA" value="The first data octet in this RLC PDU is the first octet of an RLC SDU and the second last octet in this RLC PDU is the last octet of the same RLC SDU. The remaining one octet in the RLC PDU is ignored"/>
+    <item key="#7FFB" value="Last segment of an RLC SDU was one octet short of exactly filling the previous RLC PDU and there is no &quot;Length Indicator&quot; that indicates the end of the RLC SDU in the previous RLC PDU"/>
+    <item key="#7FFC" value="First data octet in this RLC PDU is the first octet of an RLC SDU"/>
+    <item key="#7FFD" value="The first data octet in this RLC PDU is the first octet of an RLC SDU and the last octet in this RLC PDU is the last octet of the same RLC SDU."/>
+    <item key="#7FFE" value="The RLC PDU contains a segment of an SDU but neither the first octet nor the last octet of this SDU."/>
+    <item key="#7FFF" value="Rest of the RLC PDU is padding"/>
+  </type>
+  <type name="Length Indicator (LI) (15-bit) AMD" id="9.2.2.8d">
+    <item key="#00" value="Previous RLC PDU was exactly filled with the last segment of an RLC SDU and there is no &quot;Length Indicator&quot; that indicates the end of the RLC SDU in the previous RLC PDU"/>
+    <range start="#01" end="#7FF9"/>
+    <item key="#7FFA" value="Reserved (PDUs with this coding will be discarded."/>
+    <item key="#7FFB" value="Last segment of an RLC SDU was one octet short of exactly filling the previous RLC PDU and there is no &quot;Length Indicator&quot; that indicates the end of the RLC SDU in the previous RLC PDU"/>
+    <item key="#7FFC" value="Reserved (PDUs with this coding will be discarded."/>
+    <item key="#7FFD" value="Reserved (PDUs with this coding will be discarded."/>
+    <item key="#7FFE" value="The rest of the RLC PDU includes a piggybacked STATUS PDU"/>
+    <item key="#7FFF" value="Rest of the RLC PDU is padding"/>
+  </type>
+  <record name="SUFI (Super-Field)" id="9.2.2.11">
+    <field name="Type" length="4" type="#9.2.2.11"/>
+    <switch expr="Type">
+      <case value="@0001">
+        <!-- WINDOW -->
+        <record name="The Window Size super-field" href="#9.2.2.11.3"/>
+      </case>
+      <case value="@0010">
+        <!-- ACK -->
+        <record name="The Acknowledgement super-field" href="#9.2.2.11.2"/>
+      </case>
+      <case value="@0011">
+        <!-- LIST -->
+        <record name="The List super-field" href="#9.2.2.11.4"/>
+      </case>
+      <case value="@0100">
+        <!-- BITMAP -->
+        <record name="The Bitmap super-field" href="#9.2.2.11.5"/>
+      </case>
+      <case value="@0101">
+        <!-- RLIST -->
+        <record name="The Relative List super-field" href="#9.2.2.11.6"/>
+      </case>
+      <case value="@0110">
+        <!-- MRW -->
+        <record name="The Move Receiving Window (MRW) super-field" href="#9.2.2.11.8"/>
+      </case>
+      <case value="@0111">
+        <!-- MRW_ACK -->
+        <record name="The Move Receiving Window Acknowledgement super-field" href="#9.2.2.11.7"/>
+      </case>
+      <case value="@0000">
+        <!-- NO_MORE -->
+        <!-- must go at end of switch because of no fields -->
+      </case>
+    </switch>
+  </record>
+  <type name="Super-Field Type" id="9.2.2.11">
+    <item key="@0000" value="No More Data (NO_MORE)"/>
+    <item key="@0001" value="Window Size (WINDOW)"/>
+    <item key="@0010" value="Acknowledgement (ACK)"/>
+    <item key="@0011" value="List (LIST)"/>
+    <item key="@0100" value="Bitmap (BITMAP)"/>
+    <item key="@0101" value="Relative List (RLIST)"/>
+    <item key="@0110" value="Move Receiving Window (MRW)"/>
+    <item key="@0111" value="Move Receiving Window Acknowlegement (MRW_ACK)"/>
+    <range start="@1000" end="@1111" value="Reserved"/>
+  </type>
+  <record name="The Acknowledgement super-field" id="9.2.2.11.2">
+    <!-- Type = ACK -->
+    <field name="LSN" length="12"/>
+  </record>
+  <record name="The Window Size super-field" id="9.2.2.11.3">
+    <!-- Type = WINDOW -->
+    <field name="WSN" length="12"/>
+  </record>
+  <record name="The List super-field" id="9.2.2.11.4">
+    <!-- Type = LIST -->
+    <field name="LENGTH" length="4"/>
+    <repeat name="List" num="LENGTH">
+      <field name="SN" length="12"/>
+      <field name="L" length="4"/>
+    </repeat>
+  </record>
+  <record name="The Bitmap super-field" id="9.2.2.11.5">
+    <!-- Type = BITMAP -->
+    <field name="LENGTH" length="4"/>
+    <field name="FSN" length="12"/>
+    <repeat name="Bitmap" num="(LENGTH+1)*8">
+      <field name="Status" length="1" type="#9.2.2.11.5"/>
+    </repeat>
+  </record>
+  <type name="SUFI Bitmap" id="9.2.2.11.5">
+    <item key="0" value="Sequence Number = (FSN + bit_position) has not been correctly received"/>
+    <item key="1" value="Sequence Number = (FSN + bit_position) has been correctly received"/>
+  </type>
+  <record name="The Relative List super-field" id="9.2.2.11.6">
+    <!-- Type = RLIST -->
+    <field name="LENGTH" length="4"/>
+    <field name="FSN" length="12"/>
+    <repeat name="CW" num="LENGTH">
+      <field name="Number" length="3" type="#9.2.2.11.6a"/>
+      <field name="Status" length="1" type="#9.2.2.11.6b"/>
+    </repeat>
+  </record>
+  <type name="RLIST CodeWord Bits" id="9.2.2.11.6a">
+    <item key="0" value="Next 3 bits of the number are 000"/>
+    <item key="1" value="Next 3 bits of the number are 001"/>
+    <item key="2" value="Next 3 bits of the number are 010"/>
+    <item key="3" value="Next 3 bits of the number are 011"/>
+    <item key="4" value="Next 3 bits of the number are 100"/>
+    <item key="5" value="Next 3 bits of the number are 101"/>
+    <item key="6" value="Next 3 bits of the number are 110"/>
+    <item key="7" value="Next 3 bits of the number are 111"/>
+  </type>
+  <type name="RLIST CodeWord Status" id="9.2.2.11.6b">
+    <item key="0" value="Number continues in the next CW"/>
+    <item key="1" value="Number is terminated"/>
+  </type>
+  <record name="The Move Receiving Window Acknowledgement super-field" id="9.2.2.11.7">
+    <!-- Type = MRW_ACK -->
+    <field name="N" length="4"/>
+    <field name="SN_ACK" length="12"/>
+  </record>
+  <record name="The Move Receiving Window (MRW) super-field" id="9.2.2.11.8">
+    <!-- Type = MRW -->
+    <field name="LENGTH" length="4"/>
+    <repeat name="CW" num="LENGTH">
+      <field name="SN_MRW" length="12"/>
+    </repeat>
+    <field name="N-LENGTH" length="4"/>
+  </record>
+  <!-- Uncomment the following to test RLC decoding.
+ <field name="PDU_Type" length="8" />
+ <switch expr="PDU_Type">
+     <case value="16">
+     <case value="17">
+      <metafield name="LengthIndicatorSize" default="PDU_Type &amp; 1" length="8" />
+      <fragment href="#9.2.1.4" />
+     </case>
+     <case value="18">
+     <case value="19">
+      <metafield name="LengthIndicatorSize" default="PDU_Type &amp; 1" length="8" />
+      <fragment href="#9.2.1.3" />
+     </case>
+     <case value="20">
+      <fragment href="#9.2.1.2" />
+     </case>
+ </switch>
+/-->
+</xddl>

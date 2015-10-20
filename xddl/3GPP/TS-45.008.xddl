@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- GSM/EDGE  Radio subsystem link control -->
+  <!-- 3GPP TS 45.008 V10.5.0 (2012) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group GSM/EDGE Radio Access Network; -->
+  <!-- Radio subsystem link control -->
+  <!-- (Release 10) -->
+  <!-- Section 10 GPRS mode tasks -->
+  <!-- Section 10.2 RF Power Control -->
+  <!-- Section 10.2.3.2.1 Packet transfer mode -->
+  <type name="BEP Period 2" id="10.2.3.2.1">
+    <!-- BEP - Bit Error Probability -->
+    <item key="0" value="1"/>
+    <item key="1" value="2"/>
+    <item key="2" value="3"/>
+    <item key="3" value="4"/>
+    <item key="4" value="5"/>
+    <item key="5" value="7"/>
+    <item key="6" value="10"/>
+    <item key="7" value="12"/>
+    <item key="8" value="15"/>
+    <item key="9" value="20"/>
+    <item key="10" value="25"/>
+    <item key="11" value="40"/>
+    <item key="12" value="55"/>
+    <item key="13" value="70"/>
+    <item key="14" value="90"/>
+    <item key="15" value="Norm"/>
+  </type>
+</xddl>

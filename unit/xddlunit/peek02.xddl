@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <uint8 name="a" length="8"/>
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="0">
+        <uint8 name="A" length="8"/>
+      </case>
+      <case value="1">
+        <uint8 name="B" length="8"/>
+      </case>
+    </switch>
+  </start>
+</xddl>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <record id="b">
+    <field name="B" length="8"/>
+    <if expr="B &gt; 0">
+      <fragment href="recurse02.xddl#a"/>
+    </if>
+  </record>
+</xddl>

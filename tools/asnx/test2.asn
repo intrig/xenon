@@ -1,0 +1,17 @@
+EUTRA-RRC-Definitions DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN
+
+UE-EUTRA-Capability-v920-IEs ::=                     SEQUENCE {
+      phyLayerParameters-v920                        PhyLayerParameters-v920,
+      interRAT-ParametersGERAN-v920                       IRAT-ParametersGERAN-v920,
+      interRAT-ParametersUTRA-v920                        IRAT-ParametersUTRA-v920                       OPTIONAL,
+      interRAT-ParametersCDMA2000-v920                    IRAT-ParametersCDMA2000-1XRTT-v920   OPTIONAL,
+      deviceType-r9                                       ENUMERATED {noBenFromBatConsumpOpt} OPTIONAL,
+      csg-ProximityIndicationParameters-r9                 CSG-ProximityIndicationParameters-r9,
+      neighCellSI-AcquisitionParameters-r9                 NeighCellSI-AcquisitionParameters-r9,
+      son-Parameters-r9                                   SON-Parameters-r9,
+      nonCriticalExtension                                UE-EUTRA-Capability-v940-IEs                   OPTIONAL
+}
+
+
+END

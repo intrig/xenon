@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2010 Intrig
+   
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="RFC-1990">
+  <fragment name="Multilink-Max-Receive-Reconstructed-Unit" id="Multilink_MRRU">
+    <field name="MRRU" length="16"/>
+  </fragment>
+
+  <fragment name="Multilink-Max-Receive-Reconstructed-Unit" id="Multilink_Endpoint_Discriminator">
+    <field name="Class" length="16"/>
+    <switch expr="Class">
+      <case value="1">
+        <field name="Address" length="(Length - 3) * 8"/>
+      </case>
+      <case value="2">
+        <field name="IP_Address" length="4*8" type="IP.xddl#ip_address"/>
+      </case>
+      <case value="3">
+        <field name="MAC_Address" length="6*8" type="IP.xddl#hw_address"/>
+      </case>
+      <case value="4">
+        <repeat name="MagicNumbers">
+          <field name="MagicNumber" length="4*8" type="PPP.xddl#MagicNumber"/>
+        </repeat>
+      </case>
+      <case value="5">
+        <field name="TelephoneNumber" length="(Length - 3) * 8"/>
+      </case>
+    </switch>
+  </fragment>
+
+</xddl>

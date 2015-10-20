@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl name="Recursive Fragment">
+  <record id="recurse">
+    <field name="more" length="1"/>
+    <field name="data" length="7"/>
+    <if expr="more">
+      <fragment href="#recurse"/>
+    </if>
+  </record>
+  <start>
+    <fragment href="#recurse"/>
+    <fragment href="#recurse"/>
+  </start>
+</xddl>

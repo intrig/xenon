@@ -1,0 +1,958 @@
+m: field01.xddl: @1
+count: 1
+f: /foo: 1: 1: @1: 
+
+m: field01.xddl: @0
+count: 1
+f: /foo: 0: 1: @0: 
+
+m: field01.xddl: @0
+count: 1
+f: /foo: 0: 1: @0: 
+
+m: field01.xddl: #40
+count: 1
+f: /foo: 0: 1: @0: 
+
+m: field01.xddl: #C0
+count: 1
+f: /foo: 1: 1: @1: 
+
+m: field02.xddl: #000000
+count: 3
+f: /a: 0: 8: #00: 
+f: /b: 0: 8: #00: 
+f: /c: 0: 8: #00: 
+
+m: field02.xddl: #00000000
+count: 4
+f: /a: 0: 8: #00: 
+f: /b: 0: 8: #00: 
+f: /c: 0: 8: #00: 
+f: /d: 0: 8: #00: 
+
+m: field02.xddl: #0000000000
+count: 4
+f: /a: 0: 8: #00: 
+f: /b: 0: 8: #00: 
+f: /c: 0: 8: #00: 
+f: /d: 0: 8: #00: 
+
+m: field02.xddl: #FFFFFF
+count: 3
+f: /a: 255: 8: #FF: 
+f: /b: 255: 8: #FF: 
+f: /c: 255: 8: #FF: 
+
+m: field02.xddl: #FFFFFFFF
+count: 4
+f: /a: 255: 8: #FF: 
+f: /b: 255: 8: #FF: 
+f: /c: 255: 8: #FF: 
+f: /d: 255: 8: #FF: 
+
+m: field02.xddl: #FFFFFFFFFF
+count: 4
+f: /a: 255: 8: #FF: 
+f: /b: 255: 8: #FF: 
+f: /c: 255: 8: #FF: 
+f: /d: 255: 8: #FF: 
+
+m: field02.xddl: #01020304
+count: 4
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 3: 8: #03: 
+f: /d: 4: 8: #04: 
+
+m: field02.xddl: #FF013400
+count: 4
+f: /a: 255: 8: #FF: 
+f: /b: 1: 8: #01: 
+f: /c: 52: 8: #34: 
+f: /d: 0: 8: #00: 
+
+m: subfields01.xddl: #00
+count: 4
+f: /e: 0: 1: @0: 
+f: /f/f1: 0: 1: @0: 
+f: /f/f2: 0: 1: @0: 
+f: /g: 0: 1: @0: 
+
+m: subfields01.xddl: #F0
+count: 4
+f: /e: 1: 1: @1: 
+f: /f/f1: 1: 1: @1: 
+f: /f/f2: 1: 1: @1: 
+f: /g: 1: 1: @1: 
+
+m: subfields01.xddl: #A0
+count: 4
+f: /e: 1: 1: @1: 
+f: /f/f1: 0: 1: @0: 
+f: /f/f2: 1: 1: @1: 
+f: /g: 0: 1: @0: 
+
+m: subfields01.xddl: #FF
+count: 4
+f: /e: 1: 1: @1: 
+f: /f/f1: 1: 1: @1: 
+f: /f/f2: 1: 1: @1: 
+f: /g: 1: 1: @1: 
+
+m: subfields01.xddl: #E0
+count: 4
+f: /e: 1: 1: @1: 
+f: /f/f1: 1: 1: @1: 
+f: /f/f2: 1: 1: @1: 
+f: /g: 0: 1: @0: 
+
+m: subfields01.xddl: #C0
+count: 4
+f: /e: 1: 1: @1: 
+f: /f/f1: 1: 1: @1: 
+f: /f/f2: 0: 1: @0: 
+f: /g: 0: 1: @0: 
+
+m: subfields01.xddl: #80
+count: 4
+f: /e: 1: 1: @1: 
+f: /f/f1: 0: 1: @0: 
+f: /f/f2: 0: 1: @0: 
+f: /g: 0: 1: @0: 
+
+m: field03.xddl: #00
+count: 3
+f: /a: 0: 1: @0: 
+f: /b/b1: 0: 2: @00: 
+f: /b/b2: 0: 3: @000: 
+
+m: subfields02.xddl: #FF
+count: 8
+f: /a: 1: 1: @1: 
+f: /b/b1: 1: 1: @1: 
+f: /b/c/c1: 1: 1: @1: 
+f: /b/c/d/d1: 1: 1: @1: 
+f: /b/c/d/e/e1: 1: 1: @1: 
+f: /b/c/d/e/f/f1: 1: 1: @1: 
+f: /b/c/d/e/f/g/g1: 1: 1: @1: 
+f: /b/c/d/e/f/g/h/h1: 1: 1: @1: 
+
+m: subfields02.xddl: #7F
+count: 8
+f: /a: 0: 1: @0: 
+f: /b/b1: 1: 1: @1: 
+f: /b/c/c1: 1: 1: @1: 
+f: /b/c/d/d1: 1: 1: @1: 
+f: /b/c/d/e/e1: 1: 1: @1: 
+f: /b/c/d/e/f/f1: 1: 1: @1: 
+f: /b/c/d/e/f/g/g1: 1: 1: @1: 
+f: /b/c/d/e/f/g/h/h1: 1: 1: @1: 
+
+m: subfields02.xddl: #FE
+count: 8
+f: /a: 1: 1: @1: 
+f: /b/b1: 1: 1: @1: 
+f: /b/c/c1: 1: 1: @1: 
+f: /b/c/d/d1: 1: 1: @1: 
+f: /b/c/d/e/e1: 1: 1: @1: 
+f: /b/c/d/e/f/f1: 1: 1: @1: 
+f: /b/c/d/e/f/g/g1: 1: 1: @1: 
+f: /b/c/d/e/f/g/h/h1: 0: 1: @0: 
+
+m: subfields02.xddl: #EF
+count: 8
+f: /a: 1: 1: @1: 
+f: /b/b1: 1: 1: @1: 
+f: /b/c/c1: 1: 1: @1: 
+f: /b/c/d/d1: 0: 1: @0: 
+f: /b/c/d/e/e1: 1: 1: @1: 
+f: /b/c/d/e/f/f1: 1: 1: @1: 
+f: /b/c/d/e/f/g/g1: 1: 1: @1: 
+f: /b/c/d/e/f/g/h/h1: 1: 1: @1: 
+
+m: subfields02.xddl: #7E
+count: 8
+f: /a: 0: 1: @0: 
+f: /b/b1: 1: 1: @1: 
+f: /b/c/c1: 1: 1: @1: 
+f: /b/c/d/d1: 1: 1: @1: 
+f: /b/c/d/e/e1: 1: 1: @1: 
+f: /b/c/d/e/f/f1: 1: 1: @1: 
+f: /b/c/d/e/f/g/g1: 1: 1: @1: 
+f: /b/c/d/e/f/g/h/h1: 0: 1: @0: 
+
+m: subfields07.xddl: #01010203
+count: 4
+f: /MessageID: 1: 8: #01: 
+f: /data/NumPilots: 1: 8: #01: 
+f: /data/NGHBR_PN: 2: 8: #02: 
+f: /data/Reserved: 3: 8: #03: 
+
+m: if01.xddl: #FF
+count: 4
+f: /foo: 1: 1: @1: 
+f: /a: 3: 2: @11: 
+f: /b: 7: 3: @111: 
+f: /goo: 3: 2: @11: 
+
+m: if02.xddl: #FF
+count: 5
+f: /coo/a5: 3: 2: @11: 
+f: /coo/b5: 7: 3: @111: 
+f: /coo/boo: 1: 1: @1: 
+f: /coo/zoo: 1: 1: @1: 
+f: /coo/moo: 1: 1: @1: 
+
+m: expression01.xddl: #08FE
+count: 2
+f: /a: 8: 8: #08: 
+f: /b: 254: 8: #FE: 
+
+m: expression04.xddl: #0102030405
+count: 5
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 3: 8: #03: 
+f: /d: 4: 8: #04: 
+f: /e: 0: 1: @0: 
+
+m: expression01.xddl: #00
+count: 1
+f: /a: 0: 8: #00: 
+
+m: expression01.xddl: #0000
+count: 1
+f: /a: 0: 8: #00: 
+
+m: expression02.xddl: #010002
+count: 3
+f: /a: 1: 8: #01: 
+f: /a1/c: 0: 8: #00: 
+f: /b: 2: 8: #02: 
+
+m: expression03.xddl: #010002
+count: 3
+f: /a: 1: 8: #01: 
+f: /a1/a: 0: 8: #00: 
+f: /b: 2: 8: #02: 
+
+m: if03.xddl: #FF
+count: 5
+f: /expr: 1: 1: @1: 
+f: /Mark: 3: 2: @11: 
+f: /Beckwith: 7: 3: @111: 
+f: /is: 1: 1: @1: 
+f: /OK: 1: 1: @1: 
+
+m: if03.xddl: #00
+count: 6
+f: /expr: 0: 1: @0: 
+f: /M: 0: 1: @0: 
+f: /A: 0: 2: @00: 
+f: /B: 0: 2: @00: 
+f: /is: 0: 1: @0: 
+f: /OK: 0: 1: @0: 
+
+m: switch01.xddl: #01FF
+count: 3
+f: /doo: 1: 8: #01: 
+f: /a: 15: 4: @1111: 
+f: /b: 15: 4: @1111: 
+
+m: switch01.xddl: #02AA
+count: 3
+f: /doo: 2: 8: #02: 
+f: /c: 1: 1: @1: 
+f: /d: 42: 7: @0101010: 
+
+m: switch01.xddl: #0300
+count: 3
+f: /doo: 3: 8: #03: 
+f: /e: 0: 2: @00: 
+f: /f: 0: 6: @000000: 
+
+m: switch01.xddl: #05FF
+count: 3
+f: /doo: 5: 8: #05: 
+f: /g: 3: 2: @11: 
+f: /h: 63: 6: @111111: 
+
+m: switch02.xddl: #01FF
+count: 3
+f: /doo: 1: 8: #01: 
+f: /a: 15: 4: @1111: 
+f: /b: 15: 4: @1111: 
+
+m: switch02.xddl: #02AA
+count: 3
+f: /doo: 2: 8: #02: 
+f: /c: 1: 1: @1: 
+f: /d: 42: 7: @0101010: 
+
+m: switch02.xddl: #0300
+count: 3
+f: /doo: 3: 8: #03: 
+f: /e: 0: 2: @00: 
+f: /f: 0: 6: @000000: 
+
+m: repeat01.xddl: #FF
+count: 1
+f: /header: 255: 8: #FF: 
+
+m: repeat01.xddl: #FF01
+count: 2
+f: /header: 255: 8: #FF: 
+f: /repeat/record/neighbor: 1: 8: #01: 
+
+m: repeat01.xddl: #FF0102
+count: 3
+f: /header: 255: 8: #FF: 
+f: /repeat/record/neighbor: 1: 8: #01: 
+f: /repeat/record/neighbor: 2: 8: #02: 
+
+m: repeat01.xddl: #FF010203
+count: 3
+f: /header: 255: 8: #FF: 
+f: /repeat/record/neighbor: 1: 8: #01: 
+f: /repeat/record/neighbor: 2: 8: #02: 
+
+m: repeat02.xddl: #0801020304
+count: 9
+f: /length: 8: 8: #08: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 1: 4: @0001: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 2: 4: @0010: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 3: 4: @0011: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 4: 4: @0100: 
+
+m: repeat02.xddl: #04010203
+count: 7
+f: /length: 4: 8: #04: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 1: 4: @0001: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 2: 4: @0010: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 3: 4: @0011: 
+
+m: repeat02.xddl: #00
+count: 1
+f: /length: 0: 8: #00: 
+
+m: repeat02.xddl: #0401020304
+count: 9
+f: /length: 4: 8: #04: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 1: 4: @0001: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 2: 4: @0010: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 3: 4: @0011: 
+f: /repeat/record/a: 0: 4: @0000: 
+f: /repeat/record/b: 4: 4: @0100: 
+
+m: repeat03.xddl: #00
+count: 1
+f: /repeat/record/item: 0: 8: #00: 
+
+m: repeat03.xddl: #01020304
+count: 4
+f: /repeat/record/item: 1: 8: #01: 
+f: /repeat/record/item: 2: 8: #02: 
+f: /repeat/record/item: 3: 8: #03: 
+f: /repeat/record/item: 4: 8: #04: 
+
+m: repeat04.xddl: #01
+count: 1
+f: /first: 1: 8: #01: 
+
+m: repeat04.xddl: #0102
+count: 2
+f: /first: 1: 8: #01: 
+f: /repeat/record/item: 2: 8: #02: 
+
+m: repeat04.xddl: #010203
+count: 3
+f: /first: 1: 8: #01: 
+f: /repeat/record/item: 2: 8: #02: 
+f: /repeat/record/item: 3: 8: #03: 
+
+m: insert01.xddl: #010203040506
+count: 6
+f: /first: 1: 8: #01: 
+f: /a: 2: 8: #02: 
+f: /b: 3: 8: #03: 
+f: /c: 4: 8: #04: 
+f: /d: 5: 8: #05: 
+f: /last: 6: 8: #06: 
+
+m: variable01.xddl: #00
+count: 1
+f: /EVDO is set: 0: 8: #00: 
+
+m: variable02.xddl: #0001
+count: 2
+f: /top: 0: 8: #00: 
+f: /EVDO not set: 1: 8: #01: 
+
+m: variable02.xddl: #0101
+count: 2
+f: /top: 1: 8: #01: 
+f: /EVDO is set: 1: 8: #01: 
+
+m: function01.xddl: #0100
+count: 3
+f: /a: 1: 8: #01: 
+f: /b: 0: 1: @0: 
+f: /c: 0: 7: @0000000: 
+
+m: function01.xddl: #0200
+count: 3
+f: /a: 2: 8: #02: 
+f: /b: 0: 2: @00: 
+f: /c: 0: 6: @000000: 
+
+m: function01.xddl: #0300
+count: 3
+f: /a: 3: 8: #03: 
+f: /b: 0: 3: @000: 
+f: /c: 0: 5: @00000: 
+
+m: function01.xddl: #0000
+count: 1
+f: /a: 0: 8: #00: 
+
+m: function01.xddl: #0801
+count: 2
+f: /a: 8: 8: #08: 
+f: /b: 1: 8: #01: 
+
+m: function01.xddl: #080100
+count: 2
+f: /a: 8: 8: #08: 
+f: /b: 1: 8: #01: 
+
+m: variable03.xddl: #0102
+count: 2
+f: /a: 1: 8: #01: 
+f: /RPC Array/record/ForwardTrafficValid: 2: 8: #02: 
+
+m: subfields05.xddl: #00FF
+count: 2
+f: /Non-NormativeData/TIME_STAMP_INCL: 0: 8: #00: 
+f: /f1: 255: 8: #FF: 
+
+m: test01.xddl: #010201
+count: 3
+f: /DataType: 1: 8: #01: 
+f: /EvdoMsgType: 2: 8: #02: 
+f: /EvdoDataLength: 1: 8: #01: 
+
+m: repeat07.xddl: #1230
+count: 2
+f: /rep/record/info: 291: 12: @000100100011: 
+f: /pdu_padding: 0: 4: @0000: 
+
+m: comment01.xddl: #01020304
+count: 4
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 3: 8: #03: 
+f: /d: 4: 8: #04: 
+
+m: repeat05.xddl: #01040401020304
+count: 7
+f: /length_in_bytes: 1: 8: #01: 
+f: /length: 4: 8: #04: 
+f: /count: 4: 8: #04: 
+f: /data/repeat/record/item: 1: 8: #01: 
+f: /data/repeat/record/item: 2: 8: #02: 
+f: /data/repeat/record/item: 3: 8: #03: 
+f: /data/repeat/record/item: 4: 8: #04: 
+
+m: repeat05.xddl: #01040301020304
+count: 6
+f: /length_in_bytes: 1: 8: #01: 
+f: /length: 4: 8: #04: 
+f: /count: 3: 8: #03: 
+f: /data/repeat/record/item: 1: 8: #01: 
+f: /data/repeat/record/item: 2: 8: #02: 
+f: /data/repeat/record/item: 3: 8: #03: 
+
+m: repeat05.xddl: #01040501020304
+count: 7
+f: /length_in_bytes: 1: 8: #01: 
+f: /length: 4: 8: #04: 
+f: /count: 5: 8: #05: 
+f: /data/repeat/record/item: 1: 8: #01: 
+f: /data/repeat/record/item: 2: 8: #02: 
+f: /data/repeat/record/item: 3: 8: #03: 
+f: /data/repeat/record/item: 4: 8: #04: 
+
+m: repeat05.xddl: #00090201020304
+count: 4
+f: /length_in_bytes: 0: 8: #00: 
+f: /length: 9: 8: #09: 
+f: /count: 2: 8: #02: 
+f: /data/repeat/record/item: 1: 8: #01: 
+
+m: test02.xddl: #01054142434445
+count: 7
+f: /RECORD_TYPE: 1: 8: #01: 
+f: /RECORD_LEN: 5: 8: #05: 
+f: /INFO_REC_TYPE_SPEC_FLDS/CHARi_LIST/record/CHARi: 65: 8: #41: 
+f: /INFO_REC_TYPE_SPEC_FLDS/CHARi_LIST/record/CHARi: 66: 8: #42: 
+f: /INFO_REC_TYPE_SPEC_FLDS/CHARi_LIST/record/CHARi: 67: 8: #43: 
+f: /INFO_REC_TYPE_SPEC_FLDS/CHARi_LIST/record/CHARi: 68: 8: #44: 
+f: /INFO_REC_TYPE_SPEC_FLDS/CHARi_LIST/record/CHARi: 69: 8: #45: 
+
+m: test03.xddl: #0103020203FF
+count: 6
+f: /type: 1: 8: #01: 
+f: /len: 3: 8: #03: 
+f: /b/f/record/x: 2: 8: #02: 
+f: /b/f/record/y/z1: 2: 8: #02: 
+f: /b/f/record/y/z2: 3: 8: #03: 
+f: /crc: 255: 8: #FF: 
+
+m: test03.xddl: #0103010203FF
+count: 6
+f: /type: 1: 8: #01: 
+f: /len: 3: 8: #03: 
+f: /b/f/record/x: 1: 8: #01: 
+f: /b/f/record/y/z1: 2: 8: #02: 
+f: /b/f/record/x: 3: 8: #03: 
+f: /crc: 255: 8: #FF: 
+
+m: pad02.xddl: #1020FF
+count: 5
+f: /type: 1: 4: @0001: 
+f: /data/a: 0: 5: @00000: 
+f: /data/reserved: 8: 5: @01000: 
+f: /a: 63: 8: #3F: 
+f: /reserved: 3: 2: @11: 
+
+m: pad01.xddl: #1020FF
+count: 5
+f: /type: 1: 4: @0001: 
+f: /data/a: 0: 5: @00000: 
+f: /data/reserved: 2: 3: @010: 
+f: /a: 15: 8: #0F: 
+f: /reserved: 15: 4: @1111: 
+
+m: pad03.xddl: #0A0B
+count: 3
+f: /A: 1: 5: @00001: 
+f: /pad: 2: 3: @010: 
+f: /B: 11: 8: #0B: 
+
+m: insert03.xddl: #0102030405
+count: 5
+f: /first: 1: 8: #01: 
+f: /a: 2: 8: #02: 
+f: /b: 3: 8: #03: 
+f: /c: 4: 8: #04: 
+f: /d: 5: 8: #05: 
+
+m: variable05.xddl: #0102
+count: 2
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+
+m: variable06.xddl: #010203
+count: 3
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /record/c: 3: 8: #03: 
+
+m: variable06.xddl: #FF0203
+count: 3
+f: /a: 255: 8: #FF: 
+f: /b: 2: 8: #02: 
+f: /record/c: 3: 8: #03: 
+
+m: type01.xddl: #3E
+count: 8
+f: /first: 0: 1: @0: Goodbye World!
+f: /second: 0: 1: @0: Goodbye World!
+f: /third: 1: 1: @1: Hello World!
+f: /fourth: 1: 1: @1: Hello World!
+f: /fifth: 1: 1: @1: Hello World!
+f: /sixth: 1: 1: @1: Hello World!
+f: /seventh: 1: 1: @1: Hello World!
+f: /eigth: 0: 1: @0: Goodbye World!
+
+m: type02.xddl: #00010203
+count: 4
+f: /first: 0: 8: #00: >
+f: /second: 1: 8: #01: <
+f: /third: 2: 8: #02: "
+f: /fourth: 3: 8: #03: invalid value
+
+m: type03.xddl: #0001020363647057FF
+count: 9
+f: /first: 0: 8: #00: >
+f: /second: 1: 8: #01: <
+f: /third: 2: 8: #02: "
+f: /fourth: 3: 8: #03: invalid value
+f: /fifth: 99: 8: #63: phosphor
+f: /sixth: 100: 8: #64: phosphor
+f: /seventh: 112: 8: #70: imbue
+f: /eighth: 87: 8: #57: red
+f: /ninth: 255: 8: #FF: invalid value
+
+m: format01.xddl: #1F
+count: 2
+f: /first: 1: 4: @0001: 1 : 0.125 ms
+f: /second: 15: 4: @1111: 15 : 1.875 ms
+
+m: format01.xddl: #FA
+count: 2
+f: /first: 15: 4: @1111: 15 : 1.875 ms
+f: /second: 10: 4: @1010: 10 : 1.250 ms
+
+m: format02.xddl: #01
+count: 1
+f: /second: 1: 8: #01: 0.10 secs
+
+m: type04.xddl: #000402
+count: 3
+f: /first: 0: 8: #00: 0: zero
+f: /second: 4: 8: #04: 4: three - five
+f: /third: 2: 8: #02: 0: zero, 4: three - five, 2, 6
+
+m: type05.xddl: #000101
+count: 3
+f: /BC 0: 0: 8: #00: 800 MHz cellular band is not supported
+f: /BC 1: 1: 8: #01: 1.8 to 2.0 GHz PCS band is supported
+f: /BC 2: 1: 8: #01: 872 to 960 MHz TACS band is supported
+
+m: type06.xddl: #010507FFAF
+count: 5
+f: /Type 1: 1: 8: #01: tcpmux
+f: /Type 2: 5: 8: #05: rje
+f: /Type 3: 7: 8: #07: echo
+f: /Type 4: 255: 8: #FF: Unknown
+f: /Type 5: 175: 8: #AF: Unknown
+
+m: type06.xddl: #0102030405
+count: 5
+f: /Type 1: 1: 8: #01: tcpmux
+f: /Type 2: 2: 8: #02: Unknown
+f: /Type 3: 3: 8: #03: Unknown
+f: /Type 4: 4: 8: #04: Unknown
+f: /Type 5: 5: 8: #05: rje
+
+m: type07.xddl: #01020304
+count: 1
+f: /IP Address 1: 16909060: 32: #01020304: 1.2.3.4
+
+m: type07.xddl: #00FFFF00
+count: 1
+f: /IP Address 1: 16776960: 32: #00FFFF00: 0.255.255.0
+
+m: type07.xddl: #C0A86F0C
+count: 1
+f: /IP Address 1: 3232263948: 32: #C0A86F0C: 192.168.111.12
+
+m: type08.xddl: #00A0CC223D4D
+count: 1
+f: /HW Address 1: 0: 48: #00A0CC223D4D: 00:a0:cc:22:3d:4d
+
+m: type09.xddl: #0102030405
+count: 2
+f: /addr1: 16909060: 32: #01020304: 1.2.3.4
+f: /goo: 5: 8: #05: number: 5, address: 1.2.3.4
+
+m: function02.xddl: #01020304050607
+count: 2
+f: /a: 0: 48: #010203040506: 01:02:03:04:05:06
+f: /b: 7: 8: #07: 7: 01:02:03:04:05:06
+
+m: fragment05.xddl: #0801
+count: 2
+f: /a: 8: 8: #08: 
+f: /b: 1: 8: #01: 
+
+m: fragment06.xddl: #01
+count: 1
+f: /b: 1: 8: #01: 
+
+m: prop01.xddl: #01020304
+count: 4
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /A: 3: 8: #03: 
+f: /B: 4: 8: #04: 
+
+m: prop02.xddl: #010203
+count: 4
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 0: 4: @0000: 
+f: /d: 3: 4: @0011: 
+
+m: variable08.xddl: #01
+count: 1
+f: /a: 1: 8: #01: Hello World!
+
+m: variable09.xddl: #0101
+count: 2
+f: /msg: 1: 8: #01: SessionClose
+f: /layer: 1: 8: #01: (CCMP)
+
+m: switch03.xddl: #0020
+count: 2
+f: /doo: 0: 8: #00: 
+f: /zero: 32: 8: #20: 
+
+m: bias01.xddl: #00
+count: 1
+f: /foo: -1: 1: @0: 
+
+m: bias02.xddl: #FFFFFF
+count: 22
+f: /a: -9: 1: @1: 
+f: /b: -8: 1: @1: 
+f: /c: -7: 1: @1: 
+f: /d: -6: 1: @1: 
+f: /e: -5: 1: @1: 
+f: /f: -4: 1: @1: 
+f: /g: -3: 1: @1: 
+f: /h: -2: 1: @1: 
+f: /i: -1: 1: @1: 
+f: /j: 0: 1: @1: 
+f: /k: 1: 1: @1: 
+f: /l: 2: 1: @1: 
+f: /m: 3: 1: @1: 
+f: /n: 4: 1: @1: 
+f: /o: 5: 1: @1: 
+f: /p: 6: 1: @1: 
+f: /q: 7: 1: @1: 
+f: /s: 8: 1: @1: 
+f: /t: 9: 1: @1: 
+f: /u: 10: 1: @1: 
+f: /v: 11: 1: @1: 
+f: /end: 7: 3: @111: 
+
+m: recurse.xddl: #11213100
+count: 8
+f: /Data: 8: 7: @0001000: 
+f: /Continue: 1: 1: @1: 
+f: /Data: 16: 7: @0010000: 
+f: /Continue: 1: 1: @1: 
+f: /Data: 24: 7: @0011000: 
+f: /Continue: 1: 1: @1: 
+f: /Data: 0: 7: @0000000: 
+f: /Continue: 0: 1: @0: 
+
+m: switch04.xddl: #00
+count: 1
+f: /doo: 0: 8: #00: 
+
+m: setprop.xddl: #0102
+count: 2
+f: /A: 1: 8: #01: SessionClose
+f: /B: 2: 8: #02: KeepAliveRequest
+
+m: recurse02.xddl: #01020300
+count: 4
+f: /A: 1: 8: #01: 
+f: /B: 2: 8: #02: 
+f: /A: 3: 8: #03: 
+f: /B: 0: 8: #00: 
+
+m: fragment09.xddl: #0102
+count: 2
+f: /A: 1: 8: #01: 
+f: /B: 2: 8: #02: 
+
+m: peek01.xddl: #10
+count: 2
+f: /security header: 1: 4: @0001: 
+f: /protocol descriminator: 0: 4: @0000: 
+
+m: peek01.xddl: #11
+count: 2
+f: /bearer identity: 1: 4: @0001: 
+f: /protocol descriminator: 1: 4: @0001: 
+
+m: peek03.xddl: #10
+count: 2
+f: /security header: 1: 4: @0001: 
+f: /protocol descriminator: 0: 4: @0000: 
+
+m: peek03.xddl: #11
+count: 2
+f: /bearer identity: 1: 4: @0001: 
+f: /protocol descriminator: 1: 4: @0001: 
+
+m: script01.xddl: #01
+count: 2
+f: /first: 0: 4: @0000: 0 : 0.000 ms
+f: /second: 1: 4: @0001: 1 : 0.125 ms
+
+m: script01.xddl: #34
+count: 2
+f: /first: 3: 4: @0011: 3 : 0.375 ms
+f: /second: 4: 4: @0100: 4 : 0.500 ms
+
+m: script01.xddl: #AF
+count: 2
+f: /first: 10: 4: @1010: 10 : 1.250 ms
+f: /second: 15: 4: @1111: 15 : 1.875 ms
+
+m: script02.xddl: #AB
+count: 2
+f: /first: 10: 4: @1010: 10: 0,1,2,8,16,17
+f: /second: 11: 4: @1011: no: 11 4 16 16 1
+
+m: type10.xddl: #A0
+count: 8
+f: /first: 1: 1: @1: Hello World!
+f: /second: 0: 1: @0: Goodbye World!
+f: /third: 1: 1: @1: Hello World!
+f: /fourth: 0: 1: @0: Goodbye World!
+f: /fifth: 0: 1: @0: Goodbye World!
+f: /sixth: 0: 1: @0: Goodbye World!
+f: /seventh: 0: 1: @0: Goodbye World!
+f: /eigth: 0: 1: @0: Goodbye World!
+
+m: expression05.xddl: #0802
+count: 2
+f: /a b: 8: 8: #08: 
+f: /b: 2: 8: #02: 
+
+m: record01.xddl: #00AA
+count: 0
+
+m: record02.xddl: #AABB
+count: 1
+f: /record/foo: 10: 4: @1010: 
+
+m: fragment10.xddl: #08BBCC
+count: 3
+f: /A: 8: 8: #08: 
+f: /q: 187: 8: #BB: 
+f: /B: 204: 8: #CC: 
+
+m: globals01.xddl: #0801
+count: 2
+f: /X: 8: 8: #08: 
+f: /Y: 1: 8: #01: 
+
+m: globals02.xddl: #000801
+count: 3
+f: /X: 0: 8: #00: 
+f: /X: 8: 8: #08: 
+f: /Y: 1: 8: #01: 
+
+m: pad04.xddl: #FFFF
+count: 0
+
+m: prop03.xddl: #0102030405
+count: 5
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 3: 8: #03: 
+f: /d: 4: 8: #04: 
+f: /coup: 5: 8: #05: 
+
+m: globals03.xddl: #FF
+count: 1
+f: /A: 255: 8: #FF: 
+
+m: globals04.xddl: #FF
+count: 1
+f: /A: 255: 8: #FF: 
+
+m: prop04.xddl: #FF
+count: 1
+f: /a: 255: 8: #FF: 
+
+m: while01.xddl: #A1B1C1D1E1F100
+count: 28
+f: /record/record/X: 2: 2: @10: 
+f: /record/record/Y: 2: 2: @10: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 1: 1: @1: 
+f: /record/record/X: 2: 2: @10: 
+f: /record/record/Y: 3: 2: @11: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 1: 1: @1: 
+f: /record/record/X: 3: 2: @11: 
+f: /record/record/Y: 0: 2: @00: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 1: 1: @1: 
+f: /record/record/X: 3: 2: @11: 
+f: /record/record/Y: 1: 2: @01: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 1: 1: @1: 
+f: /record/record/X: 3: 2: @11: 
+f: /record/record/Y: 2: 2: @10: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 1: 1: @1: 
+f: /record/record/X: 3: 2: @11: 
+f: /record/record/Y: 3: 2: @11: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 1: 1: @1: 
+f: /record/record/X: 0: 2: @00: 
+f: /record/record/Y: 0: 2: @00: 
+f: /record/record/Z: 0: 3: @000: 
+f: /record/record/continue: 0: 1: @0: 
+
+m: record04.xddl: #FF
+count: 8
+f: /Record 1/A: 1: 1: @1: 
+f: /Record 1/B: 1: 1: @1: 
+f: /Record 1/C: 1: 1: @1: 
+f: /Record 1/D: 1: 1: @1: 
+f: /Record 2/E: 1: 1: @1: 
+f: /Record 2/F: 1: 1: @1: 
+f: /Record 2/G: 1: 1: @1: 
+f: /Record 2/H: 1: 1: @1: 
+
+m: prop05.xddl: #010203
+count: 4
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 0: 4: @0000: 
+f: /d: 3: 4: @0011: 
+
+m: field04.xddl: #010203
+count: 3
+f: /boo: 1: 8: #01: 
+f: /goo: 2: 8: #02: 
+f: /z: 3: 8: #03: 
+
+m: anontype01.xddl: #FF
+count: 2
+f: /first: 1: 1: @1: No way!
+f: /rest: 127: 7: @1111111: 
+
+m: fragment12.xddl: #01010809
+count: 4
+f: /A/first: 1: 8: #01: 
+f: /A/second: 1: 8: #01: 
+f: /x: 8: 8: #08: 
+f: /y: 9: 8: #09: 
+
+m: fragment11.xddl: #000203
+count: 3
+f: /a/x: 0: 8: #00: 
+f: /a/y: 2: 8: #02: 
+f: /z: 3: 8: #03: 
+
+m: per.xddl: @1
+count: 1
+f: /foo: 1: 1: @1: 
+
+m: prop06.xddl: #01
+count: 1
+f: /z: 1: 8: #01: 
+
+

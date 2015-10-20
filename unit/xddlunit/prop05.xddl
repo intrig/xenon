@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>
+  Setting Global Properites declared after reference.
+  This feature was removed for modern version, let's see if that is ok.
+  </comment>
+  <export>
+    <prop name="x" value="8"/>
+  </export>
+  <record id="frag">
+    <field name="a" length="x"/>
+    <field name="b" length="x"/>
+    <setprop name="x" value="4"/>
+  </record>
+  <start>
+    <fragment href="#frag"/>
+    <field name="c" length="x"/>
+    <field name="d" length="x"/>
+  </start>
+</xddl>

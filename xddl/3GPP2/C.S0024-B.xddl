@@ -1,0 +1,3495 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>
+    3GPP2 C.S0024-B v 3.0 
+    June 2012 
+    cdma2000 High Rate Packet Data Air Interface 
+    Specification 
+  </comment>
+  <export>
+    <!-- extern -->
+    <prop name="InConfig"/>
+    <prop name="MessageID"/>
+    <prop name="Name"/>
+    <!-- local -->
+    <prop name="EvdoDataLength" value="0"/>
+    <prop name="EvdoMsgType" value="0"/>
+    <prop name="ExtendedChannelCount" value="0"/>
+  </export>
+  <type name="Default Protocol Stack Type Values" id="2.5.4-1">
+    <item key="#14" value="Stream 0 Application (APP0)"/>
+    <item key="#15" value="Stream 1 Application (APP1)"/>
+    <item key="#16" value="Stream 2 Application (APP2)"/>
+    <item key="#17" value="Stream 3 Application (APP3)"/>
+    <item key="#13" value="Stream Protocol (STR)"/>
+    <item key="#19" value="Virtual Stream"/>
+    <!-- new -->
+    <item key="#10" value="Session Management Protocol (SMP)"/>
+    <item key="#11" value="Address Management Protocol (ADMP)"/>
+    <item key="#12" value="Session Configuration Protocol (SCP)"/>
+    <item key="#1b" value="Multimode Capability Discovery"/>
+    <!-- new -->
+    <item key="#0a" value="Air Link Management Protocol (ALMP)"/>
+    <item key="#0b" value="Initialization State Protocol (ISP)"/>
+    <item key="#0c" value="Idle State Protocol (IDP)"/>
+    <item key="#0d" value="Connected State Protocol (CSP)"/>
+    <item key="#0e" value="Route Update Protocol (RUP)"/>
+    <item key="#0f" value="Overhead Messages Protocol (OMP)"/>
+    <item key="#09" value="Packet Consolidation Protocol (PCP)"/>
+    <item key="#08" value="Security Protocol (SP)"/>
+    <item key="#05" value="Key Exchange Protocol (KEP)"/>
+    <item key="#06" value="Authentication Protocol (AP)"/>
+    <item key="#07" value="Encryption Protocol (EP)"/>
+    <item key="#01" value="Control Channel MAC Protocol (CCMP)"/>
+    <item key="#02" value="Access Channel MAC Protocol (ACMP)"/>
+    <item key="#03" value="Forward Traffic Channel MAC Protocol (FTCMP)"/>
+    <item key="#04" value="Reverse Traffic Channel MAC Protocol (RTCMP)"/>
+    <item key="#00" value="Physical Layer Protocol (PHY)"/>
+  </type>
+  <!-- NOTE: The following section is not referenced -->
+  <!-- 2 Default Signaling Application -->
+  <!-- 2.4 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="2.4.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#2.4.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#2.4.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="2.4.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#2.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="2.4.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#2.7"/>
+    </repeat>
+  </record>
+  <!-- 2.5 Signaling Network Protocol -->
+  <!-- 2.5.4 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="2.5.4.3">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 2.6 Signaling Link Protocol -->
+  <!-- 2.6.5 Header Formats -->
+  <record name="SLP-F Header" id="2.6.5.1">
+    <field name="Reserved" length="4"/>
+    <field name="Fragmented" length="1">
+      <item key="0" value="The SLP-F payload contains a complete SLP-D packet."/>
+      <item key="1" value="The SLP-F payload contains a fragment of an SLP-D packet."/>
+    </field>
+    <if expr="Fragmented">
+      <field name="Begin" length="1">
+        <item key="0" value="This SLP-F payload does not contain the beginning of an SLP-D packet"/>
+        <item key="1" value="This SLP-F payload contains the beginning of an SLP-D packet"/>
+      </field>
+      <field name="End" length="1">
+        <item key="0" value="This SLP-F payload does not contain the end of an SLP-D packet"/>
+        <item key="1" value="This SLP-F payload contains the end of an SLP-D packet"/>
+      </field>
+      <field name="SequenceNumber" length="6"/>
+      <field name="OctetAlignmentPad" length="1"/>
+    </if>
+  </record>
+  <record name="SLP-D Header" id="2.6.5.2">
+    <field name="FullHeaderIncluded" length="1">
+      <item key="1" value="If the sender is either sending or acknowledging a reliable-delivery SLP-D payload, the rest of SLP-D header is included"/>
+      <item key="0" value="The rest of SLP-D header is not included"/>
+    </field>
+    <if expr="FullHeaderIncluded">
+      <field name="AckSequenceValid" length="1">
+        <item key="1" value="The AckSequenceNumber field contains a valid value"/>
+        <item key="0" value="The AckSequenceNumber field does not contain a valid value"/>
+      </field>
+      <field name="AckSequenceNumber" length="3"/>
+      <field name="SequenceValid" length="1">
+        <item key="1" value="The SequenceNumber field contains a valid value"/>
+        <item key="0" value="The SequenceNumber field does not contain a valid value"/>
+      </field>
+      <field name="SequenceNumber" length="3"/>
+    </if>
+  </record>
+  <!-- 2.6.6 Message Formats -->
+  <record name="Message Formats" id="2.6.6">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#2.6.6.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#2.6.6.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Reset" id="2.6.6.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="Reset"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+  </record>
+  <record name="ResetAck" id="2.6.6.2">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="ResetAck"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+  </record>
+  <!-- 2.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="2.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 3 Default Packet Application -->
+  <!-- 3.3 Procedures and Messages for the InConfiguration Instance of the Packet 14 Application -->
+  <record name="Message Formats" id="3.3.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#3.3.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#3.3.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="3.3.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#3.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="3.3.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#3.7"/>
+    </repeat>
+  </record>
+  <!-- 3.4 Radio Link Protocol -->
+  <!-- 3.4.4 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="3.4.4.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#3.4.4.3.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#3.4.4.3.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#3.4.4.3.3"/>
+      </case>
+      <case value="#03">
+        <fragment href="#3.5.4.2.1"/>
+      </case>
+      <case value="#04">
+        <fragment href="#3.5.4.2.2"/>
+      </case>
+      <case value="#05">
+        <fragment href="#3.5.4.2.3"/>
+      </case>
+      <case value="#06">
+        <fragment href="#3.5.4.2.4"/>
+      </case>
+      <case value="#07">
+        <fragment href="#3.6.4.2.1"/>
+      </case>
+      <case value="#08">
+        <fragment href="#3.6.4.2.2"/>
+      </case>
+      <case value="#09">
+        <fragment href="#3.6.4.2.3"/>
+      </case>
+      <case value="#0a">
+        <fragment href="#3.6.4.2.4"/>
+      </case>
+      <case value="#0b">
+        <fragment href="#3.6.4.2.5"/>
+      </case>
+      <case value="#0c">
+        <fragment href="#3.6.4.2.6"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Reset" id="3.4.4.3.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="Radio Link Protocol: Reset"/>
+    </field>
+  </record>
+  <record name="ResetAck" id="3.4.4.3.2">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="Radio Link Protocol: ResetAck"/>
+    </field>
+  </record>
+  <record name="Nak" id="3.4.4.3.3">
+    <field name="MessageID" length="8" default="02">
+      <item key="#02" value="Radio Link Protocol: Nak"/>
+    </field>
+    <field name="NakRequests" length="8"/>
+    <if expr="NakRequests">
+      <repeat name="NakRequest Array" num="NakRequests">
+        <field name="Reserved" length="2"/>
+        <field name="FirstErased" length="22"/>
+        <field name="WindowLen" length="16"/>
+      </repeat>
+    </if>
+  </record>
+  <!-- 3.5 Location Update Protocol -->
+  <!-- 3.5.4 Procedures and Messages for the InUse Instance of the Protocol -->
+  <!-- 3.5.4.2 Message Formats -->
+  <record name="LocationRequest" id="3.5.4.2.1">
+    <field name="MessageID" length="8" default="03">
+      <item key="#03" value="Location Update Protocol: LocationRequest"/>
+    </field>
+  </record>
+  <record name="LocationNotification" id="3.5.4.2.2">
+    <field name="MessageID" length="8" default="04">
+      <item key="#04" value="Location Update Protocol: LocationNotification"/>
+    </field>
+    <field name="LocationType" length="8" type="#3.5.4.2-1"/>
+    <if expr="LocationType">
+      <field name="LocationLength" length="8" default="5"/>
+      <record name="LocationValue" href="#3.5.4.2-2"/>
+    </if>
+  </record>
+  <type name="LocationType Encoding 9" id="3.5.4.2-1">
+    <item key="#00" value="No location is stored"/>
+    <item key="#01" value="Location compatible with C.S0005 Layer 3 Signaling"/>
+    <range start="#02" end="#FF" value="Reserved"/>
+  </type>
+  <record name="Subfields of LocationValue when LocationType = 0x01" id="3.5.4.2-2">
+    <field name="SID" length="15"/>
+    <field name="Reserved" length="1"/>
+    <field name="NID" length="16"/>
+    <field name="PACKET_ZONE_ID" length="8"/>
+  </record>
+  <record name="LocationAssignment" id="3.5.4.2.3">
+    <field name="MessageID" length="8" default="05">
+      <item key="#05" value="Location Update Protocol: LocationAssignment"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="LocationType" length="8" type="#3.5.4.2-1"/>
+    <if expr="LocationType">
+      <field name="LocationLength" length="8" default="5"/>
+      <record name="LocationValue" href="#3.5.4.2-2"/>
+    </if>
+  </record>
+  <record name="LocationComplete" id="3.5.4.2.4">
+    <field name="MessageID" length="8" default="06">
+      <item key="#06" value="Location Update Protocol: LocationComplete"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <!-- 3.6 Flow Control Protocol -->
+  <!-- 3.6.4 Procedures and Messages for the InUse Instance of the Protocol -->
+  <!-- 3.6.4.2 Message Formats -->
+  <record name="XonRequest" id="3.6.4.2.1">
+    <field name="MessageID" length="8" default="07">
+      <item key="#07" value="Flow Control Protocol: XonRequest"/>
+    </field>
+  </record>
+  <record name="XonResponse" id="3.6.4.2.2">
+    <field name="MessageID" length="8" default="08">
+      <item key="#08" value="Flow Control Protocol: XonResponse"/>
+    </field>
+  </record>
+  <record name="XoffRequest" id="3.6.4.2.3">
+    <field name="MessageID" length="8" default="09">
+      <item key="#09" value="Flow Control Protocol: XoffRequest"/>
+    </field>
+  </record>
+  <record name="XoffResponse" id="3.6.4.2.4">
+    <field name="MessageID" length="8" default="#0a">
+      <item key="#0a" value="Flow Control Protocol: XoffResponse"/>
+    </field>
+  </record>
+  <record name="DataReady" id="3.6.4.2.5">
+    <field name="MessageID" length="8" default="#0b">
+      <item key="#0b" value="Flow Control Protocol: DataReady"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="DataReadyAck" id="3.6.4.2.6">
+    <field name="MessageID" length="8" default="#0c">
+      <item key="#0c" value="Flow Control Protocol: DataReadyAck"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <!-- 3.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="3.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#ff" value="ConnectionFailureReportingEnabled"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#FF">
+        <fragment href="#3.7-1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="RANHandoff" id="3.7-1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="Values" length="8" default="00">
+      <item key="#00" value="The access terminal shall not send an unsolicited LocationNotification message. The access network does not switch between the radio access technologies in a manner that preserves the state of all protocol layers at or above the data link layer (PPP)"/>
+      <item key="#01" value="The access terminal shall send an unsolicited LocationNotification message. The access network switches between the radio access technologies in a manner that preserves the state of all protocol layers at or above the data link layer (PPP)"/>
+      <range start="#02" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <!-- 5.2 Stream Protocol -->
+  <!-- 5.2.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="5.2.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#5.2.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#5.2.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="5.2.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat>
+      <fragment href="#5.2.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="5.2.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat>
+      <fragment href="#5.2.7"/>
+    </repeat>
+  </record>
+  <!-- 5.2.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Procedures and Messages for the InUse Instance of the Protocol" id="5.2.6">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <record name="Stream Header" id="5.2.6.2">
+    <field name="Stream" length="2">
+      <item key="0" value="Stream 0"/>
+      <item key="1" value="Stream 1"/>
+      <item key="2" value="Stream 2"/>
+      <item key="3" value="Stream 3"/>
+    </field>
+  </record>
+  <!-- 5.2.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="5.2.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="StreamConfiguration Attribute"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#5.2.7.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="StreamConfiguration Attribute" id="5.2.7.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Stream Array" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <!-- its not a configuration response -->
+        <field name="Stream0Application" length="16" default="#0000" type="#5.2.7.1.1"/>
+        <field name="Stream1Application" length="16" default="#FFFF" type="#5.2.7.1.1"/>
+        <field name="Stream2Application" length="16" default="#FFFF" type="#5.2.7.1.1"/>
+        <field name="Stream3Application" length="16" default="#FFFF" type="#5.2.7.1.1"/>
+      </if>
+    </repeat>
+  </record>
+  <type name="Application Subtypes" id="5.2.7.1.1">
+    <item key="#0000" value="Default Signaling Application"/>
+    <item key="#0001" value="Default Packet Application bound to the radio access network."/>
+    <item key="#0002" value="Default Packet Application bound to the service access network."/>
+    <item key="#0003" value="Test Application Protocol"/>
+    <range start="#0004" end="#FFFE" value="Reserved."/>
+    <item key="#FFFF" value="Stream not used"/>
+  </type>
+  <!-- 5.3 Generic Virtual Stream Protocol -->
+  <!-- 5.3.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="5.3.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#5.3.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#5.3.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="5.3.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#5.3.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="5.3.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#5.3.7"/>
+    </repeat>
+  </record>
+  <!-- 5.3.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <!-- 5.3.6.2 Message Formats -->
+  <record name="ApplicationData" id="5.3.6.2.1">
+    <field name="VirtualStream" length="8"/>
+    <field name="Reserved" length="2"/>
+    <!-- TODO determine the length (cannot determine n) in:   (8 × n) + 6, where n is a non-negative integer -->
+    <field name="StreamLayerPayload" length="6"/>
+  </record>
+  <!-- 5.3.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="5.3.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID-high" length="8" default="#FF">
+      <item key="#FF" value=" "/>
+    </field>
+    <field name="AttributeID-low" length="8">
+      <range start="#01" end="#ff" value="virtual stream number"/>
+    </field>
+    <field name="Values" length="16" default="#ffff">
+      <item key="#FFFF" value="Virtual stream not used"/>
+      <range start="#0000" end="#fffe" value="Application subtype for the application bound to virtual stream number"/>
+    </field>
+  </record>
+  <!-- 6 Session Layer -->
+  <!-- 6.2 Default Session Management Protocol -->
+  <!-- 6.2.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="6.2.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#6.2.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#6.2.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="6.2.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.2.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="6.2.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.2.7"/>
+    </repeat>
+  </record>
+  <!-- 6.2.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="6.2.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#01">
+        <fragment href="#6.2.6.2.1"/>
+      </case>
+      <case value="#02">
+        <fragment href="#6.2.6.2.2"/>
+      </case>
+      <case value="#03">
+        <fragment href="#6.2.6.2.3"/>
+      </case>
+    </switch>
+  </record>
+  <record name="SessionClose" id="6.2.6.2.1">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="SessionClose"/>
+    </field>
+    <field name="CloseReason" length="8" type="#6.2.6.2-1"/>
+    <field name="MoreInfoLen" length="8"/>
+    <record name="MoreInfo" length="8 * MoreInfoLen">
+      <switch expr="CloseReason">
+        <case value="#03">
+          <fragment href="#6.2.6.2.1.1"/>
+        </case>
+        <case value="#04">
+          <repeat>
+            <fragment href="#6.2.6.2.1.2"/>
+          </repeat>
+          <pad name="Reserved"/>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <type name="Encoding of CloseReason Field" id="6.2.6.2-1">
+    <item key="#00" value="Normal Close"/>
+    <item key="#01" value="Close Reply"/>
+    <item key="#02" value="Protocol Error"/>
+    <item key="#03" value="Protocol Configuration Failure"/>
+    <item key="#04" value="Protocol Negotiation Error"/>
+    <item key="#05" value="Session Configuration Failure"/>
+    <item key="#06" value="Session Lost"/>
+    <item key="#07" value="Session Unreachable"/>
+    <item key="#08" value="All session resources busy"/>
+    <range start="#00" end="#FF" value="reserved"/>
+  </type>
+  <record name="Definition of MoreInfo record when the CloseReason is 0x03" id="6.2.6.2.1.1">
+    <field name="TypeLength" length="1"/>
+    <switch expr="TypeLength">
+      <case value="@0">
+        <field name="type" length="7"/>
+      </case>
+      <case value="@1">
+        <field name="type" length="15"/>
+      </case>
+    </switch>
+    <field name="subtype" length="16"/>
+  </record>
+  <record name="Definition of MoreInfo record when the CloseReason is 0x04" id="6.2.6.2.1.2">
+    <field name="TypeLength" length="1"/>
+    <switch expr="TypeLength">
+      <case value="@0">
+        <field name="type" length="7"/>
+      </case>
+      <case value="@1">
+        <field name="type" length="15"/>
+      </case>
+    </switch>
+    <field name="subtype" length="16"/>
+    <field name="NumAttributeRecords" length="8"/>
+    <record name="OffendingAttributeRecord">
+      <!-- TDODO Determine the OffendingAttributeRecord length-->
+      <field name="OffendingAttribute" length="8"/>
+    </record>
+  </record>
+  <record name="KeepAliveRequest" id="6.2.6.2.2">
+    <field name="MessageID" length="8" default="02">
+      <item key="#02" value="KeepAliveRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="KeepAliveResponse" id="6.2.6.2.3">
+    <field name="MessageID" length="8" default="03">
+      <item key="#03" value="KeepAliveResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <!-- 6.2.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="6.2.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#FF" value="SMPClose Time"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#FF">
+        <fragment href="#6.2.7.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="SMPClose Time" id="6.2.7.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SMPClose Time" length="16" default="#0CA8">
+      <item key="#0000" value="disable keep alive messages"/>
+      <item key="#0CA8" value="Default is 54 hours"/>
+      <range start="#0000" end="#FFFF" value="minutes"/>
+    </field>
+  </record>
+  <!-- 6.3 Default Address Management Protocol -->
+  <!-- 6.3.6 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="6.3.6.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#6.3.6.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#6.3.6.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="6.3.6.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.3.8"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="6.3.6.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.3.8"/>
+    </repeat>
+  </record>
+  <!-- 6.3.7 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="6.3.7.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#6.3.7.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#6.3.7.2.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#6.3.7.2.3"/>
+      </case>
+      <case value="#03">
+        <fragment href="#6.3.7.2.4"/>
+      </case>
+      <case value="#04">
+        <fragment href="#6.3.7.2.5"/>
+      </case>
+    </switch>
+  </record>
+  <record name="UATIRequest" id="6.3.7.2.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="UATIRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="UATIAssignment" id="6.3.7.2.2">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="UATIAssignment"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+    <field name="Reserved1" length="7"/>
+    <field name="SubnetIncluded" length="1"/>
+    <if expr="SubnetIncluded">
+      <field name="UATISubnetMask" length="8"/>
+      <field name="UATI104" length="104">
+        <script>
+            description = string.format("#%X", key)
+          </script>
+      </field>
+    </if>
+    <field name="UATIColorCode" length="8"/>
+    <field name="UATI024" length="24">
+      <script>
+          description = string.format("#%X", key)
+        </script>
+    </field>
+    <field name="UpperOldUATILength" length="4"/>
+    <field name="Reserved2" length="4"/>
+  </record>
+  <record name="UATIComplete" id="6.3.7.2.3">
+    <field name="MessageID" length="8" default="02">
+      <item key="#02" value="UATIComplete"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+    <field name="Reserved" length="4"/>
+    <field name="UpperOldUATILength" length="4"/>
+    <field name="UpperOldUATI" length="8 * UpperOldUATILength"/>
+  </record>
+  <record name="HardwareIDRequest" id="6.3.7.2.4">
+    <field name="MessageID" length="8" default="03">
+      <item key="#03" value="HardwareIDRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="HardwareIDResponse" id="6.3.7.2.5">
+    <field name="MessageID" length="8" default="04">
+      <item key="#04" value="HardwareIDResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="HardwareIDType" length="24" type="#6.3.7.2-1"/>
+    <field name="HardwareIDLength" length="8"/>
+    <field name="HardwareIDValue" length="8*HardwareIDLength"/>
+  </record>
+  <type name="HardwareIDType encoding" id="6.3.7.2-1">
+    <range start="#00000" end="#00FFFE" value="Hardware ID #00NNNN"/>
+    <item key="#00FFFF" value="Mobile Equipment Identifier (MEID)"/>
+    <item key="#010000" value="Electronic Serial Number (ESN)"/>
+    <range start="#010001" end="#FFFFFE" value="Invalid"/>
+    <item key="#FFFFFF" value="Null"/>
+  </type>
+  <!-- 6.3.8 Configuration Attributes -->
+  <record name="Configuration Attributes" id="6.3.8">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#FB" value="SupportSecondaryColorCodes"/>
+      <item key="#FC" value="ReducedSubnetMaskOffset"/>
+      <item key="#FD" value="SupportGAUPMaxNoMonitorDistance"/>
+      <item key="#FE" value="HardwareSeparableFromSession"/>
+      <item key="#FF" value="MaxNoMonitorDistance"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#FB">
+        <fragment href="#6.3.8.5"/>
+      </case>
+      <case value="#FC">
+        <fragment href="#6.3.8.4"/>
+      </case>
+      <case value="#FD">
+        <fragment href="#6.3.8.3"/>
+      </case>
+      <case value="#FE">
+        <fragment href="#6.3.8.2"/>
+      </case>
+      <case value="#FF">
+        <fragment href="#6.3.8.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="MaxNoMonitorDistance" id="6.3.8.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="MaxNoMonitorDistance" length="16" default="#0000">
+      <item key="#0000" value="The access terminal will not transition to the Inactive state based on distance"/>
+      <range start="#0001" end="#FFFF" value="Maximum allowed distance traveled without monitoring overhead, beyond which the access terminal will transition to the Inactive state"/>
+    </field>
+  </record>
+  <record name="HardwareSeparableFromSession" id="6.3.8.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="HardwareSeparableFromSession" length="8" default="#00">
+      <item key="#00" value="The session cannot be extricated from the hardware that is identified by the HardwareID"/>
+      <item key="#01" value="The session can be extricated from the hardware that is identified by the HardwareID"/>
+      <range start="#02" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SupportGAUPMaxNoMonitorDistance" id="6.3.8.3">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SupportGAUPMaxNoMonitorDistance" length="8" default="#00">
+      <item key="#00" value="Use of Generic Attribute Update Protocol to update MaxNoMonitorDistance is not supported."/>
+      <item key="#01" value="Use of Generic Attribute Update Protocol to update MaxNoMonitorDistance is supported"/>
+      <range start="#02" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="ReducedSubnetMaskOffset" id="6.3.8.4">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="ReducedSubnetMaskOffset" length="8" default="#00">
+      <item key="#00" value="ReducedSubnetMaskOffset is zero"/>
+      <range start="#01" end="#10" value="Difference between the number of consecutive ‘1’s in the subnet mask and that in the reduced subnet mask"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SupportSecondaryColorCodes" id="6.3.8.5">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SupportSecondaryColorCodes" length="8" default="#00">
+      <item key="#00" value="Use of secondary color codes is not supported"/>
+      <item key="#01" value="Use of secondary color codes is supported"/>
+      <range start="#02" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <!-- 6.4 Default Session Configuration Protocol -->
+  <!-- 6.4.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="6.4.5.3">
+    <!-- This protocol does not define any messages corresponding to the InConfiguration instance of the protocol -->
+  </record>
+  <!-- 6.4.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="6.4.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#6.4.6.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#6.4.6.2.2"/>
+      </case>
+      <case value="#50">
+        <fragment href="#6.4.6.2.3"/>
+      </case>
+      <case value="#51">
+        <fragment href="#6.4.6.2.4"/>
+      </case>
+      <case value="#02">
+        <fragment href="#6.4.6.2.5"/>
+      </case>
+      <case value="#03">
+        <fragment href="#6.4.6.2.6"/>
+      </case>
+      <case value="#04">
+        <fragment href="#6.4.6.2.7"/>
+      </case>
+      <case value="#05">
+        <fragment href="#6.4.6.2.8"/>
+      </case>
+      <case value="#06">
+        <fragment href="#6.4.6.2.9"/>
+      </case>
+      <case value="#07">
+        <fragment href="#6.4.6.2.10"/>
+      </case>
+      <case value="#08">
+        <fragment href="#6.4.6.2.11"/>
+      </case>
+      <case value="#52">
+        <fragment href="#6.4.6.2.12"/>
+      </case>
+      <case value="#53">
+        <fragment href="#6.4.6.2.13"/>
+      </case>
+      <case value="#54">
+        <fragment href="#6.4.6.2.14"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationComplete" id="6.4.6.2.1">
+    <field name="MessageID" length="8" default="#00">
+      <item key="#00" value="ConfigurationComplete"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <if expr="0">
+      <!-- TODO don't have information to parse this -->
+      <field name="SessionConfigurationToken" length="16"/>
+    </if>
+  </record>
+  <record name="ConfigurationStart" id="6.4.6.2.2">
+    <field name="MessageID" length="8" default="#01">
+      <item key="#01" value="ConfigurationStart"/>
+    </field>
+  </record>
+  <record name="ConfigurationRequest" id="6.4.6.2.3">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.4.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="6.4.6.2.4">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.4.7"/>
+    </repeat>
+  </record>
+  <record name="SoftConfigurationComplete" id="6.4.6.2.5">
+    <field name="MessageID" length="8" default="#02">
+      <item key="#02" value="SoftConfigurationComplete"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="PersonalityIndexStore" length="8"/>
+    <field name="Continue" length="1"/>
+    <if expr="Continue">
+      <field name="Commit" length="1"/>
+      <field name="SessionConfigurationToken" length="16"/>
+      <pad name="Reserved"/>
+    </if>
+  </record>
+  <record name="LockConfiguration" id="6.4.6.2.6">
+    <field name="MessageID" length="8" default="#03">
+      <item key="#03" value="LockConfiguration"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="LockConfigurationAck" id="6.4.6.2.7">
+    <field name="MessageID" length="8" default="#04">
+      <item key="#04" value="LockConfigurationAck"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="UnLockConfiguration" id="6.4.6.2.8">
+    <field name="MessageID" length="8" default="#05">
+      <item key="#05" value="UnLockConfiguration"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="UnLockConfigurationAck" id="6.4.6.2.9">
+    <field name="MessageID" length="8" default="#06">
+      <item key="#06" value="UnLockConfigurationAck"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="DeletePersonality" id="6.4.6.2.10">
+    <field name="MessageID" length="8" default="#07">
+      <item key="#07" value="DeletePersonality"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="PersonalityCount" length="4"/>
+    <repeat num="PersonalityCount">
+      <field name="PersonalityIndex" length="4"/>
+    </repeat>
+    <pad name="Reserved"/>
+  </record>
+  <record name="DeletePersonalityAck" id="6.4.6.2.11">
+    <field name="MessageID" length="8" default="#08">
+      <item key="#08" value="UnLockConfigurationAck"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="AttributeUpdateRequest" id="6.4.6.2.12">
+    <field name="MessageID" length="8" default="#52">
+      <item key="#52" value="AttributeUpdateRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.4.7"/>
+    </repeat>
+  </record>
+  <record name="AttributeUpdateAccept" id="6.4.6.2.13">
+    <field name="MessageID" length="8" default="#53">
+      <item key="#53" value="AttributeUpdateAccept"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="AttributeUpdateReject" id="6.4.6.2.14">
+    <field name="MessageID" length="8" default="#54">
+      <item key="#54" value="AttributeUpdateReject"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <record name="Configuration Attributes" id="6.4.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeId" length="16">
+      <!-- valid simple values -->
+      <range start="#0000" end="#00FF" value="Protocol Type"/>
+      <item key="#0100" value="SessionConfigurationToken"/>
+      <item key="#0101" value="SupportGAUPSessionConfiguration"/>
+      <item key="#0110" value="PersonalityCount"/>
+      <item key="#0102" value="SupportConfigurationLock"/>
+      <!-- valid complex values -->
+      <item key="#1000" value="PriorSession"/>
+      <item key="#1001" value="ATSupportedApplicationSubtypes"/>
+    </field>
+    <if expr="AttributeId lte #00FF">
+      <record length="Length * 8">
+        <repeat>
+          <field name="Value" length="16">
+            <item key="#0000" value="Default Protocol Subtype"/>
+            <item key="#fffe" value="Hardlink Protocol Subtype"/>
+            <range start="#0000" end="#ffff" value="Protocol Subtype"/>
+          </field>
+        </repeat>
+        <pad name="Reserved"/>
+      </record>
+    </if>
+    <if expr="AttributeId gt #00FF">
+      <switch expr="AttributeId">
+        <case value="#0100">
+          <record length="Length * 8">
+            <repeat>
+              <field name="Value" length="16">
+                <item key="#0000" value="Default Protocol Subtype"/>
+                <item key="#fffe" value="Hardlink Protocol Subtype"/>
+                <range start="#0000" end="#ffff" value="Protocol Subtype"/>
+              </field>
+            </repeat>
+          </record>
+        </case>
+        <case value="#0101">
+          <record length="Length * 8">
+            <repeat>
+              <field name="Value" length="16">
+                <item key="#0000" value="Not supported"/>
+                <item key="#0001" value="Supported"/>
+              </field>
+            </repeat>
+          </record>
+        </case>
+        <case value="#0110">
+          <record length="Length * 8">
+            <repeat>
+              <field name="Value" length="16" default="#0001">
+                <item key="#0001" value="Max of one personality is supported"/>
+                <range start="#0002" end="#0010" value="Max number of personalities supported"/>
+              </field>
+            </repeat>
+          </record>
+        </case>
+        <case value="#0102">
+          <record length="Length * 8">
+            <repeat>
+              <field name="Value" length="16">
+                <item key="#0000" value="Not upported"/>
+                <range start="#0001" end="#0010" value="Supported"/>
+              </field>
+            </repeat>
+          </record>
+        </case>
+        <case value="#1000">
+          <record length="Length * 8">
+            <field name="AttributeID" length="16" default="#1000">
+              <item key="#1000" value="PriorSession Attribute"/>
+            </field>
+            <repeat min="1">
+              <field name="ValueID" length="8"/>
+              <field name="Restore" length="1"/>
+              <field name="Reserved" length="7"/>
+              <if expr="Restore">
+                <field name="UATI" length="128"/>
+                <field name="SecurityPacketLength" length="8"/>
+                <field name="SecurityPacket" length="SecurityPacketLength * 8"/>
+              </if>
+            </repeat>
+          </record>
+        </case>
+        <case value="#1001">
+          <record length="Length * 8">
+            <field name="AttributeID" length="16" default="#1001">
+              <item key="#1001" value="ATSupportedApplicationSubtypes Attribute"/>
+            </field>
+            <repeat min="1">
+              <field name="ValueID" length="8"/>
+              <field name="NumAppSubtypes" length="8"/>
+              <repeat num="NumAppSubtypes">
+                <field name="ApplicationSubtype" length="16"/>
+              </repeat>
+            </repeat>
+          </record>
+        </case>
+        <default>
+          <field name="unkown attribute" length="Length * 8"/>
+        </default>
+      </switch>
+    </if>
+  </record>
+  <record name="PriorSession Attribute" id="6.4.7.2.1">
+    <field name="Length" length="8"/>
+    <record length="Length * 8">
+      <field name="AttributeID" length="16" default="#1000">
+        <item key="#1000" value="PriorSession Attribute"/>
+      </field>
+      <repeat min="1">
+        <field name="ValueID" length="8"/>
+        <field name="Restore" length="1"/>
+        <field name="Reserved" length="7"/>
+        <if expr="Restore">
+          <field name="UATI" length="128"/>
+          <field name="SecurityPacketLength" length="8"/>
+          <field name="SecurityPacket" length="SecurityPacketLength * 8"/>
+        </if>
+      </repeat>
+    </record>
+  </record>
+  <record name="ATSupportedApplicationSubtypes Attribute" id="6.4.7.2.2">
+    <field name="Length" length="8"/>
+    <record length="Length * 8">
+      <field name="AttributeID" length="16" default="#1001">
+        <item key="#1001" value="ATSupportedApplicationSubtypes Attribute"/>
+      </field>
+      <repeat min="1">
+        <field name="ValueID" length="8"/>
+        <field name="NumAppSubtypes" length="8"/>
+        <repeat num="NumAppSubtypes">
+          <field name="ApplicationSubtype" length="16"/>
+        </repeat>
+      </repeat>
+    </record>
+  </record>
+  <!-- 6.5 Generic Multimode Capability Discovery Protocol -->
+  <!-- 6.5.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="6.5.5.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#6.5.5.2.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#6.5.5.2.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="6.5.5.2.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.5.9"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="6.5.5.2.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#6.5.9"/>
+    </repeat>
+  </record>
+  <!-- 6.5.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="6.5.6.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 6.5.9 Configuration Attributes -->
+  <record name="Configuration Attributes for the Multimode Capability Discovery Protocol" id="6.5.9">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#FA" value="ReceiverDiversity"/>
+      <item key="#FB" value="HybridMSAT"/>
+      <item key="#FC" value="SimultaneousDedicatedChannelReceive"/>
+      <item key="#FD" value="SimultaneousCommonChannelReceive"/>
+      <item key="#FE" value="SimultaneousDedicatedChannelTransmit"/>
+      <item key="#FF" value="SimultaneousCommonChannelTransmit"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#FA">
+        <fragment href="#6.5.9.6"/>
+      </case>
+      <case value="#FB">
+        <fragment href="#6.5.9.5"/>
+      </case>
+      <case value="#FC">
+        <fragment href="#6.5.9.4"/>
+      </case>
+      <case value="#FD">
+        <fragment href="#6.5.9.3"/>
+      </case>
+      <case value="#FE">
+        <fragment href="#6.5.9.2"/>
+      </case>
+      <case value="#FF">
+        <fragment href="#6.5.9.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="SimultaneousCommonChannelTransmit" id="6.5.9.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SimultaneousCommonChannelTransmit" length="8" default="#00">
+      <item key="#00" value="The access terminal does not support multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels"/>
+      <item key="#01" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to adjacent channel numbers in the same band class. The transmitters cannot be tuned to non-adjacent channel numbers in the same band class, or to channels in different band classes"/>
+      <item key="#02" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#03" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 5MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#04" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 10MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#05" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 15MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#06" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 20MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#07" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 5MHz"/>
+      <item key="#08" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 10MHz"/>
+      <item key="#09" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 15MHz."/>
+      <item key="#0A" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 20MHz"/>
+      <item key="#0B" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels. The transmitters can be tuned to separate CDMA channels"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SimultaneousDedicatedChannelTransmit" id="6.5.9.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SimultaneousDedicatedChannelTransmit" length="8" default="#00">
+      <item key="#00" value="The access terminal does not support multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels"/>
+      <item key="#01" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to adjacent channel numbers in the same band class. The transmitters cannot be tuned to non-adjacent channel numbers in the same band class, or to channels in different band classes"/>
+      <item key="#02" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#03" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 5MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#04" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 10MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#05" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 15MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#06" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 20MHz, in the same band class. The transmitters cannot be tuned to channel in different band classes"/>
+      <item key="#07" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 5MHz."/>
+      <item key="#08" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 10MHz"/>
+      <item key="#09" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 15MHz"/>
+      <item key="#0A" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate channel numbers, with a maximum separation of 20MHz"/>
+      <item key="#0B" value="The access terminal supports multiple independently tuneable transmitters that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels. The transmitters can be tuned to separate CDMA channels"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SimultaneousCommonChannelReceive" id="6.5.9.3">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SimultaneousCommonChannelReceive" length="8" default="#00">
+      <item key="#00" value="The access terminal does not support multiple independently tuneable receivers that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x common channels"/>
+      <item key="#01" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface. The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#02" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 5MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes. The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#03" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 10MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes. The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#04" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 15MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes. The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#05" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 20MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes. The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#06" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 5MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel."/>
+      <item key="#07" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 10MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#08" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 15MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#09" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Control Channel and one or more common channels defined by the cdma2000 1x air interface, which are not separated by more than 20MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SimultaneousDedicatedChannelReceive" id="6.5.9.4">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SimultaneousDedicatedChannelReceive" length="8" default="#00">
+      <item key="#00" value="The access terminal does not support multiple independently tuneable receivers that can be used simultaneously on the cdma2000 high rate packet data and the cdma2000 1x dedicated channels"/>
+      <item key="#01" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface. The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#02" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 5MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#03" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 10MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#04" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 15MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#05" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 20MHz, and are in the same band class. The receivers cannot be tuned to channel in different band classes.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#06" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 5MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#07" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 10MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#08" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 15MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <item key="#09" value="The access terminal supports multiple independently tuneable receivers that can be used to simultaneously receive the cdma2000 high rate packet data Traffic Channel and one or more dedicated channels defined by the cdma2000 1x air interface, which are not separated by more than 20MHz.The access terminal is defined to have independently tuneable receivers if each receiver can be tuned to a separate CDMA channel"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="HybridMSAT" id="6.5.9.5">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="HybridMSAT" length="8" default="#01">
+      <item key="#00" value="The access terminal does not support hybrid operation with cdma2000 1x"/>
+      <item key="#01" value="The access terminal does not support hybrid operation with cdma2000 1x"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <record name="ReceiverDiversity" id="6.5.9.6">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="ReceiverDiversity" length="8" default="#01">
+      <item key="#00" value="The access terminal does not support receiver diversity"/>
+      <item key="#01" value="The access terminal supports receiver diversity"/>
+      <range start="#00" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <!-- 7 Connection Layerr -->
+  <!-- 7.2 Default Air-Link Management Protocol -->
+  <!-- 7.2.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.2.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.2.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.2.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.2.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.2.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.2.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.2.7"/>
+    </repeat>
+  </record>
+  <!-- 7.2.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="7.2.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#7.2.6.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#7.2.6.2.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#7.2.6.2.3"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Redirect" id="7.2.6.2.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="Redirect"/>
+    </field>
+    <field name="NumChannel" length="8"/>
+    <repeat name="Channel Array" num="NumChannel">
+      <field name="Channel" length="24"/>
+    </repeat>
+  </record>
+  <record name="ConnectionFailureReport" id="7.2.6.2.2">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="ConnectionFailureReport"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="NumRecords" length="4"/>
+    <repeat name="ConnectionFailure Array" num="NumRecords">
+      <field name="ConnectionFailureReason" length="4" type="#7.2.6.2.2-1"/>
+      <field name="TimeStamp" length="32"/>
+      <field name="SectorID" length="128"/>
+      <record name="ChannelRecord" href="#13.1"/>
+      <field name="LatLongIncluded" length="1"/>
+      <if expr="LatLongIncluded">
+        <field name="Latitude" length="22"/>
+        <field name="Longitude" length="23"/>
+      </if>
+    </repeat>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <type name="ConnectionFailureReason Encoding" id="7.2.6.2.2-1">
+    <item key="#0" value="General Connection Failure (excluding failure due to tune away to another air interface)"/>
+    <item key="#1" value="Connection failure due to tune away to cdma2000 1x air-interface"/>
+    <item key="#2" value="Connection failure due to position determination tune away"/>
+    <range start="#3" end="#F" value="Reserved"/>
+  </type>
+  <record name="ConnectionFailureReportAck" id="7.2.6.2.3">
+    <field name="MessageID" length="8" default="02">
+      <item key="#02" value="ConnectionFailureReportAck"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+  </record>
+  <!-- 7.2.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.2.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#ff" value="ConnectionFailureReportingEnabled"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#FF">
+        <fragment href="#7.2.7-1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Configurable Simple Attributes" id="7.2.7-1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="Values" length="8" default="00">
+      <item key="#00" value="Access terminal does not send ConnectionFailureReport messages"/>
+      <item key="#01" value="Access terminal sends ConnectionFailureReport messages"/>
+      <range start="#02" end="#FF" value="Reserved"/>
+    </field>
+  </record>
+  <!-- 7.3 Default Initialization State Protocol -->
+  <!-- 7.3.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.3.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.3.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.3.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.3.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.3.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.3.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.3.7"/>
+    </repeat>
+  </record>
+  <!-- 7.3.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="7.3.6.2">
+    <peek name="id" length="2" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#7.3.6.2.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Sync" id="7.3.6.2.1">
+    <field name="MessageID" length="2" default="00">
+      <item key="#00" value="Sync"/>
+    </field>
+    <field name="MaximumRevision" length="8"/>
+    <field name="MinimumRevision" length="8"/>
+    <field name="PilotPN" length="9">
+      <script>
+          description = string.format("%d PN chips", key*64)
+        </script>
+    </field>
+    <field name="SystemTime" length="37">
+      <script>
+          -- description = string.format("key=%d: %.4f ms", key, key * (26.0 + 2.0/3.0))
+
+          -- TODO: This was returning 0.000 ms regardles of $$ before because $$
+          -- was a 37 bit number.  Now it returns something else.  This is the
+          -- 32 instead of 64 bit internal representation issue biting us again.
+
+          description = "0.0000 ms"
+        </script>
+    </field>
+  </record>
+  <!-- 7.3.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.3.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 7.4 Default Idle State Protocol -->
+  <!-- 7.4.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.4.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.4.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.4.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.4.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.4.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.4.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.4.7"/>
+    </repeat>
+  </record>
+  <!-- 7.4.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="7.4.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#7.4.6.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#7.4.6.2.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#7.4.6.2.3"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Page" id="7.4.6.2.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="Page"/>
+    </field>
+  </record>
+  <record name="ConnectionRequest" id="7.4.6.2.2">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="ConnectionRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="RequestReason" length="4" type="#7.4.6.2-1"/>
+    <field name="Reserved" length="4"/>
+  </record>
+  <type name="Encoding of the RequestReason Field" id="7.4.6.2-1">
+    <item key="#0" value="Access Terminal Initiated"/>
+    <item key="#1" value="Access Network Initiated"/>
+    <range start="#2" end="#F" value="Invalid"/>
+  </type>
+  <record name="ConnectionDeny" id="7.4.6.2.3">
+    <field name="MessageID" length="8" default="02">
+      <item key="#02" value="ConnectionDeny"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="DenyReason" length="4" type="#7.4.6.2-2"/>
+    <field name="Reserved" length="4"/>
+  </record>
+  <type name="Encoding of the DenyReason Field" id="7.4.6.2-2">
+    <item key="#0" value="General"/>
+    <item key="#1" value="Network Busy"/>
+    <item key="#2" value="Authentication or billing failure"/>
+    <range start="#3" end="#F" value="Reserved"/>
+  </type>
+  <!-- 7.4.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.4.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="PreferredControlChannelCycle Attribute"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#7.4.7.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="PreferredControlChannelCycle Attribute" id="7.4.7.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Value Array" min="1">
+      <field name="ValueID" length="8"/>
+      <field name="PreferredControlChannelCycleEnabled" length="1"/>
+      <if expr="PreferredControlChannelCycleEnabled">
+        <field name="PreferredControlChannelCycle" length="15"/>
+      </if>
+      <pad name="Reserved" mod="8"/>
+    </repeat>
+  </record>
+  <!-- 7.7 Default Connected State Protocol -->
+  <!-- 7.7.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.7.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.7.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.7.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.7.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.7.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.7.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.7.7"/>
+    </repeat>
+  </record>
+  <!-- 7.7.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="7.7.6.2">
+    <peek name="id" length="2" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#7.7.6.2.1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConnectionClose" id="7.7.6.2.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="ConnectionClose"/>
+    </field>
+    <field name="CloseReason" length="3" type="#7.7.6.2-1"/>
+    <field name="SuspendEnable" length="1"/>
+    <if expr="SuspendEnable">
+      <field name="SuspendTime" length="36">
+        <script>
+          description = string.format("#%X", key)
+        </script>
+      </field>
+    </if>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <type name="Encoding of the CloseReason Field" id="7.7.6.2-1">
+    <item key="@000" value="Normal Close; Reason Unspecified"/>
+    <item key="@001" value="Close Reply"/>
+    <item key="@010" value="Connection Error"/>
+    <item key="@011" value="Normal Close; Connection closed because of transition from the high rate packet data system to a cdma2000 1x system"/>
+    <item key="@100" value="Normal Close with request for non-zero suspend time"/>
+    <item key="@101" value="Normal Close with request for zero suspend time"/>
+    <range start="@110" end="@111" value="Reserved"/>
+  </type>
+  <!-- 7.7.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.7.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 7.8 Default Route Update Protocol  -->
+  <!-- 7.8.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.8.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.8.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.8.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.8.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.8.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.8.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.8.7"/>
+    </repeat>
+  </record>
+  <!-- 7.8.6 Procedures and Messages for the InUse Instance of the Protocol  -->
+  <record name="Message Formats" id="7.8.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#7.8.6.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#7.8.6.2.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#7.8.6.2.3"/>
+      </case>
+      <case value="#03">
+        <fragment href="#7.8.6.2.4"/>
+      </case>
+      <case value="#04">
+        <fragment href="#7.8.6.2.5"/>
+      </case>
+      <case value="#05">
+        <fragment href="#7.8.6.2.6"/>
+      </case>
+      <case value="#06">
+        <fragment href="#7.8.6.2.7"/>
+      </case>
+      <case value="#07">
+        <fragment href="#7.8.6.2.8"/>
+      </case>
+    </switch>
+  </record>
+  <record name="RouteUpdate" id="7.8.6.2.1">
+    <field name="MessageID" length="8" default="#00">
+      <item key="#00" value="RouteUpdate"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+    <field name="ReferencePilotPN" length="9">
+      <script>
+        description = string.format("%d PN chips", key*64)
+        </script>
+    </field>
+    <field name="ReferencePilotStrength" length="6"/>
+    <field name="ReferenceKeep" length="1"/>
+    <field name="NumPilots" length="4"/>
+    <repeat num="NumPilots">
+      <field name="PilotPNPhase" length="15">
+        <script>
+          description = string.format("%d chips", key)
+          </script>
+      </field>
+      <field name="ChannelIncluded" length="1"/>
+      <if expr="ChannelIncluded">
+        <record name="Channel" href="#13.1"/>
+      </if>
+      <field name="PilotStrength" length="6"/>
+      <field name="Keep" length="1"/>
+    </repeat>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <record name="TrafficChannelAssignment" id="7.8.6.2.2">
+    <field name="MessageID" length="8" default="#01">
+      <item key="#01" value="TrafficChannelAssignment"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+    <field name="ChannelIncluded" length="1"/>
+    <if expr="ChannelIncluded">
+      <record name="Channel" href="#13.1"/>
+    </if>
+    <field name="FrameOffset" length="4">
+      <script>
+        description = string.format("%d slots", key)
+      </script>
+    </field>
+    <field name="DRCLength" length="2" type="#7.8.6.2-1"/>
+    <field name="DRCChannelGainBase" length="6">
+      <script>
+        description = string.format("%.2f dB", TwosComplement() * 0.5)
+      </script>
+    </field>
+    <field name="AckChannelGain" length="6">
+      <script>
+        description = string.format("%.2f dB", TwosComplement() * 0.5)
+      </script>
+    </field>
+    <field name="NumPilots" length="4"/>
+    <repeat num="NumPilots">
+      <field name="PilotPN" length="9"/>
+      <field name="SofterHandoff" length="1"/>
+      <field name="MACIndex" length="6"/>
+      <field name="DRCCover" length="3"/>
+      <field name="RABLength" length="2" type="#7.8.6.2-2"/>
+      <field name="RABOffset" length="3">
+        <script>
+          description = string.format("%d slots", key*(2^Value("RABLength")))
+          </script>
+      </field>
+    </repeat>
+    <field name="RAChannelGainIncluded" length="1"/>
+    <if expr="RAChannelGainIncluded">
+      <field name="RAChannelGain" length="2" type="#7.8.6.2-3"/>
+    </if>
+    <field name="MACIndexMSBsIncluded" length="1"/>
+    <if expr="MACIndexMSBsIncluded">
+      <field name="MACIndexMSB" length="1"/>
+      <field name="DSCChannelGainBase" length="5"/>
+      <!-- TODO: update engine so we can incrememnt properties in above repeat so we can parse DSC correctly -->
+      <field name="DSC" length="3"/>
+    </if>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <type name="DRCLength Encoding" id="7.8.6.2-1">
+    <item key="@00" value="1 slot"/>
+    <item key="@01" value="2 slots"/>
+    <item key="@10" value="4 slots"/>
+    <item key="@11" value="8 slots"/>
+  </type>
+  <type name="Encoding of the RABLength Field" id="7.8.6.2-2">
+    <item key="@00" value="8 slots"/>
+    <item key="@01" value="16 slots"/>
+    <item key="@10" value="32 slots"/>
+    <item key="@11" value="64 slots"/>
+  </type>
+  <type name="Reverse Activity Channel Gain Encoding" id="7.8.6.2-3">
+    <item key="@00" value="-6 db"/>
+    <item key="@01" value="-9 db"/>
+    <item key="@10" value="-12 db"/>
+    <item key="@11" value="-15 db"/>
+  </type>
+  <record name="TrafficChannelComplete" id="7.8.6.2.3">
+    <field name="MessageID" length="8" default="#02">
+      <item key="#02" value="TrafficChannelComplete"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+  </record>
+  <record name="ResetReport" id="7.8.6.2.4">
+    <field name="MessageID" length="8" default="#03">
+      <item key="#03" value="ResetReport"/>
+    </field>
+  </record>
+  <record name="NeighborList" id="7.8.6.2.5">
+    <field name="MessageID" length="8" default="#03">
+      <item key="#04" value="NeighborList"/>
+    </field>
+    <field name="Count" length="5"/>
+    <repeat num="Count">
+      <field name="PilotPN" length="9"/>
+    </repeat>
+    <repeat num="Count">
+      <field name="ChannelIncluded" length="1"/>
+      <if expr="ChannelIncluded">
+        <record name="Channel" href="#13.1"/>
+      </if>
+    </repeat>
+    <field name="SearchWindowSizeIncluded" length="1"/>
+    <if expr="SearchWindowSizeIncluded">
+      <repeat num="Count">
+        <field name="SearchWindowSize" length="4" type="#7.8.6.2-4"/>
+      </repeat>
+    </if>
+    <field name="SearchWindowOffsetIncluded" length="1"/>
+    <if expr="SearchWindowOffsetIncluded">
+      <repeat num="Count">
+        <field name="SearchWindowOffset" length="3" type="#7.8.6.2-5"/>
+      </repeat>
+    </if>
+    <field name="FPDCHSupportedIncluded" length="1"/>
+    <if expr="FPDCHSupportedIncluded">
+      <!-- TODO update engine to get the correct count here -->
+      <repeat num="Count">
+        <field name="FPDCHSupported" length="3"/>
+      </repeat>
+    </if>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <type name="Search Window Sizes" id="7.8.6.2-4">
+    <item key="0" value="4 chips"/>
+    <item key="1" value="6 chips"/>
+    <item key="2" value="8 chips"/>
+    <item key="3" value="10 chips"/>
+    <item key="4" value="14 chips"/>
+    <item key="5" value="20 chips"/>
+    <item key="6" value="28 chips"/>
+    <item key="7" value="40 chips"/>
+    <item key="8" value="60 chips"/>
+    <item key="9" value="80 chips"/>
+    <item key="10" value="100 chips"/>
+    <item key="11" value="130 chips"/>
+    <item key="12" value="160 chips"/>
+    <item key="13" value="226 chips"/>
+    <item key="14" value="320 chips"/>
+    <item key="15" value="452 chips"/>
+  </type>
+  <type name="Search Window Offset" id="7.8.6.2-5">
+    <item key="0" value="0"/>
+    <item key="1" value="WindowSize / 2"/>
+    <item key="2" value="WindowSize"/>
+    <item key="3" value="3 * WindowSize / 2"/>
+    <item key="4" value="-WindowSize / 2"/>
+    <item key="5" value="-WindowSize"/>
+    <item key="6" value="-3 * WindowSize / 2"/>
+    <item key="7" value="Reserved"/>
+  </type>
+  <record name="AttributeOverride" id="7.8.6.2.6">
+    <field name="MessageID" length="8" default="#05">
+      <item key="#05" value="AttributeOverride"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+    <repeat name="AttributeRecord" min="1">
+      <!-- TODO complete this -->
+      <field name="AttributeRecord" length="8"/>
+    </repeat>
+  </record>
+  <record name="AttributeOverrideResponse" id="7.8.6.2.7">
+    <field name="MessageID" length="8" default="#06">
+      <item key="#06" value="AttributeOverrideResponse"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+  </record>
+  <record name="RouteUpdateRequest" id="7.8.6.2.8">
+    <field name="MessageID" length="8" default="#07">
+      <item key="#07" value="RouteUpdateRequest"/>
+    </field>
+    <field name="MessageSequence" length="8"/>
+  </record>
+  <!-- 7.8.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.8.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="SearchParameters Attribute"/>
+      <item key="#01" value="SetManagementSameChannelParameters Attribute"/>
+      <item key="#02" value="SetManagementDifferentChannelParameters Attribute  "/>
+      <item key="#03" value="SetManagementOverrideAllowed"/>
+      <item key="#04" value="SupportedCDMAChannels Attribute"/>
+      <item key="#FD" value="SupportRouteUpdateEnhancements"/>
+      <item key="#FE" value="RouteUpdateRadiusAdd"/>
+      <item key="#FF" value="RouteUpdateRadiusMultiply"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#7.8.7.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#7.8.7.2.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#7.8.7.2.3"/>
+      </case>
+      <case value="#03">
+        <fragment href="#7.8.7.1.1"/>
+      </case>
+      <case value="#04">
+        <fragment href="#7.8.7.2.4"/>
+      </case>
+      <case value="#FD">
+        <fragment href="#7.8.7.1.4"/>
+      </case>
+      <case value="#FE">
+        <fragment href="#7.8.7.1.3"/>
+      </case>
+      <case value="#FF">
+        <fragment href="#7.8.7.1.2"/>
+      </case>
+      <default>
+        <field name="ValueID" length="Length - 8"/>
+      </default>
+    </switch>
+  </record>
+  <!-- 7.8.7.1 Simple Attributes -->
+  <record name="Simple Attributes - SetManagementOverrideAllowed" id="7.8.7.1.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SetManagementOverrideAllowed" length="8">
+      <item key="#0000" value="The SetManagementSameChannelParameters and SetManagementDifferentChannelParameters attributes in the AttributeOverride message are discarded"/>
+      <item key="#0001" value="The SetManagementSameChannelParameters and SetManagementDifferentChannelParameters attributes in the AttributeOverride message are acted upon"/>
+      <range start="#00" end="#ff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - RouteUpdateRadiusMultiply" id="7.8.7.1.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="RouteUpdateRadiusMultiply" length="8">
+      <item key="#00" value="Distance-based registration is disabled"/>
+      <item key="#0a" value="Multiplier for the Route update radius is 1"/>
+      <range start="#01" end="#64" value="Multiplier for the Route update radius in units of 0.1"/>
+      <range start="#00" end="#ff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - RouteUpdateRadiusAdd" id="7.8.7.1.3">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="RouteUpdateRadiusAdd" length="16">
+      <item key="#0000" value="Addition to the Route update radius is zero"/>
+      <range start="#0001" end="#0fff" value="Addition to the Route update radius expressed as 2’s complement value"/>
+      <range start="#0000" end="#ffff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - SupportRouteUpdateEnhancements" id="7.8.7.1.4">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="SupportRouteUpdateEnhancements" length="8">
+      <item key="#00" value="Use of Generic Attribute Update Protocol to update RouteUpdateRadiusMultiply and RouteUpdateRadiusAdd and processing of RouteUpdateRequest message is not supported"/>
+      <item key="#01" value="Use of Generic Attribute Update Protocol to update RouteUpdateRadiusMultiply and RouteUpdateRadiusAdd and processing of RouteUpdateRequest message without Channel Record is supported"/>
+      <item key="#02" value="Use of Generic Attribute Update Protocol to update RouteUpdateRadiusMultiply and RouteUpdateRadiusAdd and processing of RouteUpdateRequest message with Channel Record whose SystemType is equal to 0x00 is supported"/>
+      <item key="#03" value="Use of Generic Attribute Update Protocol to update RouteUpdateRadiusMultiply and RouteUpdateRadiusAdd and processing of RouteUpdateRequest message with Channel Record whose SystemType is equal to 0x00 and 0x01 is supported"/>
+      <range start="#00" end="#ff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SearchParameters Attribute" id="7.8.7.2.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Value Array" min="1">
+      <field name="ValueID" length="8"/>
+      <field name="PilotIncrement" length="4" default="4">
+        <script>
+            description = string.format("%d PN chips", key*64)
+          </script>
+      </field>
+      <field name="SearchWindowActive" length="4" default="8" type="#7.8.6.2-4"/>
+      <field name="SearchWindowNeighbor" length="4" default="10" type="#7.8.6.2-4"/>
+      <field name="SearchWindowRemaining" length="4" default="10" type="#7.8.6.2-4"/>
+    </repeat>
+  </record>
+  <record name="SetManagementSameChannelParameters Attribute" id="7.8.7.2.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Value Array" min="1">
+      <field name="ValueID" length="8"/>
+      <field name="PilotAdd" length="6" default="#0e"/>
+      <field name="PilotCompare" length="6" default="#05"/>
+      <field name="PilotDrop" length="6" default="#12"/>
+      <field name="PilotDropTimer" length="4" default="3" type="#7.8.7.2.2-1"/>
+      <field name="DynamicThresholds" length="1" default="0"/>
+      <if expr="DynamicThresholds">
+        <field name="SoftSlope" length="6"/>
+        <field name="AddIntercept" length="6"/>
+        <field name="DropIntercept" length="6"/>
+      </if>
+      <field name="NeighborMaxAge" length="4"/>
+      <pad name="Reserved" mod="8"/>
+    </repeat>
+  </record>
+  <type name="Pilot Drop Timer Values" id="7.8.7.2.2-1">
+    <item key="0" value="&lt; 0.1 seconds"/>
+    <item key="1" value="1 seconds"/>
+    <item key="2" value="2 seconds"/>
+    <item key="3" value="4 seconds"/>
+    <item key="4" value="6 seconds"/>
+    <item key="5" value="9 seconds"/>
+    <item key="6" value="13 seconds"/>
+    <item key="7" value="19 seconds"/>
+    <item key="8" value="27 seconds"/>
+    <item key="9" value="39 seconds"/>
+    <item key="10" value="55 seconds"/>
+    <item key="11" value="79 seconds"/>
+    <item key="12" value="112 seconds"/>
+    <item key="13" value="159 seconds"/>
+    <item key="14" value="225 seconds"/>
+    <item key="15" value="319 seconds"/>
+  </type>
+  <record name="SetManagementDifferentChannelParameters Attribute" id="7.8.7.2.3">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Value Array" min="1">
+      <field name="ValueID" length="8"/>
+      <field name="PilotAdd" length="6" default="#0e"/>
+      <field name="PilotCompare" length="6" default="#05"/>
+      <field name="PilotDrop" length="6" default="#12"/>
+      <field name="PilotDropTimer" length="4" default="3" type="#7.8.7.2.2-1"/>
+      <field name="DynamicThresholds" length="1" default="0"/>
+      <if expr="DynamicThresholds">
+        <field name="SoftSlope" length="6"/>
+        <field name="AddIntercept" length="6"/>
+        <field name="DropIntercept" length="6"/>
+      </if>
+      <field name="NeighborMaxAge" length="4"/>
+      <pad name="Reserved" mod="8"/>
+    </repeat>
+  </record>
+  <record name="SupportedCDMAChannels Attribute" id="7.8.7.2.4">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Value Array" min="1">
+      <field name="ValueID" length="8"/>
+      <field name="BandClassCount" length="8" default="0"/>
+      <repeat name="BandClass Array" num="BandClassCount">
+        <field name="BandClass" length="5"/>
+        <field name="BandSubClassCount" length="8"/>
+        <repeat name="BandSubClass Array" num="BandSubClassCount">
+          <field name="BandSubClass" length="8"/>
+        </repeat>
+      </repeat>
+      <pad name="Reserved" mod="8"/>
+    </repeat>
+  </record>
+  <!-- 7.10 Default Packet Consolidation Protocol -->
+  <!-- 7.10.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.10.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.10.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.10.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.10.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.10.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.10.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.10.7"/>
+    </repeat>
+  </record>
+  <!-- 7.10.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="7.10.6.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 7.10.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.10.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 7.11 Overhead Messages Protocol -->
+  <!-- 7.11.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="7.11.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#7.11.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#7.11.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="7.11.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.11.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="7.11.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#7.11.7"/>
+    </repeat>
+  </record>
+  <!-- 7.11.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="7.11.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#7.11.6.2.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#7.11.6.2.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="QuickConfig" id="7.11.6.2.1">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="QuickConfig"/>
+    </field>
+    <field name="ColorCode" length="8"/>
+    <field name="SectorID24" length="24"/>
+    <field name="SectorSignature" length="16"/>
+    <field name="AccessSignature" length="16"/>
+    <field name="Redirect" length="1"/>
+    <field name="RPCCount63To0" length="6"/>
+    <if expr="RPCCount63To0">
+      <repeat name="RPC63 Array" num="RPCCount63To0">
+        <field name="ForwardTrafficValid63To0" length="1"/>
+        <if expr="ForwardTrafficValid63To0">
+          <field name="RPCCount127To64Included" length="1"/>
+          <field name="RPCCount127To64" length="6"/>
+          <if expr="RPCCount127To64">
+            <repeat name="RPC127 Array" num="RPCCount127To64">
+              <field name="ForwardTrafficValid127To64" length="1"/>
+            </repeat>
+          </if>
+          <field name="RPCCount130To383Included" length="1"/>
+          <field name="RPCCount130To383" length="8"/>
+          <if expr="RPCCount130To383">
+            <repeat name="RPC130 Array" num="RPCCount130To383">
+              <field name="ForwardTrafficValid130To383" length="1"/>
+            </repeat>
+          </if>
+        </if>
+      </repeat>
+    </if>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <record name="SectorParameters" id="7.11.6.2.2">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="SectorParameters"/>
+    </field>
+    <field name="CountryCode" length="12"/>
+    <field name="SectorID" length="128">
+      <script>
+          description = string.format("#%X", key)
+       </script>
+    </field>
+    <field name="SubnetMask" length="8"/>
+    <field name="SectorSignature" length="16"/>
+    <field name="Latitude" length="22">
+      <script>
+          local bit21 = 2097152 -- this is 1 left shift 21, should add function 
+          local bit22 = 4194304 -- 1 leftshift 22
+          local degrees = ((key &lt;= bit21) and key or key - bit22) /60 /60 /4;
+          local minutes = ((key &lt;= bit21) and key or 0 - (key - bit22) /60/4)%60;
+          local sec = (((key &lt;= bit21) and key or 0 - (key - bit22)) % (60*4))/4.0;
+
+          description = string.format("%d degrees, %d min, %.2f sec", degrees,
+          minutes, sec)
+        </script>
+    </field>
+    <field name="Longitude" length="23">
+      <script>
+          local bit22 = 4194304 -- 1 leftshift 22
+          local bit23 = 8388608 -- 1 leftshift 23
+          local degrees = ((key &lt;= bit22) and key or key - bit23) /60 /60 /4;
+          local minutes = ((key &lt;= bit22) and key or 0 - (key - bit23) /60/4)%60;
+          local sec = (((key &lt;= bit22) and key or 0 - (key - bit23)) % (60*4))/4.0;
+
+          description = string.format("%d degrees, %d min, %.2f sec", degrees,
+          minutes, sec)
+        </script>
+    </field>
+    <field name="RouteUpdateRadiusOverhead" length="11"/>
+    <field name="LeapSeconds" length="8">
+      <script>
+          description = string.format("%d Seconds", key)
+        </script>
+    </field>
+    <field name="LocalTimeOffset" length="11">
+      <script>
+          description = string.format("%d Minutes", key)
+        </script>
+    </field>
+    <field name="ReverseLinkSilenceDuration" length="2">
+      <script>
+          description = string.format("%d Frames", key)
+        </script>
+    </field>
+    <field name="ReverseLinkSilencePeriod" length="2"/>
+    <field name="ChannelCount" length="5"/>
+    <if expr="ChannelCount">
+      <repeat name="Channel Array" num="ChannelCount">
+        <field name="Channel" length="24"/>
+      </repeat>
+    </if>
+    <field name="NeighborCount" length="5"/>
+    <if expr="NeighborCount">
+      <repeat name="PilotPN Array" num="NeighborCount">
+        <field name="NeighborPilotPN" length="9"/>
+      </repeat>
+      <repeat name="Channel Array" num="NeighborCount">
+        <field name="NeighborChannelIncluded" length="1"/>
+        <if expr="NeighborChannelIncluded">
+          <field name="NeighborChannel" length="24"/>
+        </if>
+      </repeat>
+    </if>
+    <field name="NeighborSearchWindowSizeIncluded" length="1"/>
+    <if expr="NeighborSearchWindowSizeIncluded">
+      <if expr="NeighborCount">
+        <repeat name="Search Window Size Array" num="NeighborCount">
+          <field name="NeighborSearchWindowSize" length="4" type="#7.11.6.2-1"/>
+        </repeat>
+      </if>
+    </if>
+    <field name="NeighborSearchWindowOffsetIncluded" length="1"/>
+    <if expr="NeighborSearchWindowOffsetIncluded">
+      <if expr="NeighborCount">
+        <repeat name="Search Window Offset Array" num="NeighborCount">
+          <field name="NeighborSearchWindowOffset" length="3" type="#7.11.6.2-2"/>
+        </repeat>
+      </if>
+    </if>
+    <field name="ExtendedChannelIncluded" length="1"/>
+    <if expr="ExtendedChannelIncluded">
+      <field name="ExtendedChannelCount" length="5"/>
+      <if expr="ExtendedChannelCount">
+        <repeat name="Extended Channel Array" num="ExtendedChannelCount">
+          <field name="ExtendedChannel" length="24"/>
+          <setprop name="ExtendedChannelCount" value="ExtendedChannel"/>
+        </repeat>
+      </if>
+      <field name="AccessHashingChannelMaskIncluded" length="1"/>
+      <if expr="AccessHashingChannelMaskIncluded">
+        <field name="AccessHashingMaskLength" length="4"/>
+        <if expr="ChannelCount+ExtendedChannelCount">
+          <repeat name="Access Hashing Array" num="ChannelCount+ExtendedChannelCount">
+            <field name="AccessHashingChannelMaskSameAsPrevious" length="1"/>
+            <if expr="AccessHashingChannelMaskSameAsPrevious">
+              <field name="AccessHashingChannelMask" length="AccessHashingMaskLength+1"/>
+            </if>
+          </repeat>
+        </if>
+      </if>
+      <field name="RouteUpdateTriggerCodeIncluded" length="1"/>
+      <if expr="RouteUpdateTriggerCodeIncluded">
+        <field name="RouteUpdateTriggerCode" length="12"/>
+        <field name="RouteUpdateTriggerMaxAge" length="4"/>
+      </if>
+      <field name="PriorSessionGAUP" length="1"/>
+      <field name="FPDCHSupportedIncluded" length="1"/>
+      <if expr="FPDCHSupportedIncluded">
+        <if expr="NeighborCount">
+          <repeat name="FPDCHSupported Array" num="NeighborCount">
+            <field name="FPDCHSupported" length="1"/>
+          </repeat>
+        </if>
+      </if>
+      <field name="SecondaryColorCodeIncluded" length="1"/>
+      <if expr="SecondaryColorCodeIncluded">
+        <field name="SecondaryColorCodeCount" length="3"/>
+        <if expr="SecondaryColorCodeCount">
+          <repeat name="SecondaryColorCode Array" num="SecondaryColorCodeCount">
+            <field name="SecondaryColorCode" length="8"/>
+          </repeat>
+        </if>
+      </if>
+      <field name="PilotGroupIDLoopIncluded" length="1"/>
+      <if expr="PilotGroupIDLoopIncluded">
+        <if expr="NeighborCount">
+          <!-- The -m in NeigthborCount + 1 - m in the following num expression is (ChannelCount+ExtendedChannelCount) -->
+          <repeat name="PilotGroupID Array" num="NeighborCount + 1 - ChannelCount - ExtendedChannelCount">
+            <field name="PilotGroupIDIncluded" length="1"/>
+            <if expr="PilotGroupIDIncluded">
+              <field name="PilotGroupID" length="3"/>
+            </if>
+          </repeat>
+        </if>
+      </if>
+    </if>
+    <field name="IsSectorMultiCarrierCapable" length="1"/>
+    <if expr="IsSectorMultiCarrierCapable">
+      <if expr="ChannelCount+ExtendedChannelCount">
+        <repeat name="PilotGroupID Array" num="ChannelCount+ExtendedChannelCount">
+          <field name="ReverseBandClass" length="5"/>
+          <field name="ReverseChannelNumber" length="11"/>
+        </repeat>
+      </if>
+    </if>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <type name="Search Window Sizes" id="7.11.6.2-1">
+    <item key="0" value="4 chips"/>
+    <item key="1" value="6 chips"/>
+    <item key="2" value="8 chips"/>
+    <item key="3" value="10 chips"/>
+    <item key="4" value="14 chips"/>
+    <item key="5" value="20 chips"/>
+    <item key="6" value="28 chips"/>
+    <item key="7" value="40 chips"/>
+    <item key="8" value="60 chips"/>
+    <item key="9" value="80 chips"/>
+    <item key="10" value="100 chips"/>
+    <item key="11" value="130 chips"/>
+    <item key="12" value="160 chips"/>
+    <item key="13" value="226 chips"/>
+    <item key="14" value="320 chips"/>
+    <item key="15" value="452 chips"/>
+  </type>
+  <type name="Search Window Offset" id="7.11.6.2-2">
+    <item key="0" value="0"/>
+    <item key="1" value="WindowSize/2"/>
+    <item key="2" value="WindowSize"/>
+    <item key="3" value="3 * WindowSize/2"/>
+    <item key="4" value="-WindowSize/2"/>
+    <item key="5" value="-WindowSize"/>
+    <item key="6" value="-3 * WindowSize/2"/>
+    <item key="7" value="Reserved"/>
+  </type>
+  <!-- 7.11.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="7.11.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#FC" value="SupportedCDMAChannels Attribute"/>
+      <item key="#FD" value="ShortTermOverheadCachePeriod"/>
+      <item key="#FE" value="RouteUpdateTriggerCodeListSize"/>
+      <item key="#FF" value="OverheadCachePeriod"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#FC">
+        <fragment href="#7.11.7.1.4"/>
+      </case>
+      <case value="#FD">
+        <fragment href="#7.11.7.1.3"/>
+      </case>
+      <case value="#FE">
+        <fragment href="#7.11.7.1.2"/>
+      </case>
+      <case value="#FF">
+        <fragment href="#7.11.7.1.1"/>
+      </case>
+      <default>
+        <field name="ValueID" length="Length - 8"/>
+      </default>
+    </switch>
+  </record>
+  <!-- 7.11.7.1 Simple Attributes -->
+  <record name="Simple Attributes - OverheadCachePeriod" id="7.11.7.1.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="OverheadCachePeriod" length="8">
+      <item key="#00" value="Value of the long-term overhead cache period is zero"/>
+      <range start="#01" end="#ff" value="Value of the long-term overhead cache period in units of 5.12 seconds. The access network shall set the configured value of this attribute such that it is greater than or equal to the configured value of the ShortTermOverheadCachePeriod"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - RouteUpdateTriggerCodeListSize" id="7.11.7.1.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="RouteUpdateTriggerCodeListSize" length="8">
+      <item key="#00" value="Sending of RouteUpdate messages based on the RouteUpdateTriggerCodeList is disabled"/>
+      <range start="#01" end="#05" value="Size of the RouteUpdateTriggerCodeList"/>
+      <range start="#06" end="#ff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - ShortTermOverheadCachePeriod" id="7.11.7.1.3">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="ShortTermOverheadCachePeriod" length="16">
+      <item key="#00" value="Value of the short-term overhead cache period is zero"/>
+      <range start="#01" end="#ff" value="Value of the short-term overhead cache period in units of 5.12 seconds"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - IsSupervisionDisablingWhileIdlewithCacheSupported" id="7.11.7.1.4">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="IsSupervisionDisablingWhileIdlewithCacheSupported" length="16">
+      <item key="#00" value="Suspending the overhead supervision timers while idle if the overhead information is cached is not supported"/>
+      <item key="#01" value="Suspending the overhead supervision timers while idle if the overhead information is cached is supported"/>
+      <range start="#02" end="#ff" value="Reserved"/>
+    </field>
+  </record>
+  <!-- 8 Security Layer -->
+  <!-- 8.3 Default Security Protocol -->
+  <!-- 8.3.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.3.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#8.3.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.3.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="8.3.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.3.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.3.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.3.7"/>
+    </repeat>
+  </record>
+  <!-- 8.3.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="8.3.6.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.3.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.3.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- NOTE: The following section is not referenced -->
+  <!-- 8.4 Generic Security Protocol -->
+  <!-- 8.4.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.4.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#8.4.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.4.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="8.4.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.4.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.4.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.4.7"/>
+    </repeat>
+  </record>
+  <!-- 8.4.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="8.4.6.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.4.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.4.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 8.5 Default Key Exchange Protocol -->
+  <!-- 8.5.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.5.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#8.5.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.5.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="8.5.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.5.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.5.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.5.7"/>
+    </repeat>
+  </record>
+  <!-- 8.5.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="8.5.6.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.5.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.5.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- NOTE: The following section is not referenced -->
+  <!-- 8.6 DH Key Exchange Protocol -->
+  <!-- 8.6.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.6.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#8.6.5.3.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#8.6.5.3.2"/>
+      </case>
+      <case value="#02">
+        <fragment href="#8.6.5.3.3"/>
+      </case>
+      <case value="#03">
+        <fragment href="#8.6.5.3.4"/>
+      </case>
+      <case value="#50">
+        <fragment href="#8.6.5.3.5"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.6.5.3.6"/>
+      </case>
+    </switch>
+  </record>
+  <record name="KeyRequest" id="8.6.5.3.1">
+    <field name="MessageID" length="8" default="#00">
+      <item key="#00" value="KeyRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="Timeout" length="8"/>
+    <record name="ATPubKey">
+      <repeat name="Bit Array" min="1">
+        <field name="bit" length="1"/>
+      </repeat>
+    </record>
+  </record>
+  <record name="KeyResponse" id="8.6.5.3.2">
+    <field name="MessageID" length="8" default="#01">
+      <item key="#01" value="KeyResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="Timeout" length="8"/>
+    <record name="ATPubKey">
+      <repeat name="Bit Array" min="1">
+        <field name="bit" length="1"/>
+      </repeat>
+    </record>
+  </record>
+  <record name="ANKeyComplete" id="8.6.5.3.3">
+    <field name="MessageID" length="8" default="#02">
+      <item key="#02" value="ANKeyComplete"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="Nonce" length="16"/>
+    <field name="TimestampShort" length="16"/>
+    <field name="KeySignature" length="160"/>
+  </record>
+  <record name="ATKeyComplete" id="8.6.5.3.4">
+    <field name="MessageID" length="8" default="#03">
+      <item key="#03" value="ATKeyComplete"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <field name="Result" length="1"/>
+    <field name="Reserved" length="7"/>
+  </record>
+  <record name="ConfigurationRequest" id="8.6.5.3.5">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.6.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.6.5.3.6">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.6.7"/>
+    </repeat>
+  </record>
+  <!-- 8.6.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="8.6.6.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.6.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.6.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="Session Key Length (KeyLength)"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#8.6.7-1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Configurable Values - Session Key Length (KeyLength)" id="8.6.7-1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="Session Key Length (KeyLength)" length="8" default="#00">
+      <item key="#00" value="Default is 96-octet (768-bit) Diffie-Hellman key. KeyLength = 768"/>
+      <item key="#01" value="128-octet (1024-bit) Diffie-Hellman key. KeyLength = 1024"/>
+      <range start="#02" end="#ff" value="Reserved"/>
+    </field>
+  </record>
+  <!-- 8.7 Default Authentication Protocol -->
+  <!-- 8.7.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.7.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#8.7.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.7.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="8.7.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.7.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.7.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.7.7"/>
+    </repeat>
+  </record>
+  <!-- 8.7.6 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.7.6.4">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.7.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.7.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- NOTE: The following section is not referenced -->
+  <!-- 8.8 SHA-1 Authentication Protocol -->
+  <!-- 8.8.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.8.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#8.8.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.8.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="8.8.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.8.8"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.8.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.8.8"/>
+    </repeat>
+  </record>
+  <!-- 8.8.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Procedures and Messages for the InUse Instance of the Protocol" id="8.8.6">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.8.8 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.8.8">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="ACAuthKeyLength"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#8.8.8-1"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Configurable Values - ACAuthKeyLength" id="8.8.8-1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="ACAuthKeyLength" length="16" default="#A0">
+      <item key="#00A0" value="Default value for the authentication key length in bits"/>
+      <range start="#0000" end="#FF" value="Access Channel authentication key length in bits"/>
+    </field>
+  </record>
+  <!-- 8.9 Default Encryption Protocol -->
+  <!-- 8.9.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="8.9.4.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#8.9.4.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#8.9.4.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="8.9.4.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.9.6"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="8.9.4.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#8.9.6"/>
+    </repeat>
+  </record>
+  <!-- 8.9.5 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Message Formats" id="8.9.5.2">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 8.9.6 Configuration Attributes -->
+  <record name="Configuration Attributes" id="8.9.6">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 9 MAC Layer -->
+  <!-- 9.2 Default Control Channel MAC Protocol -->
+  <!-- 9.2.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="9.2.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#9.2.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#9.2.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="9.2.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.2.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="9.2.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.2.7"/>
+    </repeat>
+  </record>
+  <!-- 9.2.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Procedures and Messages for the InUse Instance of the Protocol" id="9.2.6">
+    <!-- No messages are defined for the InUse instance of this protocol -->
+  </record>
+  <!-- 9.2.7 Configuration Attributes-->
+  <record name="Configuration Attributes" id="9.2.7">
+    <!-- No configuration attributes are defined for this protocol -->
+  </record>
+  <!-- 9.4 Default Access Channel MAC Protocol -->
+  <!-- 9.4.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="9.4.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#9.4.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#9.4.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="9.4.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.4.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="9.4.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.4.7"/>
+    </repeat>
+  </record>
+  <!-- 9.4.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Header and Message Formats" id="9.4.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#9.4.6.2.5"/>
+      </case>
+      <case value="#01">
+        <fragment href="#9.4.6.2.6"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ACAck" id="9.4.6.2.5">
+    <field name="MessageID" length="8" default="01">
+      <item key="#00" value="ACAck"/>
+    </field>
+  </record>
+  <record name="AccessParameters" id="9.4.6.2.6">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="AccessParameters"/>
+    </field>
+    <field name="AccessCycleDuration" length="8"/>
+    <field name="AccessSignature" length="16"/>
+    <field name="OpenLoopAdjust" length="8"/>
+    <field name="ProbeInitialAdjust" length="5"/>
+    <field name="ProbeNumStep" length="4"/>
+    <field name="PowerStep" length="4"/>
+    <field name="PreambleLength" length="3"/>
+    <field name="CapsuleLengthMax" length="4"/>
+    <!-- NACMPAPersist (4) occurrences of the following field: -->
+    <repeat name="Persistence Array" num="4">
+      <field name="APersistence" length="6"/>
+    </repeat>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <!-- 9.4.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="9.4.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="InitialConfiguration Attribute"/>
+      <item key="#01" value="PowerParameters Attribute"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#9.4.7.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#9.4.7.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="InitialConfiguration Attribute" id="9.4.7.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Attribute Array" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <!-- its not a configuration response -->
+        <field name="ProbeSequenceMax" length="4" default="3"/>
+        <field name="ProbeBackoff" length="4" default="4"/>
+        <field name="ProbeSequenceBackoff" length="4" default="8"/>
+        <field name="Reserved" length="4"/>
+      </if>
+    </repeat>
+  </record>
+  <record name="PowerParameters Attribute" id="9.4.7.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Attribute Array" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <!-- its not a configuration response -->
+        <field name="DataOffsetNom" length="4"/>
+        <field name="DataOffset9k6" length="4"/>
+      </if>
+    </repeat>
+  </record>
+  <!-- 9.6 Default Forward Traffic Channel MAC Protocol -->
+  <!-- 9.6.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="9.6.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#9.6.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#9.6.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="9.6.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.6.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="9.6.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.6.7"/>
+    </repeat>
+  </record>
+  <!-- 9.6.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Header and Message Formats" id="9.6.6.2">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#9.6.6.2.2"/>
+      </case>
+      <case value="#01">
+        <fragment href="#9.6.6.2.3"/>
+      </case>
+    </switch>
+  </record>
+  <record name="FixedModeEnable" id="9.6.6.2.2">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="FixedModeEnable"/>
+    </field>
+    <field name="TCAMessageSequence" length="8"/>
+    <field name="DRCCover" length="3"/>
+    <field name="DRCValue" length="4" type="#9.6.6.1.4.1-1"/>
+    <field name="EndTime" length="16"/>
+    <field name="Reserved" length="1"/>
+  </record>
+  <type name="DRC Value Specification" id="9.6.6.1.4.1-1">
+    <item key="#00" value="null rate"/>
+    <item key="#01" value="38.4 kbps - 16 slots"/>
+    <item key="#02" value="76.8 kbps - 8 slots"/>
+    <item key="#03" value="153.6 kbps - 4 slots"/>
+    <item key="#04" value="307.2 kbps - 2 slots"/>
+    <item key="#05" value="307.2 kbps - 4 slots"/>
+    <item key="#06" value="614.4 kbps - 1 slots"/>
+    <item key="#07" value="614.4 kbps - 1 slots"/>
+    <item key="#08" value="921.6 kbps - 2 slots"/>
+    <item key="#09" value="1228.8 kbps - 1 slots"/>
+    <item key="#0a" value="1228.8 kbps - 2 slots"/>
+    <item key="#0b" value="1843.2 kbps - 1 slots"/>
+    <item key="#0c" value="2457.6 kbps - 1 slots"/>
+    <item key="#0d" value="Invalid"/>
+    <item key="#0e" value="Invalid"/>
+    <item key="#0f" value="Invalid"/>
+  </type>
+  <record name="FixedModeXoff" id="9.6.6.2.3">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="FixedModeXoff"/>
+    </field>
+  </record>
+  <!-- 9.6.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="9.6.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="HandoffDelays Attribute"/>
+      <item key="#01" value="DRCLock Attribute"/>
+      <item key="#FD" value="NullRateDRC38.4Enable"/>
+      <item key="#FF" value="DRCGating Attribute"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#9.6.7.2.2"/>
+      </case>
+      <case value="#01">
+        <fragment href="#9.6.7.2.1"/>
+      </case>
+      <case value="#FD">
+        <fragment href="#9.6.7.1.2"/>
+      </case>
+      <case value="#FF">
+        <fragment href="#9.6.7.1.1"/>
+      </case>
+      <default>
+        <field name="ValueID" length="Length - 8"/>
+      </default>
+    </switch>
+  </record>
+  <!-- 9.6.7.1 Simple Attributes -->
+  <record name="Simple Attributes - DRCGating" id="9.6.7.1.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="DRCGating" length="16">
+      <item key="#0000" value="Continuous transmission"/>
+      <item key="#0001" value="Discontinuous transmission"/>
+      <range start="#0000" end="#ffff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="Simple Attributes - NullRateDRC38.4Enable" id="9.6.7.1.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <field name="NullRateDRC38.4Enable" length="16">
+      <item key="#0000" value="The access network will not serve an access terminal requesting the null rate"/>
+      <item key="#0001" value="The access network may serve an access terminal requesting the null rate at 38.4 kbps"/>
+      <range start="#0000" end="#ffff" value="Reserved"/>
+    </field>
+  </record>
+  <record name="DRCLock Attribute" id="9.6.7.2.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="DRCLockRepeat" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <!-- its not a configuration response -->
+        <field name="DRCLockPeriod" length="1" type="#9.6.7.2.1-1"/>
+        <field name="DRCLockLength" length="2" type="#9.6.7.2.1-2"/>
+        <field name="Reserved" length="5"/>
+      </if>
+    </repeat>
+  </record>
+  <type name="DRCLockPeriod Encoding" id="9.6.7.2.1-1">
+    <item key="0" value="8 slots"/>
+    <item key="1" value="16 slots"/>
+  </type>
+  <type name="DRCLockLength Encoding" id="9.6.7.2.1-2">
+    <item key="@00" value="4"/>
+    <item key="@01" value="8"/>
+    <item key="@10" value="16"/>
+    <item key="@11" value="32"/>
+  </type>
+  <record name="HandoffDelays Attribute" id="9.6.7.2.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="HandoffDelayRepeat" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <!-- its not a configuration response -->
+        <field name="SofterHandoffDelay" length="8" default="#01">
+          <script>
+               description = string.format("%d slots", key * 8)
+             </script>
+        </field>
+        <field name="SoftHandoffDelay" length="8" default="#10">
+          <script>
+               description = string.format("%d slots", key * 8)
+             </script>
+        </field>
+      </if>
+    </repeat>
+  </record>
+  <!-- 9.9 Default Reverse Traffic Channel MAC Protocol -->
+  <!-- 9.9.5 Procedures and Messages for the InConfiguration Instance of the Protocol -->
+  <record name="Message Formats" id="9.9.5.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#50">
+        <fragment href="#9.9.5.3.1"/>
+      </case>
+      <case value="#51">
+        <fragment href="#9.9.5.3.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="ConfigurationRequest" id="9.9.5.3.1">
+    <field name="MessageID" length="8" default="#50">
+      <item key="#50" value="ConfigurationRequest"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.9.7"/>
+    </repeat>
+  </record>
+  <record name="ConfigurationResponse" id="9.9.5.3.2">
+    <field name="MessageID" length="8" default="#51">
+      <item key="#51" value="ConfigurationResponse"/>
+    </field>
+    <field name="TransactionID" length="8"/>
+    <repeat name="AttributeRecord">
+      <fragment href="#9.9.7"/>
+    </repeat>
+  </record>
+  <!-- 9.9.6 Procedures and Messages for the InUse Instance of the Protocol -->
+  <record name="Trailer and Message Formats" id="9.9.6.3">
+    <peek name="id" length="8" offset="0"/>
+    <switch expr="id">
+      <case value="#00">
+        <fragment href="#9.9.6.3.2"/>
+      </case>
+      <case value="#01">
+        <fragment href="#9.9.6.3.3"/>
+      </case>
+      <case value="#02">
+        <fragment href="#9.9.6.3.4"/>
+      </case>
+    </switch>
+  </record>
+  <record name="RTCAck" id="9.9.6.3.2">
+    <field name="MessageID" length="8" default="00">
+      <item key="#00" value="RTCAck"/>
+    </field>
+  </record>
+  <record name="BroadcastReverseRateLimit" id="9.9.6.3.3">
+    <field name="MessageID" length="8" default="01">
+      <item key="#01" value="BroadcastReverseRateLimit"/>
+    </field>
+    <field name="RPCCount" length="6"/>
+    <if expr="RPCCount">
+      <repeat name="RateLimit Array" num="RPCCount">
+        <field name="RateLimit" length="4" type="#9.9.6.3-1"/>
+      </repeat>
+    </if>
+    <pad name="Reserved" mod="8"/>
+  </record>
+  <type name="Encoding of the RateLimit Field" id="9.9.6.3-1">
+    <item key="#00" value="0 kbps"/>
+    <item key="#01" value="9.6 kbps"/>
+    <item key="#02" value="19.2 kbps"/>
+    <item key="#03" value="38.4 kbps"/>
+    <item key="#04" value="76.8 kbps"/>
+    <item key="#05" value="153.6 kbps"/>
+    <range start="#06" end="#FF" value="Invalid"/>
+  </type>
+  <record name="UnicastReverseRateLimit" id="9.9.6.3.4">
+    <field name="MessageID" length="8" default="02">
+      <item key="#02" value="UnicastReverseRateLimit"/>
+    </field>
+    <field name="RateLimit" length="4" type="#9.9.6.3-2"/>
+    <field name="Reserved" length="4"/>
+  </record>
+  <!-- Odd, this is the same as above 9.9.6.3-1, but that's what the spec says -->
+  <type name="Encoding of the RateLimit Field" id="9.9.6.3-2">
+    <item key="#00" value="0 kbps"/>
+    <item key="#01" value="9.6 kbps"/>
+    <item key="#02" value="19.2 kbps"/>
+    <item key="#03" value="38.4 kbps"/>
+    <item key="#04" value="76.8 kbps"/>
+    <item key="#05" value="153.6 kbps"/>
+    <range start="#06" end="#FF" value="Invalid"/>
+  </type>
+  <!-- 9.9.7 Configuration Attributes -->
+  <record name="Configuration Attributes" id="9.9.7">
+    <field name="Length" length="8"/>
+    <field name="AttributeID" length="8">
+      <item key="#00" value="PowerParameters Attribute"/>
+      <item key="#01" value="RateParameters Attribute"/>
+    </field>
+    <switch expr="AttributeID">
+      <case value="#00">
+        <fragment href="#9.9.7.1"/>
+      </case>
+      <case value="#01">
+        <fragment href="#9.9.7.2"/>
+      </case>
+    </switch>
+  </record>
+  <record name="PowerParameters Attribute" id="9.9.7.1">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Attribute Array" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <field name="DataOffsetNom" length="4">
+          <script>
+              description = string.format("%.1f dB", TwosComplement() * 0.5)
+            </script>
+        </field>
+        <field name="DataOffset9k6" length="4">
+          <script>
+              description = string.format("%.1f dB", TwosComplement() * 0.25)
+            </script>
+        </field>
+        <field name="DataOffset19k2" length="4">
+          <script>
+              description = string.format("%.1f dB", TwosComplement() * 0.25)
+            </script>
+        </field>
+        <field name="DataOffset38k4" length="4">
+          <script>
+              description = string.format("%.1f dB", TwosComplement() * 0.25)
+            </script>
+        </field>
+        <field name="DataOffset76k8" length="4">
+          <script>
+              description = string.format("%.1f dB", TwosComplement() * 0.25)
+            </script>
+        </field>
+        <field name="DataOffset153k6" length="4">
+          <script>
+              description = string.format("%.1f dB", TwosComplement() * 0.25)
+            </script>
+        </field>
+        <field name="RPCStep" length="2" default="1" type="#9.9.7.1-1"/>
+        <field name="Reserved" length="6"/>
+      </if>
+    </repeat>
+  </record>
+  <type name="Encoding of the RPCStep Field" id="9.9.7.1-1">
+    <item key="#00" value="0.5 dB"/>
+    <item key="#01" value="1.0 dB"/>
+    <range start="#02" end="#FF" value="Invalid"/>
+  </type>
+  <record name="RateParameters Attribute" id="9.9.7.2">
+    <!-- Length (defined above) -->
+    <!-- AttributeID (defined above) -->
+    <repeat name="Attribute Array" min="1">
+      <field name="ValueID" length="8"/>
+      <if expr="MessageID!=#51">
+        <field name="Transition009k6_019k2" length="8" default="#30"/>
+        <field name="Transition019k2_038k4" length="8" default="#10"/>
+        <field name="Transition038k4_076k8" length="8" default="#08"/>
+        <field name="Transition076k8_153k6" length="8" default="#08"/>
+        <field name="Transition019k2_009k6" length="8" default="#10"/>
+        <field name="Transition038k4_019k2" length="8" default="#10"/>
+        <field name="Transition076k8_038k4" length="8" default="#20"/>
+        <field name="Transition153k6_076k8" length="8" default="#FF"/>
+      </if>
+    </repeat>
+  </record>
+  <record name="Channel Record" id="13.1">
+    <field name="SystemType" length="8" type="#13.1-1"/>
+    <field name="BandClass" length="5"/>
+    <field name="ChannelNumber" length="11"/>
+  </record>
+  <type name="SystemType Encoding" id="13.1-1">
+    <item key="#00" value="System compliant to this specification."/>
+    <item key="#01" value="System compliant to [2]"/>
+    <item key="#02" value="System compliant to this specification."/>
+    <range start="#03" end="#ff" value="Reserved"/>
+  </type>
+  <record name="Attribute Record" id="13.3">
+    <field name="Length" length="8"/>
+    <field name="AttributeValue" length="Length*8"/>
+  </record>
+  <record id="start">
+    <field name="EvdoMsgType" length="8" type="#2.5.4-1"/>
+    <field name="Length" length="32"/>
+    <setprop name="EvdoDataLength" value="Length"/>
+    <setprop name="MessageID" value="0"/>
+    <record name="EvdoData" length="Length * 8">
+      <fragment href="#Protocol-Master"/>
+      <setprop name="Name" type="#Name" value="MessageID"/>
+    </record>
+  </record>
+  <type id="Name">
+    <script>
+    description = string.format("%s", Description("MessageID"))
+  </script>
+  </type>
+  <type name="Unknown Protocol" id="UnknownProtoType">
+    <range start="0" end="#FF" value="Unknown"/>
+  </type>
+  <record id="Protocol-Master">
+    <switch expr="InConfig">
+      <case value="0">
+        <switch expr="EvdoMsgType">
+          <!-- <case value="#00"><fragment href=""/></case> -->
+          <case value="#01">
+            <!-- <fragment href="ControlChannelMacProtocol.xddl#ControlChanMAC-InUse"/> -->
+            <fragment href="#9.2.6"/>
+          </case>
+          <case value="#02">
+            <!-- <fragment href="AccessChannelMacProtocol.xddl#AccessChanMAC-InUse"/> -->
+            <fragment href="#9.4.6.2"/>
+          </case>
+          <case value="#03">
+            <!-- <fragment href="FwdTrafChannelMacProtocol.xddl#FwdTrafChanMAC-InUse"/> -->
+            <fragment href="#9.6.6.2"/>
+          </case>
+          <case value="#04">
+            <!-- <fragment href="RevTrafChannelMacProtocol.xddl#RevTrafChanMAC-InUse"/> -->
+            <fragment href="#9.9.6.3"/>
+          </case>
+          <case value="#05">
+            <!-- <fragment href="KeyExchangeProtocol.xddl#Key-Exchange-InUse"/> -->
+            <fragment href="#8.5.6.2"/>
+          </case>
+          <case value="#06">
+            <!-- <fragment href="AuthenticationProtocol.xddl#Authentication-InUse"/> -->
+            <fragment href="#8.7.6.4"/>
+          </case>
+          <case value="#07">
+            <!-- <fragment href="DefaultEncryptionProtocol.xddl#DefaultEncryption-InUse"/> -->
+            <fragment href="#8.9.5.2"/>
+          </case>
+          <case value="#08">
+            <!-- <fragment href="DefaultSecurityProtocol.xddl#DefaultSecurity-InUse"/> -->
+            <fragment href="#8.3.6.2"/>
+          </case>
+          <case value="#09">
+            <!-- <fragment href="PacketConsolidationProtocol.xddl#PacketConsolidation-InUse"/> -->
+            <fragment href="#7.10.6.2"/>
+          </case>
+          <case value="#0a">
+            <!-- <fragment href="AirLinkManagementProtocol.xddl#AirLinkManagement-InUse"/> -->
+            <fragment href="#7.2.6.2"/>
+          </case>
+          <case value="#0b">
+            <!-- <fragment href="InitializationStateProtocol.xddl#InitializationState-InUse"/> -->
+            <fragment href="#7.3.6.2"/>
+          </case>
+          <case value="#0c">
+            <!-- <fragment href="IdleStateProtocol.xddl#Idle-State-InUse"/> -->
+            <fragment href="#7.4.6.2"/>
+          </case>
+          <case value="#0d">
+            <!-- <fragment href="ConnectedStateProtocol.xddl#Connected-State-InUse"/> -->
+            <fragment href="#7.7.6.2"/>
+          </case>
+          <case value="#0e">
+            <!-- <fragment href="RouteUpdateProtocol.xddl#RouteUpdate-InUse"/> -->
+            <fragment href="#7.8.6.2"/>
+          </case>
+          <case value="#0f">
+            <!-- <fragment href="OverheadMessagesProtocol.xddl#Overhead-Messages-InUse"/> -->
+            <fragment href="#7.11.6.2"/>
+          </case>
+          <case value="#10">
+            <!-- <fragment href="SessionManagementProtocol.xddl#SessionManagement-InUse"/> -->
+            <fragment href="#6.2.6.2"/>
+          </case>
+          <case value="#11">
+            <!-- <fragment href="AddressManagementProtocol.xddl#AddressManagement-InUse"/> -->
+            <fragment href="#6.3.7.2"/>
+          </case>
+          <case value="#12">
+            <!-- <fragment href="SessionConfigurationProtocol.xddl#SessionConfiguration-InUse"/> -->
+            <fragment href="#6.4.6.2"/>
+          </case>
+          <case value="#13">
+            <!-- <fragment href="StreamProtocol.xddl#Stream-InUse"/> -->
+            <fragment href="#5.2.6"/>
+          </case>
+          <case value="#14">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InUse"/> -->
+            <fragment href="#3.4.4.3"/>
+          </case>
+          <case value="#15">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InUse"/> -->
+            <fragment href="#3.4.4.3"/>
+          </case>
+          <case value="#16">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InUse"/> -->
+            <fragment href="#3.4.4.3"/>
+          </case>
+          <case value="#17">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InUse"/> -->
+            <fragment href="#3.4.4.3"/>
+          </case>
+          <case value="#19">
+            <!-- new - Generic Virtual Stream Protocol InUse -->
+            <fragment href="#5.3.6.2.1"/>
+          </case>
+          <case value="#1B">
+            <!-- new - Generic Multimode Capability Discovery Protocol - InConfig -->
+            <fragment href="#6.5.6.2"/>
+          </case>
+          <default>
+            <field name="Unparsed Data" length="EvdoDataLength * 8"/>
+          </default>
+        </switch>
+      </case>
+      <case value="1">
+        <switch expr="EvdoMsgType">
+          <!-- <case value="#00"><fragment href=""/></case> -->
+          <case value="#01">
+            <!-- <fragment href="ControlChannelMacProtocol.xddl#ControlChanMAC-InConfig"/> -->
+            <fragment href="#9.2.5.3"/>
+          </case>
+          <case value="#02">
+            <!-- <fragment href="AccessChannelMacProtocol.xddl#AccessChanMAC-InConfig"/> -->
+            <fragment href="#9.4.5.3"/>
+          </case>
+          <case value="#03">
+            <!-- <fragment href="FwdTrafChannelMacProtocol.xddl#FwdTrafChanMAC-InConfig"/> -->
+            <fragment href="#9.6.5.3"/>
+          </case>
+          <case value="#04">
+            <!-- <fragment href="RevTrafChannelMacProtocol.xddl#RevTrafChanMAC-InConfig"/> -->
+            <fragment href="#9.9.5.3"/>
+          </case>
+          <case value="#05">
+            <!-- <fragment href="KeyExchangeProtocol.xddl#Key-Exchange-InConfig"/> -->
+            <fragment href="#8.5.5.3"/>
+          </case>
+          <case value="#06">
+            <!-- <fragment href="AuthenticationProtocol.xddl#Authentication-InConfig"/> -->
+            <fragment href="#8.7.5.3"/>
+          </case>
+          <case value="#07">
+            <!-- <fragment href="DefaultEncryptionProtocol.xddl#DefaultEncryption-InConfig"/> -->
+            <fragment href="#8.9.4.3"/>
+          </case>
+          <case value="#08">
+            <!-- <fragment href="DefaultSecurityProtocol.xddl#DefaultSecurity-InConfig"/> -->
+            <fragment href="#8.3.5.3"/>
+          </case>
+          <case value="#09">
+            <!-- <fragment href="PacketConsolidationProtocol.xddl#PacketConsolidation-InConfig"/> -->
+            <fragment href="#7.10.5.3"/>
+          </case>
+          <case value="#0a">
+            <!-- <fragment href="AirLinkManagementProtocol.xddl#AirLinkManagement-InConfig"/> -->
+            <fragment href="#7.2.5.3"/>
+          </case>
+          <case value="#0b">
+            <!-- <fragment href="InitializationStateProtocol.xddl#InitializationState-InConfig"/> -->
+            <fragment href="#7.3.5.3"/>
+          </case>
+          <case value="#0c">
+            <!-- <fragment href="IdleStateProtocol.xddl#Idle-State-InConfig"/> -->
+            <fragment href="#7.4.5.3"/>
+          </case>
+          <case value="#0d">
+            <!-- <fragment href="ConnectedStateProtocol.xddl#Connected-State-InConfig"/> -->
+            <fragment href="#7.7.5.3"/>
+          </case>
+          <case value="#0e">
+            <!-- <fragment href="RouteUpdateProtocol.xddl#RouteUpdate-InConfig"/> -->
+            <fragment href="#7.8.5.3"/>
+          </case>
+          <case value="#0f">
+            <!-- <fragment href="OverheadMessagesProtocol.xddl#Overhead-Messages-InConfig"/> -->
+            <fragment href="#7.11.5.3"/>
+          </case>
+          <case value="#10">
+            <!-- <fragment href="SessionManagementProtocol.xddl#SessionManagement-InConfig"/> -->
+            <fragment href="#6.2.5.3"/>
+          </case>
+          <case value="#11">
+            <!-- <fragment href="AddressManagementProtocol.xddl#AddressManagement-InConfig"/> -->
+            <fragment href="#6.3.6.3"/>
+          </case>
+          <case value="#12">
+            <!-- <fragment href="SessionConfigurationProtocol.xddl#SessionConfiguration-InConfig"/> -->
+            <fragment href="#6.4.5.3"/>
+          </case>
+          <case value="#13">
+            <!-- <fragment href="StreamProtocol.xddl#Stream-InConfig"/> -->
+            <fragment href="#5.2.5.3"/>
+          </case>
+          <case value="#14">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InConfig"/> -->
+            <fragment href="#3.3.3"/>
+          </case>
+          <case value="#15">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InConfig"/> -->
+            <fragment href="#3.3.3"/>
+          </case>
+          <case value="#16">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InConfig"/> -->
+            <fragment href="#3.3.3"/>
+          </case>
+          <case value="#17">
+            <!-- <fragment href="DefaultPacketApplication.xddl#DefaultPacketApp-InConfig"/> -->
+            <fragment href="#3.3.3"/>
+          </case>
+          <case value="#19">
+            <!-- new - Generic Virtual Stream Protocol - InConfig -->
+            <fragment href="#5.3.5.3"/>
+          </case>
+          <case value="#1B">
+            <!-- new - Generic Multimode Capability Discovery Protocol - InConfig -->
+            <fragment href="#6.5.5.2"/>
+          </case>
+          <default>
+            <field name="Unparsed Data" length="EvdoDataLength * 8"/>
+          </default>
+        </switch>
+      </case>
+    </switch>
+  </record>
+</xddl>

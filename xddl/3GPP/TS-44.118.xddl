@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl version="2.0000">
+  <!-- Radio Resource Control (RRC) Iu Mode -->
+  <!-- 3GPP TS 44.118 V10.0.0 (2011-03) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group GSM/EDGE Radio Access Network; -->
+  <!-- Mobile radio interface layer 3 specification; -->
+  <!-- Radio Resource Control (RRC) protocol; -->
+  <!-- Iu Mode -->
+  <!-- (Release 10)-->
+  <!-- TYPES -->
+  <!-- misc types -->
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <type id="IE_Included">
+    <item key="0" value="Not included"/>
+    <item key="1" value="Included"/>
+  </type>
+  <!-- Section 9.2  Messages for Radio Resources management -->
+  <record name="RADIO BEARER RECONFIGURATION" id="9.3.28">
+    <!-- TODO Code this section -->
+    <field name="content" length="8"/>
+  </record>
+  <!-- Section 9.3  Information Elements -->
+  <record name="MS GERAN Iu mode Radio Access Capability" id="9.3.45">
+    <record name="MS RF Capability GSM" href="#9.3.47"/>
+    <record name="MS GERAN Iu mode RLC Capability" href="#9.3.46"/>
+    <record name="PDCP Capability" href="#9.3.59"/>
+    <record name="MS Multi-Mode and Multi-RAT Capability" href="#9.3.48"/>
+    <record name="Security Capability" href="#9.3.100"/>
+    <record name="MS Positioning Capability" href="#9.3.50"/>
+    <record name="MS Measurement Capability" href="#9.3.49"/>
+    <field name="FLO Iu Capability" length="1"/>
+    <field name="spare" length="1" type="#zero"/>
+  </record>
+  <record name="MS GERAN Iu mode RLC Capability" id="9.3.46">
+    <field name="Length" length="4"/>
+    <field name="Maximum number of RLC-AM entities" length="3" type="#9.3.46.2a"/>
+    <field name="Maximum number of RLC-UM entities" length="3" type="#9.3.46.2b"/>
+    <field name="Maximum numer of RLC-T entities " length="3" type="#9.3.46.2c"/>
+    <field name="spare" length="1" type="#zero"/>
+  </record>
+  <type name="Maximum number of RLC-AM entities" id="9.3.46.2a">
+    <item key="@000" value="3 RLC-AM entities"/>
+    <item key="@001" value="4 RLC-AM entities"/>
+    <item key="@010" value="5 RLC-AM entities"/>
+    <item key="@011" value="6 RLC-AM entities"/>
+    <item key="@100" value="8 RLC-AM entities"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <type name="Maximum number of RLC-UM entities" id="9.3.46.2b">
+    <item key="@000" value="3 RLC-UM entities"/>
+    <item key="@001" value="4 RLC-UM entities"/>
+    <item key="@010" value="5 RLC-UM entities"/>
+    <item key="@011" value="6 RLC-UM entities"/>
+    <item key="@100" value="8 RLC-UM entities"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <type name="Maximum number of RLC-T entities" id="9.3.46.2c">
+    <item key="@000" value="3 RLC-T entities"/>
+    <item key="@001" value="4 RLC-T entities"/>
+    <item key="@010" value="5 RLC-T entities"/>
+    <item key="@011" value="6 RLC-T entities"/>
+    <item key="@100" value="8 RLC-T entities"/>
+    <range start="@000" end="@111" value="reserved"/>
+  </type>
+  <record name="MS RF Capability GSM" id="9.3.47">
+    <field name="Length" length="8"/>
+    <record name="RF Capability Group">
+      <field name="Access Technology Type" length="4" type="#9.3.47.1a"/>
+      <record name="Common Access Capabilities">
+        <field name="Length" length="6"/>
+        <field name="GMSK Power Capability" length="3"/>
+        <field name="8PSK Power Capability Incl" length="1" type="#IE_Included"/>
+        <if expr="{8PSK Power Capability Incl}">
+          <field name="8PSK Power Capability " length="2" type="#9.3.47.1b"/>
+        </if>
+        <field name="Pseudo Synchronisation" length="1"/>
+        <record name="Multislot capability">
+          <field name="Combined GMSK and 8-PSK Multislot Class Incl" length="1" type="#IE_Included"/>
+          <switch expr="{Combined GMSK and 8-PSK Multislot Class Incl}">
+            <case value="0">
+              <field name="Combined GMSK and 8-PSK Multislot Class" length="6"/>
+            </case>
+            <case value="1">
+              <field name="GMSK Multislot Class" length="6"/>
+              <field name="8-PSK Multislot Class Incl" length="1" type="#IE_Included"/>
+              <if expr="{8-PSK Multislot Class Incl}">
+                <field name="8-PSK Multislot Class" length="6"/>
+              </if>
+            </case>
+          </switch>
+        </record>
+        <field name="spare" length="1" type="#zero"/>
+      </record>
+      <record name="Additional Access Technology ">
+        <field name="Length" length="6"/>
+        <field name="Access Technology Type" length="4" type="#9.3.47.1a"/>
+        <field name="GMSK Power Capability" length="3"/>
+        <field name="8PSK Power Capability" length="2" type="#9.3.47.1b"/>
+        <field name="spare" length="1" type="#zero"/>
+      </record>
+    </record>
+  </record>
+  <type name="Access Technology Type" id="9.3.47.1a">
+    <item key="@0000" value="GSM P"/>
+    <item key="@0001" value="GSM E --note that GSM E covers GSM P"/>
+    <item key="@0010" value="GSM R --note that GSM R covers GSM E and GSM P"/>
+    <item key="@0011" value="GSM 1800"/>
+    <item key="@0100" value="GSM 1900"/>
+    <item key="@0101" value="GSM 450"/>
+    <item key="@0110" value="GSM 480"/>
+    <item key="@0111" value="GSM 850"/>
+    <item key="@1000" value="GSM 750"/>
+    <item key="@1001" value="GSM 710"/>
+    <item key="@1010" value="T-GSM 810"/>
+    <range start="@0000" end="@1111" value="unknown"/>
+  </type>
+  <type name="8PSK Power Capability " id="9.3.47.1b">
+    <item key="@00" value="Reserved or 8-PSK modulation not supported for uplink"/>
+    <item key="@01" value="Power class E1"/>
+    <item key="@10" value="Power class E2"/>
+    <item key="@11" value="Power class E3"/>
+  </type>
+  <record name="MS Multi-Mode and Multi-RAT Capability" id="9.3.48">
+    <field name="Support of GERAN A/Gb" length="1"/>
+    <field name="Support of Multi-Carrier" length="1"/>
+    <field name="Support of UMTS FDD" length="1"/>
+    <field name="Support of UMTS 1.28 Mcps TDD" length="1"/>
+    <field name="Support of UMTS 3.84 Mcps TDD" length="1"/>
+    <field name="Support of CDMA2000" length="1"/>
+    <field name="spare" length="10" type="#zero"/>
+  </record>
+  <record name="MS Measurement Capability" id="9.3.49">
+    <field name="Length" length="4"/>
+    <field name="Extended Measurement Capability" length="1"/>
+    <field name="SMS Value" length="4" type="#9.3.49.2a"/>
+    <field name="SM Value" length="4" type="#9.3.49.2b"/>
+    <field name="spare" length="1" type="#zero"/>
+  </record>
+  <type name="SMS Value" id="9.3.49.2a">
+    <item key="@0000" value="1/4 timeslot (~144 microseconds)"/>
+    <item key="@0001" value="2/4 timeslot (~288 microseconds)"/>
+    <item key="@0010" value="3/4 timeslot (~433 microseconds)"/>
+    <item key="@0011" value="4/4 timeslot (~577 microseconds"/>
+    <item key="@0100" value="5/4 timeslot (~721 microseconds"/>
+    <item key="@0101" value="6/4 timeslot (~865 microseconds"/>
+    <item key="@0110" value="7/4 timeslot (~1009 microseconds"/>
+    <item key="@0111" value="8/4 timeslot (~1153 microseconds"/>
+    <item key="@1000" value="9/4 timeslot (~1297 microseconds"/>
+    <item key="@1001" value="10/4 timeslot (~1441 microseconds"/>
+    <item key="@1010" value="11/4 timeslot (~1585 microseconds"/>
+    <item key="@1011" value="12/4 timeslot (~1729 microseconds"/>
+    <item key="@1100" value="13/4 timeslot (~1873 microseconds"/>
+    <item key="@1101" value="14/4 timeslot (~2017 microseconds"/>
+    <item key="@1110" value="15/4 timeslot (~2161 microseconds"/>
+    <item key="@1111" value="16/4 timeslot (~2307 microseconds)"/>
+  </type>
+  <type name="SM Value" id="9.3.49.2b">
+    <item key="@0000" value="1/4 timeslot (~144 microseconds)"/>
+    <item key="@0001" value="2/4 timeslot (~288 microseconds)"/>
+    <item key="@0010" value="3/4 timeslot (~433 microseconds)"/>
+    <item key="@0011" value="4/4 timeslot (~577 microseconds"/>
+    <item key="@0100" value="5/4 timeslot (~721 microseconds"/>
+    <item key="@0101" value="6/4 timeslot (~865 microseconds"/>
+    <item key="@0110" value="7/4 timeslot (~1009 microseconds"/>
+    <item key="@0111" value="8/4 timeslot (~1153 microseconds"/>
+    <item key="@1000" value="9/4 timeslot (~1297 microseconds"/>
+    <item key="@1001" value="10/4 timeslot (~1441 microseconds"/>
+    <item key="@1010" value="11/4 timeslot (~1585 microseconds"/>
+    <item key="@1011" value="12/4 timeslot (~1729 microseconds"/>
+    <item key="@1100" value="13/4 timeslot (~1873 microseconds"/>
+    <item key="@1101" value="14/4 timeslot (~2017 microseconds"/>
+    <item key="@1110" value="15/4 timeslot (~2161 microseconds"/>
+    <item key="@1111" value="16/4 timeslot (~2307 microseconds)"/>
+  </type>
+  <record name="MS Positioning Capability" id="9.3.50">
+    <field name="Length" length="4"/>
+    <field name="OTD-A support" length="1"/>
+    <field name="OTD-B support" length="1"/>
+    <field name="GPS-A support" length="1"/>
+    <field name="GPS-B support" length="1"/>
+    <field name="GPS-C support " length="1"/>
+    <field name="RRLP Positioning Indication support" length="1"/>
+    <field name="spare" length="1" type="#zero"/>
+  </record>
+  <record name="PDCP Capability" id="9.3.59">
+    <field name="Length" length="8"/>
+    <field name="Support for lossless serving BSC relocation" length="1"/>
+    <field name="Support for RFC2507" length="1"/>
+    <field name="Max HC context space" length="4" type="#9.3.59.2a"/>
+    <field name="Support for RFC3095" length="1"/>
+    <field name="Maximum number of ROHC context sessions" length="4" type="#9.3.59.2b"/>
+    <field name="Reverse decompression depth" length="16"/>
+    <field name="Support for RFC 3095 context relocation" length="1"/>
+    <field name="spare" length="1" type="#zero"/>
+  </record>
+  <type name="Max HC context space" id="9.3.59.2a">
+    <item key="@0000" value="512 bytes"/>
+    <item key="@0001" value="1024 bytes"/>
+    <item key="@0010" value="2048 bytes"/>
+    <item key="@0011" value="4096 bytes"/>
+    <item key="@0100" value="8192 bytes"/>
+    <item key="@0101" value="16384 bytes"/>
+    <item key="@0110" value="32768 bytes"/>
+    <item key="@0111" value="65536 bytes"/>
+    <item key="@1000" value="131072 bytes"/>
+    <range start="@0000" end="@1111" value="unknown"/>
+  </type>
+  <type name="Maximum number of ROHC context sessions " id="9.3.59.2b">
+    <item key="@0000" value="2 sessions"/>
+    <item key="@0001" value="4 sessions"/>
+    <item key="@0010" value="8 sessions"/>
+    <item key="@0011" value="12 sessions"/>
+    <item key="@0100" value="16 sessions"/>
+    <item key="@0101" value="24 sessions"/>
+    <item key="@0110" value="32 sessions"/>
+    <item key="@0111" value="48 sessions"/>
+    <item key="@1000" value="64 sessions"/>
+    <item key="@1001" value="128 sessions"/>
+    <item key="@1010" value="256 sessions"/>
+    <item key="@1011" value="512 sessions"/>
+    <item key="@1100" value="1024 sessions"/>
+    <item key="@1101" value="16384 sessions"/>
+    <item key="@1110" value="reserved"/>
+    <item key="@1111" value="reserved"/>
+  </type>
+  <record name="Security Capability" id="9.3.100">
+    <field name="Length" length="7"/>
+    <record name="Iu mode Ciphering algorithm capability">
+      <field name="UEA0 support" length="1"/>
+      <field name="UEA1 support" length="1"/>
+      <field name="spare" length="14" type="#zero"/>
+    </record>
+    <record name="Iu mode Integrity protection algorithm capability">
+      <field name="UEA1 support" length="1"/>
+      <field name="spare" length="15" type="#zero"/>
+    </record>
+    <field name="spare" length="1" type="#zero"/>
+  </record>
+</xddl>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig (www.intrig.com)
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0
+   or later.
+  
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl>
+  <start>
+    <field name="DataType" length="8"/>
+    <field name="EvdoMsgType" length="8"/>
+    <field name="EvdoDataLength" length="8"/>
+    <switch expr="DataType">
+      <case value="0">
+        <!-- decode data only -->
+        <field name="EvdoData" length="EvdoDataLength * 8"/>
+        <prop name="DATA_NAME" value="DataType"/>
+      </case>
+      <case value="1">
+        <!-- signaling -->
+        <record name="EvdoData" length="EvdoDataLength * 8">
+          <field name="SomeData" length="8"/>
+          <prop name="mini" value="EvdoMsgType"/>
+        </record>
+      </case>
+    </switch>
+  </start>
+</xddl>

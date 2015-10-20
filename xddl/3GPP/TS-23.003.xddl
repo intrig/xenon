@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- Numbering, addressing and identification -->
+  <!-- 3GPP TS 23.003 V10.5.0 (2012-03) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Core Network and Terminals; -->
+  <!-- Numbering, addressing and identification -->
+  <!-- (Release 10)-->
+  <!-- Section 11 Identification of Localised Service Area -->
+  <record name="LSA ID" id="11">
+    <field name="LSA ID value" length="23"/>
+    <field name="LSA ID type" length="1" type="#11"/>
+  </record>
+  <type name="LSA Identifier type" id="11">
+    <item key="0" value="PLMN significant number"/>
+    <item key="1" value="Universal LSA"/>
+  </type>
+</xddl>

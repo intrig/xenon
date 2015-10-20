@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>IP Addresses</comment>
+  <type id="ip_address">
+    <script>
+  description = string.format("%d.%d.%d.%d", 
+    slice(0,8),
+    slice(8,8),
+    slice(16,8),
+    slice(24,8))
+    </script>
+  </type>
+  <start>
+    <field name="IP Address 1" length="32" type="#ip_address"/>
+  </start>
+</xddl>

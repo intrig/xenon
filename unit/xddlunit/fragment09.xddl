@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Forward Reference Fragment</comment>
+  <record id="a">
+    <field name="A" length="8"/>
+    <fragment href="#b"/>
+  </record>
+  <record id="b">
+    <field name="B" length="8"/>
+  </record>
+  <start>
+    <fragment href="#a"/>
+  </start>
+</xddl>

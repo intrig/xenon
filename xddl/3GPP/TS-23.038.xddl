@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl version="2.0000">
+  <!-- Alphabets and language-specific information -->
+  <!-- 3GPP TS 23.038 V10.0.0 (2011-03) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Core Network and Terminals; -->
+  <!-- Alphabets and language-specific information -->
+  <!-- (Release 10) -->
+  <!-- Section 4 SMS Data Coding Scheme -->
+  <type name="SMS Data Coding Scheme" id="4a">
+    <item key="@00" value="General Data Coding Indication"/>
+    <item key="@01" value="Reserved"/>
+    <item key="@10" value="Reserved"/>
+    <item key="@11" value="Message Waiting Indication / Data Coding"/>
+  </type>
+  <type name="Text Compression" id="4b">
+    <item key="0" value="Text is uncompressed"/>
+    <item key="1" value="Text is compressed"/>
+  </type>
+  <type name="Message Class Indication" id="4c">
+    <item key="0" value="Bits 1 to 0 are reserved and have no message class meaning"/>
+    <item key="1" value="Bits 1 to 0 have a message class meaning"/>
+  </type>
+  <type name="Message Class" id="4d">
+    <item key="@00" value="Class 0"/>
+    <item key="@01" value="Class 1 - Default meaning: ME-specific"/>
+    <item key="@10" value="Class 2 - (U)SIM specific message"/>
+    <item key="@11" value="Class 3 - Default meaning: TE specific"/>
+  </type>
+  <type name="Alphabet" id="4e">
+    <item key="@00" value="GSM 7-bit default alphabet"/>
+    <item key="@01" value="8-bit data"/>
+    <item key="@10" value="UCS2 (16-bit)"/>
+    <item key="@11" value="Reserved"/>
+  </type>
+  <type name="Message Waiting Indication" id="4f">
+    <item key="@00" value="Discard Message"/>
+    <item key="@01" value="Store Message"/>
+    <item key="@10" value="Store Message"/>
+    <item key="@11" value="Data Coding/Message Class"/>
+  </type>
+  <type name="Indication Sense" id="4g">
+    <item key="0" value="Set Indication Inactive"/>
+    <item key="1" value="Set Indication Active"/>
+  </type>
+  <type name="Indication Type" id="4h">
+    <item key="@00" value="Voicemail Message Waiting"/>
+    <item key="@01" value="Fax Message Waiting"/>
+    <item key="@10" value="Electronic Mail Message Waiting"/>
+    <item key="@11" value="Other Message Waiting"/>
+  </type>
+  <type name="Message Coding" id="4i">
+    <item key="0" value="GSM 7-bit default alphabet"/>
+    <item key="1" value="8-bit data"/>
+  </type>
+</xddl>

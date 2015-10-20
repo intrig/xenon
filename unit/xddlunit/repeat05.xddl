@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="length_in_bytes" length="8"/>
+    <field name="length" length="8"/>
+    <field name="count" length="8"/>
+    <record name="data" length="length*(length_in_bytes?8 : 1)">
+      <repeat name="repeat" num="count">
+        <field name="item" length="8"/>
+      </repeat>
+    </record>
+  </start>
+</xddl>

@@ -1,0 +1,1315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl version="2.0000">
+  <!-- SMS (Short Message Service) -->
+  <!-- 3GPP TS 23.040 V10.0.0 (2011-03) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Core Network and Terminals; -->
+  <!-- Technical realization of the Short Message Service (SMS) -->
+  <!-- (Release 10) -->
+  <!-- TODO these should just be locals -->
+  <export>
+    <prop name="Direction"/>
+    <prop name="LengthIndicator"/>
+    <prop name="mti"/>
+    <prop name="TP_User_Data_Header_Length_prop"/>
+    <prop name="Message_Waiting_Indication_prop"/>
+    <prop name="Message_Coding_prop"/>
+    <prop name="Coding-Group"/>
+    <prop name="Text-Compression"/>
+    <prop name="Alphabet"/>
+    <prop name="Address-Length"/>
+    <prop name="TP_PID_Indicator"/>
+    <prop name="TP_DCS_Indicator"/>
+    <prop name="TP_UDL_Indicator"/>
+    <prop name="TP-User-Data-Header-Length"/>
+    <prop name="TP-User-Data-Header-Indicator"/>
+    <prop name="TP-User-Data-Length"/>
+    <prop name="Information-Element-Length"/>
+  </export>
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <type id="one">
+    <range start="1" end="1"/>
+  </type>
+  <type id="BCD-Addr">
+    <item key="0" value="0"/>
+    <item key="1" value="1"/>
+    <item key="2" value="2"/>
+    <item key="3" value="3"/>
+    <item key="4" value="4"/>
+    <item key="5" value="5"/>
+    <item key="6" value="6"/>
+    <item key="7" value="7"/>
+    <item key="8" value="8"/>
+    <item key="9" value="9"/>
+    <item key="@1010" value="*"/>
+    <item key="@1011" value="#"/>
+    <item key="@1100" value="a"/>
+    <item key="@1101" value="b"/>
+    <item key="@1110" value="c"/>
+    <item key="@1111" value="ignore"/>
+  </type>
+  <type id="2 BCD chars (reversed)">
+    <item key="#0F" value="0"/>
+    <item key="#1F" value="1"/>
+    <item key="#2F" value="2"/>
+    <item key="#3F" value="3"/>
+    <item key="#4F" value="4"/>
+    <item key="#5F" value="5"/>
+    <item key="#6F" value="6"/>
+    <item key="#7F" value="7"/>
+    <item key="#8F" value="8"/>
+    <item key="#9F" value="9"/>
+    <item key="#F0" value="0"/>
+    <item key="#F1" value="1"/>
+    <item key="#F2" value="2"/>
+    <item key="#F3" value="3"/>
+    <item key="#F4" value="4"/>
+    <item key="#F5" value="5"/>
+    <item key="#F6" value="6"/>
+    <item key="#F7" value="7"/>
+    <item key="#F8" value="8"/>
+    <item key="#F9" value="9"/>
+    <item key="#00" value="00"/>
+    <item key="#10" value="01"/>
+    <item key="#20" value="02"/>
+    <item key="#30" value="03"/>
+    <item key="#40" value="04"/>
+    <item key="#50" value="05"/>
+    <item key="#60" value="06"/>
+    <item key="#70" value="07"/>
+    <item key="#80" value="08"/>
+    <item key="#90" value="09"/>
+    <item key="#01" value="10"/>
+    <item key="#11" value="11"/>
+    <item key="#21" value="12"/>
+    <item key="#31" value="13"/>
+    <item key="#41" value="14"/>
+    <item key="#51" value="15"/>
+    <item key="#61" value="16"/>
+    <item key="#71" value="17"/>
+    <item key="#81" value="18"/>
+    <item key="#91" value="19"/>
+    <item key="#02" value="20"/>
+    <item key="#12" value="21"/>
+    <item key="#22" value="22"/>
+    <item key="#32" value="23"/>
+    <item key="#42" value="24"/>
+    <item key="#52" value="25"/>
+    <item key="#62" value="26"/>
+    <item key="#72" value="27"/>
+    <item key="#82" value="28"/>
+    <item key="#92" value="29"/>
+    <item key="#03" value="30"/>
+    <item key="#13" value="31"/>
+    <item key="#23" value="32"/>
+    <item key="#33" value="33"/>
+    <item key="#43" value="34"/>
+    <item key="#53" value="35"/>
+    <item key="#63" value="36"/>
+    <item key="#73" value="37"/>
+    <item key="#83" value="38"/>
+    <item key="#93" value="39"/>
+    <item key="#04" value="40"/>
+    <item key="#14" value="41"/>
+    <item key="#24" value="42"/>
+    <item key="#34" value="43"/>
+    <item key="#44" value="44"/>
+    <item key="#54" value="45"/>
+    <item key="#64" value="46"/>
+    <item key="#74" value="47"/>
+    <item key="#84" value="48"/>
+    <item key="#94" value="49"/>
+    <item key="#05" value="50"/>
+    <item key="#15" value="51"/>
+    <item key="#25" value="52"/>
+    <item key="#35" value="53"/>
+    <item key="#45" value="54"/>
+    <item key="#55" value="55"/>
+    <item key="#65" value="56"/>
+    <item key="#75" value="57"/>
+    <item key="#85" value="58"/>
+    <item key="#95" value="59"/>
+    <item key="#06" value="60"/>
+    <item key="#16" value="61"/>
+    <item key="#26" value="62"/>
+    <item key="#36" value="63"/>
+    <item key="#46" value="64"/>
+    <item key="#56" value="65"/>
+    <item key="#66" value="66"/>
+    <item key="#76" value="67"/>
+    <item key="#86" value="68"/>
+    <item key="#96" value="69"/>
+    <item key="#07" value="70"/>
+    <item key="#17" value="71"/>
+    <item key="#27" value="72"/>
+    <item key="#37" value="73"/>
+    <item key="#47" value="74"/>
+    <item key="#57" value="75"/>
+    <item key="#67" value="76"/>
+    <item key="#77" value="77"/>
+    <item key="#87" value="78"/>
+    <item key="#97" value="79"/>
+    <item key="#08" value="80"/>
+    <item key="#18" value="81"/>
+    <item key="#28" value="82"/>
+    <item key="#38" value="83"/>
+    <item key="#48" value="84"/>
+    <item key="#58" value="85"/>
+    <item key="#68" value="86"/>
+    <item key="#78" value="87"/>
+    <item key="#88" value="88"/>
+    <item key="#98" value="89"/>
+    <item key="#09" value="90"/>
+    <item key="#19" value="91"/>
+    <item key="#29" value="92"/>
+    <item key="#39" value="93"/>
+    <item key="#49" value="94"/>
+    <item key="#59" value="95"/>
+    <item key="#69" value="96"/>
+    <item key="#79" value="97"/>
+    <item key="#89" value="98"/>
+    <item key="#99" value="99"/>
+    <item key="#FF" value="ignore"/>
+  </type>
+  <!-- Section 9.1 Protocol element features -->
+  <record name="Address Fields" id="9.1.2.5">
+    <field name="Address-Length" length="8" type="#9.1.2.5"/>
+    <prop name="type_of_number" value="0"/>
+    <record name="Type-of-Address">
+      <field name="Bit7" length="1" default="1" type="#one"/>
+      <field name="Type-of-Number" length="3">
+        <item key="@000" value="Unknown"/>
+        <item key="@001" value="International number"/>
+        <item key="@010" value="National number"/>
+        <item key="@011" value="Network specific number"/>
+        <item key="@100" value="Subscriber number"/>
+        <item key="@101" value="Alphanumeric (GSM 7-bit default alphabet)"/>
+        <item key="@110" value="Abbreviated number"/>
+        <item key="@111" value="Reserved for extension"/>
+      </field>
+      <setprop name="type_of_number" value="{Type-of-Number}"/>
+      <switch expr="{Type-of-Number}">
+        <case value="@101">
+          <field name="Reserved" length="4" type="#zero"/>
+        </case>
+        <default>
+          <field name="Numbering-Plan-Identification" length="4">
+            <item key="@0000" value="Unknown"/>
+            <item key="@0001" value="ISDN/telephone numbering plan (E.164/E.163)"/>
+            <item key="@0010" value="Reserved"/>
+            <item key="@0011" value="Data numbering plan (X.121)"/>
+            <item key="@0100" value="Telex numbering plan"/>
+            <range start="@0101" end="@0111" value="Reserved"/>
+            <item key="@1000" value="National numbering plan"/>
+            <item key="@1001" value="Private numbering plan"/>
+            <item key="@1010" value="ERMES numbering plan (ETSI DE/PS 3 01-3)"/>
+            <range start="@1011" end="@1110" value="Reserved"/>
+            <item key="@1111" value="Reserved for extension"/>
+          </field>
+        </default>
+      </switch>
+    </record>
+    <record name="Address-Value">
+      <switch expr="type_of_number">
+        <case value="@000"/>
+        <!-- Unknown -->
+        <case value="@001"/>
+        <!-- International Number -->
+        <case value="@010"/>
+        <!-- National Number -->
+        <case value="@011"/>
+        <!-- Network Specific Number -->
+        <case value="@100"/>
+        <!-- Subscriber Number -->
+        <case value="@110">
+          <!-- Abbreviated Number -->
+          <fragment href="#9.1.2.5-BCD"/>
+        </case>
+        <case value="@101">
+          <!-- Alphanumeric (GSM 7-bit default alphabet) -->
+          <!-- field name="Address" length="{Address-Length}*4" expr="%s" transform="GSM7(0, 1)" /-->
+          <field name="Address" length="{Address-Length}*4"/>
+        </case>
+        <default>
+          <field name="Address" length="{Address-Length}*4"/>
+        </default>
+      </switch>
+    </record>
+  </record>
+  <type name="SM-TL Address Length range" id="9.1.2.5">
+    <range start="0" end="20"/>
+  </type>
+  <record name="TP Address BCD (0-10 octets, 0-20 digits)" id="9.1.2.5-BCD">
+    <!-- repeat name="Digits" num="{Address-Length}" >
+   < TODO: reverse nibble order >
+   <field name="Digit" length="4" type="#BCD-Addr" default="@1111" />
+  </repeat-->
+    <if expr="{Address-Length} &gt; 0">
+      <field name="Digit 2" length="4" default="@1111" type="#BCD-Addr"/>
+      <field name="Digit 1" length="4" default="@1111" type="#BCD-Addr"/>
+      <if expr="{Address-Length} &gt; 2">
+        <field name="Digit 4" length="4" default="@1111" type="#BCD-Addr"/>
+        <field name="Digit 3" length="4" default="@1111" type="#BCD-Addr"/>
+        <if expr="{Address-Length} &gt; 4">
+          <field name="Digit 6" length="4" default="@1111" type="#BCD-Addr"/>
+          <field name="Digit 5" length="4" default="@1111" type="#BCD-Addr"/>
+          <if expr="{Address-Length} &gt; 6">
+            <field name="Digit 8" length="4" default="@1111" type="#BCD-Addr"/>
+            <field name="Digit 7" length="4" default="@1111" type="#BCD-Addr"/>
+            <if expr="{Address-Length} &gt; 8">
+              <field name="Digit 10" length="4" default="@1111" type="#BCD-Addr"/>
+              <field name="Digit 9" length="4" default="@1111" type="#BCD-Addr"/>
+              <if expr="{Address-Length} &gt; 10">
+                <field name="Digit 12" length="4" default="@1111" type="#BCD-Addr"/>
+                <field name="Digit 11" length="4" default="@1111" type="#BCD-Addr"/>
+                <if expr="{Address-Length} &gt; 12">
+                  <field name="Digit 14" length="4" default="@1111" type="#BCD-Addr"/>
+                  <field name="Digit 13" length="4" default="@1111" type="#BCD-Addr"/>
+                  <if expr="{Address-Length} &gt; 14">
+                    <field name="Digit 16" length="4" default="@1111" type="#BCD-Addr"/>
+                    <field name="Digit 15" length="4" default="@1111" type="#BCD-Addr"/>
+                    <if expr="{Address-Length} &gt; 16">
+                      <field name="Digit 18" length="4" default="@1111" type="#BCD-Addr"/>
+                      <field name="Digit 17" length="4" default="@1111" type="#BCD-Addr"/>
+                      <if expr="{Address-Length} &gt; 18">
+                        <field name="Digit 20" length="4" default="@1111" type="#BCD-Addr"/>
+                        <field name="Digit 19" length="4" default="@1111" type="#BCD-Addr"/>
+                      </if>
+                    </if>
+                  </if>
+                </if>
+              </if>
+            </if>
+          </if>
+        </if>
+      </if>
+    </if>
+  </record>
+  <!-- Section 9.2 Service provided by the SM-TL (Short Message - Transport Layer) -->
+  <record name="SM-TL PDU" id="9.2.2">
+    <switch expr="Direction">
+      <case value="0">
+        <!-- Network to MS -->
+        <peek name="TP_Message_Type_Indicator" length="2" offset="6"/>
+        <switch expr="TP_Message_Type_Indicator">
+          <case value="@00">
+            <!-- SMS-DELIVER -->
+            <record name="SMS-DELIVER" href="#9.2.2.1"/>
+          </case>
+          <case value="@01">
+            <!-- SMS-SUBMIT-REPORT -->
+            <record name="SMS-SUBMIT-REPORT" href="#9.2.2.2a"/>
+          </case>
+          <case value="@10">
+            <!-- SMS-STATUS-REPORT -->
+            <record name="SMS-STATUS-REPORT" href="#9.2.2.3"/>
+          </case>
+          <case value="@11">
+            <!-- Reserved -->
+          </case>
+        </switch>
+      </case>
+      <case value="1">
+        <!-- MS to Network -->
+        <peek name="TP_Message_Type_Indicator" length="2" offset="6"/>
+        <switch expr="TP_Message_Type_Indicator">
+          <case value="@00">
+            <!-- SMS-DELIVER-REPORT -->
+            <record name="SMS-DELIVER-REPORT" href="#9.2.2.1a"/>
+          </case>
+          <case value="@01">
+            <!-- SMS-SUBMIT -->
+            <record name="SMS-SUBMIT" href="#9.2.2.2"/>
+          </case>
+          <case value="@10">
+            <!-- SMS-COMMAND -->
+            <record name="SMS-COMMAND" href="#9.2.2.4"/>
+          </case>
+          <case value="@11">
+            <!-- Reserved -->
+          </case>
+        </switch>
+      </case>
+      <default>
+        <field name="Fill bits" length="6"/>
+        <field name="TP-Message-Type-Indicator" length="2"/>
+        <field name="TP-Data" length="LengthIndicator*8 - 8"/>
+      </default>
+    </switch>
+  </record>
+  <record name="SMS-DELIVER" id="9.2.2.1">
+    <field name="TP-Reply-Path" length="1" type="#9.2.3.17"/>
+    <field name="TP-User-Data-Header-Indicator" length="1" type="#9.2.3.23"/>
+    <field name="TP-Status-Report-Indication" length="1" type="#9.2.3.4"/>
+    <field name="TP-Loop-Prevention" length="1" type="#9.2.3.28"/>
+    <field name="Spare" length="1" type="#zero"/>
+    <field name="TP-More-Messages-to-Send" length="1" type="#9.2.3.2"/>
+    <field name="TP-Message-Type-Indicator" length="2" type="#9.2.3.1a"/>
+    <record name="TP-Originating-Address" href="#9.1.2.5"/>
+    <record name="TP-Protocol-Identifier" length="8" href="#9.2.3.9"/>
+    <record name="TP-Data-Coding-Scheme" length="8" href="#9.2.3.10"/>
+    <record name="TP-Service-Centre-Time-Stamp" length="7 * 8" href="#9.2.3.11"/>
+    <field name="TP-User-Data-Length" length="8"/>
+    <record name="TP-User-Data" length="{TP-User-Data-Length} * 8" href="#9.2.3.24"/>
+  </record>
+  <type name="TP User Data Length range" id="9.2.3.24r">
+    <range start="0" end="140"/>
+  </type>
+  <type name="TP User Data Length range" id="9.2.3.24s">
+    <range start="1" end="140"/>
+  </type>
+  <record name="SMS-DELIVER-REPORT" id="9.2.2.1a">
+    <record name="SMS_Delivery_Report_Block">
+      <field name="Spare" length="1" type="#zero"/>
+      <field name="TP-User-Data-Header-Indicator" length="1" type="#9.2.3.23"/>
+      <field name="Spare" length="4" type="#zero"/>
+      <field name="TP-Message-Type-Indicator" length="2" type="#9.2.3.1b"/>
+      <switch expr="mti">
+        <case value="@100"/>
+        <!-- RP-ERROR (ms->n) -->
+        <case value="@101">
+          <!-- RP-ERROR (n->ms) -->
+          <field name="TP-Failure-Cause" length="8" type="#9.2.3.22"/>
+        </case>
+      </switch>
+      <fragment href="#9.2.3.27"/>
+      <if expr="TP_PID_Indicator">
+        <record name="TP-Protocol-Identifier" href="#9.2.3.9"/>
+      </if>
+      <if expr="TP_DCS_Indicator">
+        <record name="TP-Data-Coding-Scheme" href="#9.2.3.10"/>
+      </if>
+      <if expr="TP_UDL_Indicator">
+        <field name="TP-User-Data-Length" length="8"/>
+        <record name="TP-User-Data" length="{TP-User-Data-Length} * 8" href="#9.2.3.24"/>
+      </if>
+    </record>
+  </record>
+  <record name="SMS-SUBMIT" id="9.2.2.2">
+    <field name="TP-Reply-Path" length="1" type="#9.2.3.17"/>
+    <field name="TP-User-Data-Header-Indicator" length="1" type="#9.2.3.23"/>
+    <field name="TP-Status-Report-Request" length="1" type="#9.2.3.5"/>
+    <field name="TP-Validity-Period-Format" length="2" type="#9.2.3.3"/>
+    <field name="TP-Reject-Duplicates" length="1" type="#9.2.3.25"/>
+    <field name="TP-Message-Type-Indicator" length="2" type="#9.2.3.1b"/>
+    <field name="TP-Message-Reference" length="8"/>
+    <record name="TP-Destination-Address" href="#9.1.2.5"/>
+    <record name="TP-Protocol-Identifier" href="#9.2.3.9"/>
+    <record name="TP-Data-Coding-Scheme" href="#9.2.3.10"/>
+    <switch expr="{TP-Validity-Period-Format}">
+      <case value="@10">
+        <field name="TP-Validity-Period" length="8" type="#9.2.3.12.1"/>
+      </case>
+      <case value="@01">
+        <record name="TP-Validity-Period" href="#9.2.3.11"/>
+      </case>
+      <case value="@11">
+        <record name="TP-Validity-Period" href="#9.2.3.12.3"/>
+      </case>
+      <case value="@00">
+        <!-- empty (must be last so it doesn't continue with next case) -->
+      </case>
+    </switch>
+    <field name="TP-User-Data-Length" length="8"/>
+    <record name="TP-User-Data" length="{TP-User-Data-Length} * 8" href="#9.2.3.24"/>
+  </record>
+  <record name="SMS-SUBMIT-REPORT" id="9.2.2.2a">
+    <record name="SMS_Submit_Report_Block">
+      <field name="Spare" length="1" type="#zero"/>
+      <field name="TP-User-Data-Header-Indicator" length="1" type="#9.2.3.23"/>
+      <field name="Spare" length="4" type="#zero"/>
+      <field name="TP-Message-Type-Indicator" length="2" type="#9.2.3.1a"/>
+      <fragment href="#9.2.3.27"/>
+      <record name="TP-Service-Centre-Time-Stamp" href="#9.2.3.11"/>
+      <if expr="TP_PID_Indicator">
+        <record name="TP-Protocol-Identifier" href="#9.2.3.9"/>
+      </if>
+      <if expr="TP_DCS_Indicator">
+        <record name="TP-Data-Coding-Scheme" href="#9.2.3.10"/>
+      </if>
+      <if expr="TP_UDL_Indicator">
+        <field name="TP-User-Data-Length" length="8"/>
+        <record name="TP-User-Data" length="{TP-User-Data-Length} * 8" href="#9.2.3.24"/>
+      </if>
+    </record>
+  </record>
+  <record name="SMS-STATUS-REPORT" id="9.2.2.3">
+    <record name="SMS_Status_Report_Block">
+      <record name="SMS_Status_Report_Mandatory">
+        <field name="Spare" length="1" type="#zero"/>
+        <field name="TP-User-Data-Header-Indicator" length="1" type="#9.2.3.23"/>
+        <field name="TP-Status-Report-Qualifier" length="1" type="#9.2.3.26"/>
+        <field name="TP-Loop-Prevention" length="1" type="#9.2.3.28"/>
+        <field name="Spare" length="1" type="#zero"/>
+        <field name="TP-More-Messages-to-Send" length="1" type="#9.2.3.2"/>
+        <field name="TP-Message-Type-Indicator" length="2" type="#9.2.3.1a"/>
+        <field name="TP-Message-Reference" length="8"/>
+        <record name="TP-Recipient-Address" href="#9.1.2.5"/>
+        <record name="TP-Service-Centre-Time-Stamp" href="#9.2.3.11"/>
+        <record name="TP-Discharge-Time" href="#9.2.3.11"/>
+        <field name="TP-Status" length="8" type="#9.2.3.15"/>
+      </record>
+      <fragment href="#9.2.3.27"/>
+      <if expr="TP_PID_Indicator">
+        <record name="TP-Protocol-Identifier" href="#9.2.3.9"/>
+      </if>
+      <if expr="TP_DCS_Indicator">
+        <record name="TP-Data-Coding-Scheme" href="#9.2.3.10"/>
+      </if>
+      <if expr="TP_UDL_Indicator">
+        <field name="TP-User-Data-Length" length="8"/>
+        <record name="TP-User-Data" length="{TP-User-Data-Length} * 8" href="#9.2.3.24"/>
+      </if>
+    </record>
+  </record>
+  <record name="SMS-COMMAND" id="9.2.2.4">
+    <field name="Spare" length="1" type="#zero"/>
+    <field name="TP-User-Data-Header-Indicator" length="1" type="#9.2.3.23"/>
+    <field name="TP-Status-Report-Request" length="1" type="#9.2.3.5"/>
+    <field name="Spare" length="3" type="#zero"/>
+    <field name="TP-Message-Type-Indicator" length="2" type="#9.2.3.1b"/>
+    <field name="TP-Message-Reference" length="8"/>
+    <record name="TP-Protocol-Identifier" href="#9.2.3.9"/>
+    <field name="TP-Command-Type" length="8" type="#9.2.3.19"/>
+    <field name="TP-Message-Number" length="8"/>
+    <record name="TP-Destination-Address" href="#9.1.2.5"/>
+    <field name="TP-Command-Data-Length" length="8"/>
+    <record name="TP-Command-Data" length="{TP-Command-Data-Length}" href="#9.2.3.24"/>
+  </record>
+  <type name="TP Message Type Indicator (TP-MTI) [SC to MS]" id="9.2.3.1a">
+    <item key="@00" value="SMS-DELIVER"/>
+    <item key="@01" value="SMS-SUBMIT-REPORT"/>
+    <item key="@10" value="SMS-STATUS-REPORT"/>
+    <item key="@11" value="Reserved"/>
+  </type>
+  <type name="TP Message Type Indicator (TP-MTI) [MS to SC]" id="9.2.3.1b">
+    <item key="@00" value="SMS-DELIVER-REPORT"/>
+    <item key="@01" value="SMS-SUBMIT"/>
+    <item key="@10" value="SMS-COMMAND"/>
+    <item key="@11" value="Reserved"/>
+  </type>
+  <type name="TP More Messages to Send (TP-MMS)" id="9.2.3.2">
+    <item key="0" value="More messages are waiting for the MS in this SC"/>
+    <item key="1" value="No more messages are waiting for the MS in this SC"/>
+  </type>
+  <type name="TP Validity Period Format (TP-VPF)" id="9.2.3.3">
+    <item key="@00" value="TP-VP field not present"/>
+    <item key="@10" value="TP-VP field present - relative format"/>
+    <item key="@01" value="TP-VP field present - enhanced format"/>
+    <item key="@11" value="TP-VP field present - absolute format"/>
+  </type>
+  <type name="TP Status Report Indicator (TP-SRI)" id="9.2.3.4">
+    <item key="0" value="A status report shall not be returned to the SME"/>
+    <item key="1" value="A status report shall be returned to the SME"/>
+  </type>
+  <type name="TP Status Report Request (TP-SRR)" id="9.2.3.5">
+    <item key="0" value="A status report is not requested"/>
+    <item key="1" value="A status report is requested"/>
+  </type>
+  <record name="TP-Protocol-Identifier (TP-PID)" id="9.2.3.9">
+    <field name="TP-PID-Type" length="2">
+      <item key="@00" value="bits 0..5 default use"/>
+      <item key="@01" value="bits 0..5 default use"/>
+      <item key="@10" value="reserved"/>
+      <item key="@11" value="bits 0..5 for SC specific use"/>
+    </field>
+    <switch expr="{TP-PID-Type}">
+      <case value="@00">
+        <field name="Telematic-Interworking" length="1">
+          <item key="0" value="no interworking, but SME-to-SME protocol"/>
+          <item key="1" value="telematic interworking"/>
+        </field>
+        <switch expr="{Telematic-Interworking}">
+          <case value="0">
+            <field name="SM-AL Protocol" length="5"/>
+          </case>
+          <case value="1">
+            <field name="Telematic Device" length="5">
+              <item key="@00000" value="implicit - device type is specific to this SC, or can be concluded on the basis of the address telex (or teletex reduced to telex format)"/>
+              <item key="@00001" value="telex (or teletex reduced to telex format)"/>
+              <item key="@00010" value="group 3 telefax"/>
+              <item key="@00011" value="group 4 telefax"/>
+              <item key="@00100" value="voice telephone"/>
+              <item key="@00101" value="ERMES (European Radio Messaging System)"/>
+              <item key="@00110" value="National Paging system (known to the SC)"/>
+              <item key="@00111" value="Videotex (T.100/T.101)"/>
+              <item key="@01000" value="teletex, carrier unspecified"/>
+              <item key="@01001" value="teletex, in PSPDN"/>
+              <item key="@01010" value="teletex, in CSPDN"/>
+              <item key="@01011" value="teletex, in analog PSTN"/>
+              <item key="@01100" value="teletex, in analog ISDN"/>
+              <item key="@01101" value="UCI (Universal Computer Interface, ETSI DE/PS 3 01-3)"/>
+              <range start="@01110" end="@01111" value="reserved"/>
+              <item key="@10000" value="a message handling facility (known to the SC)"/>
+              <item key="@10001" value="any public X.400-based messages handling system"/>
+              <item key="@10010" value="Internet Electronic Mail"/>
+              <range start="@10011" end="@10111" value="reserved"/>
+              <range start="@11000" end="@11110" value="values specific to each SC, usage based on mutual agreement between the SME and the SC"/>
+              <item key="@11111" value="A GSM/UMTS mobile station.  The SC converts the SM from the received TP-Data-Coding-Scheme to any data coding scheme supported by that MS"/>
+            </field>
+          </case>
+        </switch>
+      </case>
+      <case value="@01">
+        <field name="SM Type" length="6">
+          <item key="@000000" value="Short Message Type 0"/>
+          <item key="@000001" value="Replace Short Message Type 1"/>
+          <item key="@000010" value="Replace Short Message Type 2"/>
+          <item key="@000011" value="Replace Short Message Type 3"/>
+          <item key="@000100" value="Replace Short Message Type 4"/>
+          <item key="@000101" value="Replace Short Message Type 5"/>
+          <item key="@000110" value="Replace Short Message Type 6"/>
+          <item key="@000111" value="Replace Short Message Type 7"/>
+          <range start="@001000" end="@011110" value="Reserved"/>
+          <item key="@011111" value="Return Call Message"/>
+          <range start="@100000" end="@111011" value="Reserved"/>
+          <item key="@111100" value="ANSI-136 R-DATA"/>
+          <item key="@111101" value="ME Data download"/>
+          <item key="@111110" value="ME De-personalization Short Message"/>
+          <item key="@111111" value="(U)SIM Data download"/>
+        </field>
+      </case>
+      <case value="@10">
+        <field name="spare" length="6"/>
+      </case>
+      <case value="@11">
+        <field name="SC Data" length="6"/>
+      </case>
+    </switch>
+  </record>
+  <record name="TP Data Coding Scheme (TP-DCS)" id="9.2.3.10">
+    <field name="Coding-Group" length="2" type="TS-23.038.xddl#4a"/>
+    <switch expr="{Coding-Group}">
+      <case value="@00">
+        <field name="Text-Compression" length="1" type="TS-23.038.xddl#4b"/>
+        <field name="Message_Class_Indication" length="1" type="TS-23.038.xddl#4c"/>
+        <field name="Alphabet" length="2" type="TS-23.038.xddl#4e"/>
+        <switch expr="Message_Class_Indication">
+          <case value="0">
+            <field name="Reserved" length="2"/>
+          </case>
+          <case value="1">
+            <field name="Message_Class" length="2" type="TS-23.038.xddl#4d"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@11">
+        <field name="Message_Waiting_Indication" length="2" type="TS-23.038.xddl#4f"/>
+        <setprop name="Message_Waiting_Indication_prop" value="Message_Waiting_Indication"/>
+        <switch expr="Message_Waiting_Indication">
+          <case value="@00"/>
+          <case value="@01"/>
+          <case value="@10">
+            <field name="Indication_Sense" length="1" type="TS-23.038.xddl#4g"/>
+            <field name="Reserved" length="1" type="#zero"/>
+            <field name="Indication_Type" length="2" type="TS-23.038.xddl#4h"/>
+          </case>
+          <case value="@11">
+            <field name="Reserved" length="1" type="#zero"/>
+            <field name="Message_Coding" length="1" type="TS-23.038.xddl#4i"/>
+            <setprop name="Message_Coding_prop" value="Message_Coding"/>
+            <field name="Message_Class" length="2" type="TS-23.038.xddl#4d"/>
+          </case>
+        </switch>
+      </case>
+      <default>
+        <field name="spare" length="6"/>
+      </default>
+    </switch>
+  </record>
+  <record name="TP Service Center Time Stamp (TP-SCTS)" id="9.2.3.11">
+    <field name="Year" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+    <field name="Month" length="8" default="#1F" type="#2 BCD chars (reversed)"/>
+    <field name="Day" length="8" default="#1F" type="#2 BCD chars (reversed)"/>
+    <field name="Hour" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+    <field name="Minute" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+    <field name="Second" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+    <record name="Time Zone" href="TS-24.008.xddl#10.5.3.8"/>
+  </record>
+  <type name="TP Validity Period (TP-VP) Relative Format" id="9.2.3.12.1">
+    <range start="0" end="143"/>
+    <range start="144" end="167"/>
+    <range start="168" end="196"/>
+    <range start="197" end="255"/>
+  </type>
+  <record name="TP Validity Period (TP-VP) Enhanced Format" id="9.2.3.12.3">
+    <field name="Extension" length="1" type="#9.2.3.12.3a"/>
+    <field name="Single_Shot_SM" length="1" type="#9.2.3.12.3b"/>
+    <field name="Reserved" length="3" type="#zero"/>
+    <field name="Format" length="3" type="#9.2.3.12.3c"/>
+    <switch expr="Format">
+      <case value="@001">
+        <field name="Value" length="8" type="#9.2.3.12.1"/>
+        <field name="spare" length="5*8"/>
+      </case>
+      <case value="@010">
+        <field name="Value" length="8"/>
+        <field name="spare" length="5*8"/>
+      </case>
+      <case value="@011">
+        <record name="Value">
+          <field name="Hours" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+          <field name="Minutes" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+          <field name="Seconds" length="8" default="#0F" type="#2 BCD chars (reversed)"/>
+        </record>
+        <field name="spare" length="3*8"/>
+      </case>
+      <case value="@000"/>
+      <default>
+        <field name="spare" length="6*8"/>
+      </default>
+    </switch>
+  </record>
+  <type name="TP Validity Period (TP-VP) Enhanced Format - Extension bit" id="9.2.3.12.3a">
+    <item key="0" value="No more TP-VP functionality indicator extension octets"/>
+    <item key="1" value="More TP-VP functionality indicator extension octets"/>
+  </type>
+  <type name="TP Validity Period (TP-VP) Enhanced Format - Single shot SM" id="9.2.3.12.3b">
+    <item key="0" value="SC is not required to make one delivery attempt"/>
+    <item key="1" value="SC is required to make up to one delivery attempt"/>
+  </type>
+  <type name="TP Validity Period (TP-VP) Enhanced Format - Validity Period Format" id="9.2.3.12.3c">
+    <item key="@000" value="No Validity Period specified"/>
+    <item key="@001" value="Validity Period is specified in relative format"/>
+    <item key="@010" value="Validity Period is an integer representing the number of seconds"/>
+    <item key="@011" value="Validity Period is semi-octet representation of hours, minutes and seconds"/>
+    <range start="@100" end="@111" value="Reserved"/>
+  </type>
+  <type name="TP Status (TP-ST)" id="9.2.3.15">
+    <!-- Short message transaction completed -->
+    <item key="@00000000" value="Short message receive by the SME"/>
+    <item key="@00000001" value="Short message forwarded by the SC to the SME but the SC is unable to confirm delivery"/>
+    <item key="@00000010" value="Short message replaced by the SC"/>
+    <!-- Reserved values -->
+    <range start="@00000011" end="@00001111" value="Reserved"/>
+    <range start="@00010000" end="@00011111" value="Values specific to each SC"/>
+    <!-- Temporary error, SC still trying to transfer SM-->
+    <item key="@00100000" value="Congestion"/>
+    <item key="@00100001" value="SME busy"/>
+    <item key="@00100010" value="No response from SME"/>
+    <item key="@00100011" value="Service rejected"/>
+    <item key="@00100100" value="Quality of service not available"/>
+    <item key="@00100101" value="Error in SME"/>
+    <range start="@00100110" end="@00101111" value="Reserved"/>
+    <range start="@00110000" end="@00111111" value="Values specific to each SC"/>
+    <!-- Permanent error, SC is not making any more transfer attempts -->
+    <item key="@01000000" value="Remote procedure error"/>
+    <item key="@01000001" value="Incompatible destination"/>
+    <item key="@01000010" value="Connection rejected by SME"/>
+    <item key="@01000011" value="Not obtainable"/>
+    <item key="@01000100" value="Quality of service not available"/>
+    <item key="@01000101" value="No interworking available"/>
+    <item key="@01000110" value="SM Validity Period Expired"/>
+    <item key="@01000111" value="SM Deleted by originating SME"/>
+    <item key="@01001000" value="SM Deleted by SC Administration"/>
+    <item key="@01001001" value="SM does not exist"/>
+    <range start="@01001010" end="@01001111" value="Reserved"/>
+    <range start="@01010000" end="@01011111" value="Values specific to each SC"/>
+    <!-- Temporary error, SC is not making any more transfer attempts -->
+    <item key="@01100000" value="Congestion"/>
+    <item key="@01100001" value="SME busy"/>
+    <item key="@01100010" value="No response from SME"/>
+    <item key="@01100011" value="Service rejected"/>
+    <item key="@01100100" value="Quality of service not available"/>
+    <item key="@01100101" value="Error in SME"/>
+    <range start="@01100110" end="@01101001" value="Reserved"/>
+    <range start="@01101010" end="@01101111" value="Reserved"/>
+    <range start="@01110000" end="@01111111" value="Values specific to each SC"/>
+    <!-- Reserved (bit 7 set) -->
+    <range start="@10000000" end="@11111111" value="Reserved"/>
+  </type>
+  <type name="TP Reply Path (TP-RP)" id="9.2.3.17">
+    <item key="0" value="TP-Reply-Path parameter is not set in this SM-SUBMIT/DELIVER"/>
+    <item key="1" value="TP-Reply-Path parameter is set in this SM-SUBMIT/DELIVER"/>
+  </type>
+  <type name="TP Command Type (TP-CT)" id="9.2.3.19">
+    <item key="@00000000" value="Enquiry relating to previously submitted short message"/>
+    <item key="@00000001" value="Cancel Status Report Request relating to previously submitted short message"/>
+    <item key="@00000010" value="Delete previously submitted Short Message"/>
+    <item key="@00000011" value="Enable Status Report Request relating to previously submitted short message"/>
+    <range start="@00000100" end="@00011111" value="Reserved"/>
+    <range start="@11100000" end="@11111111" value="Values specific to each SC"/>
+  </type>
+  <type name="SM-TL Command Data Length range" id="9.2.3.20">
+    <range start="0" end="157"/>
+  </type>
+  <type name="TP Failure Cause (TP-FCS)" id="9.2.3.22">
+    <range start="#00" end="#7F" value="Reserved"/>
+    <!-- TP-PID errors (0x80 - 0x8F) -->
+    <item key="#80" value="Telematic interworking not supported"/>
+    <item key="#81" value="Short message Type 0 not supported"/>
+    <item key="#82" value="Cannot replace short message"/>
+    <range start="#83" end="#8E" value="Reserved"/>
+    <item key="#8F" value="Unspecified TP-PID error"/>
+    <!-- TP-DCS errors (0x90 - 0x9F) -->
+    <item key="#90" value="Data coding scheme (alphabet) not supported"/>
+    <item key="#91" value="Message class not supported"/>
+    <range start="#92" end="#9E" value="Reserved"/>
+    <item key="#9F" value="Unspecified TP-DCS error"/>
+    <!-- TP-Command errors (0xA0 - 0xAF) -->
+    <item key="#A0" value="Command cannot be actioned"/>
+    <item key="#A1" value="Command unsupported"/>
+    <range start="#A2" end="#AE" value="Reserved"/>
+    <item key="#AF" value="Unspecified TP-Command error"/>
+    <!-- TPDU errors (0xB0 - 0xBF) -->
+    <item key="#B0" value="TPDU not supported"/>
+    <range start="#B1" end="#BF" value="Reserved"/>
+    <!-- SC errors (0xB0 - 0xBF) -->
+    <item key="#C0" value="SC busy"/>
+    <item key="#C1" value="No SC subscription"/>
+    <item key="#C2" value="SC system failure"/>
+    <item key="#C3" value="Invalid SME address"/>
+    <item key="#C4" value="Destination SME barred"/>
+    <item key="#C5" value="SM Rejected-Duplicate SM"/>
+    <item key="#C6" value="TP-VPF not supported"/>
+    <item key="#C7" value="TP-VP not supported"/>
+    <range start="#C8" end="#CF" value="Reserved"/>
+    <!-- (U)SIM errors (0xB0 - 0xBF) -->
+    <item key="#D0" value="(U)SIM SMS storage full"/>
+    <item key="#D1" value="No SMS storage capability in (U)SIM"/>
+    <item key="#D2" value="Error in MS"/>
+    <item key="#D3" value="Memory Capacity Exceeded"/>
+    <item key="#D4" value="(U)SIM Application Toolkit Busy"/>
+    <item key="#D5" value="(U)SIM data download error"/>
+    <range start="#D6" end="#DF" value="Reserved"/>
+    <!-- Application errors (0xE0 - 0xFE) -->
+    <range start="#E0" end="#FE" value="Application specific"/>
+    <!-- Generic error (0xFF) -->
+    <item key="#FF" value="Unspecified error cause"/>
+  </type>
+  <type name="TP User Data Header Indicator (TP-UDHI)" id="9.2.3.23">
+    <item key="0" value="The TP-UD field contains only the short message"/>
+    <item key="1" value="The beginning of the TP-UD field contains a Header in addition to the short message"/>
+  </type>
+  <record name="TP User Data (TP-UD)" id="9.2.3.24">
+    <if expr="{TP-User-Data-Header-Indicator}">
+      <field name="TP-User-Data-Header-Length" length="8"/>
+      <record name="Header" length="{TP-User-Data-Header-Length} * 8">
+        <repeat>
+          <field name="Information-Element-Identifier" length="8">
+            <item key="#00" value="Concatenated short messages, 8-bit reference number"/>
+            <item key="#01" value="Special SMS Message Indication"/>
+            <item key="#02" value="Reserved"/>
+            <item key="#03" value="Value not used to avoid misinterpretation as &lt;LF&gt; character"/>
+            <item key="#04" value="Application port addressing scheme, 8 bit address"/>
+            <item key="#05" value="Application port addressing scheme, 16 bit address"/>
+            <item key="#06" value="SMSC Control Parameters"/>
+            <item key="#07" value="UDH Source Indicator"/>
+            <item key="#08" value="Concatenated short message, 16-bit reference number"/>
+            <item key="#09" value="Wireless Control Message Protocol"/>
+            <item key="#0A" value="Text Formatting"/>
+            <item key="#0B" value="Predefined Sound"/>
+            <item key="#0C" value="User Defined Sound (iMelody max 128 bytes)"/>
+            <item key="#0D" value="Predefined Animation"/>
+            <item key="#0E" value="Large Animation (16*16 times 4 = 32*4 =128 bytes)"/>
+            <item key="#0F" value="Small Animation (8*8 times 4 = 8*4 =32 bytes)"/>
+            <item key="#10" value="Large Picture (32*32 = 128 bytes)"/>
+            <item key="#11" value="Small Picture (16*16 = 32 bytes)"/>
+            <item key="#12" value="Variable Picture"/>
+            <item key="#13" value="User prompt indicator"/>
+            <item key="#14" value="Extended Object"/>
+            <item key="#15" value="Reused Extended Object"/>
+            <item key="#16" value="Compression Control"/>
+            <item key="#17" value="Object Distribution Indicator"/>
+            <item key="#18" value="Standard WVG object"/>
+            <item key="#19" value="Character Size WVG object"/>
+            <item key="#1A" value="Extended Object Data Request Command"/>
+            <range start="#1B" end="#1F" value="Reserved for future EMS features"/>
+            <item key="#20" value="RFC 822 E-Mail Header"/>
+            <item key="#21" value="Hyperlink format element"/>
+            <item key="#22" value="Reply Address Element"/>
+            <item key="#23" value="Enhanced Voice Mail Information"/>
+            <item key="#24" value="National Language Single Shift"/>
+            <item key="#25" value="National Language Locking Shift"/>
+            <range start="#26" end="#6F" value="Reserved for future use"/>
+            <range start="#70" end="#7F" value="(U)SIM Toolkit Security Headers"/>
+            <range start="#80" end="#9F" value="SME to SME specific use"/>
+            <range start="#A0" end="#BF" value="Reserved for future use"/>
+            <range start="#C0" end="#DF" value="SC specific use"/>
+            <range start="#E0" end="#FF" value="Reserved for future use"/>
+          </field>
+          <field name="Information-Element-Length" length="8"/>
+          <record name="Data" length="{Information-Element-Length} * 8">
+            <switch expr="{Information-Element-Identifier}">
+              <case value="#00">
+                <fragment href="#9.2.3.24.1"/>
+              </case>
+              <case value="#01">
+                <fragment href="#9.2.3.24.2"/>
+              </case>
+              <case value="#04">
+                <fragment href="#9.2.3.24.3"/>
+              </case>
+              <case value="#05">
+                <fragment href="#9.2.3.24.4"/>
+              </case>
+              <case value="#06">
+                <fragment href="#9.2.3.24.5"/>
+              </case>
+              <case value="#07">
+                <fragment href="#9.2.3.24.6"/>
+              </case>
+              <case value="#08">
+                <fragment href="#9.2.3.24.8"/>
+              </case>
+              <case value="#09">
+                <fragment href="#9.2.3.24.9"/>
+              </case>
+              <case value="#0A">
+                <fragment href="#9.2.3.24.10.1.1"/>
+              </case>
+              <case value="#0B">
+                <fragment href="#9.2.3.24.10.1.2"/>
+              </case>
+              <case value="#0C">
+                <fragment href="#9.2.3.24.10.1.3"/>
+              </case>
+              <case value="#0D">
+                <fragment href="#9.2.3.24.10.1.4"/>
+              </case>
+              <case value="#0E">
+                <fragment href="#9.2.3.24.10.1.5"/>
+              </case>
+              <case value="#0F">
+                <fragment href="#9.2.3.24.10.1.6"/>
+              </case>
+              <case value="#10">
+                <fragment href="#9.2.3.24.10.1.7"/>
+              </case>
+              <case value="#11">
+                <fragment href="#9.2.3.24.10.1.8"/>
+              </case>
+              <case value="#12">
+                <fragment href="#9.2.3.24.10.1.9"/>
+              </case>
+              <case value="#13">
+                <fragment href="#9.2.3.24.10.1.10"/>
+              </case>
+              <case value="#14">
+                <fragment href="#9.2.3.24.10.1.13"/>
+              </case>
+              <case value="#15">
+                <fragment href="#9.2.3.24.10.1.14"/>
+              </case>
+              <case value="#16">
+                <fragment href="#9.2.3.24.10.1.15"/>
+              </case>
+              <case value="#17">
+                <fragment href="#9.2.3.24.10.1.16"/>
+              </case>
+              <case value="#18">
+                <fragment href="#9.2.3.24.10.1.11"/>
+              </case>
+              <case value="#19">
+                <fragment href="#9.2.3.24.10.1.12"/>
+              </case>
+              <case value="#1A">
+                <fragment href="#9.2.3.24.10.1.18"/>
+              </case>
+              <case value="#20">
+                <fragment href="#9.2.3.24.11"/>
+              </case>
+              <case value="#21">
+                <fragment href="#9.2.3.24.12"/>
+              </case>
+              <case value="#22">
+                <fragment href="#9.2.3.24.10.1.17"/>
+              </case>
+              <case value="#23">
+                <fragment href="#9.2.3.24.13.1"/>
+              </case>
+              <case value="#24">
+                <fragment href="#9.2.3.24.15"/>
+              </case>
+              <case value="#25">
+                <fragment href="#9.2.3.24.16"/>
+              </case>
+            </switch>
+          </record>
+        </repeat>
+      </record>
+    </if>
+    <switch expr="{Coding-Group}">
+      <case value="@00">
+        <switch expr="{Text-Compression}">
+          <case value="0">
+            <prop name="fill" value="0"/>
+            <if expr="{TP-User-Data-Header-Indicator}">
+              <setprop name="fill" value="7 - ((({TP-User-Data-Header-Length} + 1) * 8)  % 7)"/>
+            </if>
+            <switch expr="Alphabet">
+              <case value="@00">
+                <field name="SM" length="{TP-User-Data-Length}*8- {TP-User-Data-Header-Length} *8">
+                  <script>
+                      description=string.format("%s", gsm7("fill"))
+                    </script>
+                </field>
+              </case>
+              <case value="@10">
+                <field name="SM" length="{TP-User-Data-Length}*16-TP_User_Data_Header_Length_prop*8"/>
+              </case>
+              <case value="@01"/>
+              <default>
+                <field name="SM" length="{TP-User-Data-Length}*8-TP_User_Data_Header_Length_prop*8"/>
+              </default>
+            </switch>
+          </case>
+          <case value="1">
+            <field name="SM" length="{TP-User-Data-Length}*8-TP_User_Data_Header_Length_prop*8"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@11">
+        <switch expr="Message_Waiting_Indication_prop">
+          <case value="@00"/>
+          <case value="@01">
+            <field name="SM" length="{TP-User-Data-Length}*7-TP_User_Data_Header_Length_prop*8"/>
+          </case>
+          <case value="@10">
+            <field name="SM" length="{TP-User-Data-Length}*16-TP_User_Data_Header_Length_prop*8"/>
+          </case>
+          <case value="@11">
+            <switch expr="Message_Coding_prop">
+              <case value="0">
+                <field name="SM" length="{TP-User-Data-Length}*7- TP_User_Data_Header_Length_prop *8"/>
+              </case>
+              <case value="1">
+                <field name="SM" length="{TP-User-Data-Length}*8-TP_User_Data_Header_Length_prop*8"/>
+              </case>
+            </switch>
+          </case>
+        </switch>
+      </case>
+      <default>
+        <field name="SM" length="{TP-User-Data-Length}*8-TP_User_Data_Header_Length_prop*8"/>
+      </default>
+    </switch>
+  </record>
+  <record name="Concatenated Short Messages" id="9.2.3.24.1">
+    <field name="SM Reference Number" length="8"/>
+    <field name="SM Message Count" length="8"/>
+    <field name="SM Sequence Number" length="8"/>
+  </record>
+  <record name="Special SMS Message Indication" id="9.2.3.24.2">
+    <field name="Message Storage" length="1">
+      <item key="0" value="Discard message after updating indication"/>
+      <item key="1" value="Store message after updating indication"/>
+    </field>
+    <field name="profile ID" length="2">
+      <item key="@00" value="profile ID 1"/>
+      <item key="@01" value="profile ID 2"/>
+      <item key="@10" value="profile ID 3"/>
+      <item key="@11" value="profile ID 4"/>
+    </field>
+    <field name="extended indication type" length="3">
+      <item key="@000" value="No extended message indication type"/>
+      <item key="@001" value="Video Message Waiting"/>
+      <range start="@000" end="@111" value="Reserved"/>
+    </field>
+    <field name="indication type" length="2">
+      <item key="@00" value="Voice Message Waiting"/>
+      <item key="@01" value="Fax Message Waiting"/>
+      <item key="@10" value="Electronic Mail Message Waiting"/>
+      <item key="@11" value="Extended Message Type Waiting"/>
+    </field>
+    <field name="Message Count" length="8"/>
+  </record>
+  <record name="Application Port Addressing 8 bit address" id="9.2.3.24.3">
+    <field name="Destination Port" length="8">
+      <range start="0" end="239" value="Reserved"/>
+      <range start="240" end="255" value="Available for allocation by applications"/>
+    </field>
+    <field name="Originator Port" length="8">
+      <range start="0" end="239" value="Reserved"/>
+      <range start="240" end="255" value="Available for allocation by applications"/>
+    </field>
+  </record>
+  <record name="Application Port Addressing 16 bit address" id="9.2.3.24.4">
+    <field name="Destination Port" length="16">
+      <range start="0" end="15999" value="As allocated by IANA"/>
+      <range start="16000" end="16999" value="Available for allocation by SMS applications"/>
+      <range start="17000" end="49151" value="UDP/TCP port numbers assigned by IANA"/>
+      <range start="49152" end="65535" value="Reserved"/>
+    </field>
+    <field name="Originator Port" length="16">
+      <range start="0" end="15999" value="As allocated by IANA"/>
+      <range start="16000" end="16999" value="Available for allocation by SMS applications"/>
+      <range start="17000" end="49151" value="UDP/TCP port numbers assigned by IANA"/>
+      <range start="49152" end="65535" value="Reserved"/>
+    </field>
+  </record>
+  <record name="SMSC Control Parameters" id="9.2.3.24.5">
+    <record name="Selective Status Report">
+      <field name="UDH" length="1">
+        <item key="0" value="Do not include original UDH into the Status Report"/>
+        <item key="1" value="Include original UDH into the Status Report"/>
+      </field>
+      <field name="Cancellation" length="1">
+        <item key="0" value="No activation"/>
+        <item key="1" value="A Status Report generated by this Short Message, due to a permanent error or last temporary error, cancels the SRR of the rest of the Short Messages in a concatenated message"/>
+      </field>
+      <field name="Reserved" length="2"/>
+      <field name="bit 3" length="1">
+        <item key="0" value="No Status Report for temporary error when SC is still trying to transfer SM"/>
+        <item key="1" value="Status Report for temporary error when SC is still trying to transfer SM"/>
+      </field>
+      <field name="bit 2" length="1">
+        <item key="0" value="No Status Report for temporary error when SC is not making any more transfer attempts"/>
+        <item key="1" value="Status Report for temporary error when SC is not making any more transfer attempts"/>
+      </field>
+      <field name="bit 1" length="1">
+        <item key="0" value="No Status Report for permanent error when SC is not making any more transfer attempts"/>
+        <item key="1" value="Status Report for permanent error when SC is not making any more transfer attempts"/>
+      </field>
+      <field name="bit 0" length="1">
+        <item key="0" value="No Status Report for short message transaction completed"/>
+        <item key="1" value="Status Report for short message transaction completed"/>
+      </field>
+    </record>
+  </record>
+  <record name="UDH Source Indicator" id="9.2.3.24.6">
+    <field name="Source" length="8">
+      <item key="1" value="Following part of UDH is created by the original sender"/>
+      <item key="2" value="Following part of UDH is created by the original receiver"/>
+      <item key="3" value="Following part of UDH is created by the SMSC"/>
+    </field>
+  </record>
+  <record name="(U)SIM Toolkit Security Headers" id="9.2.3.24.7"/>
+  <record name="Concatenated short message, 16-bit reference number" id="9.2.3.24.8">
+    <field name="Reference number" length="16"/>
+    <field name="Message count" length="8"/>
+    <field name="Sequence number" length="8"/>
+  </record>
+  <record name="Wireless Control Message Protocol" id="9.2.3.24.9">
+    <field name="WCMP PDU" length="{Information-Element-Length}*8"/>
+  </record>
+  <record name="Text Formatting" id="9.2.3.24.10.1.1">
+    <field name="Start position" length="8"/>
+    <field name="Text formatting Length" length="8"/>
+    <record name="formatting mode">
+      <field name="bit 7" length="1">
+        <item key="0" value="Strikethrough Off"/>
+        <item key="1" value="Strikethrough On"/>
+      </field>
+      <field name="bit 6" length="1">
+        <item key="0" value="Underlined Off"/>
+        <item key="1" value="Underlined On"/>
+      </field>
+      <field name="bit 5" length="1">
+        <item key="0" value="Italic Off"/>
+        <item key="1" value="Italic On"/>
+      </field>
+      <field name="bit 4" length="1">
+        <item key="0" value="Bold Off"/>
+        <item key="1" value="Bold On"/>
+      </field>
+      <field name="bit 3" length="2" default="@00">
+        <item key="@00" value="Normal (default)"/>
+        <item key="@01" value="Large"/>
+        <item key="@10" value="Small"/>
+        <item key="@11" value="reserved"/>
+      </field>
+      <field name="Alignment" length="2" default="@11">
+        <item key="@00" value="Left"/>
+        <item key="@01" value="Center"/>
+        <item key="@10" value="Right"/>
+        <item key="@11" value="Language dependent (default)"/>
+      </field>
+    </record>
+  </record>
+  <record name="Predefined Sound" id="9.2.3.24.10.1.2">
+    <field name="position" length="8"/>
+    <field name="sound number" length="8" type="#9.2.3.24.10.3.1"/>
+  </record>
+  <record name="User Defined Sound" id="9.2.3.24.10.1.3">
+    <field name="position" length="8"/>
+    <field name="PDU" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Predefined Animation" id="9.2.3.24.10.1.4">
+    <field name="position" length="8"/>
+    <field name="Animation Number" length="8" type="#9.2.3.24.10.3.3"/>
+  </record>
+  <record name="Large Animation" id="9.2.3.24.10.1.5">
+    <field name="position" length="8"/>
+    <field name="PDU" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Small Animation" id="9.2.3.24.10.1.6">
+    <field name="position" length="8"/>
+    <field name="PDU" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Large Picture" id="9.2.3.24.10.1.7">
+    <field name="position" length="8"/>
+    <field name="PDU" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Small Picture" id="9.2.3.24.10.1.8">
+    <field name="position" length="8"/>
+    <field name="PDU" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Variable Picture" id="9.2.3.24.10.1.9">
+    <field name="position" length="8"/>
+    <field name="Horizontal dimension" length="8"/>
+    <field name="Vertical dimension" length="8"/>
+    <field name="PDU" length="({Information-Element-Length}-3)*8"/>
+  </record>
+  <record name="User Prompt Indicator" id="9.2.3.24.10.1.10">
+    <field name="Number of objects" length="8"/>
+  </record>
+  <record name="Standard WVG Indicator" id="9.2.3.24.10.1.11">
+    <field name="position" length="8"/>
+    <field name="bit stream" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Character Size WVG Object" id="9.2.3.24.10.1.12">
+    <field name="position" length="8"/>
+    <field name="bit stream" length="({Information-Element-Length}-1)*8"/>
+  </record>
+  <record name="Extended Object" id="9.2.3.24.10.1.13">
+    <field name="reference number" length="8"/>
+    <field name="length" length="16"/>
+    <record name="Control Data" length="8">
+      <field name="reserved" length="5"/>
+      <field name="User Prompt Indicator" length="1">
+        <item key="0" value="Object shall be handled normally"/>
+        <item key="1" value="Object shall be handled as a User Prompt"/>
+      </field>
+      <field name="Object distribution" length="1">
+        <item key="0" value="Object may be forwarded"/>
+        <item key="1" value="Object shall not be forwarded by SMS"/>
+      </field>
+    </record>
+    <field name="Extended Object Type" length="8">
+      <item key="#00" value="Predefined sound as defined in annex E. "/>
+      <item key="#01" value="iMelody as defined in annex E. "/>
+      <item key="#02" value="Black and white bitmap as defined in annex E. "/>
+      <item key="#03" value="2-bit greyscale bitmap as defined in annex E. "/>
+      <item key="#04" value="6-bit colour bitmap as defined in annex E. "/>
+      <item key="#05" value="Predefined animation as defined in annex E. "/>
+      <item key="#06" value="Black and white bitmap animation as defined in annex E. "/>
+      <item key="#07" value="2-bit greyscale bitmap animation as defined in annex E. "/>
+      <item key="#08" value="6-bit colour bitmap animation as defined in annex E. "/>
+      <item key="#09" value="vCard as defined in annex E. "/>
+      <item key="#0A" value="vCalendar as defined in annex E. "/>
+      <item key="#0B" value="Standard WVG object as defined in annex E "/>
+      <item key="#0C" value="Polyphonic melody as defined in annex E. "/>
+      <range start="#0D" end="#FE" value="Reserved"/>
+      <item key="#FF" value="Data Format Delivery Request as defined in annex E. "/>
+    </field>
+  </record>
+  <record name="Reused Extended Object" id="9.2.3.24.10.1.14">
+    <field name="Reference number" length="8"/>
+    <field name="position" length="16"/>
+  </record>
+  <record name="Compression Control" id="9.2.3.24.10.1.15">
+    <record name="Compression information" length="8">
+      <field name="reserved" length="4"/>
+      <field name="Compression algorithm" length="3"/>
+    </record>
+    <field name="Length" length="16"/>
+    <field name="Compressed data" length="({Information-Element-Length}-3) * 8"/>
+  </record>
+  <record name="Object Distribution Indicator" id="9.2.3.24.10.1.16">
+    <field name="Number of Information Elements" length="8"/>
+    <record name="Distribution Attributes">
+      <field name="reserved" length="7"/>
+      <field name="Bit 0" length="1">
+        <item key="0" value="the associated object(s) may be forwarded"/>
+        <item key="1" value="the associated object(s) shall not be forwarded by SMS"/>
+      </field>
+    </record>
+  </record>
+  <record name="Reply Address Element" id="9.2.3.24.10.1.17">
+    <record name="Alternate Reply Address" href="#9.1.2.5"/>
+  </record>
+  <record name="Extended Object Data Request Command" id="9.2.3.24.10.1.18"/>
+  <record name="RFC 822 E-Mail Header" id="9.2.3.24.11">
+    <field name="Header length" length="8"/>
+  </record>
+  <record name="Hyperlink format element" id="9.2.3.24.12">
+    <field name="Absolute Element Position" length="16"/>
+    <field name="Hyperlink Title length" length="8"/>
+    <field name="URL length" length="8"/>
+  </record>
+  <record name="Enhanced Voice Mail Information" id="9.2.3.24.13.1">
+    <!-- TODO -->
+  </record>
+  <record name="Enhanced Voice Mail Delete Confirmation" id="9.2.3.24.13.2">
+    <!-- TODO -->
+  </record>
+  <record name="National Language Single Shift" id="9.2.3.24.15">
+    <field name="National Language Identifier" length="8">
+      <!-- TODO not sure where this table is in 23.038 -->
+    </field>
+  </record>
+  <record name="National Language Locking Shift" id="9.2.3.24.16">
+    <field name="National Language Identifier" length="8">
+      <!-- TODO not sure where this table is in 23.038 -->
+    </field>
+  </record>
+  <type name="8-bit Port Address" id="9.2.3.24.3">
+    <range start="0" end="239" value="Reserved"/>
+    <range start="240" end="255" value="Available for allocation by applications"/>
+  </type>
+  <type name="16-bit Port Address" id="9.2.3.24.4">
+    <range start="0" end="15999" value="As allocated by IANA (http://www.IANA.com/)"/>
+    <range start="16000" end="16999" value="Available for allocation by applications"/>
+    <range start="17000" end="65535" value="Reserved"/>
+  </type>
+  <type name="UDH Source Indicator" id="9.2.3.24.6">
+    <item key="1" value="Following part of UDH is created by the original sender"/>
+    <item key="2" value="Following part of UDH is created by the original receiver"/>
+    <item key="3" value="Following part of UDH is created by the SMSC"/>
+  </type>
+  <type name="EMS Formats - Predefind Sounds" id="9.2.3.24.10.3.1">
+    <item key="0" value="Chimes high"/>
+    <item key="1" value="Chimes low"/>
+    <item key="2" value="Ding"/>
+    <item key="3" value="TaDa"/>
+    <item key="4" value="Notify"/>
+    <item key="5" value="Drum"/>
+    <item key="6" value="Claps"/>
+    <item key="7" value="FanFare"/>
+    <item key="8" value="Chord high"/>
+    <item key="9" value="Chord low"/>
+  </type>
+  <type name="EMS Formats - Predefind Animations" id="9.2.3.24.10.3.3">
+    <item key="0" value="I am ironic, flirty"/>
+    <item key="1" value="I am glad"/>
+    <item key="2" value="I am sceptic"/>
+    <item key="3" value="I am sad"/>
+    <item key="4" value="WOW!"/>
+    <item key="5" value="I am crying"/>
+  </type>
+  <type name="TP Reject Duplicates (TP-RD)" id="9.2.3.25">
+    <item key="0" value="Instruct the SC to accept an SMS SUBMIT for an SM still held in the SC which has the same TP MR and the same TP DA as a previously submitted SM from the same OA."/>
+    <item key="1" value="Instruct the SC to reject an SMS SUBMIT for an SM still held in the SC which has the same TP MR and the same TP DA as the previously submitted SM from the same OA."/>
+  </type>
+  <type name="TP Status Report Qualifier (TP-SRQ)" id="9.2.3.26">
+    <item key="0" value="The SMS-STATUS-REPORT is the result of a SMS-SUMBIT"/>
+    <item key="1" value="The SMS-STATUS-REPORT is the result of a SMS-COMMAND"/>
+  </type>
+  <record name="TP Parameter Indicator (TP-PI)" id="9.2.3.27">
+    <peek name="ext" length="1" offset="0"/>
+    <while expr="ext">
+      <field name="Extension" length="1">
+        <item key="0" value="No more TP-PI octets"/>
+        <item key="1" value="Another TP-PI octet follows"/>
+      </field>
+      <prop name="ext" value="Extension"/>
+      <field name="Reserved bit 6" length="1" type="#zero"/>
+      <field name="Reserved bit 5" length="1" type="#zero"/>
+      <field name="Reserved bit 4" length="1" type="#zero"/>
+      <field name="Reserved bit 3" length="1" type="#zero"/>
+      <field name="TP_UDL_Indicator" length="1" default="1"/>
+      <field name="TP_DCS_Indicator" length="1" default="1"/>
+      <field name="TP_PID_Indicator" length="1" default="1"/>
+    </while>
+  </record>
+  <type name="TP-Loop-Prevention (TP-LP)" id="9.2.3.28">
+    <item key="0" value="The message has not been forwarded and is not a spawned message"/>
+    <item key="1" value="The message has either been forwarded or is a spawned message"/>
+  </type>
+</xddl>

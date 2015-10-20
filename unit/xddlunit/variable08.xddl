@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <prop name="s1" type="type01.xddl#bool" value="0"/>
+    <field name="a" length="8" type="type01.xddl#bool"/>
+    <setprop name="s1" type="type01.xddl#bool" value="a"/>
+  </start>
+</xddl>

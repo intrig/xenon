@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Type with ranges and items</comment>
+  <type name="Varied Type" id="varied">
+    <item key="0" value="&gt;"/>
+    <item key="1" value="&lt;"/>
+    <item key="2" value="&quot;"/>
+    <range start="#63" end="#6E" value="phosphor"/>
+    <comment>what? A comment here?</comment>
+    <item key="#70" value="imbue"/>
+    <item key="#57" value="red"/>
+    <range start="4" end="10" value="blue"/>
+  </type>
+  <start>
+    <field name="first" length="8" type="#varied"/>
+    <field name="second" length="8" type="#varied"/>
+    <field name="third" length="8" type="#varied"/>
+    <field name="fourth" length="8" type="#varied"/>
+    <field name="fifth" length="8" type="#varied"/>
+    <field name="sixth" length="8" type="#varied"/>
+    <field name="seventh" length="8" type="#varied"/>
+    <field name="eighth" length="8" type="#varied"/>
+    <field name="ninth" length="8" type="#varied"/>
+  </start>
+</xddl>

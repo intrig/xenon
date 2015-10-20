@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- based on Wireshark wiretap/pcapng.c -->
+
+<!--
+  <table name="Block types" id="block_types">
+    <enum id="BLOCK_TYPE_IDB" value="#1" name="Interface Description Block" href="#pcapng_interface_description_block"/>
+    <enum id="BLOCK_TYPE_PB"  value="#2" name="Packet Block (obsolete)"/>
+    <enum id="BLOCK_TYPE_SPB" value="#3" name="Simple Packet Block"/>
+    <enum id="BLOCK_TYPE_NRB" value="#4" name="Name Resolution Block"/>
+    <enum id="BLOCK_TYPE_ISB" value="#5" name="Interface Statistics Block"/>
+    <enum id="BLOCK_TYPE_EPB" value="#6" name="Enhanced Packet Block"/>
+    <enum id="BLOCK_TYPE_SHB" value="#A" name="Section Header Block"/>
+  </table>
+-->
+
+  <type name="Block types" id="block_types">
+    <item key="#1" value="Interface Description Block"/>
+    <item key="#2" value="Packet Block (obsolete)"/>
+    <item key="#3" value="Simple Packet Block"/>
+    <item key="#4" value="Name Resolution Block"/>
+    <item key="#5" value="Interface Statistics Block"/>
+    <item key="#6" value="Enhanced Packet Block"/>
+    <item key="#0A0D0D0A" value="Section Header Block"/>
+  </type>
+
+  <fragment name="Common Block Header" id="pcapng_block_header_t">
+    <uint32 name="block_type" type="#block_types"/>
+    <uint32 name="block_total_length"/>
+  </fragment>
+
+  <fragment name="Section Header Block" id="pcapng_section_header_block_t">
+    <record name="block_header" href="#pcapng_block_header_t"/>
+    <uint32 name="magic"/>
+    <endian big="magic == #1A2B3C4D"/>
+
+    <uint16 name="version_major"/>
+    <uint16 name="version_minor"/>
+    <uint64 name="section_length"/> <!-- might be -1 for unknown -->
+    <prop name="adj_section_length" value = "(section_length == -1) ? block_header.block_total_length : section_length"/>
+    <!-- options -->
+  </fragment>
+
+  <fragment name="Interface Description Block" id="pcapng_interface_description_block">
+    <record href="#pcapng_block_header_t"/>
+    <uint16 name="linktype"/>
+    <uint16 name="reserved"/>
+    <uint64 name="snaplen"/>
+    <!-- options -->
+  </fragment>
+
+  <fragment name="Enhanced Packet Block" id="epb">
+    <record href="#pcapng_block_header_t"/>
+    <uint32 name="interface_id"/>
+    <uint32 name="timestamp_high"/>
+    <uint32 name="timestamp_low"/>
+    <uint32 name="captured_len"/>
+    <uint32 name="packet_len"/>
+    <!-- <data name="packet" length="packet_len"/> -->
+    <!-- padding -->
+    <!-- options -->
+  </fragment>
+
+  <start>
+    <fragment href="#pcapng_section_header_block_t"/>
+  </start>
+
+ <!-- 
+  <record name="Simple Packet Block" id="epb">
+    guint32 packet_len;
+  </record>
+    /* ... Packet Data ... */
+    /* ... Padding ... */
+} pcapng_simple_packet_block_t;
+
+/*
+ * Minimum SPB size = minimum block size + size of fixed length portion of SPB.
+ */
+#define MIN_SPB_SIZE    ((guint32)(MIN_BLOCK_SIZE + sizeof(pcapng_simple_packet_block_t)))
+
+/* pcapng: name resolution block */
+typedef struct pcapng_name_resolution_block_s {
+    guint16 record_type;
+    guint16 record_len;
+    /* ... Record ... */
+} pcapng_name_resolution_block_t;
+
+/*
+ * Minimum NRB size = minimum block size + size of smallest NRB record
+ * (there must at least be an "end of records" record).
+ */
+#define MIN_NRB_SIZE    ((guint32)(MIN_BLOCK_SIZE + sizeof(pcapng_name_resolution_block_t)))
+
+  <record name="Interface Statistics Block" id="isb">
+  </record>
+/* pcapng: interface statistics block */
+typedef struct pcapng_interface_statistics_block_s {
+    guint32 interface_id;
+    guint32 timestamp_high;
+    guint32 timestamp_low;
+    /* ... Options ... */
+} pcapng_interface_statistics_block_t;
+
+/*
+ * Minimum ISB size = minimum block size + size of fixed length portion of ISB.
+ */
+#define MIN_ISB_SIZE    ((guint32)(MIN_BLOCK_SIZE + sizeof(pcapng_interface_statistics_block_t)))
+
+/* pcapng: common option header for every option type */
+typedef struct pcapng_option_header_s {
+    guint16 option_code;
+    guint16 option_length;
+    /* ... x bytes Option Body ... */
+    /* ... Padding ... */
+} pcapng_option_header_t;
+
+struct option {
+    guint16 type;
+    guint16 value_length;
+};
+
+  <main>
+  </main>
+  -->
+</xddl>

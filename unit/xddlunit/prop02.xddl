@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Setting Global Properites</comment>
+  <export>
+    <prop name="x" value="8"/>
+  </export>
+  <start>
+    <field name="a" length="x"/>
+    <field name="b" length="x"/>
+    <setprop name="x" value="4"/>
+    <field name="c" length="x"/>
+    <field name="d" length="x"/>
+  </start>
+</xddl>

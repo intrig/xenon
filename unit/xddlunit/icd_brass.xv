@@ -1,0 +1,2095 @@
+m: icd.xddl: #01010110039A04000500000077152533
+count: 23
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 16: 8: #10: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 3: 6: @000011: Neighbor List Message
+f: /DATA/PILOT_PN: 308: 9: @100110100: 19712 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 2: 6: @000010: 
+f: /DATA/PILOT_INC: 0: 4: @0000: 0 PN chips
+f: /DATA/repeat/record/NGHBR_CONFIG: 0: 3: @000: The neighbor base station has the same number of frequencies having Paging Channels as the current base station.
+f: /DATA/repeat/record/NGHBR_PN: 2: 9: @000000010: 128 PN chips
+f: /DATA/repeat/record/NGHBR_CONFIG: 4: 3: @100: Reserved.
+f: /DATA/repeat/record/NGHBR_PN: 0: 9: @000000000: 0 PN chips
+f: /DATA/repeat/record/NGHBR_CONFIG: 0: 3: @000: The neighbor base station has the same number of frequencies having Paging Channels as the current base station.
+f: /DATA/repeat/record/NGHBR_PN: 0: 9: @000000000: 0 PN chips
+f: /DATA/repeat/record/NGHBR_CONFIG: 1: 3: @001: The neighbor base station has the same number of frequencies having Paging Channels as the current base station. This corresponding neighbor CDMA frequency assignment does have a Primary Paging Channel.
+f: /DATA/repeat/record/NGHBR_PN: 440: 9: @110111000: 28160 PN chips
+f: /DATA/repeat/record/NGHBR_CONFIG: 5: 3: @101: Reserved.
+f: /DATA/repeat/record/NGHBR_PN: 146: 9: @010010010: 9344 PN chips
+f: /DATA/PDU_PADDING: 4: 3: @100: 
+
+m: icd.xddl: #0101016015A97F103541C88877152533
+count: 15
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 21: 6: @010101: Extended Channel Assignment Message
+f: /DATA/repeat/record/ACK_SEQ: 5: 3: @101: 
+f: /DATA/repeat/record/MSG_SEQ: 2: 3: @010: 
+f: /DATA/repeat/record/ACK_REQ: 0: 1: @0: 
+f: /DATA/repeat/record/VALID_ACK: 1: 1: @1: 
+f: /DATA/repeat/record/ADDR_TYPE: 3: 3: @011: TMSI
+f: /DATA/repeat/record/ADDR_LEN: 15: 4: @1111: 
+
+m: icd.xddl: #0101016016A97F1F034070CA7CB1E5326AB30A41E7718FA202CAAA458447788993851223B44576
+count: 78
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 22: 6: @010110: General Neighbor List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/PILOT_INC: 8: 4: @1000: 512 PN chips
+f: /DATA/NGHBR_SRCH_MODE: 3: 2: @11: Search windows and search priorities
+f: /DATA/NGHBR_CONFIG_PN_INCL: 1: 1: @1: 
+f: /DATA/FREQ_FIELDS_INCL: 1: 1: @1: 
+f: /DATA/USE_TIMING: 1: 1: @1: 
+f: /DATA/GLOBAL_TIMING_INCL: 0: 1: @0: 
+f: /DATA/NUM_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/NGHBR_CONFIG: 5: 3: @101: Reserved
+f: /DATA/repeat/record/NGHBR_PN: 3: 9: @000000011: 192 PN chips
+f: /DATA/repeat/record/SEARCH_PRIORITY: 2: 2: @10: High
+f: /DATA/repeat/record/SRCH_WIN_NGHBR: 1: 4: @0001: 6 PN chips
+f: /DATA/repeat/record/FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 5: 5: @00101: 450 MHz NMT band
+f: /DATA/repeat/record/NGHBR_FREQ: 498: 11: @00111110010: 
+f: /DATA/repeat/record/TIMING_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_TX_OFFSET: 71: 7: @1000111: 
+f: /DATA/repeat/record/NGHBR_TX_DURATION: 9: 4: @1001: 720 ms
+f: /DATA/repeat/record/NGHBR_TX_PERIOD: 38: 7: @0100110: 3040 ms
+f: /DATA/NUM_ANALOG_NGHBR: 2: 3: @010: 
+f: /DATA/repeat/record/BAND_CLASS: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/SYS_A_B: 1: 2: @01: System A
+f: /DATA/repeat/record/BAND_CLASS: 11: 5: @01011: 400 MHz European PAMR band
+f: /DATA/repeat/record/SYS_A_B: 0: 2: @00: RESERVED
+f: /DATA/SRCH_OFFSET_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/NGHBR_PILOT_REC_TYPE: 0: 3: @000: 1X Common Pilot with Transmit Diversity
+f: /DATA/NGHBR_INFO/record/RECORD_LEN: 2: 3: @010: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/TD_POWER_LEVEL: 2: 2: @10: 3 dB below the Forward Pilot Channel transmit power
+f: /DATA/NGHBR_INFO/record/Type-specific fields/TD_MODE: 1: 2: @01: STS (Space Time Spreading) mode
+f: /DATA/NGHBR_INFO/record/Type-specific fields/RESERVED: 0: 4: @0000: 
+f: /DATA/NGHBR_INFO/record/SRCH_OFFSET_NGHBR: 6: 3: @110: -3*window_size/2 PN chips
+f: /DATA/BCCH_IND_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/BCCH_SUPPORT: 1: 1: @1: Supports Broadcast Control Channel
+f: /DATA/RESQ_ENABLED: 1: 1: @1: 
+f: /DATA/RESQ_DELAY_TIME: 6: 6: @000110: 480 ms
+f: /DATA/RESQ_ALLOWED_TIME: 15: 6: @001111: 1200 ms
+f: /DATA/RESQ_ATTEMPT_TIME: 40: 6: @101000: 1600 ms
+f: /DATA/RESQ_CODE_CHAN: 1029: 11: @10000000101: 
+f: /DATA/RESQ_QOF: 2: 2: @10: 
+f: /DATA/RESQ_MIN_PERIOD_INCL: 0: 1: @0: 
+f: /DATA/RESQ_NUM_TOT_TRANS_INCL: 1: 1: @1: 
+f: /DATA/RESQ_NUM_TOT_TRANS_20MS: 5: 4: @0101: 
+f: /DATA/RESQ_NUM_TOT_TRANS_5MS: 5: 4: @0101: 
+f: /DATA/RESQ_NUM_PREAMBLE_RC1_RC2: 2: 3: @010: 
+f: /DATA/RESQ_NUM_PREAMBLE: 2: 3: @010: 4
+f: /DATA/RESQ_POWER_DELTA: 1: 3: @001: 
+f: /DATA/repeat/record/NGHBR_RESQ_CONFIGURED: 0: 1: @0: 
+f: /DATA/repeat/record/NGHBR_PDCH_SUPPORTED: 1: 1: @1: 
+f: /DATA/HRPD_NGHBR_INCL: 1: 1: @1: 
+f: /DATA/NUM_HRPD_NGHBR: 2: 6: @000010: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 35: 8: #23: 
+f: /DATA/repeat/record/NGHBR_PN: 376: 9: @101111000: 24064 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 2: 5: @00010: 872 to 960 MHz TACS band
+f: /DATA/repeat/record/NGHBR_FREQ: 807: 11: @01100100111: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 0: 1: @0: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 0: 1: @0: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 2: 4: @0010: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 137: 8: #89: 
+f: /DATA/repeat/record/NGHBR_PN: 35: 9: @000100011: 2240 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/NGHBR_FREQ: 138: 11: @00010001010: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 11: 4: @1011: 
+f: /DATA/PDU_PADDING: 0: 1: @0: 
+
+m: icd.xddl: #0101016016A97F1F028070CA7CB1E5326EB32A41E7718FA202CAAA458447788993851223B44576
+count: 79
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 22: 6: @010110: General Neighbor List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/PILOT_INC: 8: 4: @1000: 512 PN chips
+f: /DATA/NGHBR_SRCH_MODE: 3: 2: @11: Search windows and search priorities
+f: /DATA/NGHBR_CONFIG_PN_INCL: 1: 1: @1: 
+f: /DATA/FREQ_FIELDS_INCL: 1: 1: @1: 
+f: /DATA/USE_TIMING: 1: 1: @1: 
+f: /DATA/GLOBAL_TIMING_INCL: 0: 1: @0: 
+f: /DATA/NUM_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/NGHBR_CONFIG: 2: 3: @010: The neighbor base station may have a different number of frequencies having Paging Channels as the current base station
+f: /DATA/repeat/record/NGHBR_PN: 3: 9: @000000011: 192 PN chips
+f: /DATA/repeat/record/SEARCH_PRIORITY: 2: 2: @10: High
+f: /DATA/repeat/record/SRCH_WIN_NGHBR: 1: 4: @0001: 6 PN chips
+f: /DATA/repeat/record/FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 5: 5: @00101: 450 MHz NMT band
+f: /DATA/repeat/record/NGHBR_FREQ: 498: 11: @00111110010: 
+f: /DATA/repeat/record/TIMING_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_TX_OFFSET: 71: 7: @1000111: 
+f: /DATA/repeat/record/NGHBR_TX_DURATION: 9: 4: @1001: 720 ms
+f: /DATA/repeat/record/NGHBR_TX_PERIOD: 38: 7: @0100110: 3040 ms
+f: /DATA/NUM_ANALOG_NGHBR: 2: 3: @010: 
+f: /DATA/repeat/record/BAND_CLASS: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/SYS_A_B: 3: 2: @11: System A and B
+f: /DATA/repeat/record/BAND_CLASS: 11: 5: @01011: 400 MHz European PAMR band
+f: /DATA/repeat/record/SYS_A_B: 0: 2: @00: RESERVED
+f: /DATA/SRCH_OFFSET_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/NGHBR_PILOT_REC_TYPE: 1: 3: @001: 1X Auxiliary Pilot
+f: /DATA/NGHBR_INFO/record/RECORD_LEN: 2: 3: @010: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/QOF: 2: 2: @10: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/WALSH_LENGTH: 2: 3: @010: 256
+f: /DATA/NGHBR_INFO/record/Type-specific fields/AUX_PILOT_WALSH: 15: 8: #0F: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/RESERVED: 1: 3: @001: 
+f: /DATA/NGHBR_INFO/record/SRCH_OFFSET_NGHBR: 6: 3: @110: -3*window_size/2 PN chips
+f: /DATA/BCCH_IND_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/BCCH_SUPPORT: 1: 1: @1: Supports Broadcast Control Channel
+f: /DATA/RESQ_ENABLED: 1: 1: @1: 
+f: /DATA/RESQ_DELAY_TIME: 6: 6: @000110: 480 ms
+f: /DATA/RESQ_ALLOWED_TIME: 15: 6: @001111: 1200 ms
+f: /DATA/RESQ_ATTEMPT_TIME: 40: 6: @101000: 1600 ms
+f: /DATA/RESQ_CODE_CHAN: 1029: 11: @10000000101: 
+f: /DATA/RESQ_QOF: 2: 2: @10: 
+f: /DATA/RESQ_MIN_PERIOD_INCL: 0: 1: @0: 
+f: /DATA/RESQ_NUM_TOT_TRANS_INCL: 1: 1: @1: 
+f: /DATA/RESQ_NUM_TOT_TRANS_20MS: 5: 4: @0101: 
+f: /DATA/RESQ_NUM_TOT_TRANS_5MS: 5: 4: @0101: 
+f: /DATA/RESQ_NUM_PREAMBLE_RC1_RC2: 2: 3: @010: 
+f: /DATA/RESQ_NUM_PREAMBLE: 2: 3: @010: 4
+f: /DATA/RESQ_POWER_DELTA: 1: 3: @001: 
+f: /DATA/repeat/record/NGHBR_RESQ_CONFIGURED: 0: 1: @0: 
+f: /DATA/repeat/record/NGHBR_PDCH_SUPPORTED: 1: 1: @1: 
+f: /DATA/HRPD_NGHBR_INCL: 1: 1: @1: 
+f: /DATA/NUM_HRPD_NGHBR: 2: 6: @000010: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 35: 8: #23: 
+f: /DATA/repeat/record/NGHBR_PN: 376: 9: @101111000: 24064 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 2: 5: @00010: 872 to 960 MHz TACS band
+f: /DATA/repeat/record/NGHBR_FREQ: 807: 11: @01100100111: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 0: 1: @0: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 0: 1: @0: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 2: 4: @0010: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 137: 8: #89: 
+f: /DATA/repeat/record/NGHBR_PN: 35: 9: @000100011: 2240 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/NGHBR_FREQ: 138: 11: @00010001010: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 11: 4: @1011: 
+f: /DATA/PDU_PADDING: 0: 1: @0: 
+
+m: icd.xddl: #0101016016A97F1F028070CA7CB1E5326EB34A41E7718FA202CAAA498447788993851223B44576
+count: 79
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 22: 6: @010110: General Neighbor List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/PILOT_INC: 8: 4: @1000: 512 PN chips
+f: /DATA/NGHBR_SRCH_MODE: 3: 2: @11: Search windows and search priorities
+f: /DATA/NGHBR_CONFIG_PN_INCL: 1: 1: @1: 
+f: /DATA/FREQ_FIELDS_INCL: 1: 1: @1: 
+f: /DATA/USE_TIMING: 1: 1: @1: 
+f: /DATA/GLOBAL_TIMING_INCL: 0: 1: @0: 
+f: /DATA/NUM_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/NGHBR_CONFIG: 2: 3: @010: The neighbor base station may have a different number of frequencies having Paging Channels as the current base station
+f: /DATA/repeat/record/NGHBR_PN: 3: 9: @000000011: 192 PN chips
+f: /DATA/repeat/record/SEARCH_PRIORITY: 2: 2: @10: High
+f: /DATA/repeat/record/SRCH_WIN_NGHBR: 1: 4: @0001: 6 PN chips
+f: /DATA/repeat/record/FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 5: 5: @00101: 450 MHz NMT band
+f: /DATA/repeat/record/NGHBR_FREQ: 498: 11: @00111110010: 
+f: /DATA/repeat/record/TIMING_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_TX_OFFSET: 71: 7: @1000111: 
+f: /DATA/repeat/record/NGHBR_TX_DURATION: 9: 4: @1001: 720 ms
+f: /DATA/repeat/record/NGHBR_TX_PERIOD: 38: 7: @0100110: 3040 ms
+f: /DATA/NUM_ANALOG_NGHBR: 2: 3: @010: 
+f: /DATA/repeat/record/BAND_CLASS: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/SYS_A_B: 3: 2: @11: System A and B
+f: /DATA/repeat/record/BAND_CLASS: 11: 5: @01011: 400 MHz European PAMR band
+f: /DATA/repeat/record/SYS_A_B: 0: 2: @00: RESERVED
+f: /DATA/SRCH_OFFSET_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/NGHBR_PILOT_REC_TYPE: 2: 3: @010: 1X Auxiliary Pilot with Transmit Diversity
+f: /DATA/NGHBR_INFO/record/RECORD_LEN: 2: 3: @010: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/QOF: 2: 2: @10: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/WALSH_LENGTH: 2: 3: @010: 256
+f: /DATA/NGHBR_INFO/record/Type-specific fields/AUX_WALSH: 15: 8: #0F: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/AUX_TD_POWER_LEVEL: 0: 2: @00: 9 dB below the Auxiliary Pilot Channel transmit power
+f: /DATA/NGHBR_INFO/record/SRCH_OFFSET_NGHBR: 6: 3: @110: -3*window_size/2 PN chips
+f: /DATA/BCCH_IND_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/BCCH_SUPPORT: 1: 1: @1: Supports Broadcast Control Channel
+f: /DATA/RESQ_ENABLED: 1: 1: @1: 
+f: /DATA/RESQ_DELAY_TIME: 6: 6: @000110: 480 ms
+f: /DATA/RESQ_ALLOWED_TIME: 15: 6: @001111: 1200 ms
+f: /DATA/RESQ_ATTEMPT_TIME: 40: 6: @101000: 1600 ms
+f: /DATA/RESQ_CODE_CHAN: 1029: 11: @10000000101: 
+f: /DATA/RESQ_QOF: 2: 2: @10: 
+f: /DATA/RESQ_MIN_PERIOD_INCL: 0: 1: @0: 
+f: /DATA/RESQ_NUM_TOT_TRANS_INCL: 1: 1: @1: 
+f: /DATA/RESQ_NUM_TOT_TRANS_20MS: 5: 4: @0101: 
+f: /DATA/RESQ_NUM_TOT_TRANS_5MS: 5: 4: @0101: 
+f: /DATA/RESQ_NUM_PREAMBLE_RC1_RC2: 2: 3: @010: 
+f: /DATA/RESQ_NUM_PREAMBLE: 2: 3: @010: 4
+f: /DATA/RESQ_POWER_DELTA: 2: 3: @010: 
+f: /DATA/repeat/record/NGHBR_RESQ_CONFIGURED: 0: 1: @0: 
+f: /DATA/repeat/record/NGHBR_PDCH_SUPPORTED: 1: 1: @1: 
+f: /DATA/HRPD_NGHBR_INCL: 1: 1: @1: 
+f: /DATA/NUM_HRPD_NGHBR: 2: 6: @000010: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 35: 8: #23: 
+f: /DATA/repeat/record/NGHBR_PN: 376: 9: @101111000: 24064 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 2: 5: @00010: 872 to 960 MHz TACS band
+f: /DATA/repeat/record/NGHBR_FREQ: 807: 11: @01100100111: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 0: 1: @0: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 0: 1: @0: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 2: 4: @0010: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 137: 8: #89: 
+f: /DATA/repeat/record/NGHBR_PN: 35: 9: @000100011: 2240 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/NGHBR_FREQ: 138: 11: @00010001010: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 11: 4: @1011: 
+f: /DATA/PDU_PADDING: 0: 1: @0: 
+
+m: icd.xddl: #0101016016A97F1F028070CA7CB1E5326EB36641F4218FA212CB845C10277C8993851227B44576
+count: 71
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 22: 6: @010110: General Neighbor List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/PILOT_INC: 8: 4: @1000: 512 PN chips
+f: /DATA/NGHBR_SRCH_MODE: 3: 2: @11: Search windows and search priorities
+f: /DATA/NGHBR_CONFIG_PN_INCL: 1: 1: @1: 
+f: /DATA/FREQ_FIELDS_INCL: 1: 1: @1: 
+f: /DATA/USE_TIMING: 1: 1: @1: 
+f: /DATA/GLOBAL_TIMING_INCL: 0: 1: @0: 
+f: /DATA/NUM_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/NGHBR_CONFIG: 2: 3: @010: The neighbor base station may have a different number of frequencies having Paging Channels as the current base station
+f: /DATA/repeat/record/NGHBR_PN: 3: 9: @000000011: 192 PN chips
+f: /DATA/repeat/record/SEARCH_PRIORITY: 2: 2: @10: High
+f: /DATA/repeat/record/SRCH_WIN_NGHBR: 1: 4: @0001: 6 PN chips
+f: /DATA/repeat/record/FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 5: 5: @00101: 450 MHz NMT band
+f: /DATA/repeat/record/NGHBR_FREQ: 498: 11: @00111110010: 
+f: /DATA/repeat/record/TIMING_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_TX_OFFSET: 71: 7: @1000111: 
+f: /DATA/repeat/record/NGHBR_TX_DURATION: 9: 4: @1001: 720 ms
+f: /DATA/repeat/record/NGHBR_TX_PERIOD: 38: 7: @0100110: 3040 ms
+f: /DATA/NUM_ANALOG_NGHBR: 2: 3: @010: 
+f: /DATA/repeat/record/BAND_CLASS: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/SYS_A_B: 3: 2: @11: System A and B
+f: /DATA/repeat/record/BAND_CLASS: 11: 5: @01011: 400 MHz European PAMR band
+f: /DATA/repeat/record/SYS_A_B: 0: 2: @00: RESERVED
+f: /DATA/SRCH_OFFSET_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/NGHBR_PILOT_REC_TYPE: 3: 3: @011: 3X Common Pilot
+f: /DATA/NGHBR_INFO/record/RECORD_LEN: 1: 3: @001: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/SR3_PRIMARY_PILOT: 2: 2: @10: The primary pilot is on the highest SR3 frequency
+f: /DATA/NGHBR_INFO/record/Type-specific fields/SR3_PILOT_POWER1: 2: 3: @010: 2 dB
+f: /DATA/NGHBR_INFO/record/Type-specific fields/SR3_PILOT_POWER2: 0: 3: @000: 0 dB
+f: /DATA/NGHBR_INFO/record/SRCH_OFFSET_NGHBR: 3: 3: @011: 3*window_size/2 PN chips
+f: /DATA/BCCH_IND_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/BCCH_SUPPORT: 1: 1: @1: Supports Broadcast Control Channel
+f: /DATA/RESQ_ENABLED: 1: 1: @1: 
+f: /DATA/RESQ_DELAY_TIME: 16: 6: @010000: 1280 ms
+f: /DATA/RESQ_ALLOWED_TIME: 33: 6: @100001: 2640 ms
+f: /DATA/RESQ_ATTEMPT_TIME: 35: 6: @100011: 1400 ms
+f: /DATA/RESQ_CODE_CHAN: 1860: 11: @11101000100: 
+f: /DATA/RESQ_QOF: 0: 2: @00: 
+f: /DATA/RESQ_MIN_PERIOD_INCL: 1: 1: @1: 
+f: /DATA/RESQ_MIN_PERIOD: 5: 5: @00101: 
+f: /DATA/RESQ_NUM_TOT_TRANS_INCL: 1: 1: @1: 
+f: /DATA/RESQ_NUM_TOT_TRANS_20MS: 2: 4: @0010: 
+f: /DATA/RESQ_NUM_TOT_TRANS_5MS: 14: 4: @1110: 
+f: /DATA/RESQ_NUM_PREAMBLE_RC1_RC2: 0: 3: @000: 
+f: /DATA/RESQ_NUM_PREAMBLE: 4: 3: @100: 8
+f: /DATA/RESQ_POWER_DELTA: 2: 3: @010: 
+f: /DATA/repeat/record/NGHBR_RESQ_CONFIGURED: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_PDCH_SUPPORTED: 1: 1: @1: 
+f: /DATA/HRPD_NGHBR_INCL: 1: 1: @1: 
+f: /DATA/NUM_HRPD_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 2: 8: #02: 
+f: /DATA/repeat/record/NGHBR_PN: 239: 9: @011101111: 15296 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 4: 5: @00100: 1.75 to 1.87 GHz Korean PCS band
+f: /DATA/repeat/record/NGHBR_FREQ: 612: 11: @01001100100: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_RESERVED: 8: 4: @1000: 
+f: /DATA/PDU_PADDING: 20: 6: @010100: 
+
+m: icd.xddl: #0101016016A97F1F028070CA7CB1E5326EB39E4DF4218FA3D2CBD45C10277CC994141226544576
+count: 81
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 22: 6: @010110: General Neighbor List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/PILOT_INC: 8: 4: @1000: 512 PN chips
+f: /DATA/NGHBR_SRCH_MODE: 3: 2: @11: Search windows and search priorities
+f: /DATA/NGHBR_CONFIG_PN_INCL: 1: 1: @1: 
+f: /DATA/FREQ_FIELDS_INCL: 1: 1: @1: 
+f: /DATA/USE_TIMING: 1: 1: @1: 
+f: /DATA/GLOBAL_TIMING_INCL: 0: 1: @0: 
+f: /DATA/NUM_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/NGHBR_CONFIG: 2: 3: @010: The neighbor base station may have a different number of frequencies having Paging Channels as the current base station
+f: /DATA/repeat/record/NGHBR_PN: 3: 9: @000000011: 192 PN chips
+f: /DATA/repeat/record/SEARCH_PRIORITY: 2: 2: @10: High
+f: /DATA/repeat/record/SRCH_WIN_NGHBR: 1: 4: @0001: 6 PN chips
+f: /DATA/repeat/record/FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 5: 5: @00101: 450 MHz NMT band
+f: /DATA/repeat/record/NGHBR_FREQ: 498: 11: @00111110010: 
+f: /DATA/repeat/record/TIMING_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_TX_OFFSET: 71: 7: @1000111: 
+f: /DATA/repeat/record/NGHBR_TX_DURATION: 9: 4: @1001: 720 ms
+f: /DATA/repeat/record/NGHBR_TX_PERIOD: 38: 7: @0100110: 3040 ms
+f: /DATA/NUM_ANALOG_NGHBR: 2: 3: @010: 
+f: /DATA/repeat/record/BAND_CLASS: 13: 5: @01101: 2.5 GHz IMT-2000 Extension Band
+f: /DATA/repeat/record/SYS_A_B: 3: 2: @11: System A and B
+f: /DATA/repeat/record/BAND_CLASS: 11: 5: @01011: 400 MHz European PAMR band
+f: /DATA/repeat/record/SYS_A_B: 0: 2: @00: RESERVED
+f: /DATA/SRCH_OFFSET_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/NGHBR_PILOT_REC_TYPE: 4: 3: @100: 3X Auxiliary Pilot
+f: /DATA/NGHBR_INFO/record/RECORD_LEN: 7: 3: @111: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/SR3_PRIMARY_PILOT: 2: 2: @10: The primary pilot is on the highest SR3 frequency
+f: /DATA/NGHBR_INFO/record/Type-specific fields/SR3_PILOT_POWER1: 2: 3: @010: 2 dB
+f: /DATA/NGHBR_INFO/record/Type-specific fields/SR3_PILOT_POWER2: 3: 3: @011: 3 dB
+f: /DATA/NGHBR_INFO/record/Type-specific fields/QOF: 1: 2: @01: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/WALSH_LENGTH: 7: 3: @111: Reserved
+f: /DATA/NGHBR_INFO/record/Type-specific fields/AUX_PILOT_WALSH: 5153: 13: @1010000100001: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/ADD_INFO_INCL1: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/QOF1: 0: 2: @00: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/WALSH_LENGTH1: 3: 3: @011: 512
+f: /DATA/NGHBR_INFO/record/Type-specific fields/AUX_PILOT_WALSH1: 465: 9: @111010001: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/ADD_INFO_INCL2: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/QOF2: 3: 2: @11: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/WALSH_LENGTH2: 2: 3: @010: 256
+f: /DATA/NGHBR_INFO/record/Type-specific fields/AUX_PILOT_WALSH2: 89: 8: #59: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/RESERVED: 0: 1: @0: 
+f: /DATA/NGHBR_INFO/record/SRCH_OFFSET_NGHBR: 7: 3: @111: Reserved
+f: /DATA/BCCH_IND_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/BCCH_SUPPORT: 0: 1: @0: Does not support Broadcast Control Channel
+f: /DATA/RESQ_ENABLED: 1: 1: @1: 
+f: /DATA/RESQ_DELAY_TIME: 17: 6: @010001: 1360 ms
+f: /DATA/RESQ_ALLOWED_TIME: 28: 6: @011100: 2240 ms
+f: /DATA/RESQ_ATTEMPT_TIME: 4: 6: @000100: 160 ms
+f: /DATA/RESQ_CODE_CHAN: 78: 11: @00001001110: 
+f: /DATA/RESQ_QOF: 3: 2: @11: 
+f: /DATA/RESQ_MIN_PERIOD_INCL: 1: 1: @1: 
+f: /DATA/RESQ_MIN_PERIOD: 25: 5: @11001: 
+f: /DATA/RESQ_NUM_TOT_TRANS_INCL: 1: 1: @1: 
+f: /DATA/RESQ_NUM_TOT_TRANS_20MS: 2: 4: @0010: 
+f: /DATA/RESQ_NUM_TOT_TRANS_5MS: 6: 4: @0110: 
+f: /DATA/RESQ_NUM_PREAMBLE_RC1_RC2: 2: 3: @010: 
+f: /DATA/RESQ_NUM_PREAMBLE: 4: 3: @100: 8
+f: /DATA/RESQ_POWER_DELTA: 0: 3: @000: 
+f: /DATA/repeat/record/NGHBR_RESQ_CONFIGURED: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_PDCH_SUPPORTED: 0: 1: @0: 
+f: /DATA/HRPD_NGHBR_INCL: 1: 1: @1: 
+f: /DATA/NUM_HRPD_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/HRPD_NGHBR_REC_LEN: 34: 8: #22: 
+f: /DATA/repeat/record/NGHBR_PN: 202: 9: @011001010: 12928 PN chips
+f: /DATA/repeat/record/NGHBR_FREQ_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/NGHBR_BAND: 2: 5: @00010: 872 to 960 MHz TACS band
+f: /DATA/repeat/record/NGHBR_FREQ: 349: 11: @00101011101: 
+f: /DATA/repeat/record/PN_ASSOCIATION_IND: 1: 1: @1: 
+f: /DATA/repeat/record/DATA_ASSOCIATION_IND: 0: 1: @0: 
+
+m: icd.xddl: #0101016017A97F103541C88877152533
+count: 22
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 23: 6: @010111: User Zone Identification Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/UZ_EXIT: 8: 4: @1000: 
+f: /DATA/NUM_UZID: 8: 4: @1000: 
+f: /DATA/repeat/record/UZID: 6816: 16: #1AA0: 
+f: /DATA/repeat/record/UZ_REV: 14: 4: @1110: 
+f: /DATA/repeat/record/TEMP_SUB: 0: 1: @0: User Zone does not allow for temporary subscription
+f: /DATA/repeat/record/UZID: 34951: 16: #8887: 
+f: /DATA/repeat/record/UZ_REV: 7: 4: @0111: 
+f: /DATA/repeat/record/TEMP_SUB: 0: 1: @0: User Zone does not allow for temporary subscription
+f: /DATA/repeat/record/UZID: 10826: 16: #2A4A: 
+f: /DATA/repeat/record/UZ_REV: 6: 4: @0110: 
+f: /DATA/repeat/record/TEMP_SUB: 0: 1: @0: User Zone does not allow for temporary subscription
+
+m: icd.xddl: #0101016017A97F063541C88877265445
+count: 23
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 23: 6: @010111: User Zone Identification Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/UZ_EXIT: 8: 4: @1000: 
+f: /DATA/NUM_UZID: 3: 4: @0011: 
+f: /DATA/repeat/record/UZID: 6816: 16: #1AA0: 
+f: /DATA/repeat/record/UZ_REV: 14: 4: @1110: 
+f: /DATA/repeat/record/TEMP_SUB: 0: 1: @0: User Zone does not allow for temporary subscription
+f: /DATA/repeat/record/UZID: 34951: 16: #8887: 
+f: /DATA/repeat/record/UZ_REV: 7: 4: @0111: 
+f: /DATA/repeat/record/TEMP_SUB: 0: 1: @0: User Zone does not allow for temporary subscription
+f: /DATA/repeat/record/UZID: 19624: 16: #4CA8: 
+f: /DATA/repeat/record/UZ_REV: 8: 4: @1000: 
+f: /DATA/repeat/record/TEMP_SUB: 1: 1: @1: User Zone allows for temporary subscription
+f: /DATA/PDU_PADDING: 1: 2: @01: 
+
+m: icd.xddl: #0101016018A97E202141C880771525332669CD4644C576F421
+count: 38
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 24: 6: @011000: Private Neighbor List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/NUM_RADIO_INTERFACE: 1: 4: @0001: 
+f: /DATA/repeat/record/RADIO_INTERFACE_TYPE: 0: 4: @0000: MC system
+f: /DATA/repeat/record/RADIO_INTERFACE_LEN: 16: 8: #10: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/COMMON_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/COMMON_BAND_CLASS: 8: 5: @01000: 1800 MHz band
+f: /DATA/repeat/record/Radio Interface Type-specific fields/COMMON_NGHBR_FREQ: 456: 11: @00111001000: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/SRCH_WIN_PN: 8: 4: @1000: 60 PN chips
+f: /DATA/repeat/record/Radio Interface Type-specific fields/NUM_PRI_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/SID: 28202: 15: @110111000101010: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/NID: 19046: 16: #4A66: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/PRI_NGHBR_PN: 153: 9: @010011001: 9792 PN chips
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/NGHBR_PILOT_REC_TYPE: 2: 3: @010: 1X Auxiliary Pilot with Transmit Diversity
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/RECORD_LEN: 3: 3: @011: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/Type-specific fields/QOF: 2: 2: @10: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/Type-specific fields/WALSH_LENGTH: 3: 3: @011: 512
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/Type-specific fields/AUX_WALSH: 163: 9: @010100011: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/Type-specific fields/AUX_TD_POWER_LEVEL: 0: 2: @00: 9 dB below the Auxiliary Pilot Channel transmit power
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/Type-specific fields/TD_MODE: 2: 2: @10: Reserved
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/Type-specific fields/RESERVED: 9: 6: @001001: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/UZID_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/NUM_UZID: 1: 4: @0001: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/repeat/record/UZID: 23997: 16: #5DBD: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/repeat/record/UZ_REV: 0: 4: @0000: 
+f: /DATA/repeat/record/Radio Interface Type-specific fields/repeat/record/repeat/record/TEMP_SUB: 1: 1: @1: User Zone allows for temporary subscription
+f: /DATA/repeat/record/Radio Interface Type-specific fields/RESERVED: 0: 4: @0000: 
+f: /DATA/PDU_PADDING: 1: 1: @1: 
+
+m: icd.xddl: #010101601AA97E202141C88077
+count: 34
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 26: 6: @011010: Extended Global Service Redirection Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_0: 0: 1: @0: Access overload class 0 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_1: 0: 1: @0: Access overload class 1 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_2: 0: 1: @0: Access overload class 2 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_3: 1: 1: @1: Access overload class 3 is to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_4: 0: 1: @0: Access overload class 4 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_5: 0: 1: @0: Access overload class 5 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_6: 0: 1: @0: Access overload class 6 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_7: 0: 1: @0: Access overload class 7 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_8: 0: 1: @0: Access overload class 8 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_9: 0: 1: @0: Access overload class 9 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_10: 0: 1: @0: Access overload class 10 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_11: 1: 1: @1: Access overload class 11 is to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_12: 0: 1: @0: Access overload class 12 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_13: 0: 1: @0: Access overload class 13 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_14: 0: 1: @0: Access overload class 14 is not to be redirected to '1'
+f: /DATA/REDIRECT_ACCOLC/ACCOLC_15: 0: 1: @0: Access overload class 15 is not to be redirected to '1'
+f: /DATA/RETURN_IF_FAIL: 1: 1: @1: 
+f: /DATA/DELETE_TMSI: 0: 1: @0: Mobile station is not required to delete the TMSI assigned to it
+f: /DATA/REDIRECT_P_REV_INCL: 1: 1: @1: 
+f: /DATA/EXCL P_REV_IND: 0: 1: @0: 
+f: /DATA/REDIRECT_P_MIN: 14: 8: #0E: 
+f: /DATA/REDIRECT_P_MAX: 68: 8: #44: 
+f: /DATA/RECORD_TYPE: 3: 8: #03: Reserved (Previously: Redirection to a TACS analog system)
+
+m: icd.xddl: #010101609BA97E2023418890F21535332670F14654C576F461
+count: 45
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 2: 2: @10: 
+f: /DATA/MSG_TYPE: 27: 6: @011011: Extended CDMA Channel List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/NUM_FREQ: 1: 4: @0001: 
+f: /DATA/repeat/record/CDMA_FREQ: 8: 11: @00000001000: 
+f: /DATA/RC_QPCH_SEL_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/RC_QPCH_HASH_IND: 1: 1: @1: 
+f: /DATA/TD_SEL_INCL: 0: 1: @0: 
+f: /DATA/CDMA_BAND: 16: 5: @10000: US 2.5GHz Band
+f: /DATA/SUBCLASS_INFO_INCL: 0: 1: @0: 
+f: /DATA/CDMA_FREQ_WEIGHT_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/CDMA_FREQ_WEIGHT: 4: 3: @100: 
+f: /DATA/NUM_BAND: 2: 3: @010: 
+f: /DATA/repeat/record/ADD_CDMA_BAND: 4: 5: @00100: 1.75 to 1.87 GHz Korean PCS band
+f: /DATA/repeat/record/ADD_SUBCLASS_INFO_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/ADD_SUBCLASS_REC_LEN: 1: 5: @00001: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/repeat/record/BYPASS_SYS_DET_IND: 1: 1: @1: 
+f: /DATA/repeat/record/NUM_ADD_FREQ: 2: 4: @0010: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ: 169: 11: @00010101001: 
+f: /DATA/repeat/record/repeat/record/ADD_RC_QPCH_HASH_IND: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ_WEIGHT: 2: 3: @010: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ: 1228: 11: @10011001100: 
+f: /DATA/repeat/record/repeat/record/ADD_RC_QPCH_HASH_IND: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ_WEIGHT: 1: 3: @001: 
+f: /DATA/repeat/record/ADD_CDMA_BAND: 19: 5: @10011: Lower 700 MHz Band
+f: /DATA/repeat/record/ADD_SUBCLASS_INFO_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/ADD_SUBCLASS_REC_LEN: 1: 5: @00001: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/repeat/record/BYPASS_SYS_DET_IND: 1: 1: @1: 
+f: /DATA/repeat/record/NUM_ADD_FREQ: 1: 4: @0001: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ: 562: 11: @01000110010: 
+f: /DATA/repeat/record/repeat/record/ADD_RC_QPCH_HASH_IND: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ_WEIGHT: 2: 3: @010: 
+f: /DATA/PDU_PADDING: 3: 3: @011: 
+
+m: icd.xddl: #010101601BA97E2023D9D0F0470D05336669
+count: 41
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 27: 6: @011011: Extended CDMA Channel List Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/CONFIG_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/NUM_FREQ: 1: 4: @0001: 
+f: /DATA/repeat/record/CDMA_FREQ: 8: 11: @00000001000: 
+f: /DATA/RC_QPCH_SEL_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/RC_QPCH_HASH_IND: 1: 1: @1: 
+f: /DATA/TD_SEL_INCL: 1: 1: @1: 
+f: /DATA/TD_MODE: 2: 2: @10: Reserved
+f: /DATA/repeat/record/TD_HASH_IND: 1: 1: @1: 
+f: /DATA/repeat/record/TD_POWER_LEVEL: 2: 2: @10: 3 dB below the Forward Pilot Channel transmit power
+f: /DATA/CDMA_BAND: 14: 5: @01110: US PCS 1.9GHz Band
+f: /DATA/SUBCLASS_INFO_INCL: 1: 1: @1: 
+f: /DATA/SUBCLASS_REC_LEN: 1: 5: @00001: 
+f: /DATA/repeat/record/CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/repeat/record/CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/CDMA_FREQ_WEIGHT_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/CDMA_FREQ_WEIGHT: 0: 3: @000: 
+f: /DATA/NUM_BAND: 1: 3: @001: 
+f: /DATA/repeat/record/ADD_CDMA_BAND: 3: 5: @00011: 832 to 925 MHz JTACS band
+f: /DATA/repeat/record/ADD_SUBCLASS_INFO_INCL: 1: 1: @1: 
+f: /DATA/repeat/record/ADD_SUBCLASS_REC_LEN: 1: 5: @00001: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_SUBCLASS: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_SUBCLASS: 0: 1: @0: 
+f: /DATA/repeat/record/ADD_TD_MODE: 2: 2: @10: Reserved
+f: /DATA/repeat/record/BYPASS_SYS_DET_IND: 0: 1: @0: 
+f: /DATA/repeat/record/NUM_ADD_FREQ: 1: 4: @0001: 
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ: 614: 11: @01001100110: 
+f: /DATA/repeat/record/repeat/record/ADD_RC_QPCH_HASH_IND: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_TD_HASH_IND: 1: 1: @1: 
+f: /DATA/repeat/record/repeat/record/ADD_TD_POWER_LEVEL: 0: 2: @00: 9 dB below the Forward Pilot Channel transmit power
+f: /DATA/repeat/record/repeat/record/ADD_CDMA_FREQ_WEIGHT: 6: 3: @110: 
+f: /DATA/PDU_PADDING: 1: 2: @01: 
+
+m: icd.xddl: #0101010C1F9A0400050000000000
+count: 13
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 12: 8: #0C: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 31: 6: @011111: ANSI-41 RAND Message
+f: /DATA/PILOT_PN: 308: 9: @100110100: 19712 PN chips
+f: /DATA/ACC_MSG_SEQ: 2: 6: @000010: 
+f: /DATA/RAND: 163840: 32: #00028000: 
+f: /DATA/PDU_PADDING: 0: 3: @000: 
+
+m: icd.xddl: #0101014AA0A97F202B458990FA15FF33267C514655C5764361FD3F11676DC8771580010147CA9EA37E2023485990F275FFBFFBFDB3C65EC576F6617D1601677C4E7715E04D3991439A1B71F823
+count: 159
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 74: 8: #4A: 
+f: /DATA/PD: 2: 2: @10: 
+f: /DATA/MSG_TYPE: 32: 6: @100000: Enhanced Access Parameters Message
+f: /DATA/PILOT_PN: 338: 9: @101010010: 21632 PN chips
+f: /DATA/ACC_MSG_SEQ: 63: 6: @111111: 
+f: /DATA/PSIST_PARMS_INCL: 1: 1: @1: 
+f: /DATA/PSIST_PARMS_LEN: 4: 5: @00100: 
+f: /DATA/PSIST(0-9)_EACH: 1: 6: @000001: 
+f: /DATA/PSIST(10)_EACH: 2: 3: @010: 
+f: /DATA/PSIST(11)_EACH: 6: 3: @110: 
+f: /DATA/PSIST(12)_EACH: 4: 3: @100: 
+f: /DATA/PSIST(13)_EACH: 2: 3: @010: 
+f: /DATA/PSIST(14)_EACH: 6: 3: @110: 
+f: /DATA/PSIST(15)_EACH: 1: 3: @001: 
+f: /DATA/PSIST_EMG: 1: 3: @001: 
+f: /DATA/MSG_PSIST_EACH: 4: 3: @100: 
+f: /DATA/REG_PSIST_EACH: 4: 3: @100: 
+f: /DATA/RESERVED: 0: 2: @00: 
+f: /DATA/LAC_PARMS_LEN: 15: 4: @1111: 
+f: /DATA/ACC_TMO: 40: 6: @101000: 
+f: /DATA/RESERVED_1: 5: 4: @0101: 
+f: /DATA/MAX_REQ_SEQ: 7: 4: @0111: 
+f: /DATA/MAX_RSP_SEQ: 15: 4: @1111: 
+f: /DATA/RESERVED: 3: 2: @11: 
+f: /DATA/NUM_MODE_SELECTION_ENTRIES: 1: 3: @001: 
+f: /DATA/repeat/record/ACCESS_MODE: 4: 3: @100: Reserved
+f: /DATA/repeat/record/ACCESS_MODE_MIN_DURATION: 806: 10: @1100100110: 
+f: /DATA/repeat/record/ACCESS_MODE_MAX_DURATION: 497: 10: @0111110001: 
+f: /DATA/repeat/record/ACCESS_MODE: 2: 3: @010: Reserved
+f: /DATA/repeat/record/ACCESS_MODE_MIN_DURATION: 163: 10: @0010100011: 
+f: /DATA/repeat/record/ACCESS_MODE_MAX_DURATION: 171: 10: @0010101011: 
+f: /DATA/RLGAIN_COMMON_PILOT: 34: 6: @100010: 4.250 dB
+f: /DATA/IC_THRESH: 11: 4: @1011: 
+f: /DATA/IC_MAX: 11: 4: @1011: 
+f: /DATA/NUM_MODE_PARM_REC: 1: 3: @001: 
+f: /DATA/repeat/record/EACH_PARM_REC_LEN: 0: 4: @0000: 
+f: /DATA/repeat/record/APPLICABLE_MODES/ACC_MODE_1: 1: 1: @1: 
+f: /DATA/repeat/record/APPLICABLE_MODES/ACC_MODE_2: 1: 1: @1: 
+f: /DATA/repeat/record/APPLICABLE_MODES/RESERVED: 24: 6: @011000: 
+f: /DATA/repeat/record/EACH_NOM_PWR: 15: 5: @01111: 
+f: /DATA/repeat/record/EACH_INIT_PWR: 29: 5: @11101: 
+f: /DATA/repeat/record/EACH_PWR_STEP: 1: 3: @001: 
+f: /DATA/repeat/record/EACH_NUM_STEP: 15: 4: @1111: 
+f: /DATA/repeat/record/EACH_PREAMBLE_ENABLED: 1: 1: @1: 
+f: /DATA/repeat/record/EACH_PREAMBLE_NUM_FRAC: 1: 4: @0001: 
+f: /DATA/repeat/record/EACH_PREAMBLE_FRAC_DURATION: 1: 4: @0001: 
+f: /DATA/repeat/record/EACH_PREAMBLE_OFF_DURATION: 6: 4: @0110: 
+f: /DATA/repeat/record/EACH_PREAMBLE_ADD_DURATION: 7: 4: @0111: 
+f: /DATA/repeat/record/RESERVED: 27: 6: @011011: 
+f: /DATA/repeat/record/EACH_PROBE_BKOFF: 7: 4: @0111: 
+f: /DATA/repeat/record/EACH_BKOFF: 2: 4: @0010: 
+f: /DATA/repeat/record/EACH_SLOT: 7: 6: @000111: 
+f: /DATA/repeat/record/EACH_SLOT_OFFSET1: 28: 6: @011100: 
+f: /DATA/repeat/record/EACH_SLOT_OFFSET2: 21: 6: @010101: 
+f: /DATA/repeat/record/RESERVED: 2: 2: @10: 
+f: /DATA/repeat/record/EACH_PARM_REC_LEN: 0: 4: @0000: 
+f: /DATA/repeat/record/APPLICABLE_MODES/ACC_MODE_1: 0: 1: @0: 
+f: /DATA/repeat/record/APPLICABLE_MODES/ACC_MODE_2: 0: 1: @0: 
+f: /DATA/repeat/record/APPLICABLE_MODES/RESERVED: 0: 6: @000000: 
+f: /DATA/repeat/record/EACH_NOM_PWR: 8: 5: @01000: 
+f: /DATA/repeat/record/EACH_INIT_PWR: 1: 5: @00001: 
+f: /DATA/repeat/record/EACH_PWR_STEP: 2: 3: @010: 
+f: /DATA/repeat/record/EACH_NUM_STEP: 3: 4: @0011: 
+f: /DATA/repeat/record/EACH_PREAMBLE_ENABLED: 1: 1: @1: 
+f: /DATA/repeat/record/EACH_PREAMBLE_NUM_FRAC: 12: 4: @1100: 
+f: /DATA/repeat/record/EACH_PREAMBLE_FRAC_DURATION: 10: 4: @1010: 
+f: /DATA/repeat/record/EACH_PREAMBLE_OFF_DURATION: 9: 4: @1001: 
+f: /DATA/repeat/record/EACH_PREAMBLE_ADD_DURATION: 14: 4: @1110: 
+f: /DATA/repeat/record/RESERVED: 40: 6: @101000: 
+f: /DATA/repeat/record/EACH_PROBE_BKOFF: 13: 4: @1101: 
+f: /DATA/repeat/record/EACH_BKOFF: 15: 4: @1111: 
+f: /DATA/repeat/record/EACH_SLOT: 34: 6: @100010: 
+f: /DATA/repeat/record/EACH_SLOT_OFFSET1: 0: 6: @000000: 
+f: /DATA/repeat/record/EACH_SLOT_OFFSET2: 35: 6: @100011: 
+f: /DATA/repeat/record/RESERVED: 1: 2: @01: 
+f: /DATA/BA_PARMS_LEN: 1: 3: @001: 
+f: /DATA/NUM_EACH_BA: 1: 5: @00001: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RATE_SIZE_1: 0: 1: @0: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RATE_SIZE_2: 1: 1: @1: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RATE_SIZE_3: 1: 1: @1: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RATE_SIZE_4: 0: 1: @0: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RATE_SIZE_5: 0: 1: @0: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RATE_SIZE_6: 1: 1: @1: 
+f: /DATA/EACH_BA_RATES_SUPPORTED/RESERVED: 2: 2: @10: 
+f: /DATA/RESERVED: 2: 3: @010: 
+f: /DATA/RA_PARMS_LEN: 3: 5: @00011: 
+f: /DATA/NUM_EACH_RA: 25: 5: @11001: 
+f: /DATA/NUM_CACH: 1: 3: @001: 
+f: /DATA/CACH_CODE_RATE: 1: 1: @1: 
+f: /DATA/repeat/record/CACH_CODE_CHAN: 175: 8: #AF: 
+f: /DATA/repeat/record/CACH_CODE_CHAN: 253: 8: #FD: 
+f: /DATA/NUM_RCCCH: 31: 5: @11111: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RATE_SIZE_1: 1: 1: @1: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RATE_SIZE_2: 1: 1: @1: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RATE_SIZE_3: 1: 1: @1: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RATE_SIZE_4: 1: 1: @1: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RATE_SIZE_5: 1: 1: @1: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RATE_SIZE_6: 0: 1: @0: 
+f: /DATA/RCCCH_RATES_SUPPORTED/RESERVED: 3: 2: @11: 
+f: /DATA/RCCCH_PREAMBLE_ENABLED: 1: 1: @1: 
+f: /DATA/RCCCH_PREAMBLE_NUM_FRAC: 15: 4: @1111: 
+f: /DATA/RCCCH_PREAMBLE_FRAC_DURATION: 11: 4: @1011: 
+f: /DATA/RCCCH_PREAMBLE_OFF_DURATION: 6: 4: @0110: 
+f: /DATA/RCCCH_PREAMBLE_ADD_DURATION: 7: 4: @0111: 
+f: /DATA/RCCCH_SLOT: 35: 6: @100011: 
+f: /DATA/RCCCH_SLOT_OFFSET1: 11: 6: @001011: 
+f: /DATA/RCCCH_SLOT_OFFSET2: 54: 6: @110110: 
+f: /DATA/RCCCH_NOM_PWR: 5: 5: @00101: 
+f: /DATA/RCCCH_INIT_PWR: 14: 5: @01110: 
+f: /DATA/RA_PC_DELAY: 27: 5: @11011: 
+f: /DATA/EACAM_CACH_DELAY: 13: 4: @1101: 
+f: /DATA/RCCCH_HO_SUPPORTED: 1: 1: @1: 
+f: /DATA/RCCCH_HO_THRESH: 3: 4: @0011: 
+f: /DATA/EACAM_PCCAM_DELAY: 1: 5: @00001: 
+f: /DATA/NUM_CPCCH: 1: 2: @01: 
+f: /DATA/CPCCH_RATE: 3: 2: @11: Reserved
+f: /DATA/repeat/record/CPCCH_CODE_CHAN: 209: 8: #D1: 
+f: /DATA/repeat/record/CPCCH_CODE_CHAN: 96: 8: #60: 
+f: /DATA/NUM_PCSCH_RA: 11: 7: @0001011: 
+f: /DATA/RESERVED: 29: 7: @0011101: 
+f: /DATA/ACCT_INCL: 1: 1: @1: 
+f: /DATA/ACCT_INCL_EMG: 1: 1: @1: 
+f: /DATA/ACCT_AOC_BITMAP_INCL: 1: 1: @1: 
+f: /DATA/ACCT_SO_INCL: 1: 1: @1: 
+f: /DATA/NUM_ACCT_SO: 1: 4: @0001: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_0_1: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_2_3: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_4_5: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_6_7: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_8_9: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_SO: 15242: 16: #3B8A: Reserved for standard service options.
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_0_1: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_2_3: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_4_5: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_6_7: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP1/ACCOLC_8_9: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_SO: 1235: 16: #04D3: Reserved for standard service options.
+f: /DATA/ACCT_SO_GRP_INCL: 1: 1: @1: 
+f: /DATA/NUM_ACCT_SO_GRP: 1: 3: @001: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_0_1: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_2_3: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_4_5: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_6_7: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_8_9: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_SO_GRP: 5: 5: @00101: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_0_1: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_2_3: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_4_5: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_6_7: 0: 1: @0: 
+f: /DATA/repeat/record/ACCT_AOC_BITMAP2/ACCOLC_8_9: 1: 1: @1: 
+f: /DATA/repeat/record/ACCT_SO_GRP: 25: 5: @11001: 
+f: /DATA/PDU_PADDING: 40: 6: @101000: 
+f: /CRC: 460453923: 30: @011011011100011111100000100011: #1B71F823
+
+m: icd.xddl: #01010107225B84000500
+count: 16
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 7: 8: #07: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 34: 6: @100010: Security Mode Command Message
+f: /DATA/C_SIG_ENCRYPT_MODE: 2: 3: @010: Rijndael Encryption Algorithm enabled
+f: /DATA/ENC_KEY_SIZE: 6: 3: @110: RESERVED
+f: /DATA/MSG_INT_INFO_INCL: 1: 1: @1: 
+f: /DATA/CHANGE_KEYS: 1: 1: @1: 
+f: /DATA/USE_UAK: 1: 1: @1: 
+f: /DATA/PDU_PADDING: 0: 1: @0: 
+f: /CRC: 67110144: 30: @000100000000000000010100000000: #4000500
+
+m: icd.xddl: #0101010B235B8C00050005000040
+count: 16
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 11: 8: #0B: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 35: 6: @100011: Universal Page Message
+f: /DATA/CONFIG_MSG_SEQ: 22: 6: @010110: 
+f: /DATA/ACC_MSG_SEQ: 56: 6: @111000: 
+f: /DATA/READ_NEXT_SLOT: 1: 1: @1: 
+f: /DATA/READ_NEXT_SLOT_BCAST: 1: 1: @1: 
+f: /DATA/SERVICE_OPTION: 1: 16: #0001: 
+f: /DATA/BCN: 2: 3: @010: 
+f: /CRC: 83886144: 30: @000101000000000000000001000000: #5000040
+
+m: icd.xddl: #010101262C5B8C00050005000040FF33267C514655C5764361FD3F11676DC8771580010147CA9EA37E
+count: 15
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 38: 8: #26: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 44: 6: @101100: Authentication Request Message
+f: /DATA/RANDA: 0: 128: #5B8C00050005000040FF33267C514655: 
+f: /DATA/CON_SQN: 0: 48: #C5764361FD3F: 
+f: /DATA/AMF: 4455: 16: #1167: 
+f: /DATA/MAC_A: 0: 64: #6DC8771580010147: 
+f: /DATA/PDU_PADDING: 3: 2: @11: 
+f: /CRC: 178168702: 30: @001010100111101010001101111110: #A9EA37E
+
+m: icd.xddl: #0101023801A974481541C0
+count: 17
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 2: 8: #02: f-dsch forward dedicated signaling logical channel (F-TCH)
+f: /MSG_LENGTH: 56: 8: #38: 
+f: /DATA/MSG_TYPE: 1: 8: #01: Order Message
+f: /DATA/ACK_SEQ: 5: 3: @101: 
+f: /DATA/MSG_SEQ: 2: 3: @010: 
+f: /DATA/ACK_REQ: 0: 1: @0: 
+f: /DATA/ENCRYPTION: 2: 2: @10: 
+f: /DATA/USE_TIME: 1: 1: @1: 
+f: /DATA/ACTION_TIME: 52: 6: @110100: 4160 ms
+f: /DATA/ORDER: 18: 6: @010010: Maintenance/Lock/Unlock Order
+f: /DATA/ADD_RECORD_LEN: 0: 3: @000: 
+f: /DATA/PDU_PADDING: 21: 7: @0010101: 
+
+m: icd.xddl: #010102601AA97F103541C88877152533
+count: 30
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 2: 8: #02: f-dsch forward dedicated signaling logical channel (F-TCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/MSG_TYPE: 26: 8: #1A: Extended Neighbor List Update Message
+f: /DATA/ACK_SEQ: 5: 3: @101: 
+f: /DATA/MSG_SEQ: 2: 3: @010: 
+f: /DATA/ACK_REQ: 0: 1: @0: 
+f: /DATA/ENCRYPTION: 2: 2: @10: 
+f: /DATA/PILOT_INC: 15: 4: @1111: 960 PN chips
+f: /DATA/NGHBR_SRCH_MODE: 3: 2: @11: Search windows and search priorities
+f: /DATA/SRCH_WIN_N: 8: 4: @1000: 60 PN chips
+f: /DATA/USE_TIMING: 1: 1: @1: 
+f: /DATA/GLOBAL_TIMING_INCL: 0: 1: @0: 
+f: /DATA/NUM_NGHBR: 1: 6: @000001: 
+f: /DATA/repeat/record/NGHBR_PN: 340: 9: @101010100: 
+f: /DATA/repeat/record/SEARCH_PRIORITY: 0: 2: @00: Low
+f: /DATA/repeat/record/SRCH_WIN_NGHBR: 7: 4: @0111: 40 PN chips
+f: /DATA/repeat/record/TIMING_INCL: 0: 1: @0: 
+f: /DATA/SRCH_OFFSET_INCL: 0: 1: @0: 
+f: /DATA/NGHBR_INFO/record/ADD_PILOT_REC_INCL: 1: 1: @1: 
+f: /DATA/NGHBR_INFO/record/NGHBR_PILOT_REC_TYPE: 0: 3: @000: 1X Common Pilot with Transmit Diversity
+f: /DATA/NGHBR_INFO/record/RECORD_LEN: 4: 3: @100: 
+f: /DATA/NGHBR_INFO/record/Type-specific fields/TD_POWER_LEVEL: 1: 2: @01: 6 dB below the Forward Pilot Channel transmit power
+f: /DATA/NGHBR_INFO/record/Type-specific fields/TD_MODE: 0: 2: @00: OTD (Orthogonal Transmit Diversity) mode
+f: /DATA/NGHBR_INFO/record/Type-specific fields/RESERVED: 3: 4: @0011: 
+f: /DATA/RESQ_ENABLED: 1: 1: @1: 
+
+m: icd.xddl: #010102601EA97F149541C08877152533
+count: 20
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 2: 8: #02: f-dsch forward dedicated signaling logical channel (F-TCH)
+f: /MSG_LENGTH: 96: 8: #60: 
+f: /DATA/MSG_TYPE: 30: 8: #1E: Power Up Function Completion Message
+f: /DATA/ACK_SEQ: 5: 3: @101: 
+f: /DATA/MSG_SEQ: 2: 3: @010: 
+f: /DATA/ACK_REQ: 0: 1: @0: 
+f: /DATA/ENCRYPTION: 2: 2: @10: 
+f: /DATA/RESERVED: 63: 6: @111111: 
+f: /DATA/LOC_IND: 1: 1: @1: 
+f: /DATA/RESERVED_1: 0: 3: @000: 
+f: /DATA/MS_LAT: 2697859: 22: @1010010010101010000011: -103 degrees, 55 min, 11.25 sec
+f: /DATA/MS_LONG: 4229239: 23: @10000001000100001110111: -288 degrees, 50 min, 42.25 sec
+f: /DATA/MS_LOC_TSTAMP/HOURS: 21: 8: #15: 
+f: /DATA/MS_LOC_TSTAMP/MINUTES: 37: 8: #25: 
+f: /DATA/MS_LOC_TSTAMP/SECONDS: 51: 8: #33: 
+
+m: icd.xddl: #010102181EA97E
+count: 14
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 2: 8: #02: f-dsch forward dedicated signaling logical channel (F-TCH)
+f: /MSG_LENGTH: 24: 8: #18: 
+f: /DATA/MSG_TYPE: 30: 8: #1E: Power Up Function Completion Message
+f: /DATA/ACK_SEQ: 5: 3: @101: 
+f: /DATA/MSG_SEQ: 2: 3: @010: 
+f: /DATA/ACK_REQ: 0: 1: @0: 
+f: /DATA/ENCRYPTION: 2: 2: @10: 
+f: /DATA/RESERVED: 63: 6: @111111: 
+f: /DATA/LOC_IND: 0: 1: @0: 
+
+m: icd.xddl: #0301022700010137171A4C6203F60741570050208B0B0001
+count: 51
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /Security header type: 2: 4: @0010: Integrity protected and ciphered
+f: /Protocol discriminator: 7: 4: @0111: EPS mobility management messages
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/Security header type: 1: 4: @0001: Integrity protected
+f: /NAS Message/Protocol discriminator: 10: 4: @1010: GPRS session management messages
+f: /NAS Message/Message type: 76: 8: #4C: Extended service request
+f: /NAS Message/NAS key set identifier/TSC: 0: 1: @0: native security context
+f: /NAS Message/NAS key set identifier/NAS key set identifier: 6: 3: @110: NAS key set identifier
+f: /NAS Message/Service type/Service type value: 2: 4: @0010: mobile originating CS fallback emergency call or 1xCS fallback emergency call
+f: /NAS Message/M-TMSI/Length: 3: 8: #03: 
+f: /NAS Message/M-TMSI/Identity digit 1: 15: 4: @1111: 
+f: /NAS Message/M-TMSI/odd/even indicator: 0: 1: @0: even number of identity digits and also when the TMSI/P-TMSI or TMGI and optional MBMS Session Identity is used
+f: /NAS Message/M-TMSI/Type of identity: 6: 3: @110: reserved
+f: /NAS Message/M-TMSI/Identity digit 3: 0: 4: @0000: 
+f: /NAS Message/M-TMSI/Identity digit 2: 7: 4: @0111: 
+f: /NAS Message/M-TMSI/Identity digit 5: 4: 4: @0100: 
+f: /NAS Message/M-TMSI/Identity digit 4: 1: 4: @0001: 
+f: /NAS Message/optional elements/record/IEI: 87: 8: #57: 
+f: /NAS Message/optional elements/record/EPS bearer context status/Length: 0: 8: #00: 
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (7): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (6): 1: 1: @1: BEARER CONTEXT-ACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (5): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (4): 1: 1: @1: BEARER CONTEXT-ACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (3): 0: 1: @0: 
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (2): 0: 1: @0: 
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (1): 0: 1: @0: 
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (0): 0: 1: @0: 
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (15): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (14): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (13): 1: 1: @1: BEARER CONTEXT-ACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (12): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (11): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (10): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (9): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/EPS bearer context status/EBI (8): 0: 1: @0: BEARER CONTEXT-INACTIVE
+f: /NAS Message/optional elements/record/IEI: 8: 4: @1000: 
+f: /NAS Message/optional elements/record/IEI: 11: 4: @1011: 
+f: /NAS Message/optional elements/record/CSFB response/spare: 0: 1: @0: 
+f: /NAS Message/optional elements/record/CSFB response/Response: 0: 3: @000: CS fallback rejected by the UE
+f: /NAS Message/optional elements/record/IEI: 11: 4: @1011: 
+f: /NAS Message/optional elements/record/CSFB response/spare: 0: 1: @0: 
+f: /NAS Message/optional elements/record/CSFB response/Response: 0: 3: @000: CS fallback rejected by the UE
+f: /NAS Message/optional elements/record/IEI: 0: 8: #00: 
+
+m: icd.xddl: #0301022700010137171A5D0003050741570050208B0B0001
+count: 68
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /Security header type: 2: 4: @0010: Integrity protected and ciphered
+f: /Protocol discriminator: 7: 4: @0111: EPS mobility management messages
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/Security header type: 1: 4: @0001: Integrity protected
+f: /NAS Message/Protocol discriminator: 10: 4: @1010: GPRS session management messages
+f: /NAS Message/Message type: 93: 8: #5D: Security mode command
+f: /NAS Message/Selected NAS security algorithms/spare: 0: 1: @0: 
+f: /NAS Message/Selected NAS security algorithms/Type of ciphering algorithm: 0: 3: @000: EPS encryption algorithm 128-EEA0 (null ciphering algorithm)
+f: /NAS Message/Selected NAS security algorithms/spare: 0: 1: @0: 
+f: /NAS Message/Selected NAS security algorithms/Type of integrity protection algorithm: 0: 3: @000: EPS integrity algorithm EIA0 (null integrity protection algorithm)
+f: /NAS Message/Spare half octet: 0: 4: @0000: 
+f: /NAS Message/NAS key set identifier/TSC: 0: 1: @0: native security context
+f: /NAS Message/NAS key set identifier/NAS key set identifier: 3: 3: @011: NAS key set identifier
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Length: 5: 8: #05: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EEA0: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EEA1: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EEA2: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EEA3: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EEA4: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EEA5: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EEA6: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EEA7: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EIA0: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EIA1: 1: 1: @1: EPS integrity algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EIA2: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/128-EIA3: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EIA4: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EIA5: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EIA6: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/EIA7: 1: 1: @1: EPS integrity algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA0: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA1: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA2: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA3: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA4: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA5: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA6: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UEA7: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/Spare: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA1: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA2: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA3: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA4: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA5: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA6: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/UIA7: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/Spare: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA1: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA2: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA3: 1: 1: @1: EPS encryption algorithm supported
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA4: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA5: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA6: 0: 1: @0: 
+f: /NAS Message/Replayed UE Security Capabilities/UE Security Capability/Contents/GEA7: 0: 1: @0: 
+f: /NAS Message/optional elements/record/IEI: 32: 8: #20: 
+f: /NAS Message/optional elements/record/IEI: 8: 4: @1000: 
+f: /NAS Message/optional elements/record/IEI: 11: 4: @1011: 
+f: /NAS Message/optional elements/record/IEI: 11: 8: #0B: 
+f: /NAS Message/optional elements/record/IEI: 0: 8: #00: 
+f: /NAS Message/optional elements/record/IEI: 1: 8: #01: 
+
+m: icd.xddl: #0301022700010137171A68620300054157005020650603015D010626
+count: 16
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /Security header type: 2: 4: @0010: Integrity protected and ciphered
+f: /Protocol discriminator: 7: 4: @0111: EPS mobility management messages
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/Security header type: 1: 4: @0001: Integrity protected
+f: /NAS Message/Protocol discriminator: 10: 4: @1010: GPRS session management messages
+f: /NAS Message/Message type: 104: 8: #68: Downlink generic NAS transport
+f: /NAS Message/Generic message container type/Generic message container type information element: 98: 8: #62: Unused
+f: /NAS Message/Generic message container/Length: 768: 16: #0300: 
+
+m: icd.xddl: #0301022700010137171A69620300054157005020650603015D010626
+count: 16
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /Security header type: 2: 4: @0010: Integrity protected and ciphered
+f: /Protocol discriminator: 7: 4: @0111: EPS mobility management messages
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/Security header type: 1: 4: @0001: Integrity protected
+f: /NAS Message/Protocol discriminator: 10: 4: @1010: GPRS session management messages
+f: /NAS Message/Message type: 105: 8: #69: Uplink generic NAS transport
+f: /NAS Message/Generic message container type/Generic message container type information element: 98: 8: #62: Unused
+f: /NAS Message/Generic message container/Length: 768: 16: #0300: 
+
+m: icd.xddl: #030102220100010137171235C227060100090107
+count: 24
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /EPS bearer identity: 2: 4: @0010: Reserved
+f: /Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /Procedure Transaction Identity: 1: 8: #01: 
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/EPS bearer identity: 1: 4: @0001: Reserved
+f: /NAS Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /NAS Message/Procedure transaction identity: 53: 8: #35: 
+f: /NAS Message/Message type: 194: 8: #C2: Activate default EPS bearer context accept
+f: /NAS Message/optional elements/record/IEI: 39: 8: #27: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Length: 6: 8: #06: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/ext: 0: 1: @0: Octet group continues with next octet
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/Spare: 0: 4: @0000: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/Configuration protocol: 1: 3: @001: PPP
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 9: 16: #0009: DSMIPv6 IPv4 Home Agent Address Request
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 1: 8: #01: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID Contents: 7: 8: #07: 
+
+m: icd.xddl: #030102220100010137171235C32701
+count: 18
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /EPS bearer identity: 2: 4: @0010: Reserved
+f: /Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /Procedure Transaction Identity: 1: 8: #01: 
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/EPS bearer identity: 1: 4: @0001: Reserved
+f: /NAS Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /NAS Message/Procedure transaction identity: 53: 8: #35: 
+f: /NAS Message/Message type: 195: 8: #C3: Activate default EPS bearer context reject
+f: /NAS Message/ESM cause/Cause: 39: 8: #27: Reactivation requested
+f: /NAS Message/optional elements/record/IEI: 1: 8: #01: 
+
+m: icd.xddl: #030102220100010137171235DA0101
+count: 18
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /EPS bearer identity: 2: 4: @0010: Reserved
+f: /Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /Procedure Transaction Identity: 1: 8: #01: 
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/EPS bearer identity: 1: 4: @0001: Reserved
+f: /NAS Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /NAS Message/Procedure transaction identity: 53: 8: #35: 
+f: /NAS Message/Message type: 218: 8: #DA: ESM information response
+f: /NAS Message/optional elements/record/IEI: 1: 8: #01: 
+f: /NAS Message/optional elements/record/IEI: 1: 8: #01: 
+
+m: icd.xddl: #030102220100010137171235DB0101
+count: 18
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /EPS bearer identity: 2: 4: @0010: Reserved
+f: /Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /Procedure Transaction Identity: 1: 8: #01: 
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/EPS bearer identity: 1: 4: @0001: Reserved
+f: /NAS Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /NAS Message/Procedure transaction identity: 53: 8: #35: 
+f: /NAS Message/Message type: 219: 8: #DB: Notification
+f: /NAS Message/Notification indicator/Length: 1: 8: #01: 
+f: /NAS Message/Notification indicator/Notification indicator value: 1: 8: #01: SRVCC handover cancelled, IMS session re-establishment required
+
+m: icd.xddl: #030102220100010137171235D011D1280D0C414343455353204E414D452027060100090107
+count: 35
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | NAS
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 1: 7: @0000001: NAS
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /EPS bearer identity: 2: 4: @0010: Reserved
+f: /Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /Procedure Transaction Identity: 1: 8: #01: 
+f: /Message Authentication Code: 65847: 32: #00010137: 
+f: /Sequence Number: 23: 8: #17: 
+f: /NAS Message/EPS bearer identity: 1: 4: @0001: Reserved
+f: /NAS Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /NAS Message/Procedure transaction identity: 53: 8: #35: 
+f: /NAS Message/Message type: 208: 8: #D0: PDN connectivity request
+f: /NAS Message/PDN type/Spare: 0: 1: @0: 
+f: /NAS Message/PDN type/PDN Type: 1: 3: @001: IPv4
+f: /NAS Message/Request Type/Spare: 0: 1: @0: 
+f: /NAS Message/Request Type/Request type: 1: 3: @001: initial request
+f: /NAS Message/optional elements/record/IEI: 13: 4: @1101: 
+f: /NAS Message/optional elements/record/ESM information transfer flag/spare: 0: 3: @000: 
+f: /NAS Message/optional elements/record/ESM information transfer flag/EIT value: 1: 1: @1: security protected ESM information transfer required
+f: /NAS Message/optional elements/record/IEI: 40: 8: #28: 
+f: /NAS Message/optional elements/record/Access point name/Length: 13: 8: #0D: 
+f: /NAS Message/optional elements/record/Access point name/APN/length/value pairs/record/length: 12: 8: #0C: 
+f: /NAS Message/optional elements/record/Access point name/APN/length/value pairs/record/value: 0: 96: #414343455353204E414D4520: ACCESS NAME
+f: /NAS Message/optional elements/record/IEI: 39: 8: #27: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Length: 6: 8: #06: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/ext: 0: 1: @0: Octet group continues with next octet
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/Spare: 0: 4: @0000: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/Configuration protocol: 1: 3: @001: PPP
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 9: 16: #0009: DSMIPv6 IPv4 Home Agent Address Request
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 1: 8: #01: 
+f: /NAS Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID Contents: 7: 8: #07: 
+
+m: icd.xddl: #020200063B7DF102720205067CA100
+count: 38
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 59: 8: #3B: Additional Assignment
+f: /Channel Description/Channel type and TDMA offset: 15: 5: @01111: SDCCH/8 + SACCH/C8 or CBCH (SDCCH/8); TSC Set 1 shall be used
+f: /Channel Description/TN: 5: 3: @101: 
+f: /Channel Description/TSC: 7: 3: @111: 
+f: /Channel Description/H: 1: 1: @1: RF hopping channel
+f: /Channel Description/MAIO: 4: 6: @000100: 
+f: /Channel Description/HSN: 2: 6: @000010: 
+f: /Mobile Allocation/IEI: 114: 8: #72: 
+f: /Mobile Allocation/Length: 2: 8: #02: 
+f: /Mobile Allocation/MA C 016: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 015: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 014: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 013: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 012: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 011: 1: 1: @1: RF channel belonging to mobile allocation
+f: /Mobile Allocation/MA C 010: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 009: 1: 1: @1: RF channel belonging to mobile allocation
+f: /Mobile Allocation/MA C 008: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 007: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 006: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 005: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 004: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Mobile Allocation/MA C 003: 1: 1: @1: RF channel belonging to mobile allocation
+f: /Mobile Allocation/MA C 002: 1: 1: @1: RF channel belonging to mobile allocation
+f: /Mobile Allocation/MA C 001: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /Starting Time/IEI: 124: 8: #7C: 
+f: /Starting Time/T1': 20: 5: @10100: 
+f: /Starting Time/T3: 8: 6: @001000: 
+f: /Starting Time/spare: 0: 5: @00000: 
+
+m: icd.xddl: #020200062F05
+count: 11
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 47: 8: #2F: Assignment Failure
+f: /RR cause/RR cause value: 5: 8: #05: Preemptive release
+
+m: icd.xddl: #020201061705710203
+count: 17
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 1: 1: @1: Uplink, mobile station to network
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 23: 8: #17: Channel Mode Modify Acknowledge
+f: /Channel Description/Channel type and TDMA offset: 0: 5: @00000: TCH/F + FACCH/F and SACCH/M at the timeslot indicated by TN, and additional bidirectional or unidirectional TCH/Fs and SACCH/Ms according to the multislot allocation information element
+f: /Channel Description/TN: 5: 3: @101: 
+f: /Channel Description/TSC: 3: 3: @011: 
+f: /Channel Description/H: 1: 1: @1: RF hopping channel
+f: /Channel Description/MAIO: 4: 6: @000100: 
+f: /Channel Description/HSN: 2: 6: @000010: 
+f: /Channel Mode/Mode: 3: 8: #03: data, 12.0 kbps radio interface rate
+
+m: icd.xddl: #020200060D0573040106070074043A00043583C175010276010562800102030405060708090A0B0C0D0E0F
+count: 65
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 13: 8: #0D: Channel Release
+f: /RR cause/RR cause value: 5: 8: #05: Preemptive release
+f: /BA Range/IEI: 115: 8: #73: 
+f: /BA Range/Length: 4: 8: #04: 
+f: /BA Range/BA Range List/Number Of Ranges: 1: 8: #01: 
+f: /BA Range/BA Range List/Range/record/Lower: 24: 10: @0000011000: 
+f: /BA Range/BA Range List/Range/record/Higher: 112: 10: @0001110000: 
+f: /BA Range/BA Range List/pad: 0: 4: @0000: 
+f: /Group Channel Description/IEI: 116: 8: #74: 
+f: /Group Channel Description/Length: 4: 8: #04: 
+f: /Group Channel Description/Channel Type and TDMA Offset: 7: 5: @00111: SDCCH/4 + SACCH/C4
+f: /Group Channel Description/TN: 2: 3: @010: 
+f: /Group Channel Description/TSC: 0: 3: @000: 
+f: /Group Channel Description/H: 0: 1: @0: Single RF channel
+f: /Group Channel Description/spare: 0: 2: @00: 
+f: /Group Channel Description/ARFCN: 4: 10: @0000000100: 
+f: /Group Channel Description/MA_C_008: 0: 1: @0: Not allocated
+f: /Group Channel Description/MA_C_007: 0: 1: @0: Not allocated
+f: /Group Channel Description/MA_C_006: 1: 1: @1: Allocated
+f: /Group Channel Description/MA_C_005: 1: 1: @1: Allocated
+f: /Group Channel Description/MA_C_004: 0: 1: @0: Not allocated
+f: /Group Channel Description/MA_C_003: 1: 1: @1: Allocated
+f: /Group Channel Description/MA_C_002: 0: 1: @0: Not allocated
+f: /Group Channel Description/MA_C_001: 1: 1: @1: Allocated
+f: /Group Cipher Key Number/IEI: 8: 4: @1000: 
+f: /Group Cipher Key Number/Group cipher key number: 3: 4: @0011: cipher key number 3
+f: /GPRS Resumption/IEI: 12: 4: @1100: 
+f: /GPRS Resumption/spare: 0: 3: @000: 
+f: /GPRS Resumption/ACK: 1: 1: @1: Resumption of GPRS services successfully acknowledged
+f: /BA List Pref/IEI: 117: 8: #75: 
+f: /BA List Pref/Length: 1: 8: #01: 
+f: /BA List Pref/BA List Pref Data: 2: 8: #02: 
+f: /UTRAN Freq List/IEI: 118: 8: #76: 
+f: /UTRAN Freq List/Length: 1: 8: #01: 
+f: /UTRAN Freq List/UTRAN Freq List Pref Data: 5: 8: #05: 
+f: /Cell Channel Description/IEI: 98: 8: #62: 
+f: /Cell Channel Description/FormatID1: 2: 2: @10: Range format
+f: /Cell Channel Description/spare: 0: 2: @00: 
+f: /Cell Channel Description/FormatID2: 0: 1: @0: 1024 range
+f: /Cell Channel Description/F0: 0: 1: @0: ARFCN 0 is not a member of the set
+f: /Cell Channel Description/W1: 1: 10: @0000000001: 
+f: /Cell Channel Description/W2: 4: 9: @000000100: 
+f: /Cell Channel Description/W3: 12: 9: @000001100: 
+f: /Cell Channel Description/W4: 16: 8: #10: 
+f: /Cell Channel Description/W5: 20: 8: #14: 
+f: /Cell Channel Description/W6: 24: 8: #18: 
+f: /Cell Channel Description/W7: 28: 8: #1C: 
+f: /Cell Channel Description/W8: 16: 7: @0010000: 
+f: /Cell Channel Description/W9: 9: 7: @0001001: 
+f: /Cell Channel Description/W10: 5: 7: @0000101: 
+f: /Cell Channel Description/W11: 2: 7: @0000010: 
+f: /Cell Channel Description/W12: 97: 7: @1100001: 
+f: /Cell Channel Description/W13: 64: 7: @1000000: 
+f: /Cell Channel Description/W14: 104: 7: @1101000: 
+f: /Cell Channel Description/W15: 56: 7: @0111000: 
+f: /Cell Channel Description/W16: 15: 6: @001111: 
+
+m: icd.xddl: #020200063515
+count: 14
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 53: 8: #35: Ciphering Mode Command
+f: /Cipher Response/spare: 0: 3: @000: 
+f: /Cipher Response/CR: 1: 1: @1: IMEISV shall be included
+f: /Ciphering Mode Setting/algorithm identifier: 2: 3: @010: cipher with algorithm A5/3
+f: /Ciphering Mode Setting/SC: 1: 1: @1: Start ciphering
+
+m: icd.xddl: #020200063F717192030233042001777C5F004141020332050607
+count: 65
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 63: 8: #3F: Immediate Assignment
+f: /L2 Data/Dedicated mode or TBF/spare: 0: 1: @0: 
+f: /L2 Data/Dedicated mode or TBF/TMA: 1: 1: @1: This message is the first message of two in a two-message assignment of an uplink or downlink TBF
+f: /L2 Data/Dedicated mode or TBF/downlink: 1: 1: @1: this message assigns a resource to the mobile station identified in the IA rest octets
+f: /L2 Data/Dedicated mode or TBF/T/D: 1: 1: @1: this message assigns a Temporary Block Flow (TBF)
+f: /L2 Data/Page Mode/spare: 0: 2: @00: 
+f: /L2 Data/Page Mode/PM: 1: 2: @01: Extended paging
+f: /L2 Data/Channel Description/Channel type and TDMA offset: 14: 5: @01110: SDCCH/8 + SACCH/C8 or CBCH (SDCCH/8); TSC Set 1 shall be used
+f: /L2 Data/Channel Description/TN: 1: 3: @001: 
+f: /L2 Data/Channel Description/TSC: 4: 3: @100: 
+f: /L2 Data/Channel Description/H: 1: 1: @1: RF hopping channel
+f: /L2 Data/Channel Description/MAIO: 8: 6: @001000: 
+f: /L2 Data/Channel Description/HSN: 3: 6: @000011: 
+f: /L2 Data/Request Reference/RA: 2: 8: #02: 
+f: /L2 Data/Request Reference/T1': 6: 5: @00110: 6 frames
+f: /L2 Data/Request Reference/T3: 24: 6: @011000: 24 frames
+f: /L2 Data/Request Reference/T2: 4: 5: @00100: frame number 4
+f: /L2 Data/Timing Advance/value: 32: 8: #20: 32 bit periods
+f: /L2 Data/Mobile Allocation/Length: 1: 8: #01: 
+f: /L2 Data/Mobile Allocation/MA C 008: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 007: 1: 1: @1: RF channel belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 006: 1: 1: @1: RF channel belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 005: 1: 1: @1: RF channel belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 004: 0: 1: @0: RF channel not belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 003: 1: 1: @1: RF channel belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 002: 1: 1: @1: RF channel belonging to mobile allocation
+f: /L2 Data/Mobile Allocation/MA C 001: 1: 1: @1: RF channel belonging to mobile allocation
+f: /L2 Data/Starting Time/IEI: 124: 8: #7C: 
+f: /L2 Data/Starting Time/T1': 11: 5: @01011: 
+f: /L2 Data/Starting Time/T3: 56: 6: @111000: 
+f: /L2 Data/Starting Time/spare: 0: 5: @00000: 
+f: /IA Rest Octets/FrequencyParameters/IARestOctetsType: 1: 2: @01: EGPRS Packet Assignment
+f: /IA Rest Octets/FrequencyParameters/PacketType1: 0: 1: @0: EGPRS Packet Assignment
+f: /IA Rest Octets/FrequencyParameters/PacketType2: 0: 1: @0: EGPRS Packet Uplink Assignment
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/Extended RA: 2: 5: @00010: 
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/Access_Technologies_Request_Incl: 1: 1: @1: Included
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/AccessTechnologyType: 0: 4: @0000: GSM P
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/MoreAccessTechnologiesIncl: 0: 1: @0: Not included
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/EGPRS_Packet_Uplink_Assignment_Type: 1: 1: @1: Other Block Allocation
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/TFI_ASSIGNMENT: 0: 5: @00000: 
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/POLLING: 0: 1: @0: No action is required from MS
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/AllocationType: 1: 1: @1: Fixed Allocation
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/ALLOCATION_BITMAP_LENGTH: 0: 5: @00000: 
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/PWR_CTRL_INFO_INCL: 0: 1: @0: Not included
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/EGPRS_CHANNEL_CODING_COMMAND: 6: 4: @0110: MCS-7
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/TLLI_BLOCK_CHANNEL_CODING: 0: 1: @0: Mobile station shall use CS-1 in GPRS TBF mode or MCS-1 in EGPRS TBF mode
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/BEP_PERIOD2_INCL: 1: 1: @1: Included
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/BEP_PERIOD2: 9: 4: @1001: 20
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/Resegment: 0: 1: @0: Retransmitted RLC data blocks shall not be resegmented
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/EGPRS Window Size: 0: 5: @00000: 64
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/ALPHA_INCL: 1: 1: @1: Included
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/ALPHA: 4: 4: @0100: 0.4 dBm
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/GAMMA: 3: 5: @00011: 6 dB
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/TIMING_ADVANCE_INDEX_INCL: 0: 1: @0: Not included
+f: /IA Rest Octets/FrequencyParameters/EGPRS Packet Uplink Assignment/TBF_STARTING_TIME_INCL: 0: 1: @0: Not included
+f: /IA Rest Octets/FrequencyParameters/pad: 7: 7: @0000111: 
+
+m: icd.xddl: #020201063C65030203040000020384050607080901
+count: 47
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 1: 1: @1: Uplink, mobile station to network
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 6: 4: @0110: radio resources management messages
+f: /NAS_Header/NAS_MessageType: 60: 8: #3C: RR Initialisation Request
+f: /MAC Mode and Channel Coding Requested/MAC Mode 0: 1: 2: @01: Extended Dynamic Allocation
+f: /MAC Mode and Channel Coding Requested/CS: 2: 2: @10: CS 3
+f: /Ciphering Key Sequence Number/spare: 0: 1: @0: 
+f: /Ciphering Key Sequence Number/key sequence: 5: 3: @101: 5
+f: /Mobile station classmark/Length: 3: 8: #03: 3
+f: /Mobile station classmark/Spare: 0: 1: @0: 
+f: /Mobile station classmark/Revision level: 0: 2: @00: Reserved for GSM phase 1
+f: /Mobile station classmark/ES IND: 0: 1: @0: 'Controlled Early Classmark Sending' option is not implemented in the MS
+f: /Mobile station classmark/A5/1: 0: 1: @0: encryption algorithm A5/1 available
+f: /Mobile station classmark/RF power capability: 2: 3: @010: class 3
+f: /Mobile station classmark/spare: 0: 1: @0: 
+f: /Mobile station classmark/PS capability: 0: 1: @0: PS capability not present
+f: /Mobile station classmark/SS Screen Indicator: 0: 2: @00: default value of phase 1
+f: /Mobile station classmark/SM Capability: 0: 1: @0: Mobile station does not support mobile terminated point to point SMS
+f: /Mobile station classmark/VBS: 0: 1: @0: no VBS capability or no notifications wanted
+f: /Mobile station classmark/VGCS: 1: 1: @1: VGCS capability or no notifications wanted
+f: /Mobile station classmark/FC: 1: 1: @1: MS does support E-GSM or R-GSM band
+f: /Mobile station classmark/CM3: 0: 1: @0: The MS does not support any options that are indicated in CM3
+f: /Mobile station classmark/spare: 0: 1: @0: 
+f: /Mobile station classmark/LCSVA Capability: 0: 1: @0: location request notification via CS domain not supported
+f: /Mobile station classmark/UCS2: 0: 1: @0: ME has a preference for the default alphabet over UCS2
+f: /Mobile station classmark/SoLSA: 0: 1: @0: ME does not support SoLSA
+f: /Mobile station classmark/CMSP: 1: 1: @1: 'Network initiated MO CM connection request' supported for at least one CM protocol
+f: /Mobile station classmark/A5/3: 0: 1: @0: encryption algorithm A5/3 not available
+f: /Mobile station classmark/A5/2: 0: 1: @0: encryption algorithm A5/2 not available
+f: /TLLI/value: 515: 32: #00000203: 
+f: /Channel Request Description/MT MO Flag: 1: 1: @1: Mobile originated (MO)
+f: /Channel Request Description/spare: 0: 3: @000: 
+f: /Channel Request Description/Priority: 1: 2: @01: Priority Level 2
+f: /Channel Request Description/RLC_Mode: 0: 1: @0: RLC acknowledged mode
+f: /Channel Request Description/LLC_FRAME_TYPE: 0: 1: @0: LLC frame is SACK or NACK
+f: /Channel Request Description/REQUESTED_BANDWIDTH: 1286: 16: #0506: 128600 bits/s
+f: /Channel Request Description/RLC_OCTET_COUNT: 1800: 16: #0708: 
+f: /GPRS Measurement Results/C_VALUE: 2: 6: @000010: 
+f: /GPRS Measurement Results/RXQUAL: 2: 3: @010: 
+f: /GPRS Measurement Results/spare: 0: 1: @0: 
+f: /GPRS Measurement Results/SIGN_VAR: 1: 6: @000001: 
+
+m: icd.xddl: #0202000511
+count: 11
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 5: 4: @0101: mobility management messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 17: 6: @010001: Authentication Reject
+
+m: icd.xddl: #020200051202E40000000000000000000000000000FF20100102030405060708090A0B0C0D0E0F10
+count: 18
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 5: 4: @0101: mobility management messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 18: 6: @010010: Authentication Request
+f: /SpareHalfOctet/spare: 0: 4: @0000: 
+f: /Ciphering key sequence number/spare: 0: 1: @0: 
+f: /Ciphering key sequence number/key sequence: 2: 3: @010: 2
+f: /Authentication parameter RAND/RAND: 0: 128: #E40000000000000000000000000000FF: 
+f: /Authentication Parameter AUTN/IEI: 32: 8: #20: 
+f: /Authentication Parameter AUTN/Length: 16: 8: #10: 16
+f: /Authentication Parameter AUTN/AUTN: 0: 128: #0102030405060708090A0B0C0D0E0F10: 
+
+m: icd.xddl: #02020005280203001000033A0002
+count: 43
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 5: 4: @0101: mobility management messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 40: 6: @101000: CM Re-establishment Request
+f: /Spare half octet/spare: 0: 4: @0000: 
+f: /Ciphering key sequence number/spare: 0: 1: @0: 
+f: /Ciphering key sequence number/key sequence: 2: 3: @010: 2
+f: /Mobile station classmark/Length: 3: 8: #03: 3
+f: /Mobile station classmark/Spare: 0: 1: @0: 
+f: /Mobile station classmark/Revision level: 0: 2: @00: Reserved for GSM phase 1
+f: /Mobile station classmark/ES IND: 0: 1: @0: 'Controlled Early Classmark Sending' option is not implemented in the MS
+f: /Mobile station classmark/A5/1: 0: 1: @0: encryption algorithm A5/1 available
+f: /Mobile station classmark/RF power capability: 0: 3: @000: class 1
+f: /Mobile station classmark/spare: 0: 1: @0: 
+f: /Mobile station classmark/PS capability: 0: 1: @0: PS capability not present
+f: /Mobile station classmark/SS Screen Indicator: 1: 2: @01: capability of handling of ellipsis notation and phase 2 error handling
+f: /Mobile station classmark/SM Capability: 0: 1: @0: Mobile station does not support mobile terminated point to point SMS
+f: /Mobile station classmark/VBS: 0: 1: @0: no VBS capability or no notifications wanted
+f: /Mobile station classmark/VGCS: 0: 1: @0: no VGCS capability or no notifications wanted
+f: /Mobile station classmark/FC: 0: 1: @0: MS does not support E-GSM or R-GSM band
+f: /Mobile station classmark/CM3: 0: 1: @0: The MS does not support any options that are indicated in CM3
+f: /Mobile station classmark/spare: 0: 1: @0: 
+f: /Mobile station classmark/LCSVA Capability: 0: 1: @0: location request notification via CS domain not supported
+f: /Mobile station classmark/UCS2: 0: 1: @0: ME has a preference for the default alphabet over UCS2
+f: /Mobile station classmark/SoLSA: 0: 1: @0: ME does not support SoLSA
+f: /Mobile station classmark/CMSP: 0: 1: @0: 'Network initiated MO CM connection request' not supported
+f: /Mobile station classmark/A5/3: 0: 1: @0: encryption algorithm A5/3 not available
+f: /Mobile station classmark/A5/2: 0: 1: @0: encryption algorithm A5/2 not available
+f: /Mobile identity/Length: 3: 8: #03: 
+f: /Mobile identity/Identity digit 1: 3: 4: @0011: 
+f: /Mobile identity/odd/even indicator: 1: 1: @1: odd number of identity digits
+f: /Mobile identity/Type of identity: 2: 3: @010: IMEI
+f: /Mobile identity/Identity digit 3: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 2: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 5: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 4: 2: 4: @0010: 
+
+m: icd.xddl: #02020005253A
+count: 15
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 5: 4: @0101: mobility management messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 37: 6: @100101: CM Service Prompt
+f: /PD and SAPI of CM/spare: 0: 1: @0: 
+f: /PD and SAPI of CM/spare: 0: 1: @0: 
+f: /PD and SAPI of CM/SAPI: 3: 2: @11: SAPI 3
+f: /PD and SAPI of CM/PD: 10: 4: @1010: GPRS session management messages
+
+m: icd.xddl: #020201052214
+count: 12
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 1: 1: @1: Uplink, mobile station to network
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 5: 4: @0101: mobility management messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 34: 6: @100010: CM Service Reject
+f: /Reject cause/RejectCauseValue: 20: 8: #14: MAC failure
+
+m: icd.xddl: #020200053243029A1745029A17463A4712205160301031480300000F490102
+count: 53
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 5: 4: @0101: mobility management messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 50: 6: @110010: MM Information
+f: /Full name for network/IEI: 67: 8: #43: 
+f: /Full name for network/Length: 2: 8: #02: 
+f: /Full name for network/ext: 1: 1: @1: Last octet of the group
+f: /Full name for network/coding scheme: 1: 3: @001: UCS2 (16 bit)
+f: /Full name for network/Add CI: 1: 1: @1: The MS should add the letters for the Country's Initials and a separator
+f: /Full name for network/Number of spare bits in last octet: 2: 3: @010: bits 7 and 8 are spare and set to '0' in octet n
+f: /Full name for network/Text String: 23: 8: #17: 
+f: /Short name for network/IEI: 69: 8: #45: 
+f: /Short name for network/Length: 2: 8: #02: 
+f: /Short name for network/ext: 1: 1: @1: Last octet of the group
+f: /Short name for network/coding scheme: 1: 3: @001: UCS2 (16 bit)
+f: /Short name for network/Add CI: 1: 1: @1: The MS should add the letters for the Country's Initials and a separator
+f: /Short name for network/Number of spare bits in last octet: 2: 3: @010: bits 7 and 8 are spare and set to '0' in octet n
+f: /Short name for network/Text String: 23: 8: #17: 
+f: /Local time zone/IEI: 70: 8: #46: 
+f: /Local time zone/Time Zone/Time Zone Digit 2: 3: 4: @0011: 3
+f: /Local time zone/Time Zone/Time Zone Sign: 1: 1: @1: Negative
+f: /Local time zone/Time Zone/Time Zone Digit 1: 2: 3: @010: 2
+f: /Universal time and local time zone/IEI: 71: 8: #47: 
+f: /Universal time and local time zone/Year/Year Digit 2: 1: 4: @0001: 1
+f: /Universal time and local time zone/Year/Year Digit 1: 2: 4: @0010: 2
+f: /Universal time and local time zone/Month/Month Digit 2: 2: 4: @0010: 2
+f: /Universal time and local time zone/Month/Month Digit 1: 0: 4: @0000: 0
+f: /Universal time and local time zone/Day/Day Digit 2: 5: 4: @0101: 5
+f: /Universal time and local time zone/Day/Day Digit 1: 1: 4: @0001: 1
+f: /Universal time and local time zone/Hour/Hour Digit 2: 6: 4: @0110: 6
+f: /Universal time and local time zone/Hour/Hour Digit 1: 0: 4: @0000: 0
+f: /Universal time and local time zone/Minute/Minute Digit 2: 3: 4: @0011: 3
+f: /Universal time and local time zone/Minute/Minute Digit 1: 0: 4: @0000: 0
+f: /Universal time and local time zone/Second/Second Digit 2: 1: 4: @0001: 1
+f: /Universal time and local time zone/Second/Second Digit 1: 0: 4: @0000: 0
+f: /Universal time and local time zone/Time zone/Time Zone And Time Digit 2: 3: 4: @0011: 3
+f: /Universal time and local time zone/Time zone/Time Zone And Time Sign: 0: 1: @0: 
+f: /Universal time and local time zone/Time zone/Time Zone And Time Digit 1: 1: 3: @001: 1
+f: /LSA Identity/IEI: 72: 8: #48: 
+f: /LSA Identity/Length: 3: 8: #03: LSA ID included
+f: /LSA Identity/LSA ID/LSA ID value: 7: 23: @00000000000000000000111: 
+f: /LSA Identity/LSA ID/LSA ID type: 1: 1: @1: Universal LSA
+f: /Network Daylight Saving Time/IEI: 73: 8: #49: 
+f: /Network Daylight Saving Time/Length: 1: 8: #01: 1
+f: /Network Daylight Saving Time/spare: 0: 6: @000000: 
+f: /Network Daylight Saving Time/value: 2: 2: @10: +2 hours adjustment for Daylight Saving Time
+
+m: icd.xddl: #02020003011C0FA10D02010580010202010319041E02A2837E020304022010
+count: 29
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/TI/TI flag: 0: 1: @0: Message sent from the side that originated the TI
+f: /NAS_Header/TI/TIO: 0: 3: @000: 
+f: /NAS_Header/PD: 3: 4: @0011: call control; call related SS messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 1: 6: @000001: Alerting
+f: /Facility/IEI: 28: 8: #1C: 
+f: /Facility/Length: 15: 8: #0F: 
+f: /Facility/Facility information/Component type tag: 161: 8: #A1: Invoke
+f: /Facility/Facility information/Length: 13: 8: #0D: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Invoke Id tag: 2: 8: #02: Invoke ID
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Length: 1: 8: #01: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Invoke Id: 5: 8: #05: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Linked ID tag: 128: 8: #80: Linked ID
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Length: 1: 8: #01: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Linked Id: 2: 8: #02: 
+f: /Facility/Facility information/Component Data/Invoke Component/Operation Code/Operation Code Tag: 2: 8: #02: Operation Code Tag
+f: /Facility/Facility information/Component Data/Invoke Component/Operation Code/Length: 1: 8: #01: 
+f: /Facility/Facility information/Component Data/Invoke Component/Operation Code/Operation Code: 3: 8: #03: 
+f: /Facility/Facility information/Component Data/Invoke Component/Facility Component Parameters/Facility Parameters/record/Parameter: 25: 8: #19: 
+f: /Facility/Facility information/Component Data/Invoke Component/Facility Component Parameters/Facility Parameters/record/Parameter: 4: 8: #04: 
+f: /Facility/Facility information/Component Data/Invoke Component/Facility Component Parameters/Facility Parameters/record/Parameter: 30: 8: #1E: 
+f: /Facility/Facility information/Component Data/Invoke Component/Facility Component Parameters/Facility Parameters/record/Parameter: 2: 8: #02: 
+
+m: icd.xddl: #02020003011C0FA20D02010530010202010319041E02A2837E020304022010
+count: 28
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/TI/TI flag: 0: 1: @0: Message sent from the side that originated the TI
+f: /NAS_Header/TI/TIO: 0: 3: @000: 
+f: /NAS_Header/PD: 3: 4: @0011: call control; call related SS messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 1: 6: @000001: Alerting
+f: /Facility/IEI: 28: 8: #1C: 
+f: /Facility/Length: 15: 8: #0F: 
+f: /Facility/Facility information/Component type tag: 162: 8: #A2: Return Result
+f: /Facility/Facility information/Length: 13: 8: #0D: 
+f: /Facility/Facility information/Component Data/Return Result Component/Component ID tag/Invoke Id tag: 2: 8: #02: Invoke ID
+f: /Facility/Facility information/Component Data/Return Result Component/Component ID tag/Length: 1: 8: #01: 
+f: /Facility/Facility information/Component Data/Return Result Component/Component ID tag/Invoke Id: 5: 8: #05: 
+f: /Facility/Facility information/Component Data/Return Result Component/Sequence and Set tags/Sequence tag: 48: 8: #30: Sequence Tag
+f: /Facility/Facility information/Component Data/Return Result Component/Sequence and Set tags/Length: 1: 8: #01: 
+f: /Facility/Facility information/Component Data/Return Result Component/Operation Code/Operation Code Tag: 2: 8: #02: Operation Code Tag
+f: /Facility/Facility information/Component Data/Return Result Component/Operation Code/Length: 2: 8: #02: 
+f: /Facility/Facility information/Component Data/Return Result Component/Operation Code/Operation Code: 259: 16: #0103: 
+f: /Facility/Facility information/Component Data/Return Result Component/Facility Component Parameters/Facility Parameters/record/Parameter: 25: 8: #19: 
+f: /Facility/Facility information/Component Data/Return Result Component/Facility Component Parameters/Facility Parameters/record/Parameter: 4: 8: #04: 
+f: /Facility/Facility information/Component Data/Return Result Component/Facility Component Parameters/Facility Parameters/record/Parameter: 30: 8: #1E: 
+f: /Facility/Facility information/Component Data/Return Result Component/Facility Component Parameters/Facility Parameters/record/Parameter: 2: 8: #02: 
+
+m: icd.xddl: #02020003250302A20D1C14A10F020202018003021E0202027E0203041E0203047E030102037B0180
+count: 52
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/TI/TI flag: 0: 1: @0: Message sent from the side that originated the TI
+f: /NAS_Header/TI/TIO: 0: 3: @000: 
+f: /NAS_Header/PD: 3: 4: @0011: call control; call related SS messages
+f: /NAS_Header/SD: 0: 2: @00: 
+f: /NAS_Header/NAS_MessageType: 37: 6: @100101: Disconnect
+f: /Cause/Length: 3: 8: #03: 
+f: /Cause/CauseContents/ext3: 0: 1: @0: Octet group continues with next octet
+f: /Cause/CauseContents/coding standard: 0: 2: @00: Standardized Coding (ITU-T Rec. Q.931)
+f: /Cause/CauseContents/spare: 0: 1: @0: 
+f: /Cause/CauseContents/location: 2: 4: @0010: Public network serving local user
+f: /Cause/CauseContents/ext3a: 1: 1: @1: Last octet of the group
+f: /Cause/CauseContents/recommendation: 34: 7: @0100010: 
+f: /Cause/CauseContents/ext4: 0: 1: @0: Octet group continues with next octet
+f: /Cause/CauseContents/cause value: 13: 7: @0001101: Normal, unspecified
+f: /Facility/IEI: 28: 8: #1C: 
+f: /Facility/Length: 20: 8: #14: 
+f: /Facility/Facility information/Component type tag: 161: 8: #A1: Invoke
+f: /Facility/Facility information/Length: 15: 8: #0F: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Invoke Id tag: 2: 8: #02: Invoke ID
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Length: 2: 8: #02: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Invoke Id: 513: 16: #0201: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Linked ID tag: 128: 8: #80: Linked ID
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Length: 3: 8: #03: 
+f: /Facility/Facility information/Component Data/Invoke Component/Component ID tag/Linked Id: 138754: 24: #021E02: 
+f: /Facility/Facility information/Component Data/Invoke Component/Operation Code/Operation Code Tag: 2: 8: #02: Operation Code Tag
+f: /Facility/Facility information/Component Data/Invoke Component/Operation Code/Length: 2: 8: #02: 
+f: /Facility/Facility information/Component Data/Invoke Component/Operation Code/Operation Code: 32258: 16: #7E02: 
+f: /Facility/Facility information/Component Data/Invoke Component/Facility Component Parameters/Facility Parameters/record/Parameter: 3: 8: #03: 
+f: /Facility/Facility information/Component Data/Invoke Component/Facility Component Parameters/Facility Parameters/record/Parameter: 4: 8: #04: 
+f: /Progress indicator/IEI: 30: 8: #1E: 
+f: /Progress indicator/ProgressIndicatorLen: 2: 8: #02: 2
+f: /Progress indicator/ProgressIndicatorExt3: 0: 1: @0: Octet group continues with next octet
+f: /Progress indicator/CodingStandard: 0: 2: @00: Standardized Coding (ITU-T Rec. Q.931)
+f: /Progress indicator/spare3: 0: 1: @0: 
+f: /Progress indicator/Location: 3: 4: @0011: Reserved
+f: /Progress indicator/ProgressIndicatorExt4: 0: 1: @0: Octet group continues with next octet
+f: /Progress indicator/ProgressDescription: 4: 7: @0000100: Call has returned to the PLMN/ISDN
+f: /User-user/IEI: 126: 8: #7E: 
+f: /User-user/Length: 3: 8: #03: 
+f: /User-user/User-user protocol discriminator: 1: 8: #01: OSI high layer protocols
+f: /User-user/User-user information: 515: 16: #0203: 
+f: /Allowed actions/IEI: 123: 8: #7B: 
+f: /Allowed actions/Length: 1: 8: #01: 1
+f: /Allowed actions/CCBS activation: 1: 1: @1: Activation of CCBS possible
+f: /Allowed actions/spare: 0: 7: @0000000: 
+
+m: icd.xddl: #0202010801080FA10D01010508010202010319041E02A2837E020304022010
+count: 82
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 1: 1: @1: Uplink, mobile station to network
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 8: 4: @1000: GPRS mobility management messages
+f: /NAS_Header/NAS_MessageType: 1: 8: #01: Attach Request
+f: /MS network capability/Length: 8: 8: #08: 
+f: /MS network capability/GEA1: 0: 1: @0: Encryption algorithm GEA/1 not available
+f: /MS network capability/SM capabilities via dedicated channels: 0: 1: @0: Mobile station does not support mobile terminated point-to-point SMS via dedicated packet data channels
+f: /MS network capability/SM capabilities via GPRS channels: 0: 1: @0: Mobile station does not support mobile terminated point-to-point SMS via GPRS packet data channels
+f: /MS network capability/UCS2 support: 0: 1: @0: ME has preference for default alphabet over UCS2
+f: /MS network capability/SS Screening Indicator: 3: 2: @11: For future use, interpreted as (1)
+f: /MS network capability/SoLSA Capability: 1: 1: @1: ME supports SoLSA
+f: /MS network capability/Revision level indicator: 1: 1: @1: MS supports R99 or later version of the protocol
+f: /MS network capability/PFC feature mode: 1: 1: @1: MS supports BSS packet flow procedures
+f: /MS network capability/Extended GEA bits/GEA_2: 0: 1: @0: Encryption algorithm GEA/2 not available
+f: /MS network capability/Extended GEA bits/GEA_3: 1: 1: @1: Encryption algorithm GEA/3 available
+f: /MS network capability/Extended GEA bits/GEA_4: 0: 1: @0: Encryption algorithm GEA/4 not available
+f: /MS network capability/Extended GEA bits/GEA_5: 0: 1: @0: Encryption algorithm GEA/5 not available
+f: /MS network capability/Extended GEA bits/GEA_6: 0: 1: @0: Encryption algorithm GEA/6 not available
+f: /MS network capability/Extended GEA bits/GEA_7: 0: 1: @0: Encryption algorithm GEA/7 not available
+f: /MS network capability/LCS VA capability: 1: 1: @1: Location Request Notification Via PS Domain Supported
+f: /MS network capability/PS inter-RAT HO from GERAN to UTRAN Iu mode capability: 0: 1: @0: PS Inter-RAT HO to UTRAN Iu Mode Not Supported
+f: /MS network capability/PS inter-RAT HO from GERAN to E-UTRAN S1 mode capability: 0: 1: @0: 
+f: /MS network capability/EMM Combined procedures Capability: 0: 1: @0: 
+f: /MS network capability/ISR support: 0: 1: @0: 
+f: /MS network capability/SRVCC to GERAN/UTRAN capability: 1: 1: @1: 
+f: /MS network capability/EPC capability: 1: 1: @1: 
+f: /MS network capability/NF capability: 0: 1: @0: 
+f: /MS network capability/pad: 1: 1: @1: 
+f: /GPRS ciphering key sequence number/spare: 0: 1: @0: 
+f: /GPRS ciphering key sequence number/key sequence: 0: 3: @000: 0
+f: /Attach type/FOR: 0: 1: @0: No follow-on request pending
+f: /Attach type/Type of attach: 1: 3: @001: GPRS attach
+f: /DRX parameter/SPLIT PG CYCLE CODE: 1: 8: #01: 1
+f: /DRX parameter/CN Specific DRX cycle length coefficient and DRX value for S1 mode: 0: 4: @0000: CN Specific DRX cycle length coefficient or DRX value not specified
+f: /DRX parameter/SPLIT on CCCH: 0: 1: @0: Split pg cycle on CCCH is not supported by the mobile station
+f: /DRX parameter/Non-DRX timer: 5: 3: @101: max. 16 sec non-DRX mode after transfer state
+f: /Mobile identity/Length: 8: 8: #08: 
+f: /Mobile identity/Identity digit 1: 0: 4: @0000: 
+f: /Mobile identity/odd/even indicator: 0: 1: @0: even number of identity digits and also when the TMSI/P-TMSI or TMGI and optional MBMS Session Identity is used
+f: /Mobile identity/Type of identity: 1: 3: @001: IMSI
+f: /Mobile identity/Identity digit 3: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 2: 2: 4: @0010: 
+f: /Mobile identity/Identity digit 5: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 4: 2: 4: @0010: 
+f: /Mobile identity/Identity digit 7: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 6: 1: 4: @0001: 
+f: /Mobile identity/Identity digit 9: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 8: 3: 4: @0011: 
+f: /Mobile identity/Identity digit 11: 1: 4: @0001: 
+f: /Mobile identity/Identity digit 10: 9: 4: @1001: 
+f: /Mobile identity/Identity digit 13: 0: 4: @0000: 
+f: /Mobile identity/Identity digit 12: 4: 4: @0100: 
+f: /Mobile identity/Identity digit 15: 1: 4: @0001: 
+f: /Mobile identity/Identity digit 14: 14: 4: @1110: 
+f: /Old routing area identification/MCC digit 2: 0: 4: @0000: 
+f: /Old routing area identification/MCC digit 1: 2: 4: @0010: 
+f: /Old routing area identification/MNC digit 3: 10: 4: @1010: 
+f: /Old routing area identification/MCC digit 3: 2: 4: @0010: 
+f: /Old routing area identification/MNC digit 2: 8: 4: @1000: 
+f: /Old routing area identification/MNC digit 1: 3: 4: @0011: 
+f: /Old routing area identification/LAC: 32258: 16: #7E02: 
+f: /Old routing area identification/RAC: 3: 8: #03: 
+f: /MS Radio Access capability/MSRA Capability Len: 4: 8: #04: 
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access Technology Type: 0: 4: @0000: GSM P
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Length: 17: 7: @0010001: 
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/RF Power Capability: 0: 3: @000: class 1
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/A5 Bits Included: 0: 1: @0: Use A5 bits of preceeding access capability
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/ES IND: 0: 1: @0: "Controlled Early Classmark Sending" option is not implemented
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/PS: 0: 1: @0: PS capability not present
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/VGCS: 0: 1: @0: No VGCS capability or no notifications wanted
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/VBS: 0: 1: @0: No VBS capability or no notifications wanted
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/Multislot capability included: 1: 1: @1: Multislot parameters included
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/Multislot capability/HSCSD multislot class included: 0: 1: @0: Not included
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/Multislot capability/GPRS multislot class included: 0: 1: @0: Not included
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/Multislot capability/MS Measurement Capability included: 0: 1: @0: Not included
+f: /MS Radio Access capability/MSRA Capability List/MSRA Capability/record/Access capabilities struct/Access Capabilities/Content/Multislot capability/ECSD multislot class included: 0: 1: @0: Not included
+
+m: icd.xddl: #0202000805082517
+count: 16
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 0: 1: @0: Downlink, network to mobile station
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 8: 4: @1000: GPRS mobility management messages
+f: /NAS_Header/NAS_MessageType: 5: 8: #05: Detach Request
+f: /Force to standby/spare: 0: 1: @0: 
+f: /Force to standby/value: 0: 3: @000: Force to standby not indicated
+f: /Detach type/Power off: 1: 1: @1: Power switched off
+f: /Detach type/Type of detach: 0: 3: @000: Re-attach not required
+f: /GMM cause/IEI: 37: 8: #25: 
+f: /GMM cause/Cause value: 23: 8: #17: GSM authenticaion unacceptable
+
+m: icd.xddl: #0202010805081804353F0102123456151903010203
+count: 31
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 1: 1: @1: Uplink, mobile station to network
+f: /NAS_Header/SI: 0: 4: @0000: 
+f: /NAS_Header/PD: 8: 4: @1000: GPRS mobility management messages
+f: /NAS_Header/NAS_MessageType: 5: 8: #05: Detach Request
+f: /Spare half octet/spare: 0: 4: @0000: 
+f: /Detach type/Power off: 1: 1: @1: Power switched off
+f: /Detach type/Type of detach: 0: 3: @000: interpreted as: Combined GPRS/IMSI detach
+f: /P-TMSI/IEI: 24: 8: #18: 
+f: /P-TMSI/Length: 4: 8: #04: 
+f: /P-TMSI/spare: 0: 2: @00: 
+f: /P-TMSI/MBMS Sess Id indic: 1: 1: @1: 
+f: /P-TMSI/MCC MNC indic: 1: 1: @1: 
+f: /P-TMSI/odd/even indic: 0: 1: @0: even number of identity digits and also when the TMSI/P-TMSI or TMGI and optional MBMS Session Identity is used
+f: /P-TMSI/Type of identity: 5: 3: @101: TMGI and optional MBMS Session Identity
+f: /P-TMSI/MBMS Service ID: 4129026: 24: #3F0102: 
+f: /P-TMSI/MCC digit 2: 1: 4: @0001: 
+f: /P-TMSI/MCC digit 1: 2: 4: @0010: 
+f: /P-TMSI/MNC digit 3: 3: 4: @0011: 
+f: /P-TMSI/MCC digit 3: 4: 4: @0100: 
+f: /P-TMSI/MNC digit 2: 5: 4: @0101: 
+f: /P-TMSI/MNC digit 1: 6: 4: @0110: 
+f: /P-TMSI/MBMS Session Identity: 21: 8: #15: 
+f: /P-TMSI signature/IEI: 25: 8: #19: 
+f: /P-TMSI signature/Length: 3: 8: #03: 3
+f: /P-TMSI signature/value: 66051: 24: #010203: 
+
+m: icd.xddl: #0202010A41080810353701021234561519030102030202000805082517020200082802011727050117010102A2
+count: 63
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | NAS
+f: /Sublayer: 2: 8: #02: NAS
+f: /Reserved: 0: 7: @0000000: zero
+f: /Direction: 1: 1: @1: Uplink, mobile station to network
+f: /NAS_Header/TI/TI flag: 0: 1: @0: Message sent from the side that originated the TI
+f: /NAS_Header/TI/TIO: 0: 3: @000: 
+f: /NAS_Header/PD: 10: 4: @1010: GPRS session management messages
+f: /NAS_Header/NAS_MessageType: 65: 8: #41: Activate PDP Context Request
+f: /Requested NSAPI/spare: 0: 4: @0000: 
+f: /Requested NSAPI/value: 8: 4: @1000: NSAPI 8
+f: /Requested LLC SAPI/Spare: 0: 4: @0000: 
+f: /Requested LLC SAPI/value: 8: 4: @1000: reserved
+f: /Requested QoS/Length: 16: 8: #10: 
+f: /Requested QoS/Contents/spare: 0: 2: @00: 
+f: /Requested QoS/Contents/Delay class: 6: 3: @110: Delay class 4 (best effort)
+f: /Requested QoS/Contents/Reliability class: 5: 3: @101: Unacknowledged GTP, LLC, and RLC, Unprotected data
+f: /Requested QoS/Contents/Peak throughput: 3: 4: @0011: Up to 4 000 octet/s
+f: /Requested QoS/Contents/spare: 0: 1: @0: 
+f: /Requested QoS/Contents/Precedence class: 7: 3: @111: Reserved
+f: /Requested QoS/Contents/spare: 0: 3: @000: 
+f: /Requested QoS/Contents/Mean throughput: 1: 5: @00001: 100 octet/h
+f: /Requested QoS/Contents/Traffic class: 0: 3: @000: Subscribed traffic class
+f: /Requested QoS/Contents/Delivery order: 0: 2: @00: Subscribed delivery order
+f: /Requested QoS/Contents/Delivery of erroneous SDU: 2: 3: @010: Erroneous SDUs are delivered ('yes')
+f: /Requested QoS/Contents/Maximum SDU Size: 18: 8: #12: 180 octets
+f: /Requested QoS/Contents/Maximum bit rate for uplink: 52: 8: #34: 52 kbps
+f: /Requested QoS/Contents/Maximum bit rate for downlink: 86: 8: #56: 240 kbps
+f: /Requested QoS/Contents/Residual BER: 1: 4: @0001: 5*10-2
+f: /Requested QoS/Contents/SDU error ratio: 5: 4: @0101: 1*10-5
+f: /Requested QoS/Contents/Transfer delay: 6: 6: @000110: 60 ms
+f: /Requested QoS/Contents/Traffic handling priority: 1: 2: @01: Priority level 1
+f: /Requested QoS/Contents/Guaranteed bit rate for uplink: 3: 8: #03: 3 kbps
+f: /Requested QoS/Contents/Guaranteed bit rate for downlink: 1: 8: #01: 1 kbps
+f: /Requested QoS/Contents/spare: 0: 3: @000: 
+f: /Requested QoS/Contents/Signaling Indication: 0: 1: @0: Not optimised for signalling traffic
+f: /Requested QoS/Contents/Source Statistics Descriptor: 2: 4: @0010: unknown
+f: /Requested QoS/Contents/Maximum bit rate for downlink (extended): 3: 8: #03: 8900 kbps
+f: /Requested QoS/Contents/Guaranteed bit rate for downlink (extended): 2: 8: #02: 8800 kbps
+f: /Requested QoS/Contents/Maximum bit rate for uplink (extended): 2: 8: #02: 8800 kbps
+f: /Requested QoS/Contents/Guaranteed bit rate for uplink (extended): 0: 8: #00: 1 kbps
+f: /Requested PDP address/Length: 8: 8: #08: 
+f: /Requested PDP address/spare: 0: 4: @0000: 
+f: /Requested PDP address/PDP type organisation: 5: 4: @0101: Reserved
+f: /Requested PDP address/PDP type number: 8: 8: #08: Reserved
+f: /Requested PDP address/AddressInformation: 0: 48: #251702020008: 
+f: /Access point name/IEI: 40: 8: #28: 
+f: /Access point name/Length: 2: 8: #02: 
+f: /Access point name/APN/length/value pairs/record/length: 1: 8: #01: 
+f: /Access point name/APN/length/value pairs/record/value: 23: 8: #17: .
+f: /Protocol configuration options/IEI: 39: 8: #27: 
+f: /Protocol configuration options/Length: 5: 8: #05: 
+f: /Protocol configuration options/Contents/ext: 0: 1: @0: Octet group continues with next octet
+f: /Protocol configuration options/Contents/Spare: 0: 4: @0000: 
+f: /Protocol configuration options/Contents/Configuration protocol: 1: 3: @001: PPP
+f: /Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 5889: 16: #1701: not supported
+f: /Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 1: 8: #01: 
+f: /Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID Contents: 2: 8: #02: 
+f: /Request type/IEI: 10: 4: @1010: 
+f: /Request type/Spare: 0: 1: @0: 
+f: /Request type/Request type: 2: 3: @010: handover
+
+m: icd.xddl: #0205040511010203
+count: 14
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | Radio Link Control (RLC)
+f: /Sublayer: 5: 8: #05: Radio Link Control (RLC)
+f: /Channel: 4: 8: #04: RLC UMD PDU (15-bit LI)
+f: /UMD PDU/UMD_PDU_Block/Sequence Number: 2: 7: @0000010: 
+f: /UMD PDU/UMD_PDU_Block/E: 1: 1: @1: Next field is Length Indicator and E bit
+f: /UMD PDU/UMD_PDU_Block/UMD Length Indicators (7-bit)/LI1: 8: 7: @0001000: 
+f: /UMD PDU/UMD_PDU_Block/UMD Length Indicators (7-bit)/E1: 1: 1: @1: Next field is Length Indicator and E bit
+f: /UMD PDU/UMD_PDU_Block/UMD Length Indicators (7-bit)/LI2: 0: 7: @0000000: Previous RLC PDU was exactly filled with the last segment of an RLC SDU and there is no "Length Indicator" that indicates the end of the RLC SDU in the previous RLC PDU
+f: /UMD PDU/UMD_PDU_Block/UMD Length Indicators (7-bit)/E2: 1: 1: @1: Next field is Length Indicator and E bit
+f: /UMD PDU/UMD_PDU_Block/UMD Length Indicators (7-bit)/LI3: 1: 7: @0000001: 
+f: /UMD PDU/UMD_PDU_Block/UMD Length Indicators (7-bit)/E3: 0: 1: @0: Next field is data, piggybacked STATUS PDU or padding
+
+m: icd.xddl: #02050105110102030605
+count: 18
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | Radio Link Control (RLC)
+f: /Sublayer: 5: 8: #05: Radio Link Control (RLC)
+f: /Channel: 1: 8: #01: RLC AMD PDU (7-bit LI)
+f: /AMD PDU/AMD_PDU_Block/DC: 0: 1: @0: Control PDU
+f: /AMD PDU/AMD_PDU_Block/Control PDU/PDU_Type: 0: 3: @000: STATUS
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/Type: 5: 4: @0101: Relative List (RLIST)
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Relative List super-field/LENGTH: 1: 4: @0001: 
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Relative List super-field/FSN: 257: 12: @000100000001: 
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Relative List super-field/CW/record/Number: 0: 3: @000: Next 3 bits of the number are 000
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Relative List super-field/CW/record/Status: 0: 1: @0: Number continues in the next CW
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/Type: 2: 4: @0010: Acknowledgement (ACK)
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Acknowledgement super-field/LSN: 48: 12: @000000110000: 
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/Type: 6: 4: @0110: Move Receiving Window (MRW)
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Move Receiving Window (MRW) super-field/LENGTH: 0: 4: @0000: 
+f: /AMD PDU/AMD_PDU_Block/Control PDU/STATUS PDU/SUFI/record/The Move Receiving Window (MRW) super-field/N-LENGTH: 5: 4: @0101: 
+
+

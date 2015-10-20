@@ -1,0 +1,1001 @@
+
+%{
+
+#define YYDEBUG 0
+#define YY_NO_UNISTD_H
+
+#include <iostream>
+#include "asnast.h"
+#include <ict/command.h>
+#include <cstdio>
+
+using namespace std;
+
+#define UNSUPPORTED() do { \
+    std::ostringstream os; \
+    os << "line " << current_line << ": unsupported action"; \
+    throw ict::exception(os.str().c_str()); \
+} while (0)
+
+#define TR(msg) do { \
+    if (trace_on) cerr << msg << endl; \
+} while (0)
+
+extern std::string current_string;
+extern int current_line;
+extern FILE *yyin;
+
+ModuleList * modlist;
+bool trace_on;
+bool ignore_warnings;
+
+int yylex();
+
+int yyerror(const char *p) 
+{ 
+        //TRACE("DefinedType");
+    IT_THROW("Error: " << p << " at line " << current_line);
+    return 0;
+}
+
+template <typename T> T * create() { return new T(); }
+template <typename T, typename A1> T * create(A1 a1) { return new T(a1); }
+template <typename T, typename A1, typename A2> T * create(A1 a1, A2 a2) { return new T(a1, a2); }
+template <typename T, typename A1, typename A2, typename A3> T * create(A1 a1, A2 a2, A3 a3) 
+    { return new T(a1, a2, a3); }
+%}
+
+
+/*
+ *  Union structure.  A terminal or non-terminal can have
+ *  one of these type values.
+ */
+
+%union
+{
+    int                   intVal;
+    char *                charPtr;
+    ast *                 symbol;
+    Name *                name;
+    ::Type *                type;
+    BuiltinType *         builtin_type;
+    DefinedType *         defined_type;
+    ElementTypeList *     elem_list;
+    AlternativeTypeList * alt_list;
+    TypeAssignment *      type_assignment;
+    AssignmentList *      assignment_list;
+    Assignment *          assignment;
+    ModuleBody *          module_body;
+    ModuleDefinition *    module_definition;
+    ModuleList * module_list;
+    SizeConstraint * size_constraint;
+    SubtypeSpec     * subtype_spec;
+    Value *               value;
+	NamedValue *  named_value;
+    NamedNumber * named_number;
+    NamedNumberList * named_number_list;
+    SymbolList * symbol_list;
+}
+
+/*
+ *  Terminals. Definitions can be found in input.lex.
+ */
+
+/*
+ * these tokens (literals) have attributes (set in asn1.lex)
+ */
+%token <charPtr> BSTRING_SYM HSTRING_SYM CSTRING_SYM
+                 UCASEFIRST_IDENT_SYM LCASEFIRST_IDENT_SYM
+                 NAMEDMACRO_SYM MACRODEFBODY_SYM
+                 BRACEBAL_SYM NUMBER_ERANGE
+
+%token <charPtr> NUMBER_SYM
+
+/*
+ * these tokens have no attributes
+ */
+%token<intVal>        DOT_SYM COMMA_SYM LEFTBRACE_SYM RIGHTBRACE_SYM LEFTPAREN_SYM
+              RIGHTPAREN_SYM LEFTBRACKET_SYM RIGHTBRACKET_SYM LESSTHAN_SYM
+              MINUS_SYM GETS_SYM BAR_SYM TAGS_SYM BOOLEAN_SYM INTEGER_SYM
+              BIT_SYM STRING_SYM OCTET_SYM NULL_SYM SEQUENCE_SYM OF_SYM
+              SET_SYM CHOICE_SYM ANY_SYM
+              IMPLICIT_SYM EXPLICIT_SYM AUTOMATIC_SYM 
+              OBJECT_IDENTIFIER_SYM OPTIONAL_SYM DEFAULT_SYM
+              COMPONENTS_SYM CONTAINING_SYM
+              UNIVERSAL_SYM APPLICATION_SYM PRIVATE_SYM TRUE_SYM FALSE_SYM
+              BEGIN_SYM END_SYM DEFINITIONS_SYM ENUMERATED_SYM
+              EXPORTS_SYM IMPORTS_SYM REAL_SYM INCLUDES_SYM MIN_SYM MAX_SYM
+              SIZE_SYM FROM_SYM WITH_SYM COMPONENT_SYM PRESENT_SYM ABSENT_SYM
+              DEFINED_SYM BY_SYM PLUS_INFINITY_SYM MINUS_INFINITY_SYM
+              SEMI_COLON_SYM IA5STRING_SYM PRINTABLESTRING_SYM
+              NUMERICSTRING_SYM TELETEXSTRING_SYM T61STRING_SYM
+              VIDEOTEXSTRING_SYM VISIBLESTRING_SYM ISO646STRING_SYM
+              GRAPHICSTRING_SYM GENERALSTRING_SYM BMPSTRING_SYM
+              UNIVERSALSTRING_SYM UTF8STRING_SYM
+              GENERALIZEDTIME_SYM UTCTIME_SYM EXTERNAL_SYM
+              OBJECTDESCRIPTOR_SYM
+              /* the following are used in macros */
+              OPERATION_SYM ARGUMENT_SYM RESULT_SYM ERRORS_SYM LINKED_SYM
+              ERROR_SYM PARAMETER_SYM
+              BIND_SYM BINDERROR_SYM UNBIND_SYM UNBINDERROR_SYM
+              ASE_SYM OPERATIONS_SYM CONSUMERINVOKES_SYM
+              SUPPLIERINVOKES_SYM
+              AC_SYM ASES_SYM REMOTE_SYM INITIATOR_SYM RESPONDER_SYM
+              ABSTRACTSYNTAXES_SYM CONSUMER_SYM
+              EXTENSIONS_SYM CHOSEN_SYM
+              EXTENSION_SYM CRITICAL_SYM FOR_SYM DELIVERY_SYM SUBMISSION_SYM
+              TRANSFER_SYM  EXTENSIONATTRIBUTE_SYM
+              TOKEN_SYM TOKENDATA_SYM
+              SECURITYCATEGORY_SYM
+              OBJECT_SYM PORTS_SYM BOXC_SYM BOXS_SYM
+              PORT_SYM ABSTRACTOPS_SYM
+              REFINE_SYM AS_SYM RECURRING_SYM VISIBLE_SYM PAIRED_SYM
+              ABSTRACTBIND_SYM ABSTRACTUNBIND_SYM TO_SYM
+              ABSTRACTERROR_SYM ABSTRACTOPERATION_SYM
+              ALGORITHM_SYM ENCRYPTED_SYM SIGNED_SYM
+              SIGNATURE_SYM PROTECTED_SYM
+              OBJECTTYPE_SYM SYNTAX_SYM ACCESS_SYM STATUS_SYM
+              DESCRIPTION_SYM REFERENCE_SYM INDEX_SYM
+              DEFVAL_SYM 
+
+/*
+ *  Type definitions of non-terminal symbols
+ */
+
+%type <symbol>  SetOpening SequenceOpening
+
+%type <intVal>  TagDefault
+
+%type <symbol_list> SymbolList
+
+%type <symbol> SymbolsFromModuleList
+
+%type <symbol>  SymbolsFromModule
+
+%type <type_assignment>    TypeAssignment
+
+%type <symbol>    ValueAssignment
+
+%type <symbol>   number Class
+
+%type <value> SignedNumber
+
+%type <name> modulereference identifier Symbol
+
+%type <name> typereference
+
+%type <elem_list> ElementTypeList ElementTypes
+
+%type <alt_list> AlternativeTypeList AlternativeTypes
+
+%type <symbol> ExternalValueReference
+%type <value> Value DefinedValue BooleanValue
+                 NullValue SpecialRealValue
+
+%type <value> BuiltinValue BinaryString HexString CharString
+
+%type <named_value>  NamedValue
+
+%type <name>   ModuleIdentifier
+
+%type <symbol>     ObjectIdentifierValue AssignedIdentifier
+                   ObjIdComponent NumberForm NameAndNumberForm
+                   ObjIdComponentList
+%type <symbol>    NameForm
+%type <name> SetOfType SelectionType
+                TaggedType AnyType ObjectIdentifierType CharStrType
+                RealType ExternalTypeReference
+                
+%type <type> Type BuiltinType Subtype SetType
+%type <type> BooleanType SequenceOfType 
+%type <type> IntegerType
+%type <type> EnumeratedType 
+%type <type> BitStringType
+
+%type <type> ChoiceType
+%type <defined_type> DefinedType
+%type <type> NullType
+%type <type> SequenceType
+
+%type <type> NamedType 
+
+%type <symbol> TypeExtension 
+%type <type> ElementType TypeExtensionGroup
+%type <type> AlternativeType
+
+%type <symbol> ContainedSubtype
+                        PermittedAlphabet 
+                       
+
+%type <subtype_spec> ValueRange InnerTypeConstraints
+%type <size_constraint> SizeConstraintSpec 
+%type <size_constraint> SizeConstraint
+
+%type <subtype_spec> SubtypeValueSet SingleValue ContainingSubtype
+%type <subtype_spec> SubtypeSpec SubtypeValueSetList 
+%type <symbol> NamedConstraint Constraint
+
+%type <symbol> TypeConstraints
+
+%type <symbol>  FullSpecification PartialSpecification
+                         SingleTypeConstraint MultipleTypeConstraints
+
+%type <value> LowerEndPoint UpperEndPoint LowerEndValue UpperEndValue
+
+%type <symbol>       PresenceConstraint
+
+%type <symbol>    ValueConstraint
+
+%type <symbol>    ExportSymbolList
+
+%type <named_number>   NamedNumber
+
+%type <named_number_list> NamedNumberList NamedBitList
+
+%type <symbol>       Tag ClassNumber
+
+%type <assignment> Assignment AssignmentOrError
+%type <assignment_list> AssignmentList
+
+%type <module_definition> ModuleDefinition
+
+%type <module_body> ModuleBody
+
+%type <module_list> ModuleList
+
+%start ModuleList
+%%
+
+
+
+/*-----------------------------------------------------------------------*/
+/* Module def/import/export productions */
+/*-----------------------------------------------------------------------*/
+
+ModuleList:
+    ModuleDefinition 
+    { 
+        if (!modlist) modlist = create<ModuleList>($1); 
+        else modlist->add($1);
+        $$ = modlist;
+    }
+    | ModuleList ModuleDefinition { $1->add($2); }
+
+ModuleDefinition:
+     ModuleIdentifier
+     DEFINITIONS_SYM
+     TagDefault 
+     GETS_SYM
+     BEGIN_SYM
+     ModuleBody
+     END_SYM { 
+         $$ = create<ModuleDefinition>($1, $6);
+         TR("finished module " << $1->str());
+     }
+;
+
+TagDefault:
+    EXPLICIT_SYM  TAGS_SYM
+  | IMPLICIT_SYM  TAGS_SYM
+  | AUTOMATIC_SYM TAGS_SYM
+  | empty  { $$ = 0; }
+;
+
+ModuleIdentifier:
+    modulereference AssignedIdentifier {  }
+;
+
+AssignedIdentifier:
+    ObjectIdentifierValue
+  | empty {  }
+;
+
+ModuleBody:
+    Exports Imports AssignmentList {
+        $$ = create<ModuleBody>($3);
+    }
+  | empty { $$ = 0; }
+;
+
+Exports:
+    EXPORTS_SYM SymbolsExported SEMI_COLON_SYM
+    {
+        UNSUPPORTED();
+    }
+  | EXPORTS_SYM error SEMI_COLON_SYM
+    {
+        UNSUPPORTED();
+    }
+  | empty {  }
+;
+
+SymbolsExported:
+    ExportSymbolList { UNSUPPORTED(); }
+  | empty { UNSUPPORTED();  }
+;
+
+ExportSymbolList:
+    Symbol { UNSUPPORTED(); }
+  | ExportSymbolList COMMA_SYM Symbol { UNSUPPORTED(); }
+;
+
+Imports:
+    IMPORTS_SYM SymbolsImported SEMI_COLON_SYM
+  | IMPORTS_SYM error SEMI_COLON_SYM
+  | empty
+;
+
+SymbolsImported:
+    SymbolsFromModuleList
+  | empty
+;
+
+SymbolsFromModuleList:
+    SymbolsFromModuleList SymbolsFromModule
+  | SymbolsFromModule
+;
+
+SymbolsFromModule:
+    SymbolList FROM_SYM ModuleIdentifier { $$ = $1; }
+;
+
+
+SymbolList:
+    SymbolList COMMA_SYM Symbol { $1->add($3); }
+  | Symbol { $$ = create<SymbolList>($1); }
+;
+
+Symbol:
+    typereference 
+  | identifier 
+;
+
+
+
+AssignmentList:
+    AssignmentList AssignmentOrError {
+        $1->add($2);
+    }
+  | AssignmentOrError {
+      $$ = create<AssignmentList>();
+      $$->add($1);
+  }
+;
+
+AssignmentOrError:
+    Assignment
+  | Assignment SEMI_COLON_SYM
+  | error SEMI_COLON_SYM { UNSUPPORTED(); }
+;
+
+Assignment:
+    TypeAssignment { 
+    }
+  | ValueAssignment { 
+    }
+;
+
+
+/*-----------------------------------------------------------------------*/
+/* Type Notation Productions */
+/*-----------------------------------------------------------------------*/
+
+TypeAssignment:
+    typereference GETS_SYM Type {
+        $$ = create<TypeAssignment>($1, $3);
+    }
+
+;
+
+
+ExternalTypeReference:
+    modulereference DOT_SYM typereference
+;
+
+
+DefinedType:      /* could by CharacterString or Useful types too */
+    ExternalTypeReference  { UNSUPPORTED(); }
+  | typereference {
+      $$ = create<DefinedType>($1);
+    }
+;
+
+
+
+Type:
+    BuiltinType { 
+        //TRACE("BuiltinType");
+            } 
+  | DefinedType { 
+        //TRACE("DefinedType");
+        } 
+  | Subtype 
+  { 
+        //TRACE("Subtype");
+  } 
+;
+
+BuiltinType:
+    BooleanType
+  | IntegerType
+  | BitStringType
+  | NullType
+  | SequenceType
+  | SequenceOfType { UNSUPPORTED(); }
+  | SetType { UNSUPPORTED(); }
+  | SetOfType { UNSUPPORTED(); }
+  | ChoiceType
+  | SelectionType { UNSUPPORTED(); }
+  | TaggedType { UNSUPPORTED(); }
+  | AnyType { UNSUPPORTED(); }
+  | ObjectIdentifierType { UNSUPPORTED(); }
+  | EnumeratedType
+  | RealType { UNSUPPORTED(); }
+  | OCTET_SYM STRING_SYM { $$ = create<OctetString>(); }
+  | CharStrType { UNSUPPORTED(); }
+;
+
+NamedType:
+    identifier Type { 
+        $$ = create<NamedType>($1, $2);
+    }
+  | Type {     /* this handles selectionType as well */
+        $$ = create<NamedType>(create<Name>("unnamed"), $1);
+    }
+;
+
+BooleanType:
+    BOOLEAN_SYM { 
+        $$ = create<BooleanType>();
+    }
+;
+
+IntegerType:
+    INTEGER_SYM { 
+        $$ = create<IntegerType>(); }
+  | INTEGER_SYM LEFTBRACE_SYM NamedNumberList RIGHTBRACE_SYM { UNSUPPORTED(); }
+;
+
+
+NamedNumberList:
+    NamedNumber { $$ = create<NamedNumberList>($1); }
+  | NamedNumberList COMMA_SYM NamedNumber 
+    { 
+        $1->add($3); 
+    }
+;
+
+NamedNumber:
+    identifier LEFTPAREN_SYM SignedNumber RIGHTPAREN_SYM 
+    { 
+        $$ = create<NamedNumber>($1, $3); 
+    }
+  | identifier LEFTPAREN_SYM DefinedValue RIGHTPAREN_SYM { UNSUPPORTED(); }
+  | identifier  { $$ = create<NamedNumber>($1); }
+  | ExtensionMarker { $$ = create<NamedNumber>(create<ExtensionMarker>()); 
+                    }
+;
+
+SignedNumber:
+    NUMBER_SYM { 
+        $$ = create<SignedNumber>(current_string); }
+    | NUMBER_ERANGE { UNSUPPORTED(); }
+    | MINUS_SYM NUMBER_SYM { 
+
+            SignedNumber * n = create<SignedNumber>(current_string); 
+            n->negate();
+            $$ = n;
+        }
+    | MINUS_SYM NUMBER_ERANGE { UNSUPPORTED(); }
+;
+
+EnumeratedType:
+    ENUMERATED_SYM LEFTBRACE_SYM NamedNumberList RIGHTBRACE_SYM { 
+        $$ = create<EnumeratedType>($3); 
+    }
+;
+
+RealType:
+    REAL_SYM { UNSUPPORTED(); }
+;
+
+BitStringType:
+    BIT_SYM STRING_SYM { $$ = create<BitStringType>(); }
+  | BIT_SYM STRING_SYM LEFTBRACE_SYM NamedBitList RIGHTBRACE_SYM 
+  { 
+      $$ = create<NamedBitStringType>($4); 
+  }
+;
+
+NamedBitList:
+    NamedNumberList
+    {
+        $$ = $1;
+    }
+;
+
+NullType:
+    NULL_SYM { 
+        $$ = create<NullType>(); }
+;
+
+SequenceOpening:
+    SEQUENCE_SYM LEFTBRACE_SYM {  }
+;
+
+SequenceType:
+    SequenceOpening ElementTypes RIGHTBRACE_SYM
+    {
+        $$ = create<SequenceType>($2);
+    }
+  | SequenceOpening RIGHTBRACE_SYM
+    {
+        $$ = create<SequenceType>();
+    }
+;
+
+ElementTypes:
+    ElementTypeList
+;
+
+ElementTypeList:
+    ElementType { 
+        $$ = create<ElementTypeList>();
+        $$->add($1);
+    }
+  | ElementTypeList COMMA_SYM ElementType 
+    {
+        $1->add($3);
+    }
+;
+
+ElementType:
+    NamedType 
+  | NamedType OPTIONAL_SYM { $1->optional = true; }
+  | NamedType DEFAULT_SYM NamedValue { 
+	  $1->def_value = $3; 
+      $1->optional = true;
+	 }
+  | COMPONENTS_SYM OF_SYM Type { UNSUPPORTED(); }
+  | identifier COMPONENTS_SYM OF_SYM Type { UNSUPPORTED(); }
+  | TypeExtension  { }
+  | TypeExtensionGroup
+;
+
+TypeExtension:
+    ExtensionMarker { $$ = create<TypeExtension>(); }
+;
+
+TypeExtensionGroup:
+  ExtensionGroupBegin ElementTypeList ExtensionGroupEnd { $$ = create<TypeExtensionGroup>($2); }
+;
+
+ExtensionMarker:
+    DOT_SYM DOT_SYM DOT_SYM
+;
+
+ExtensionGroupBegin:
+    LEFTBRACKET_SYM LEFTBRACKET_SYM
+;
+
+ExtensionGroupEnd:
+    RIGHTBRACKET_SYM RIGHTBRACKET_SYM
+;
+
+
+
+SequenceOfType:
+    SEQUENCE_SYM OF_SYM Type { UNSUPPORTED(); }
+;
+
+SetOpening:
+    SET_SYM LEFTBRACE_SYM { UNSUPPORTED(); }
+;
+
+SetType:
+    SetOpening ElementTypes RIGHTBRACE_SYM { UNSUPPORTED(); }
+  | SetOpening RIGHTBRACE_SYM { UNSUPPORTED(); }
+;
+
+
+SetOfType:
+    SET_SYM OF_SYM Type { UNSUPPORTED(); }
+;
+
+
+ChoiceType:
+    CHOICE_SYM LEFTBRACE_SYM AlternativeTypes RIGHTBRACE_SYM {
+       $$ = create<ChoiceType>($3); 
+    }
+
+;
+
+AlternativeTypes:
+    AlternativeTypeList 
+;
+
+AlternativeTypeList:
+    AlternativeType {
+        $$ = create<AlternativeTypeList>();
+        $$->add($1);
+    }
+  | AlternativeTypeList COMMA_SYM AlternativeType {
+        $1->add($3);
+        $$ = $1;
+  }
+;
+
+AlternativeType:
+    NamedType
+  | TypeExtension { }
+;
+
+SelectionType:
+    identifier LESSTHAN_SYM Type { UNSUPPORTED(); }
+;
+
+TaggedType:
+    Tag Type { UNSUPPORTED(); }
+  | Tag IMPLICIT_SYM Type { UNSUPPORTED(); }
+  | Tag EXPLICIT_SYM Type { UNSUPPORTED(); }
+;
+
+Tag:
+    LEFTBRACKET_SYM Class ClassNumber RIGHTBRACKET_SYM { UNSUPPORTED(); }
+;
+
+ClassNumber:
+    number { UNSUPPORTED(); }
+  | DefinedValue { UNSUPPORTED(); }
+;
+
+Class:
+    UNIVERSAL_SYM    { UNSUPPORTED(); }
+  | APPLICATION_SYM  { UNSUPPORTED(); }
+  | PRIVATE_SYM     { UNSUPPORTED(); }
+  | empty  { UNSUPPORTED(); }        
+;
+
+
+AnyType:
+    ANY_SYM { UNSUPPORTED(); }
+  | ANY_SYM DEFINED_SYM BY_SYM identifier { UNSUPPORTED(); }
+;
+
+
+ObjectIdentifierType:
+    OBJECT_IDENTIFIER_SYM { UNSUPPORTED(); }
+;
+
+CharStrType:
+    NUMERICSTRING_SYM { UNSUPPORTED(); }
+    | PRINTABLESTRING_SYM { UNSUPPORTED(); }
+    | IA5STRING_SYM { UNSUPPORTED(); }
+    | BMPSTRING_SYM { UNSUPPORTED(); }
+    | UNIVERSALSTRING_SYM { UNSUPPORTED(); }
+    | UTF8STRING_SYM { UNSUPPORTED(); }
+    | TELETEXSTRING_SYM { UNSUPPORTED(); }
+    | T61STRING_SYM { UNSUPPORTED(); }
+;
+
+Subtype:
+    Type SubtypeSpec
+    {
+        $$ = create<Subtype>($1, $2);
+    }
+  | SET_SYM SizeConstraintSpec OF_SYM Type
+    {
+        UNSUPPORTED();
+    }
+  | SEQUENCE_SYM SizeConstraintSpec OF_SYM Type {
+      $$ = create<SequenceOfSubtype>($4, $2);
+  }
+;
+
+
+SubtypeSpec:
+    LEFTPAREN_SYM SubtypeValueSetList RIGHTPAREN_SYM { $$ = $2; }
+;
+
+SubtypeValueSetList:
+    SubtypeValueSet 
+  | SubtypeValueSetList BAR_SYM SubtypeValueSet { UNSUPPORTED(); }
+;
+
+
+SubtypeValueSet:
+    SingleValue
+  | ContainedSubtype { UNSUPPORTED(); }
+  | ContainingSubtype 
+  | ValueRange
+  | PermittedAlphabet { UNSUPPORTED(); }
+  | SizeConstraint { }
+  | InnerTypeConstraints
+;
+
+SingleValue:
+    Value { 
+        $$ = create<SingleValue>($1); }
+
+ContainedSubtype:
+    INCLUDES_SYM Type { UNSUPPORTED(); }
+;
+
+ContainingSubtype:
+    CONTAINING_SYM Type { $$ = create<ContainingSubtype>($2); }
+;
+
+ValueRange:
+    LowerEndPoint DOT_SYM DOT_SYM UpperEndPoint {
+        $$ = create<ValueRange>($1, $4);
+    }
+;
+
+LowerEndPoint:
+    LowerEndValue 
+  | LowerEndValue LESSTHAN_SYM  { UNSUPPORTED(); }
+;
+
+UpperEndPoint:
+    UpperEndValue
+  | LESSTHAN_SYM UpperEndValue { UNSUPPORTED(); }
+;
+
+LowerEndValue:
+  Value
+  | MIN_SYM { UNSUPPORTED(); }
+;
+
+UpperEndValue:
+  Value
+  | MAX_SYM { UNSUPPORTED(); }
+;
+
+SizeConstraintSpec:
+    SizeConstraint 
+  | LEFTPAREN_SYM SizeConstraint RIGHTPAREN_SYM { $$ = $2; }
+;
+
+SizeConstraint:
+    SIZE_SYM SubtypeSpec { $$ = create<SizeConstraint>($2); }
+;
+
+
+PermittedAlphabet:
+    FROM_SYM SubtypeSpec { UNSUPPORTED(); }
+;
+
+InnerTypeConstraints:
+    WITH_SYM COMPONENT_SYM SingleTypeConstraint { UNSUPPORTED(); }
+  | WITH_SYM COMPONENTS_SYM MultipleTypeConstraints { $$ = create<InnerTypeConstraints>(); }
+;
+
+SingleTypeConstraint:
+    SubtypeSpec { UNSUPPORTED(); }
+;
+
+MultipleTypeConstraints:
+    FullSpecification { UNSUPPORTED(); }
+  | PartialSpecification
+;
+
+FullSpecification:
+    LEFTBRACE_SYM TypeConstraints RIGHTBRACE_SYM { UNSUPPORTED(); }
+;
+
+PartialSpecification:
+    LEFTBRACE_SYM DOT_SYM DOT_SYM DOT_SYM COMMA_SYM TypeConstraints RIGHTBRACE_SYM { }
+;
+
+
+TypeConstraints:
+    NamedConstraint
+  | TypeConstraints COMMA_SYM NamedConstraint { UNSUPPORTED(); }
+;
+
+NamedConstraint:
+    identifier Constraint { }
+  | Constraint { UNSUPPORTED(); }
+
+;
+
+Constraint:
+    ValueConstraint PresenceConstraint
+;
+
+ValueConstraint:
+    SubtypeSpec { UNSUPPORTED(); }
+  | empty { $$ = 0; }
+;
+
+PresenceConstraint:
+    PRESENT_SYM { UNSUPPORTED(); }
+  | ABSENT_SYM { $$ = 0; }
+  | empty { UNSUPPORTED(); }
+  | OPTIONAL_SYM { UNSUPPORTED(); }
+;
+
+
+
+
+
+
+/*-----------------------------------------------------------------------*/
+/* Value Notation Productions */
+/*-----------------------------------------------------------------------*/
+
+ValueAssignment:
+    identifier Type GETS_SYM Value { $$ = create<ValueAssignment>($1, $2, $4); }
+;
+
+
+Value:
+    BuiltinValue
+  | DefinedValue
+;
+
+DefinedValue:
+    ExternalValueReference { UNSUPPORTED(); }
+  | identifier  /* a defined value or a named elmt ref  */ {
+      $$ = create<DefinedValue>($1); }
+  
+;
+
+ExternalValueReference:
+    modulereference  DOT_SYM identifier { UNSUPPORTED(); }
+;
+
+BuiltinValue:
+    BooleanValue
+  | NullValue
+  | SpecialRealValue
+  | SignedNumber         /* IntegerValue  or "0" real val*/
+  | HexString    /* OctetStringValue or BinaryStringValue */
+  | BinaryString    /*  BinaryStringValue */
+  | CharString
+;
+
+BooleanValue:
+    TRUE_SYM { $$ = create<BooleanValue>(true); }
+  | FALSE_SYM { $$ = create<BooleanValue>(false); }
+;
+
+
+SpecialRealValue:
+    PLUS_INFINITY_SYM { $$ = create<SpecialRealValue>(true); }
+  | MINUS_INFINITY_SYM { $$ = create<SpecialRealValue>(false); }
+;
+
+
+
+NullValue:
+    NULL_SYM { $$ = create<NullValue>(); }
+;
+
+
+NamedValue:
+    Value { 
+      $$ = create<NamedValue>(create<Name>(""), $1); }
+  | identifier Value {
+      $$ = create<NamedValue>($1, $2); }
+;
+
+
+ObjectIdentifierValue:
+    LEFTBRACE_SYM ObjIdComponentList RIGHTBRACE_SYM { UNSUPPORTED(); }
+;
+
+
+ObjIdComponentList:
+    ObjIdComponentList ObjIdComponent { UNSUPPORTED(); }
+  | ObjIdComponent { UNSUPPORTED(); }
+
+;
+
+
+ObjIdComponent:
+    NumberForm { UNSUPPORTED(); }
+  | NameForm { UNSUPPORTED(); }
+  | NameAndNumberForm { UNSUPPORTED(); }
+;
+
+
+NumberForm:
+    number { UNSUPPORTED(); }
+;
+
+NameForm:
+    identifier { UNSUPPORTED(); }
+;
+
+
+NameAndNumberForm:
+    identifier LEFTPAREN_SYM NumberForm RIGHTPAREN_SYM { UNSUPPORTED(); }
+  | identifier LEFTPAREN_SYM DefinedValue RIGHTPAREN_SYM { UNSUPPORTED(); }
+;
+
+
+
+BinaryString:
+    BSTRING_SYM { }
+;
+
+HexString:
+    HSTRING_SYM { }
+;
+
+CharString:
+    CSTRING_SYM { }
+;
+
+number:
+    NUMBER_SYM { }
+;
+
+identifier:
+    LCASEFIRST_IDENT_SYM { }
+;
+
+modulereference:
+    UCASEFIRST_IDENT_SYM  { }
+;
+
+typereference:
+    UCASEFIRST_IDENT_SYM { }
+;
+
+empty:
+;
+
+%%
+
+int main(int argc, char **argv)
+{
+    current_line = 1;
+    modlist = 0;
+    trace_on = false;
+    ignore_warnings = false;
+    bool comments = true;
+    string filename;
+
+    ict::command line("asnx", "Convert asn.1 to xddl", "asnx [optios] asn_file ...");
+
+    try {
+        line.add(ict::Option("comments", 'c', "Do not print header comment in resulting xddl",
+            [&]{comments = false; }));
+        line.add(ict::Option("wait", 'w', "Wait for user to hit return before starting", [&]{getchar();}));
+        line.add(ict::Option("progress", 't', "Print progress information", [&]{ trace_on = true; }));
+        line.add(ict::Option("ignore", 'i', "Ignore warnings", [&]{ignore_warnings=true;}));
+
+        line.parse(argc, argv);
+
+        if (line.targets.empty()) IT_THROW("no asn.1 files given");
+
+        for (auto const & i : line.targets)
+        {
+            filename = i;
+            TR("opening " << filename);
+            yyin = fopen(filename.c_str(), "r");
+            yyparse();
+        }
+
+        TR("parsing complete");
+
+        if (modlist)
+        {
+            modlist->comments = comments;
+            TR("writing xddl");
+            ict::Xml xml;
+            xml << modlist->str();
+            TR("formatting xddl");
+            cout << xml;
+        } else {
+            cerr << "no modules provided\n";
+        }
+    } catch (ict::exception & e)
+    {
+        cerr << filename << ": " << e.what() << endl;
+        return 1;
+    }
+}
+

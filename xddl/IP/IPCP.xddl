@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0.
+  
+   Please contact sales@intrig.com if these licensing terms are not
+   suitable for your needs.
+
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="IPCP (RFC-1570)">
+  <export>
+    <prop name="Length" value="0"/>
+  </export>
+
+  <!-- Types -->
+  <type name="IPCP Code" id="IPCPCode">
+    
+      <item key="0" value="Vendor Specific (RFC 2153)"/>
+      <item key="1" value="Configure-Request"/>
+      <item key="2" value="Configure-Ack"/>
+      <item key="3" value="Configure-Nak"/>
+      <item key="4" value="Configure-Reject"/>
+      <item key="5" value="Terminate-Request"/>
+      <item key="6" value="Terminate-Ack"/>
+      <item key="7" value="Code-Reject"/>
+    
+  </type>
+
+  <type name="ConfigurationOptionType" id="ConfigurationOptionType">
+    
+      <item key="1" value="IP-Addresses. Deprecated. RFC 1332"/>
+      <item key="2" value="IP-Compression-Protocol. RFC 1332, RFC 3241, RFC 3544"/>
+      <item key="3" value="IP-Address. RFC 1332"/>
+      <item key="4" value="Mobile-IPv4. RFC 2290"/>
+      <item key="129" value="Primary DNS Server Address. RFC 1877"/>
+      <item key="130" value="Primary NBNS Server Address. RFC 1877"/>
+      <item key="131" value="Secondary DNS Server Address. RFC 1877"/>
+      <item key="132" value="Secondary NBNS Server Address. RFC 1877"/>
+    
+  </type>
+
+  <type name="IP Compression Protocol" id="IPCompressionProtocol">
+    
+      <item key="#002d" value="Van Jacobson Compressed TCP/IP"/>
+    
+  </type>
+
+  <!-- Fragments -->
+  <fragment name="IP-Compression-Protocol" id="IPCompressionProtocol">
+    <field name="IPCompressionProtocol" length="16" default="#002d" type="#IPCompressionProtocol"/>
+    <field name="Data" length="(Length-4) * 8"/>
+  </fragment>
+
+  <fragment name="IP-Address" id="IPAddress">
+    <field name="IPAddress" length="4" type="IP.xddl#ip_address"/>
+  </fragment>
+
+  <fragment name="Configuration-Option" id="ConfigurationOption">
+    <field name="Type" length="8" type="#ConfigurationOptionType"/>
+    <field name="Length" length="8"/>
+    <record name="Data" length="(Length-2) * 8" import="true">
+      <switch expr="Type">
+        <case value="1">
+          <fragment href="RFC-1172.xddl#IPAddresses"/>
+        </case>
+        <case value="2">
+          <fragment href="#IPCompressionProtocol"/>
+        </case>
+        <case value="3">
+          <fragment href="#IPAddress"/>
+        </case>
+        <case value="4">
+          <fragment href="RFC-2290.xddl#MobileIPv4"/>
+        </case>
+        <case value="129">
+          <fragment href="RFC-1877.xddl#PrimaryDNS_ServerAddress"/>
+        </case>
+        <case value="130">
+          <fragment href="RFC-1877.xddl#PrimaryNBNS_ServerAddress"/>
+        </case>
+        <case value="131">
+          <fragment href="RFC-1877.xddl#SecondaryDNS_ServerAddress"/>
+        </case>
+        <case value="132">
+          <fragment href="RFC-1877.xddl#SecondaryNBNS_ServerAddress"/>
+        </case>
+      </switch>
+    </record>
+  </fragment>
+
+  <fragment name="IPCP-Protocol" id="IPCP">
+    <field name="Code" length="8" type="#IPCPCode"/>
+    <field name="Identifier" length="8"/>
+    <field name="Length" length="16"/>
+    <record name="Data" length="(Length-4) * 8" import="true">
+      <switch expr="Code">
+        <case value="7">
+          <fragment href="#IPCP"/>
+        </case>
+        <case value="6"/>
+        <case value="5">
+          <field name="Data" length="(Length-4) * 8"/>
+        </case>
+        <case value="4"/>
+        <case value="3"/>
+        <case value="2"/>
+        <case value="1">
+          <fragment href="#ConfigurationOption"/>
+        </case>
+        <case value="0">
+          <fragment href="RFC-2153.xddl#VendorSpecific"/>
+        </case>
+      </switch>
+    </record>
+  </fragment>
+
+  <start>
+    <fragment href="#IPCP"/>
+  </start>
+
+</xddl>

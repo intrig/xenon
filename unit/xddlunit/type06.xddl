@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Enums with defaults</comment>
+  <type name="UDP Port Types" id="udp_port_type">
+    <item key="1" value="tcpmux"/>
+    <item key="5" value="rje"/>
+    <item key="7" value="echo"/>
+    <item key="9" value="discard"/>
+    <item key="11" value="systat"/>
+    <item key="13" value="daytime"/>
+    <range start="0" end="#FF" value="Unknown"/>
+  </type>
+  <start>
+    <field name="Type 1" length="8" type="#udp_port_type"/>
+    <field name="Type 2" length="8" type="#udp_port_type"/>
+    <field name="Type 3" length="8" type="#udp_port_type"/>
+    <field name="Type 4" length="8" type="#udp_port_type"/>
+    <field name="Type 5" length="8" type="#udp_port_type"/>
+  </start>
+</xddl>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- UMTS Speech codec list -->
+  <!-- 3GPP TS 26.103 V10.0.0 (2011-03) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Services and System Aspects; -->
+  <!-- Speech codec list for GSM and UMTS -->
+  <!-- (Release 10) -->
+  <!-- TYPES -->
+  <!-- misc types -->
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <type id="SupportedBoolean">
+    <item key="0" value="Not supported"/>
+    <item key="1" value="Supported"/>
+  </type>
+  <!-- Section 6.1 System Identifiers for GSM and UMTS -->
+  <type name="System Identifiers for GSM and UMTS" id="6.1">
+    <item key="@00000000" value="SysID for GSM"/>
+    <item key="@00000100" value="SysID for UMTS"/>
+  </type>
+  <!-- Section 6.2 Codec Bitmap -->
+  <record name="Codec List Bitmap 1" id="6.2a">
+    <field name="TDMA EFR" length="1" type="#SupportedBoolean"/>
+    <field name="UMTS AMR 2" length="1" type="#SupportedBoolean"/>
+    <field name="UMTS AMR" length="1" type="#SupportedBoolean"/>
+    <field name="HR AMR" length="1" type="#SupportedBoolean"/>
+    <field name="FR AMR" length="1" type="#SupportedBoolean"/>
+    <field name="GSM EFR" length="1" type="#SupportedBoolean"/>
+    <field name="GSM HR" length="1" type="#SupportedBoolean"/>
+    <field name="GSM FR" length="1" type="#SupportedBoolean"/>
+  </record>
+  <record name="Codec List Bitmap 2" id="6.2b">
+    <field name="reserved" length="2" type="#zero"/>
+    <field name="OHR AMR-WB" length="1" type="#SupportedBoolean"/>
+    <field name="OFR AMR-WB" length="1" type="#SupportedBoolean"/>
+    <field name="OHM AMR" length="1" type="#SupportedBoolean"/>
+    <field name="UMTS AMR-WB" length="1" type="#SupportedBoolean"/>
+    <field name="FR AMR-WB" length="1" type="#SupportedBoolean"/>
+    <field name="PDC EFR" length="1" type="#SupportedBoolean"/>
+  </record>
+</xddl>

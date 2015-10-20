@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <export>
+    <prop name="a" value="0"/>
+  </export>
+  <comment>Referencing fields in previous fragments using dot notation</comment>
+  <record name="B" id="B">
+    <uint8 name="x"/>
+    <uint8 name="y"/>
+  </record>
+  <start>
+    <record name="a" href="#B"/>
+    <if expr="a.x">
+      <uint8 name="y"/>
+    </if>
+    <if expr="!a.x">
+      <uint8 name="z"/>
+    </if>
+  </start>
+</xddl>

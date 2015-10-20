@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <record id="a">
+    <field name="Data" length="7"/>
+    <field name="Continue" length="1"/>
+    <if expr="Continue">
+      <fragment href="#a"/>
+    </if>
+  </record>
+  <start>
+    <fragment href="#a"/>
+  </start>
+</xddl>

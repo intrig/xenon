@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <type id="bin_constant">
+    <script>
+      description = string.format("%d: %u,%u,%u,%u,%u,%u", 
+        key, 
+        0b000, -- 0
+        0b0001, -- 1
+        0b0010, -- 2
+        0b1000, -- 8
+        0b10000, -- 16
+        0b10001 -- 17
+        )
+    </script>
+  </type>
+  <type id="bitwise">
+    <script>
+      description = "no: " ..
+        key 
+        .. " " .. 1 &lt;&lt; 2 -- 4
+        .. " " .. 1 &lt;&lt; 4 -- 16
+        .. " " .. 0b0001 &lt;&lt; 4 -- 16
+        .. " " .. 0b1000 &gt;&gt; 3 -- 1
+    </script>
+  </type>
+  <start>
+    <field name="first" length="4" type="#bin_constant"/>
+    <field name="second" length="4" type="#bitwise"/>
+  </start>
+</xddl>

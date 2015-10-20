@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>
+  GSM/EDGE GPRS RLC/MAC protocol
+  
+  3GPP TS 44.060 V10.10.1 (2012)
+  3rd Generation Partnership Project;
+  Technical Specification Group GSM/EDGE Radio Access Network;
+  General Packet Radio Service (GPRS);
+  Mobile Station (MS) - Base Station System (BSS) interface;
+  Radio Link Control/ Medium Access Control (RLC/MAC) protocol
+  (Release 10)
+  </comment>
+  <export>
+    <prop name="MA_LENGTH" value="0"/>
+  </export>
+  <type id="zero">
+    <item key="0" value=" "/>
+    <!-- all other values are invalid -->
+  </type>
+  <type id="IE_Included">
+    <item key="0" value="Not included"/>
+    <item key="1" value="Included"/>
+  </type>
+  <type id="T3168-type">
+    <script>
+      description = string.format("%d msec", (key+1)*500)
+    </script>
+  </type>
+  <!-- Formats -->
+  <type id="Alpha">
+    <script>
+     description = string.format("%d.%d dBm", (key &lt; 10) and 0 or 1, (key &lt; 10) and key or 0)
+   </script>
+  </type>
+  <type id="Gamma">
+    <script>
+     description = string.format("%d dB", key * 2)
+   </script>
+  </type>
+  <!-- 11.2 RLC/MAC control messages -->
+  <type name="LINK_QUALITY_MEASUREMENT_MODE" id="11.2.7.1a">
+    <item key="@00" value="MS shall not report either interference measurements or per slot (slot pair in RTTI configuration) BEP measurements"/>
+    <item key="@01" value="MS shall report available interference measurements for timeslots 0 through 7.  No per slot (slot pair in RTTI configuration) mean BEP measurements shall be reported"/>
+    <item key="@10" value="MS shall report mean BEP on each assigned time slot. No interference measurements shall be reported"/>
+    <item key="@11" value="MS shall report the mean BEP on each assigned time slot (slot pair in RTTI configuration) as specified in 3GPP TS 45.008. In addition to mean BEP, the mobile station shall report interference measurements for no more than four time slots for a given carrier within a single reporting message instance"/>
+  </type>
+  <type name="MAC_MODE" id="11.2.7.2a">
+    <item key="@00" value="Dynamic Allocation"/>
+    <item key="@01" value="Extended Dynamic Allocation"/>
+    <item key="@10" value="Reserved -- The value &apos;10&apos; was allocated in an earlier version of the protocol and shall not be used"/>
+    <item key="@11" value="Reserved -- The value &apos;11&apos; was allocated in an earlier version of the protocol and shall not be used"/>
+  </type>
+  <type name="P0" id="11.2.29.1a">
+    <script>
+     description = string.format("%d dB", key * 2)
+   </script>
+  </type>
+  <type name="RLC_DATA_BLOCKS_GRANTED" id="11.2.31.2a">
+    <script>
+     description = string.format("%d RCL Data Blocks", key+9)
+   </script>
+  </type>
+  <type name="MEASUREMENT_INTERVAL" id="11.2.31.2b">
+    <script>
+     description = string.format("Make measurements during the block period every %d block period(s)", key+1)
+   </script>
+  </type>
+  <!-- Section 12 Information element coding -->
+  <record name="Channel Request Description" id="12.7">
+    <field name="PEAK_THROUGHPUT_CLASS" length="4" default="1" type="#12.7.1a"/>
+    <field name="RADIO_PRIORITY" length="2"/>
+    <field name="RLC_MODE" length="1" type="#12.7.1b"/>
+    <field name="LLC_ PDU_TYPE" length="1" type="#12.7.1c"/>
+    <field name="RLCOctetCount" length="16"/>
+  </record>
+  <type name="Peak Throughput Class" id="12.7.1a">
+    <item key="1" value="Up to 1 000 (8 kbit/s)"/>
+    <item key="2" value="Up to 2 000 (16 kbit/s)"/>
+    <item key="3" value="Up to 4 000 (32 kbit/s)"/>
+    <item key="4" value="Up to 8 000 (64 kbit/s)"/>
+    <item key="5" value="Up to 16 000 (128 kbit/s)"/>
+    <item key="6" value="Up to 32 000 (256 kbit/s)"/>
+    <item key="7" value="Up to 64 000 (512 kbit/s)"/>
+    <item key="8" value="Up to 128 000 (1024 kbit/s)"/>
+    <item key="9" value="Up to 256 000 (2048 kbit/s)"/>
+  </type>
+  <type name="RLC Mode" id="12.7.1b">
+    <item key="0" value="RLC acknowledged mode"/>
+    <item key="1" value="RLC unacknowledged mode"/>
+  </type>
+  <type name="LLC PDU Type" id="12.7.1c">
+    <item key="0" value="LLC PDU is SACK or NACK"/>
+    <item key="1" value="LLC PDU is not SACK or NACK"/>
+  </type>
+  <record name="Global Power Control Parameters" id="12.9">
+    <field name="ALPHA" length="4" type="#Alpha"/>
+    <field name="T_AVG_W" length="5">
+      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+    </field>
+    <field name="T_AVG_T" length="5">
+      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+    </field>
+    <field name="Pb" length="4"/>
+    <field name="PC_MEAS_CHAN" length="1" type="#12.9.1a"/>
+    <field name="INT_MEAS_CHANNEL_LIST_AVAIL" length="1" type="#12.9.1b"/>
+    <field name="N_AVG_I" length="4">
+      <comment>2^(k/2), k = 0, 1, ... 15</comment>
+    </field>
+  </record>
+  <type name="PC Meas Chan parameter" id="12.9.1a">
+    <item key="0" value="Downlink measurements for power control shall be made on BCCH"/>
+    <item key="1" value="Downlink measurements for power control shall be made on PDCH"/>
+  </type>
+  <type name="Interference Measurements broadcast" id="12.9.1b">
+    <item key="0" value="PSI4 message not broadcast"/>
+    <item key="1" value="PSI4 message broadcast"/>
+  </type>
+  <record name="GPRS Power Control Parameters" id="12.9a">
+    <field name="ALPHA" length="4" type="#Alpha"/>
+    <field name="T_AVG_W" length="5">
+      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+    </field>
+    <field name="T_AVG_T" length="5">
+      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+    </field>
+    <field name="PC_MEAS_CHAN" length="1" type="#12.9.1a"/>
+    <field name="N_AVG_I" length="4">
+      <comment>2^(k/2), k = 0, 1, ... 15</comment>
+    </field>
+  </record>
+  <record name="GPRS Mobile Alloation" id="12.10a">
+    <field name="HSN" length="6"/>
+    <field name="RFL_Number_List_Incl" length="1" type="#IE_Included"/>
+    <if expr="RFL_Number_List_Incl">
+      <record name="RFL Number List" href="#12.10a.1"/>
+    </if>
+    <field name="MA_Info_Format" length="1" type="#12.10a.1a"/>
+    <switch expr="MA_Info_Format">
+      <case value="0">
+        <!-- MA Bitmap -->
+        <field name="MA_LENGTH" length="6"/>
+        <record name="MA_BITMAP">
+          <!-- TODO: repeat of bits in reverse order and zero-based (MA_LENGTH..0)
+     <repeat name="ARFCN_INDEX" num="MA_LENGTH+1" reverse="true" >
+      <field name="index" length="1" type="#12.10a.1b" />
+     </repeat>
+     /-->
+          <fragment href="#12.10a.2"/>
+        </record>
+      </case>
+      <case value="1">
+        <!-- ARFCN Index -->
+        <field name="ARFCN_Index_List_Incl" length="1" type="#IE_Included"/>
+        <if expr="ARFCN_Index_List_Incl">
+          <record name="ARFCN Index List" href="#12.10a.3"/>
+        </if>
+      </case>
+    </switch>
+  </record>
+  <type name="EGPRS Mobile Allocation format" id="12.10a.1a">
+    <item key="0" value="MA Bitmap"/>
+    <item key="1" value="ARFCN Index"/>
+  </type>
+  <record name="RFL Number List" id="12.10a.1">
+    <field name="RFL Number" length="4"/>
+    <field name="More_RFL_Numbers" length="1" type="#IE_Included"/>
+    <while expr="More_RFL_Numbers">
+      <field name="RFL Number" length="4"/>
+      <field name="More_RFL_Numbers" length="1" type="#IE_Included"/>
+    </while>
+  </record>
+  <!-- TODO: bitmap needed -->
+  <record name="MA Bitmap" id="12.10a.2">
+    <if expr="MA_LENGTH &gt; 0">
+      <if expr="MA_LENGTH &gt; 1">
+        <if expr="MA_LENGTH &gt; 2">
+          <if expr="MA_LENGTH &gt; 3">
+            <if expr="MA_LENGTH &gt; 4">
+              <if expr="MA_LENGTH &gt; 5">
+                <if expr="MA_LENGTH &gt; 6">
+                  <if expr="MA_LENGTH &gt; 7">
+                    <if expr="MA_LENGTH &gt; 8">
+                      <if expr="MA_LENGTH &gt; 9">
+                        <if expr="MA_LENGTH &gt; 10">
+                          <if expr="MA_LENGTH &gt; 11">
+                            <if expr="MA_LENGTH &gt; 12">
+                              <if expr="MA_LENGTH &gt; 13">
+                                <if expr="MA_LENGTH &gt; 14">
+                                  <if expr="MA_LENGTH &gt; 15">
+                                    <if expr="MA_LENGTH &gt; 16">
+                                      <if expr="MA_LENGTH &gt; 17">
+                                        <if expr="MA_LENGTH &gt; 18">
+                                          <if expr="MA_LENGTH &gt; 19">
+                                            <if expr="MA_LENGTH &gt; 20">
+                                              <if expr="MA_LENGTH &gt; 21">
+                                                <if expr="MA_LENGTH &gt; 22">
+                                                  <if expr="MA_LENGTH &gt; 23">
+                                                    <if expr="MA_LENGTH &gt; 24">
+                                                      <if expr="MA_LENGTH &gt; 25">
+                                                        <if expr="MA_LENGTH &gt; 26">
+                                                          <if expr="MA_LENGTH &gt; 27">
+                                                            <if expr="MA_LENGTH &gt; 28">
+                                                              <if expr="MA_LENGTH &gt; 29">
+                                                                <if expr="MA_LENGTH &gt; 30">
+                                                                  <if expr="MA_LENGTH &gt; 31">
+                                                                    <if expr="MA_LENGTH &gt; 32">
+                                                                      <if expr="MA_LENGTH &gt; 33">
+                                                                        <if expr="MA_LENGTH &gt; 34">
+                                                                          <if expr="MA_LENGTH &gt; 35">
+                                                                            <if expr="MA_LENGTH &gt; 36">
+                                                                              <if expr="MA_LENGTH &gt; 37">
+                                                                                <if expr="MA_LENGTH &gt; 38">
+                                                                                  <if expr="MA_LENGTH &gt; 39">
+                                                                                    <if expr="MA_LENGTH &gt; 40">
+                                                                                      <if expr="MA_LENGTH &gt; 41">
+                                                                                        <if expr="MA_LENGTH &gt; 42">
+                                                                                          <if expr="MA_LENGTH &gt; 43">
+                                                                                            <if expr="MA_LENGTH &gt; 44">
+                                                                                              <if expr="MA_LENGTH &gt; 45">
+                                                                                                <if expr="MA_LENGTH &gt; 46">
+                                                                                                  <if expr="MA_LENGTH &gt; 47">
+                                                                                                    <if expr="MA_LENGTH &gt; 48">
+                                                                                                      <if expr="MA_LENGTH &gt; 49">
+                                                                                                        <if expr="MA_LENGTH &gt; 50">
+                                                                                                          <if expr="MA_LENGTH &gt; 51">
+                                                                                                            <if expr="MA_LENGTH &gt; 52">
+                                                                                                              <if expr="MA_LENGTH &gt; 53">
+                                                                                                                <if expr="MA_LENGTH &gt; 54">
+                                                                                                                  <if expr="MA_LENGTH &gt; 55">
+                                                                                                                    <if expr="MA_LENGTH &gt; 56">
+                                                                                                                      <if expr="MA_LENGTH &gt; 57">
+                                                                                                                        <if expr="MA_LENGTH &gt; 58">
+                                                                                                                          <if expr="MA_LENGTH &gt; 59">
+                                                                                                                            <if expr="MA_LENGTH &gt; 60">
+                                                                                                                              <if expr="MA_LENGTH &gt; 61">
+                                                                                                                                <if expr="MA_LENGTH &gt; 62">
+                                                                                                                                  <if expr="MA_LENGTH &gt; 63">
+                                                                                                                                    <field name="index_64" length="1" type="#12.10a.1b"/>
+                                                                                                                                  </if>
+                                                                                                                                  <field name="index_63" length="1" type="#12.10a.1b"/>
+                                                                                                                                </if>
+                                                                                                                                <field name="index_62" length="1" type="#12.10a.1b"/>
+                                                                                                                              </if>
+                                                                                                                              <field name="index_61" length="1" type="#12.10a.1b"/>
+                                                                                                                            </if>
+                                                                                                                            <field name="index_60" length="1" type="#12.10a.1b"/>
+                                                                                                                          </if>
+                                                                                                                          <field name="index_59" length="1" type="#12.10a.1b"/>
+                                                                                                                        </if>
+                                                                                                                        <field name="index_58" length="1" type="#12.10a.1b"/>
+                                                                                                                      </if>
+                                                                                                                      <field name="index_57" length="1" type="#12.10a.1b"/>
+                                                                                                                    </if>
+                                                                                                                    <field name="index_56" length="1" type="#12.10a.1b"/>
+                                                                                                                  </if>
+                                                                                                                  <field name="index_55" length="1" type="#12.10a.1b"/>
+                                                                                                                </if>
+                                                                                                                <field name="index_54" length="1" type="#12.10a.1b"/>
+                                                                                                              </if>
+                                                                                                              <field name="index_53" length="1" type="#12.10a.1b"/>
+                                                                                                            </if>
+                                                                                                            <field name="index_52" length="1" type="#12.10a.1b"/>
+                                                                                                          </if>
+                                                                                                          <field name="index_51" length="1" type="#12.10a.1b"/>
+                                                                                                        </if>
+                                                                                                        <field name="index_50" length="1" type="#12.10a.1b"/>
+                                                                                                      </if>
+                                                                                                      <field name="index_49" length="1" type="#12.10a.1b"/>
+                                                                                                    </if>
+                                                                                                    <field name="index_48" length="1" type="#12.10a.1b"/>
+                                                                                                  </if>
+                                                                                                  <field name="index_47" length="1" type="#12.10a.1b"/>
+                                                                                                </if>
+                                                                                                <field name="index_46" length="1" type="#12.10a.1b"/>
+                                                                                              </if>
+                                                                                              <field name="index_45" length="1" type="#12.10a.1b"/>
+                                                                                            </if>
+                                                                                            <field name="index_44" length="1" type="#12.10a.1b"/>
+                                                                                          </if>
+                                                                                          <field name="index_43" length="1" type="#12.10a.1b"/>
+                                                                                        </if>
+                                                                                        <field name="index_42" length="1" type="#12.10a.1b"/>
+                                                                                      </if>
+                                                                                      <field name="index_41" length="1" type="#12.10a.1b"/>
+                                                                                    </if>
+                                                                                    <field name="index_40" length="1" type="#12.10a.1b"/>
+                                                                                  </if>
+                                                                                  <field name="index_39" length="1" type="#12.10a.1b"/>
+                                                                                </if>
+                                                                                <field name="index_38" length="1" type="#12.10a.1b"/>
+                                                                              </if>
+                                                                              <field name="index_37" length="1" type="#12.10a.1b"/>
+                                                                            </if>
+                                                                            <field name="index_36" length="1" type="#12.10a.1b"/>
+                                                                          </if>
+                                                                          <field name="index_35" length="1" type="#12.10a.1b"/>
+                                                                        </if>
+                                                                        <field name="index_34" length="1" type="#12.10a.1b"/>
+                                                                      </if>
+                                                                      <field name="index_33" length="1" type="#12.10a.1b"/>
+                                                                    </if>
+                                                                    <field name="index_32" length="1" type="#12.10a.1b"/>
+                                                                  </if>
+                                                                  <field name="index_31" length="1" type="#12.10a.1b"/>
+                                                                </if>
+                                                                <field name="index_30" length="1" type="#12.10a.1b"/>
+                                                              </if>
+                                                              <field name="index_29" length="1" type="#12.10a.1b"/>
+                                                            </if>
+                                                            <field name="index_28" length="1" type="#12.10a.1b"/>
+                                                          </if>
+                                                          <field name="index_27" length="1" type="#12.10a.1b"/>
+                                                        </if>
+                                                        <field name="index_26" length="1" type="#12.10a.1b"/>
+                                                      </if>
+                                                      <field name="index_25" length="1" type="#12.10a.1b"/>
+                                                    </if>
+                                                    <field name="index_24" length="1" type="#12.10a.1b"/>
+                                                  </if>
+                                                  <field name="index_23" length="1" type="#12.10a.1b"/>
+                                                </if>
+                                                <field name="index_22" length="1" type="#12.10a.1b"/>
+                                              </if>
+                                              <field name="index_21" length="1" type="#12.10a.1b"/>
+                                            </if>
+                                            <field name="index_20" length="1" type="#12.10a.1b"/>
+                                          </if>
+                                          <field name="index_19" length="1" type="#12.10a.1b"/>
+                                        </if>
+                                        <field name="index_18" length="1" type="#12.10a.1b"/>
+                                      </if>
+                                      <field name="index_17" length="1" type="#12.10a.1b"/>
+                                    </if>
+                                    <field name="index_16" length="1" type="#12.10a.1b"/>
+                                  </if>
+                                  <field name="index_15" length="1" type="#12.10a.1b"/>
+                                </if>
+                                <field name="index_14" length="1" type="#12.10a.1b"/>
+                              </if>
+                              <field name="index_13" length="1" type="#12.10a.1b"/>
+                            </if>
+                            <field name="index_12" length="1" type="#12.10a.1b"/>
+                          </if>
+                          <field name="index_11" length="1" type="#12.10a.1b"/>
+                        </if>
+                        <field name="index_10" length="1" type="#12.10a.1b"/>
+                      </if>
+                      <field name="index_9" length="1" type="#12.10a.1b"/>
+                    </if>
+                    <field name="index_8" length="1" type="#12.10a.1b"/>
+                  </if>
+                  <field name="index_7" length="1" type="#12.10a.1b"/>
+                </if>
+                <field name="index_6" length="1" type="#12.10a.1b"/>
+              </if>
+              <field name="index_5" length="1" type="#12.10a.1b"/>
+            </if>
+            <field name="index_4" length="1" type="#12.10a.1b"/>
+          </if>
+          <field name="index_3" length="1" type="#12.10a.1b"/>
+        </if>
+        <field name="index_2" length="1" type="#12.10a.1b"/>
+      </if>
+      <field name="index_1" length="1" type="#12.10a.1b"/>
+    </if>
+    <field name="index_0" length="1" type="#12.10a.1b"/>
+  </record>
+  <type name="EGPRS Mobile Allocation format" id="12.10a.1b">
+    <item key="0" value="MA Bitmap"/>
+    <item key="1" value="ARFCN Index"/>
+  </type>
+  <record name="ARFCN Index List" id="12.10a.3">
+    <field name="ARFCN_INDEX" length="6"/>
+    <field name="More_ARFCN_Indexes" length="1" type="#IE_Included"/>
+    <while expr="More_ARFCN_Indexes">
+      <field name="ARFCN_INDEX" length="6"/>
+      <field name="More_ARFCN_Indexes" length="1" type="#IE_Included"/>
+    </while>
+  </record>
+  <type name="EGPRS Modulation and Coding Scheme" id="12.10d.1">
+    <item key="@0000" value="MCS-1"/>
+    <item key="@0001" value="MCS-2"/>
+    <item key="@0010" value="MCS-3"/>
+    <item key="@0011" value="MCS-4"/>
+    <item key="@0100" value="MCS-5"/>
+    <item key="@0101" value="MCS-6"/>
+    <item key="@0110" value="MCS-7"/>
+    <item key="@0111" value="MCS-8"/>
+    <item key="@1000" value="MCS-9"/>
+    <item key="@1001" value="MCS-5-7"/>
+    <item key="@1010" value="MCS-6-9"/>
+    <range start="@1011" end="@1111" value="reserved"/>
+  </type>
+  <type name="Resegment" id="12.10e.1">
+    <item key="0" value="Retransmitted RLC data blocks shall not be resegmented"/>
+    <item key="1" value="Retransmitted RLC data blocks shall be resegmented according to commanded MCS"/>
+  </type>
+  <record name="Power Control Parameters" id="12.13">
+    <field name="ALPHA" length="4" type="#Alpha"/>
+    <field name="GAMMA_TN0_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN0_INCL">
+      <field name="GAMMA_TN0" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN1_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN1_INCL">
+      <field name="GAMMA_TN1" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN2_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN2_INCL">
+      <field name="GAMMA_TN2" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN3_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN3_INCL">
+      <field name="GAMMA_TN3" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN4_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN4_INCL">
+      <field name="GAMMA_TN4" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN5_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN5_INCL">
+      <field name="GAMMA_TN5" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN6_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN6_INCL">
+      <field name="GAMMA_TN6" length="5" type="#Gamma"/>
+    </if>
+    <field name="GAMMA_TN7_INCL" length="1" type="#IE_Included"/>
+    <if expr="GAMMA_TN7_INCL">
+      <field name="GAMMA_TN7" length="5" type="#Gamma"/>
+    </if>
+  </record>
+  <record name="TIMESLOT_ALLOCATION" id="12.18">
+    <field name="TIMESLOT_0_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_1_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_2_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_3_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_4_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_5_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_6_ALLOCATION" length="1" type="#12.18.1"/>
+    <field name="TIMESLOT_7_ALLOCATION" length="1" type="#12.18.1"/>
+  </record>
+  <type name="TIMESLOT_ALLOCATION" id="12.18.1">
+    <item key="0" value="Timeslot is not assigned"/>
+    <item key="1" value="Timeslot is assigned"/>
+  </type>
+  <record name="GPRS Cell Options" id="12.24">
+    <field name="NMO" length="2" type="#12.24.2a"/>
+    <field name="T3168" length="3" type="#T3168-type"/>
+    <field name="T3192" length="3" type="#12.24.2b"/>
+    <field name="DRX_TIMER_MAX" length="3" type="#12.24.2c"/>
+    <field name="ACCESS_BURST_TYPE" length="1" type="#12.24.2d"/>
+    <field name="CONTROL_ACK_TYPE" length="1" type="#12.24.2e"/>
+    <field name="BS_CV_MAX" length="4"/>
+    <field name="PANIncl" length="1" type="#IE_Included"/>
+    <switch expr="PANIncl">
+      <case value="1">
+        <field name="PAN_DEC" length="3"/>
+        <field name="PAN_INC" length="3"/>
+        <field name="PAN_MAX" length="3" type="#12.24.2f"/>
+      </case>
+      <case value="0">
+        <prop name="PAN_DEC" value="0"/>
+        <prop name="PAN_INC" value="0"/>
+        <prop name="PAN_MAX" type="#12.24.2f" value="0"/>
+      </case>
+    </switch>
+    <field name="ExtensionIncl" length="1" type="#IE_Included"/>
+    <if expr="ExtensionIncl">
+      <field name="ExtensionLength" length="6"/>
+      <record name="ExtensionInformation">
+        <record name="ExtensionInformationData">
+          <field name="EGPRS" length="1" type="#12.24.2k"/>
+          <if expr="EGPRS">
+            <field name="EGPRS_PACKET_CHANNEL_REQUEST" length="1" type="#12.24.2g"/>
+            <field name="BEP_PERIOD" length="4"/>
+          </if>
+          <field name="PFC_FEATURE_MODE" length="1" type="#12.24.2h"/>
+          <field name="DTM_SUPPORT" length="1" type="#12.24.2i"/>
+          <field name="BSS_PAGING_COORDINATION" length="1" type="#12.24.2j"/>
+          <field name="CCN_ACTIVE" length="1" type="#12.24.2l"/>
+          <field name="NW_EXT_UTBF" length="1" type="#12.24.2m"/>
+          <field name="MULTIPLE_TBF_CAPABILITY" length="1" type="#12.24.2n"/>
+          <field name="EXT_UTBF_NODATA" length="1" type="#12.24.2o"/>
+          <field name="DTM_ENHANCEMENTS_CAPABILITY" length="1" type="#12.24.2p"/>
+          <field name="MBMS procedures INCL" length="1" type="#IE_Included"/>
+          <if expr="{MBMS procedures INCL}">
+            <field name="DEDICATED_MODE_MBMS_NOTIFICATION_SUPPORT" length="1" type="#12.24.2q"/>
+            <field name="MNCI_SUPPORT" length="1" type="#12.24.2r"/>
+          </if>
+          <field name="REDUCED_LATENCY_ACCESS " length="1" type="#12.24.2s"/>
+          <pad name="spare"/>
+        </record>
+        <field name="spare" length="ExtensionLength + 1 - sizeof(&apos;ExtensionInformationData&apos;)" type="#zero"/>
+      </record>
+    </if>
+  </record>
+  <type name="Network Mode of Operation (NMO)" id="12.24.2a">
+    <item key="@00" value="Network Mode of Operation I"/>
+    <item key="@01" value="Network Mode of Operation II"/>
+    <item key="@10" value="Network Mode of Operation III"/>
+    <item key="@11" value="Reserved"/>
+  </type>
+  <type name="Timer T3192 values" id="12.24.2b">
+    <item key="@000" value="500 msec"/>
+    <item key="@001" value="1000 msec"/>
+    <item key="@010" value="1500 msec"/>
+    <item key="@011" value="0 msec, timer not started"/>
+    <item key="@100" value="80 msec"/>
+    <item key="@101" value="120 msec"/>
+    <item key="@110" value="160 msec"/>
+    <item key="@111" value="200 msec"/>
+  </type>
+  <type name="DRX Timer Max" id="12.24.2c">
+    <item key="@000" value="0 sec"/>
+    <item key="@001" value="1 sec"/>
+    <item key="@010" value="2 sec"/>
+    <item key="@011" value="4 sec"/>
+    <item key="@100" value="8 sec"/>
+    <item key="@101" value="16 sec"/>
+    <item key="@110" value="32 sec"/>
+    <item key="@111" value="64 sec"/>
+  </type>
+  <type name="Access Burst Type" id="12.24.2d">
+    <item key="0" value="8-bit format shall be used"/>
+    <item key="1" value="11-bit format shall be used"/>
+  </type>
+  <type name="Control ACK Type" id="12.24.2e">
+    <item key="0" value="Default format is four access bursts"/>
+    <item key="1" value="Default format is RLC/MAC control block"/>
+  </type>
+  <type name="PAN Maximum value" id="12.24.2f">
+    <item key="@000" value="Maximum value allowed for counter N3104 is 4"/>
+    <item key="@001" value="Maximum value allowed for counter N3104 is 8"/>
+    <item key="@010" value="Maximum value allowed for counter N3104 is 12"/>
+    <item key="@011" value="Maximum value allowed for counter N3104 is 16"/>
+    <item key="@100" value="Maximum value allowed for counter N3104 is 20"/>
+    <item key="@101" value="Maximum value allowed for counter N3104 is 24"/>
+    <item key="@110" value="Maximum value allowed for counter N3104 is 28"/>
+    <item key="@111" value="Maximum value allowed for counter N3104 is 32"/>
+  </type>
+  <type name="EGPRS Packet Channel Request" id="12.24.2g">
+    <item key="0" value="EGPRS capable MSs shall use EGPRS PACKET CHANNEL REQUEST message for uplink TBF establishment on the PRACH when there is a PBCCH in the cell or on the RACH when there is no PBCCH in the cell"/>
+    <item key="1" value="EGPRS capable MSs shall use two phase packet access with PACKET CHANNEL REQUEST message on the PRACH for uplink TBF establishment when there is a PBCCH in the cell. EGPRS capable MSs shall use two phase packet access with CHANNEL REQUEST message on the RACH when there is no PBCCH in the cell"/>
+  </type>
+  <type name="PFC Feature Mode" id="12.24.2h">
+    <item key="0" value="Network does not support packet flow context procedures"/>
+    <item key="1" value="Network supports packet flow context procedures"/>
+  </type>
+  <type name="DTM Support" id="12.24.2i">
+    <item key="0" value="Cell does not support DTM procedures"/>
+    <item key="1" value="Cell supports DTM procedures"/>
+  </type>
+  <type name="BSS Paging Coordination" id="12.24.2j">
+    <item key="0" value="Cell does not support Circuit-Switched paging co-ordination"/>
+    <item key="1" value="Cell supports Circuit-Switched paging co-ordination"/>
+  </type>
+  <type name="EGPRS Support" id="12.24.2k">
+    <item key="0" value="EGPRS not supported"/>
+    <item key="1" value="EGPRS supported"/>
+  </type>
+  <type name="Cell Change Notification" id="12.24.2l">
+    <item key="0" value="CCN is disabled in the cell"/>
+    <item key="1" value="CCN is enabled in the cell"/>
+  </type>
+  <type name="Extended uplink TBF mode support" id="12.24.2m">
+    <item key="0" value="The extended uplink TBF mode is not supported by the network"/>
+    <item key="1" value="The extended uplink TBF mode is supported by the network"/>
+  </type>
+  <type name="MULTIPLE_TBF_CAPABILITY" id="12.24.2n">
+    <item key="0" value="The cell does not support multiple TBF procedures"/>
+    <item key="1" value="The cell supports multiple TBF procedures"/>
+  </type>
+  <type name="EXT_UTBF_NODATA" id="12.24.2o">
+    <item key="0" value="The mobile station shall send a PACKET UPLINK DUMMY CONTROL BLOCK message when there is no other RLC/MAC block ready to send in an uplink radio block allocated by the network"/>
+    <item key="1" value="The mobile station may refrain from sending a PACKET UPLINK DUMMY CONTROL BLOCK message when there is no other RLC/MAC block ready to send in an uplink radio block allocated by the network"/>
+  </type>
+  <type name="DTM_ENHANCEMENTS_CAPABILITY " id="12.24.2p">
+    <item key="0" value="The cell does not support enhanced DTM CS establishment and enhanced DTM CS release procedures"/>
+    <item key="1" value="The cell supports multiple TBF procedures"/>
+  </type>
+  <type name="DEDICATED_MODE_MBMS_NOTIFICATION_SUPPORT" id="12.24.2q">
+    <item key="0" value="The cell does not support the Dedicated Mode MBMS Notification procedures. "/>
+    <item key="1" value="The cell supports the Dedicated Mode MBMS Notification procedures"/>
+  </type>
+  <type name="MNCI_SUPPORT" id="12.24.2r">
+    <item key="0" value="The cell does not support the distribution of MBMS NEIGHBOURING CELL INFORMATION messages"/>
+    <item key="1" value="The cell supports the distribution of MBMS NEIGHBOURING CELL INFORMATION messages"/>
+  </type>
+  <type name="REDUCED_LATENCY ACCESS" id="12.24.2s">
+    <item key="0" value="The cell does not support &apos;One Phase Access Request by Reduced Latency MS&apos;"/>
+    <item key="1" value="The cell supports &apos;One Phase Access Request by Reduced Latency MS&apos;"/>
+  </type>
+</xddl>

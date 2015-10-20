@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <prop name="continue" value="1"/>
+    <while expr="continue">
+      <field name="X" length="2"/>
+      <field name="Y" length="2"/>
+      <field name="Z" length="3"/>
+      <field name="continue" length="1"/>
+    </while>
+  </start>
+</xddl>

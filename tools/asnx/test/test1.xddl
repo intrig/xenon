@@ -1,0 +1,1221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- Module: EUTRA-RRC-Definitions -->
+  <record id="BCCH-BCH-Message">
+    <record name="message" href="#BCCH-BCH-MessageType"/>
+  </record>
+  <record id="BCCH-BCH-MessageType">
+    <fragment href="#MasterInformationBlock"/>
+  </record>
+  <record id="BCCH-DL-SCH-Message">
+    <record name="message" href="#BCCH-DL-SCH-MessageType"/>
+  </record>
+  <record id="BCCH-DL-SCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <per>
+            <field name="choice" length="1">
+              <item key="0" value="systemInformation"/>
+              <item key="1" value="systemInformationBlockType1"/>
+            </field>
+          </per>
+          <switch expr="choice">
+            <case value="0">
+              <record name="systemInformation" href="#SystemInformation"/>
+            </case>
+            <case value="1">
+              <record name="systemInformationBlockType1" href="#SystemInformationBlockType1"/>
+            </case>
+          </switch>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="MCCH-Message">
+    <record name="message" href="#MCCH-MessageType"/>
+  </record>
+  <record id="MCCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <prop name="choice" value="0" visible="true">
+            <item key="0" value="mbsfnAreaConfiguration-r9"/>
+          </prop>
+          <record name="mbsfnAreaConfiguration-r9" href="#MBSFNAreaConfiguration-r9"/>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="PCCH-Message">
+    <record name="message" href="#PCCH-MessageType"/>
+  </record>
+  <record id="PCCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <prop name="choice" value="0" visible="true">
+            <item key="0" value="paging"/>
+          </prop>
+          <record name="paging" href="#Paging"/>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="DL-CCCH-Message">
+    <record name="message" href="#DL-CCCH-MessageType"/>
+  </record>
+  <record id="DL-CCCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <per>
+            <field name="choice" length="2">
+              <item key="0" value="rrcConnectionReestablishment"/>
+              <item key="1" value="rrcConnectionReestablishmentReject"/>
+              <item key="2" value="rrcConnectionReject"/>
+              <item key="3" value="rrcConnectionSetup"/>
+            </field>
+          </per>
+          <switch expr="choice">
+            <case value="0">
+              <record name="rrcConnectionReestablishment" href="#RRCConnectionReestablishment"/>
+            </case>
+            <case value="1">
+              <record name="rrcConnectionReestablishmentReject" href="#RRCConnectionReestablishmentReject"/>
+            </case>
+            <case value="2">
+              <record name="rrcConnectionReject" href="#RRCConnectionReject"/>
+            </case>
+            <case value="3">
+              <record name="rrcConnectionSetup" href="#RRCConnectionSetup"/>
+            </case>
+          </switch>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="DL-DCCH-Message">
+    <record name="message" href="#DL-DCCH-MessageType"/>
+  </record>
+  <record id="DL-DCCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <per>
+            <field name="choice" length="4">
+              <item key="0" value="csfbParametersResponseCDMA2000"/>
+              <item key="1" value="dlInformationTransfer"/>
+              <item key="2" value="handoverFromEUTRAPreparationRequest"/>
+              <item key="3" value="mobilityFromEUTRACommand"/>
+              <item key="4" value="rrcConnectionReconfiguration"/>
+              <item key="5" value="rrcConnectionRelease"/>
+              <item key="6" value="securityModeCommand"/>
+              <item key="7" value="ueCapabilityEnquiry"/>
+              <item key="8" value="counterCheck"/>
+              <item key="9" value="ueInformationRequest-r9"/>
+              <item key="10" value="spare6"/>
+              <item key="11" value="spare5"/>
+              <item key="12" value="spare4"/>
+              <item key="13" value="spare3"/>
+              <item key="14" value="spare2"/>
+              <item key="15" value="spare1"/>
+            </field>
+          </per>
+          <switch expr="choice">
+            <case value="0">
+              <record name="csfbParametersResponseCDMA2000" href="#CSFBParametersResponseCDMA2000"/>
+            </case>
+            <case value="1">
+              <record name="dlInformationTransfer" href="#DLInformationTransfer"/>
+            </case>
+            <case value="2">
+              <record name="handoverFromEUTRAPreparationRequest" href="#HandoverFromEUTRAPreparationRequest"/>
+            </case>
+            <case value="3">
+              <record name="mobilityFromEUTRACommand" href="#MobilityFromEUTRACommand"/>
+            </case>
+            <case value="4">
+              <record name="rrcConnectionReconfiguration" href="#RRCConnectionReconfiguration"/>
+            </case>
+            <case value="5">
+              <record name="rrcConnectionRelease" href="#RRCConnectionRelease"/>
+            </case>
+            <case value="6">
+              <record name="securityModeCommand" href="#SecurityModeCommand"/>
+            </case>
+            <case value="7">
+              <record name="ueCapabilityEnquiry" href="#UECapabilityEnquiry"/>
+            </case>
+            <case value="8">
+              <record name="counterCheck" href="#CounterCheck"/>
+            </case>
+            <case value="9">
+              <record name="ueInformationRequest-r9" href="#UEInformationRequest-r9"/>
+            </case>
+          </switch>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="UL-CCCH-Message">
+    <record name="message" href="#UL-CCCH-MessageType"/>
+  </record>
+  <record id="UL-CCCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <per>
+            <field name="choice" length="1">
+              <item key="0" value="rrcConnectionReestablishmentRequest"/>
+              <item key="1" value="rrcConnectionRequest"/>
+            </field>
+          </per>
+          <switch expr="choice">
+            <case value="0">
+              <record name="rrcConnectionReestablishmentRequest" href="#RRCConnectionReestablishmentRequest"/>
+            </case>
+            <case value="1">
+              <record name="rrcConnectionRequest" href="#RRCConnectionRequest"/>
+            </case>
+          </switch>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="UL-DCCH-Message">
+    <record name="message" href="#UL-DCCH-MessageType"/>
+  </record>
+  <record id="UL-DCCH-MessageType">
+    <per>
+      <field name="choice" length="1">
+        <item key="0" value="c1"/>
+        <item key="1" value="messageClassExtension"/>
+      </field>
+    </per>
+    <switch expr="choice">
+      <case value="0">
+        <record name="c1">
+          <per>
+            <field name="choice" length="4">
+              <item key="0" value="csfbParametersRequestCDMA2000"/>
+              <item key="1" value="measurementReport"/>
+              <item key="2" value="rrcConnectionReconfigurationComplete"/>
+              <item key="3" value="rrcConnectionReestablishmentComplete"/>
+              <item key="4" value="rrcConnectionSetupComplete"/>
+              <item key="5" value="securityModeComplete"/>
+              <item key="6" value="securityModeFailure"/>
+              <item key="7" value="ueCapabilityInformation"/>
+              <item key="8" value="ulHandoverPreparationTransfer"/>
+              <item key="9" value="ulInformationTransfer"/>
+              <item key="10" value="counterCheckResponse"/>
+              <item key="11" value="ueInformationResponse-r9"/>
+              <item key="12" value="proximityIndication-r9"/>
+              <item key="13" value="spare3"/>
+              <item key="14" value="spare2"/>
+              <item key="15" value="spare1"/>
+            </field>
+          </per>
+          <switch expr="choice">
+            <case value="0">
+              <record name="csfbParametersRequestCDMA2000" href="#CSFBParametersRequestCDMA2000"/>
+            </case>
+            <case value="1">
+              <record name="measurementReport" href="#MeasurementReport"/>
+            </case>
+            <case value="2">
+              <record name="rrcConnectionReconfigurationComplete" href="#RRCConnectionReconfigurationComplete"/>
+            </case>
+            <case value="3">
+              <record name="rrcConnectionReestablishmentComplete" href="#RRCConnectionReestablishmentComplete"/>
+            </case>
+            <case value="4">
+              <record name="rrcConnectionSetupComplete" href="#RRCConnectionSetupComplete"/>
+            </case>
+            <case value="5">
+              <record name="securityModeComplete" href="#SecurityModeComplete"/>
+            </case>
+            <case value="6">
+              <record name="securityModeFailure" href="#SecurityModeFailure"/>
+            </case>
+            <case value="7">
+              <record name="ueCapabilityInformation" href="#UECapabilityInformation"/>
+            </case>
+            <case value="8">
+              <record name="ulHandoverPreparationTransfer" href="#ULHandoverPreparationTransfer"/>
+            </case>
+            <case value="9">
+              <record name="ulInformationTransfer" href="#ULInformationTransfer"/>
+            </case>
+            <case value="10">
+              <record name="counterCheckResponse" href="#CounterCheckResponse"/>
+            </case>
+            <case value="11">
+              <record name="ueInformationResponse-r9" href="#UEInformationResponse-r9"/>
+            </case>
+            <case value="12">
+              <record name="proximityIndication-r9" href="#ProximityIndication-r9"/>
+            </case>
+          </switch>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <record id="CounterCheck">
+    <record name="rrc-TransactionIdentifier" href="#RRC-TransactionIdentifier"/>
+    <record name="criticalExtensions">
+      <per>
+        <field name="choice" length="1">
+          <item key="0" value="c1"/>
+          <item key="1" value="criticalExtensionsFuture"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="c1">
+            <per>
+              <field name="choice" length="2">
+                <item key="0" value="counterCheck-r8"/>
+                <item key="1" value="spare3"/>
+                <item key="2" value="spare2"/>
+                <item key="3" value="spare1"/>
+              </field>
+            </per>
+            <switch expr="choice">
+              <case value="0">
+                <record name="counterCheck-r8" href="#CounterCheck-r8-IEs"/>
+              </case>
+            </switch>
+          </record>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record id="CounterCheck-r8-IEs">
+    <record name="option">
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <record name="drb-CountMSB-InfoList" href="#DRB-CountMSB-InfoList"/>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#CounterCheck-v8a0-IEs"/>
+    </if>
+  </record>
+  <record id="CounterCheck-v8a0-IEs">
+    <record name="option">
+      <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.lateNonCriticalExtension">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="lateNonCriticalExtension" length="length * 8"/>
+    </if>
+  </record>
+  <record id="DRB-CountMSB-InfoList">
+    <per>
+      <field name="count" length="size(1, maxDRB)" bias="1"/>
+    </per>
+    <repeat num="count">
+      <!-- DefinedType::instance() -->
+      <fragment href="#DRB-CountMSB-Info"/>
+    </repeat>
+  </record>
+  <record id="DRB-CountMSB-Info">
+    <record name="drb-Identity" href="#DRB-Identity"/>
+    <!-- Subtype::instance countMSB-Uplink -->
+    <field name="countMSB-Uplink" length="25"/>
+    <!-- Subtype::instance countMSB-Downlink -->
+    <field name="countMSB-Downlink" length="25"/>
+  </record>
+  <record id="CSFBParametersRequestCDMA2000">
+    <record name="criticalExtensions">
+      <per>
+        <field name="choice" length="1">
+          <item key="0" value="csfbParametersRequestCDMA2000-r8"/>
+          <item key="1" value="criticalExtensionsFuture"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="csfbParametersRequestCDMA2000-r8" href="#CSFBParametersRequestCDMA2000-r8-IEs"/>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record id="CSFBParametersRequestCDMA2000-r8-IEs">
+    <record name="option">
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#CSFBParametersRequestCDMA2000-v8a0-IEs"/>
+    </if>
+  </record>
+  <record id="CSFBParametersRequestCDMA2000-v8a0-IEs">
+    <record name="option">
+      <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.lateNonCriticalExtension">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="lateNonCriticalExtension" length="length * 8"/>
+    </if>
+  </record>
+  <record id="CSFBParametersResponseCDMA2000">
+    <record name="rrc-TransactionIdentifier" href="#RRC-TransactionIdentifier"/>
+    <record name="criticalExtensions">
+      <per>
+        <field name="choice" length="1">
+          <item key="0" value="csfbParametersResponseCDMA2000-r8"/>
+          <item key="1" value="criticalExtensionsFuture"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="csfbParametersResponseCDMA2000-r8" href="#CSFBParametersResponseCDMA2000-r8-IEs"/>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record id="CSFBParametersResponseCDMA2000-r8-IEs">
+    <record name="option">
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <record name="rand" href="#RAND-CDMA2000"/>
+    <per>
+      <field name="b0" length="1"/>
+      <field name="length" length="b0 ? 15 : 7"/>
+    </per>
+    <field name="mobilityParameters" length="length * 8"/>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#CSFBParametersResponseCDMA2000-v8a0-IEs"/>
+    </if>
+  </record>
+  <record id="CSFBParametersResponseCDMA2000-v8a0-IEs">
+    <record name="option">
+      <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.lateNonCriticalExtension">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="lateNonCriticalExtension" length="length * 8"/>
+    </if>
+  </record>
+  <record id="DLInformationTransfer">
+    <record name="rrc-TransactionIdentifier" href="#RRC-TransactionIdentifier"/>
+    <record name="criticalExtensions">
+      <per>
+        <field name="choice" length="1">
+          <item key="0" value="c1"/>
+          <item key="1" value="criticalExtensionsFuture"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="c1">
+            <per>
+              <field name="choice" length="2">
+                <item key="0" value="dlInformationTransfer-r8"/>
+                <item key="1" value="spare3"/>
+                <item key="2" value="spare2"/>
+                <item key="3" value="spare1"/>
+              </field>
+            </per>
+            <switch expr="choice">
+              <case value="0">
+                <record name="dlInformationTransfer-r8" href="#DLInformationTransfer-r8-IEs"/>
+              </case>
+            </switch>
+          </record>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record id="DLInformationTransfer-r8-IEs">
+    <record name="option">
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <record name="dedicatedInfoType">
+      <per>
+        <field name="choice" length="2">
+          <item key="0" value="dedicatedInfoNAS"/>
+          <item key="1" value="dedicatedInfoCDMA2000-1XRTT"/>
+          <item key="2" value="dedicatedInfoCDMA2000-HRPD"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="dedicatedInfoNAS" href="#DedicatedInfoNAS"/>
+        </case>
+        <case value="1">
+          <record name="dedicatedInfoCDMA2000-1XRTT" href="#DedicatedInfoCDMA2000"/>
+        </case>
+        <case value="2">
+          <record name="dedicatedInfoCDMA2000-HRPD" href="#DedicatedInfoCDMA2000"/>
+        </case>
+      </switch>
+    </record>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#DLInformationTransfer-v8a0-IEs"/>
+    </if>
+  </record>
+  <record id="DLInformationTransfer-v8a0-IEs">
+    <record name="option">
+      <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.lateNonCriticalExtension">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="lateNonCriticalExtension" length="length * 8"/>
+    </if>
+  </record>
+  <record id="HandoverFromEUTRAPreparationRequest">
+    <record name="rrc-TransactionIdentifier" href="#RRC-TransactionIdentifier"/>
+    <record name="criticalExtensions">
+      <per>
+        <field name="choice" length="1">
+          <item key="0" value="c1"/>
+          <item key="1" value="criticalExtensionsFuture"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="c1">
+            <per>
+              <field name="choice" length="2">
+                <item key="0" value="handoverFromEUTRAPreparationRequest-r8"/>
+                <item key="1" value="spare3"/>
+                <item key="2" value="spare2"/>
+                <item key="3" value="spare1"/>
+              </field>
+            </per>
+            <switch expr="choice">
+              <case value="0">
+                <record name="handoverFromEUTRAPreparationRequest-r8" href="#HandoverFromEUTRAPreparationRequest-r8-IEs"/>
+              </case>
+            </switch>
+          </record>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record id="HandoverFromEUTRAPreparationRequest-r8-IEs">
+    <record name="option">
+      <field name="rand" length="1" type="#opt"/>
+      <field name="mobilityParameters" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <record name="cdma2000-Type" href="#CDMA2000-Type"/>
+    <if expr="option.rand">
+      <record name="rand" href="#RAND-CDMA2000"/>
+    </if>
+    <if expr="option.mobilityParameters">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="mobilityParameters" length="length * 8"/>
+    </if>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#HandoverFromEUTRAPreparationRequest-v890-IEs"/>
+    </if>
+  </record>
+  <record id="HandoverFromEUTRAPreparationRequest-v890-IEs">
+    <record name="option">
+      <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.lateNonCriticalExtension">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="lateNonCriticalExtension" length="length * 8"/>
+    </if>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#HandoverFromEUTRAPreparationRequest-v920-IEs"/>
+    </if>
+  </record>
+  <record id="HandoverFromEUTRAPreparationRequest-v920-IEs">
+    <record name="option">
+      <field name="concurrPrepCDMA2000-HRPD-r9" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.{concurrPrepCDMA2000-HRPD-r9}">
+      <field name="concurrPrepCDMA2000-HRPD-r9" length="1"/>
+    </if>
+  </record>
+  <record id="MasterInformationBlock">
+    <field name="dl-Bandwidth" length="3">
+      <item key="0" value="n6"/>
+      <item key="1" value="n15"/>
+      <item key="2" value="n25"/>
+      <item key="3" value="n50"/>
+      <item key="4" value="n75"/>
+      <item key="5" value="n100"/>
+    </field>
+    <record name="phich-Config" href="#PHICH-Config"/>
+    <!-- Subtype::instance systemFrameNumber -->
+    <field name="systemFrameNumber" length="8"/>
+    <!-- Subtype::instance spare -->
+    <field name="spare" length="10"/>
+  </record>
+  <record id="MBSFNAreaConfiguration-r9">
+    <record name="option">
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <record name="commonSF-Alloc-r9" href="#CommonSF-AllocPatternList-r9"/>
+    <field name="commonSF-AllocPeriod-r9" length="3">
+      <item key="0" value="rf4"/>
+      <item key="1" value="rf8"/>
+      <item key="2" value="rf16"/>
+      <item key="3" value="rf32"/>
+      <item key="4" value="rf64"/>
+      <item key="5" value="rf128"/>
+      <item key="6" value="rf256"/>
+    </field>
+    <record name="pmch-InfoList-r9" href="#PMCH-InfoList-r9"/>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#MBSFNAreaConfiguration-v930-IEs"/>
+    </if>
+  </record>
+  <record id="MBSFNAreaConfiguration-v930-IEs">
+    <record name="option">
+      <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.lateNonCriticalExtension">
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <field name="lateNonCriticalExtension" length="length * 8"/>
+    </if>
+  </record>
+  <record id="CommonSF-AllocPatternList-r9">
+    <per>
+      <field name="count" length="size(1, {maxMBSFN-Allocations})" bias="1"/>
+    </per>
+    <repeat num="count">
+      <!-- DefinedType::instance() -->
+      <fragment href="#MBSFN-SubframeConfig"/>
+    </repeat>
+  </record>
+  <record id="MeasurementReport">
+    <record name="criticalExtensions">
+      <per>
+        <field name="choice" length="1">
+          <item key="0" value="c1"/>
+          <item key="1" value="criticalExtensionsFuture"/>
+        </field>
+      </per>
+      <switch expr="choice">
+        <case value="0">
+          <record name="c1">
+            <per>
+              <field name="choice" length="3">
+                <item key="0" value="measurementReport-r8"/>
+                <item key="1" value="spare7"/>
+                <item key="2" value="spare6"/>
+                <item key="3" value="spare5"/>
+                <item key="4" value="spare4"/>
+                <item key="5" value="spare3"/>
+                <item key="6" value="spare2"/>
+                <item key="7" value="spare1"/>
+              </field>
+            </per>
+            <switch expr="choice">
+              <case value="0">
+                <record name="measurementReport-r8" href="#MeasurementReport-r8-IEs"/>
+              </case>
+            </switch>
+          </record>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record id="Handover">
+    <record name="option">
+      <field name="nas-SecurityParamFromEUTRA" length="1" type="#opt"/>
+      <field name="systemInformation" length="1" type="#opt"/>
+    </record>
+    <per>
+      <field name="b0" length="1"/>
+      <field name="length" length="b0 ? 15 : 7"/>
+    </per>
+    <field name="targetRAT-MessageContainer" length="length * 8"/>
+    <if expr="option.{nas-SecurityParamFromEUTRA}">
+      <!-- Subtype::instance nas-SecurityParamFromEUTRA -->
+      <field name="nas-SecurityParamFromEUTRA" length="1 * 8"/>
+    </if>
+    <if expr="option.systemInformation">
+      <record name="systemInformation" href="#SI-OrPSI-GERAN"/>
+    </if>
+  </record>
+  <record id="InterFreqCarrierFreqInfo">
+    <per>
+      <field name="ext" length="1"/>
+    </per>
+    <record name="option">
+      <field name="p-Max" length="1" type="#opt"/>
+      <field name="t-ReselectionEUTRA-SF" length="1" type="#opt"/>
+      <field name="cellReselectionPriority" length="1" type="#opt"/>
+      <field name="q-OffsetFreq" length="1" type="#opt"/>
+      <field name="interFreqNeighCellList" length="1" type="#opt"/>
+      <field name="interFreqBlackCellList" length="1" type="#opt"/>
+    </record>
+    <record name="dl-CarrierFreq" href="#ARFCN-ValueEUTRA"/>
+    <record name="q-RxLevMin" href="#Q-RxLevMin"/>
+    <if expr="option.{p-Max}">
+      <record name="p-Max" href="#P-Max"/>
+    </if>
+    <record name="t-ReselectionEUTRA" href="#T-Reselection"/>
+    <if expr="option.{t-ReselectionEUTRA-SF}">
+      <record name="t-ReselectionEUTRA-SF" href="#SpeedStateScaleFactors"/>
+    </if>
+    <record name="threshX-High" href="#ReselectionThreshold"/>
+    <record name="threshX-Low" href="#ReselectionThreshold"/>
+    <record name="allowedMeasBandwidth" href="#AllowedMeasBandwidth"/>
+    <record name="presenceAntennaPort1" href="#PresenceAntennaPort1"/>
+    <if expr="option.cellReselectionPriority">
+      <record name="cellReselectionPriority" href="#CellReselectionPriority"/>
+    </if>
+    <record name="neighCellConfig" href="#NeighCellConfig"/>
+    <if expr="option.{q-OffsetFreq}">
+      <record name="q-OffsetFreq" href="#Q-OffsetRange"/>
+    </if>
+    <if expr="!option.{q-OffsetFreq}">
+      <!-- this has a default value, add property -->
+      <prop name="q-OffsetFreq" value="0" visible="true">
+        <item key="0" value="dB0"/>
+      </prop>
+    </if>
+    <if expr="option.interFreqNeighCellList">
+      <record name="interFreqNeighCellList" href="#InterFreqNeighCellList"/>
+    </if>
+    <if expr="option.interFreqBlackCellList">
+      <record name="interFreqBlackCellList" href="#InterFreqBlackCellList"/>
+    </if>
+    <if expr="ext">
+      <field name="ext-cnt" length="7" bias="1"/>
+      <record name="option" length="{ext-cnt}">
+        <field name="ext-group-1" length="1" type="#opt"/>
+      </record>
+      <if expr="option.{ext-group-1}">
+        <field name="ext-len" length="8"/>
+        <record name="extension" length="{ext-len} * 8">
+          <record name="option">
+            <field name="q-QualMin-r9" length="1" type="#opt"/>
+            <field name="threshX-Q-r9" length="1" type="#opt"/>
+          </record>
+          <if expr="option.{q-QualMin-r9}">
+            <record name="q-QualMin-r9" href="#Q-QualMin-r9"/>
+          </if>
+          <if expr="option.{threshX-Q-r9}">
+            <record name="threshX-Q-r9">
+              <record name="threshX-HighQ-r9" href="#ReselectionThresholdQ-r9"/>
+              <record name="threshX-LowQ-r9" href="#ReselectionThresholdQ-r9"/>
+            </record>
+          </if>
+        </record>
+      </if>
+    </if>
+  </record>
+  <record id="UE-TimersAndConstants">
+    <per>
+      <field name="ext" length="1"/>
+    </per>
+    <field name="t300" length="3">
+      <item key="0" value="ms100"/>
+      <item key="1" value="ms200"/>
+      <item key="2" value="ms300"/>
+      <item key="3" value="ms400"/>
+      <item key="4" value="ms600"/>
+      <item key="5" value="ms1000"/>
+      <item key="6" value="ms1500"/>
+      <item key="7" value="ms2000"/>
+    </field>
+    <field name="t301" length="3">
+      <item key="0" value="ms100"/>
+      <item key="1" value="ms200"/>
+      <item key="2" value="ms300"/>
+      <item key="3" value="ms400"/>
+      <item key="4" value="ms600"/>
+      <item key="5" value="ms1000"/>
+      <item key="6" value="ms1500"/>
+      <item key="7" value="ms2000"/>
+    </field>
+    <field name="t310" length="3">
+      <item key="0" value="ms0"/>
+      <item key="1" value="ms50"/>
+      <item key="2" value="ms100"/>
+      <item key="3" value="ms200"/>
+      <item key="4" value="ms500"/>
+      <item key="5" value="ms1000"/>
+      <item key="6" value="ms2000"/>
+    </field>
+    <field name="n310" length="3">
+      <item key="0" value="n1"/>
+      <item key="1" value="n2"/>
+      <item key="2" value="n3"/>
+      <item key="3" value="n4"/>
+      <item key="4" value="n6"/>
+      <item key="5" value="n8"/>
+      <item key="6" value="n10"/>
+      <item key="7" value="n20"/>
+    </field>
+    <field name="t311" length="3">
+      <item key="0" value="ms1000"/>
+      <item key="1" value="ms3000"/>
+      <item key="2" value="ms5000"/>
+      <item key="3" value="ms10000"/>
+      <item key="4" value="ms15000"/>
+      <item key="5" value="ms20000"/>
+      <item key="6" value="ms30000"/>
+    </field>
+    <field name="n311" length="3">
+      <item key="0" value="n1"/>
+      <item key="1" value="n2"/>
+      <item key="2" value="n3"/>
+      <item key="3" value="n4"/>
+      <item key="4" value="n5"/>
+      <item key="5" value="n6"/>
+      <item key="6" value="n8"/>
+      <item key="7" value="n10"/>
+    </field>
+  </record>
+  <record id="SupportedBandUTRA-TDD768">
+    <per>
+      <field name="ext" length="1"/>
+    </per>
+    <switch expr="ext">
+      <case value="0">
+        <field name="SupportedBandUTRA-TDD768" length="4">
+          <item key="0" value="a"/>
+          <item key="1" value="b"/>
+          <item key="2" value="c"/>
+          <item key="3" value="d"/>
+          <item key="4" value="e"/>
+          <item key="5" value="f"/>
+          <item key="6" value="g"/>
+          <item key="7" value="h"/>
+          <item key="8" value="i"/>
+          <item key="9" value="j"/>
+          <item key="10" value="k"/>
+          <item key="11" value="l"/>
+          <item key="12" value="m"/>
+          <item key="13" value="n"/>
+          <item key="14" value="o"/>
+          <item key="15" value="p"/>
+        </field>
+      </case>
+      <case value="1">
+        <per>
+          <field name="b0" length="1"/>
+        </per>
+        <field name="SupportedBandUTRA-TDD768" length="b0 ? 15 : 6"/>
+      </case>
+    </switch>
+  </record>
+  <!-- <prop name="maxBands" value="64"/> -->
+  <record id="IMSI-Digit">
+    <field name="IMSI-Digit" length="4"/>
+  </record>
+  <record id="RRCConnectionReconfiguration-r8-IEs">
+    <record name="option">
+      <field name="measConfig" length="1" type="#opt"/>
+      <field name="mobilityControlInfo" length="1" type="#opt"/>
+      <field name="dedicatedInfoNASList" length="1" type="#opt"/>
+      <field name="radioResourceConfigDedicated" length="1" type="#opt"/>
+      <field name="securityConfigHO" length="1" type="#opt"/>
+      <field name="nonCriticalExtension" length="1" type="#opt"/>
+    </record>
+    <if expr="option.measConfig">
+      <record name="measConfig" href="#MeasConfig"/>
+    </if>
+    <if expr="option.mobilityControlInfo">
+      <record name="mobilityControlInfo" href="#MobilityControlInfo"/>
+    </if>
+    <if expr="option.dedicatedInfoNASList">
+      <per>
+        <field name="count" length="size(1, maxDRB)" bias="1"/>
+      </per>
+      <repeat name="dedicatedInfoNASList" num="count">
+        <!-- DefinedType::instance() -->
+        <fragment href="#DedicatedInfoNAS"/>
+      </repeat>
+    </if>
+    <if expr="option.radioResourceConfigDedicated">
+      <record name="radioResourceConfigDedicated" href="#RadioResourceConfigDedicated"/>
+    </if>
+    <if expr="option.securityConfigHO">
+      <record name="securityConfigHO" href="#SecurityConfigHO"/>
+    </if>
+    <if expr="option.nonCriticalExtension">
+      <record name="nonCriticalExtension" href="#RRCConnectionReconfiguration-v890-IEs"/>
+    </if>
+  </record>
+  <record id="PresenceAntennaPort1">
+    <field name="PresenceAntennaPort1" length="1"/>
+  </record>
+  <record id="MobilityParametersCDMA2000">
+    <per>
+      <field name="b0" length="1"/>
+      <field name="length" length="b0 ? 15 : 7"/>
+    </per>
+    <field name="MobilityParametersCDMA2000" length="length * 8"/>
+  </record>
+  <record id="CSFBParametersResponseCDMA2000-r8-IEs">
+    <per>
+      <field name="b0" length="1"/>
+      <field name="length" length="b0 ? 15 : 7"/>
+    </per>
+    <field name="mobilityParameters" length="length * 8"/>
+  </record>
+  <record id="CellInfoGERAN-r9">
+    <per>
+      <field name="count" length="2" bias="1"/>
+    </per>
+    <repeat name="systemInformation-r9" num="count">
+      <per>
+        <field name="count" length="5" bias="1"/>
+      </per>
+      <field name="value" length="count * 8"/>
+    </repeat>
+  </record>
+  <record id="SystemInfoListGERAN">
+    <per>
+      <field name="count" length="2" bias="1"/>
+    </per>
+    <repeat num="count">
+      <per>
+        <field name="count" length="5" bias="1"/>
+      </per>
+      <field name="value" length="count * 8"/>
+    </repeat>
+  </record>
+  <record id="SIB-MappingInfo">
+    <per>
+      <field name="count" length="size(0, {maxSIB-1})"/>
+    </per>
+    <repeat num="count">
+      <!-- DefinedType::instance() -->
+      <per>
+        <field name="ext" length="1"/>
+      </per>
+      <switch expr="ext">
+        <case value="0">
+          <field name="value" length="4">
+            <item key="0" value="sibType3"/>
+            <item key="1" value="sibType4"/>
+            <item key="2" value="sibType5"/>
+            <item key="3" value="sibType6"/>
+            <item key="4" value="sibType7"/>
+            <item key="5" value="sibType8"/>
+            <item key="6" value="sibType9"/>
+            <item key="7" value="sibType10"/>
+            <item key="8" value="sibType11"/>
+            <item key="9" value="sibType12-v920"/>
+            <item key="10" value="sibType13-v920"/>
+            <item key="11" value="spare5"/>
+            <item key="12" value="spare4"/>
+            <item key="13" value="spare3"/>
+            <item key="14" value="spare2"/>
+            <item key="15" value="spare1"/>
+          </field>
+        </case>
+        <case value="1">
+          <per>
+            <field name="b0" length="1"/>
+          </per>
+          <field name="value" length="b0 ? 15 : 6"/>
+        </case>
+      </switch>
+    </repeat>
+  </record>
+  <record id="SIB-Type">
+    <per>
+      <field name="ext" length="1"/>
+    </per>
+    <switch expr="ext">
+      <case value="0">
+        <field name="SIB-Type" length="4">
+          <item key="0" value="sibType3"/>
+          <item key="1" value="sibType4"/>
+          <item key="2" value="sibType5"/>
+          <item key="3" value="sibType6"/>
+          <item key="4" value="sibType7"/>
+          <item key="5" value="sibType8"/>
+          <item key="6" value="sibType9"/>
+          <item key="7" value="sibType10"/>
+          <item key="8" value="sibType11"/>
+          <item key="9" value="sibType12-v920"/>
+          <item key="10" value="sibType13-v920"/>
+          <item key="11" value="spare5"/>
+          <item key="12" value="spare4"/>
+          <item key="13" value="spare3"/>
+          <item key="14" value="spare2"/>
+          <item key="15" value="spare1"/>
+        </field>
+      </case>
+      <case value="1">
+        <per>
+          <field name="b0" length="1"/>
+        </per>
+        <field name="SIB-Type" length="b0 ? 15 : 6"/>
+      </case>
+    </switch>
+  </record>
+  <record id="PUCCH-ConfigDedicated-v1020">
+    <per>
+      <field name="count" length="1" bias="1"/>
+    </per>
+    <repeat name="n1PUCCH-AN-CS-List-r10" num="count">
+      <!-- DefinedType::instance() -->
+      <per>
+        <field name="count" length="2" bias="1"/>
+      </per>
+      <repeat name="value" num="count">
+        <field name="value" length="11"/>
+      </repeat>
+    </repeat>
+  </record>
+  <record id="N1PUCCH-AN-CS-r10">
+    <per>
+      <field name="count" length="2" bias="1"/>
+    </per>
+    <repeat num="count">
+      <field name="value" length="11"/>
+    </repeat>
+  </record>
+  <record id="SecurityCapability">
+    <!-- Subtype::instance cipheringAlgorithmCap -->
+    <record name="cipheringAlgorithmCap" length="16">
+      <field name="spare15" length="1"/>
+      <field name="spare14" length="1"/>
+      <field name="spare13" length="1"/>
+      <field name="spare12" length="1"/>
+      <field name="spare11" length="1"/>
+      <field name="spare10" length="1"/>
+      <field name="spare9" length="1"/>
+      <field name="spare8" length="1"/>
+      <field name="spare7" length="1"/>
+      <field name="spare6" length="1"/>
+      <field name="spare5" length="1"/>
+      <field name="spare4" length="1"/>
+      <field name="spare3" length="1"/>
+      <field name="uea2" length="1"/>
+      <field name="uea1" length="1"/>
+      <field name="uea0" length="1"/>
+    </record>
+  </record>
+  <record id="IMSI-DS-41">
+    <per>
+      <field name="count" length="2" bias="5"/>
+    </per>
+    <field name="value" length="count * 8"/>
+  </record>
+  <record id="RRCConnectionSetupComplete-v690ext-IEs">
+    <record name="option">
+      <field name="ueCapabilityContainer" length="1" type="#opt"/>
+    </record>
+    <if expr="option.ueCapabilityContainer">
+      <!-- Subtype::instance ueCapabilityContainer -->
+      <per>
+        <field name="b0" length="1"/>
+        <field name="length" length="b0 ? 15 : 7"/>
+      </per>
+      <record name="ueCapabilityContainer" length="length" href="#UE-CapabilityContainer-IEs"/>
+    </if>
+  </record>
+  <record id="SystemInformationBlockType2">
+    <per>
+      <field name="ext" length="1"/>
+    </per>
+    <record name="option">
+      <field name="ac-BarringInfo" length="1" type="#opt"/>
+      <field name="mbsfn-SubframeConfigList" length="1" type="#opt"/>
+    </record>
+    <if expr="option.{ac-BarringInfo}">
+      <record name="ac-BarringInfo">
+        <record name="option">
+          <field name="ac-BarringForMO-Signalling" length="1" type="#opt"/>
+          <field name="ac-BarringForMO-Data" length="1" type="#opt"/>
+        </record>
+        <field name="ac-BarringForEmergency" length="1"/>
+        <if expr="option.{ac-BarringForMO-Signalling}">
+          <record name="ac-BarringForMO-Signalling" href="#AC-BarringConfig"/>
+        </if>
+        <if expr="option.{ac-BarringForMO-Data}">
+          <record name="ac-BarringForMO-Data" href="#AC-BarringConfig"/>
+        </if>
+      </record>
+    </if>
+    <record name="radioResourceConfigCommon" href="#RadioResourceConfigCommonSIB"/>
+    <record name="ue-TimersAndConstants" href="#UE-TimersAndConstants"/>
+    <record name="freqInfo">
+      <record name="option">
+        <field name="ul-CarrierFreq" length="1" type="#opt"/>
+        <field name="ul-Bandwidth" length="1" type="#opt"/>
+      </record>
+      <if expr="option.{ul-CarrierFreq}">
+        <record name="ul-CarrierFreq" href="#ARFCN-ValueEUTRA"/>
+      </if>
+      <if expr="option.{ul-Bandwidth}">
+        <field name="ul-Bandwidth" length="3">
+          <item key="0" value="n6"/>
+          <item key="1" value="n15"/>
+          <item key="2" value="n25"/>
+          <item key="3" value="n50"/>
+          <item key="4" value="n75"/>
+          <item key="5" value="n100"/>
+        </field>
+      </if>
+      <record name="additionalSpectrumEmission" href="#AdditionalSpectrumEmission"/>
+    </record>
+    <if expr="option.{mbsfn-SubframeConfigList}">
+      <record name="mbsfn-SubframeConfigList" href="#MBSFN-SubframeConfigList"/>
+    </if>
+    <record name="timeAlignmentTimerCommon" href="#TimeAlignmentTimer"/>
+    <if expr="ext">
+      <field name="ext-cnt" length="7" bias="1"/>
+      <record name="option" length="{ext-cnt}">
+        <field name="lateNonCriticalExtension" length="1" type="#opt"/>
+        <field name="ext-group-2" length="1" type="#opt"/>
+        <field name="ext-group-3" length="1" type="#opt"/>
+      </record>
+      <if expr="option.lateNonCriticalExtension">
+        <!-- Subtype::instance lateNonCriticalExtension -->
+        <per>
+          <field name="b0" length="1"/>
+          <field name="length" length="b0 ? 15 : 7"/>
+        </per>
+        <record name="lateNonCriticalExtension" length="length * 8" href="#SystemInformationBlockType2-v8h0-IEs"/>
+      </if>
+      <if expr="option.{ext-group-2}">
+        <field name="ext-len" length="8"/>
+        <record name="extension" length="{ext-len} * 8">
+          <record name="option">
+            <field name="ssac-BarringForMMTEL-Voice-r9" length="1" type="#opt"/>
+            <field name="ssac-BarringForMMTEL-Video-r9" length="1" type="#opt"/>
+          </record>
+          <if expr="option.{ssac-BarringForMMTEL-Voice-r9}">
+            <record name="ssac-BarringForMMTEL-Voice-r9" href="#AC-BarringConfig"/>
+          </if>
+          <if expr="option.{ssac-BarringForMMTEL-Video-r9}">
+            <record name="ssac-BarringForMMTEL-Video-r9" href="#AC-BarringConfig"/>
+          </if>
+        </record>
+      </if>
+      <if expr="option.{ext-group-3}">
+        <field name="ext-len" length="8"/>
+        <record name="extension" length="{ext-len} * 8">
+          <record name="option">
+            <field name="ac-BarringForCSFB-r10" length="1" type="#opt"/>
+          </record>
+          <if expr="option.{ac-BarringForCSFB-r10}">
+            <record name="ac-BarringForCSFB-r10" href="#AC-BarringConfig"/>
+          </if>
+        </record>
+      </if>
+    </if>
+  </record>
+  <!-- Module: EUTRA-RRC2-Definitions -->
+  <record id="DRB-CountMSB-InfoList">
+    <per>
+      <field name="count" length="6" bias="1"/>
+    </per>
+    <repeat num="count">
+      <!-- DefinedType::instance() -->
+      <fragment href="#DRB-CountMSB-Info"/>
+    </repeat>
+  </record>
+  <!-- <prop name="maxBands" value="64"/> -->
+  <record id="AccessClassBarredList">
+    <repeat num="64">
+      <!-- DefinedType::instance() -->
+      <fragment href="#AccessClassBarred"/>
+    </repeat>
+  </record>
+  <record id="InterRAT-UE-RadioAccessCapability">
+    <!-- Subtype::instance gsm-Classmark2 -->
+    <field name="gsm-Classmark2" length="5 * 8"/>
+    <!-- Subtype::instance gsm-Classmark3 -->
+    <per>
+      <field name="count" length="5" bias="1"/>
+    </per>
+    <field name="gsm-Classmark3" length="count * 8"/>
+  </record>
+  <record id="GSM-Classmark2">
+    <field name="value" length="5 * 8"/>
+  </record>
+  <record id="GSM-Classmark3">
+    <per>
+      <field name="count" length="5" bias="1"/>
+    </per>
+    <field name="value" length="count * 8"/>
+  </record>
+  <record id="UE-RadioAccessCapability-v690ext">
+    <record name="option">
+      <field name="deviceType" length="1" type="#opt"/>
+    </record>
+    <record name="physicalchannelcapability-edch" href="#PhysicalChannelCapability-edch-r6"/>
+    <if expr="option.deviceType">
+      <prop name="deviceType" value="0" visible="true">
+        <item key="0" value="doesNotBenefitFromBatteryConsumptionOptimisation"/>
+      </prop>
+    </if>
+  </record>
+  <type id="opt">
+    <item key="0" value="not included"/>
+    <item key="1" value="included"/>
+  </type>
+</xddl>

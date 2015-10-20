@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Basic Global Property</comment>
+  <export>
+    <prop name="ORDER" value="8"/>
+    <prop name="x" value="8"/>
+  </export>
+  <record id="frag">
+    <field name="A" length="x"/>
+    <field name="B" length="x"/>
+  </record>
+  <record id="frag2">
+    <switch expr="ORDER"/>
+  </record>
+  <start>
+    <field name="a" length="x"/>
+    <field name="b" length="x"/>
+    <fragment href="#frag"/>
+  </start>
+</xddl>

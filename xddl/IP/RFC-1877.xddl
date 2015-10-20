@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0.
+  
+   Please contact sales@intrig.com if these licensing terms are not
+   suitable for your needs.
+
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="RFC-1877">
+  <fragment name="Primary DNS Server Address" id="PrimaryDNS_ServerAddress">
+    <field name="PrimaryDNS_ServerAddress" length="4" type="IP.xddl#ip_address"/>
+  </fragment>
+
+  <fragment name="Primary NBNS Server Address" id="PrimaryNBNS_ServerAddress">
+    <field name="PrimaryNBNS_ServerAddress" length="4" type="IP.xddl#ip_address"/>
+  </fragment>
+
+  <fragment name="Secondary DNS Server Address" id="SecondaryDNS_ServerAddress">
+    <field name="SecondaryDNS_ServerAddress" length="4" type="IP.xddl#ip_address"/>
+  </fragment>
+
+  <fragment name="Secondary NBNS Server Address" id="SecondaryNBNS_ServerAddress">
+    <field name="SecondaryNBNS_ServerAddress" length="4" type="IP.xddl#ip_address"/>
+  </fragment>
+
+</xddl>

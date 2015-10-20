@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2011 Intrig (www.intrig.com)
+   
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl>
+  <comment>
+3GPP2 C.S0057-C 
+Version 1.0 
+Date: July 2008   
+Band Class Specification for cdma2000 Spread Spectrum Systems
+Release C
+</comment>
+  <type name="Band Class List" id="1.5-1">
+    <item key="0" value="800 MHz cellular band"/>
+    <item key="1" value="1.8 to 2.0 GHz PCS band"/>
+    <item key="2" value="872 to 960 MHz TACS band"/>
+    <item key="3" value="832 to 925 MHz JTACS band"/>
+    <item key="4" value="1.75 to 1.87 GHz Korean PCS band"/>
+    <item key="5" value="450 MHz NMT band"/>
+    <item key="6" value="2 GHz IMT-2000 band"/>
+    <item key="7" value="Upper 700 MHz band"/>
+    <item key="8" value="1800 MHz band"/>
+    <item key="9" value="900 MHz band"/>
+    <item key="10" value="Secondary 800 MHz band"/>
+    <item key="11" value="400 MHz European PAMR band"/>
+    <item key="12" value="800 MHz PAMR band"/>
+    <item key="13" value="2.5 GHz IMT-2000 Extension Band"/>
+    <item key="14" value="US PCS 1.9GHz Band"/>
+    <item key="15" value="AWS Band"/>
+    <item key="16" value="US 2.5GHz Band"/>
+    <item key="17" value="US 2.5GHz Forward Link Only Band"/>
+    <item key="18" value="700 MHz Public Safety Band"/>
+    <item key="19" value="Lower 700 MHz Band"/>
+  </type>
+</xddl>

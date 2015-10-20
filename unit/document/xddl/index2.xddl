@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+ <start>
+  <field length="8" name="boo"/>
+  <fragment href="a/index.xddl#a"/>
+  <fragment href="b/index.xddl#b"/>
+ </start>
+</xddl>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <start>
+    <field name="expr" length="1"/>
+    <if expr="expr">
+      <field name="Mark" length="2"/>
+      <field name="Beckwith" length="3"/>
+    </if>
+    <if expr="!expr">
+      <field name="M" length="1"/>
+      <field name="A" length="2"/>
+      <field name="B" length="2"/>
+    </if>
+    <field name="is" length="1"/>
+    <field name="OK" length="1"/>
+  </start>
+</xddl>

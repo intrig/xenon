@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>HW Addresses</comment>
+  <type id="hw_address">
+    <script>
+    description = string.format("%02x:%02x:%02x:%02x:%02x:%02x",
+      slice(0, 8),
+      slice(8, 8),
+      slice(16, 8),
+      slice(24, 8),
+      slice(32, 8),
+      slice(40, 8))
+   </script>
+  </type>
+  <start>
+    <field name="HW Address 1" length="48" type="#hw_address"/>
+  </start>
+</xddl>

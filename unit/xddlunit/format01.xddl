@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <type id="0.125ms">
+    <script>
+      description = string.format("%u : %.3f ms", key, key * 0.125)
+    </script>
+  </type>
+  <start>
+    <field name="first" length="4" type="#0.125ms"/>
+    <field name="second" length="4" type="#0.125ms"/>
+  </start>
+</xddl>

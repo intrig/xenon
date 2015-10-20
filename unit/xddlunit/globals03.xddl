@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>On-demand global property creation</comment>
+  <export>
+    <prop name="X" value="8"/>
+  </export>
+  <start>
+    <field name="A" length="X"/>
+  </start>
+</xddl>

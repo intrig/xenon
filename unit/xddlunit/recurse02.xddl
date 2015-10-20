@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>A fragment references a fragment not yet parsed</comment>
+  <record id="a">
+    <field name="A" length="8"/>
+    <fragment href="recurse02a.xddl#b"/>
+  </record>
+  <start>
+    <fragment href="#a"/>
+  </start>
+</xddl>

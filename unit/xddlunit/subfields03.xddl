@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>This file tests the import attribute of the record element</comment>
+  <comment>NOTICE: This is no longer implemented</comment>
+  <start>
+    <record name="Header" import="true">
+      <field name="Length" length="8"/>
+    </record>
+    <record name="Body">
+      <field name="Data" length="8 * Length"/>
+    </record>
+  </start>
+</xddl>

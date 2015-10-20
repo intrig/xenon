@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <export>
+  <prop name="Name" value="0"/>
+  </export>
+
+  <type name="Ethernet Type" id="ether_type">
+    
+      <item key="#800" value="IP"/>
+      <item key="#806" value="ARP"/>
+      <item key="#8035" value="Reverse ARP"/>
+    
+  </type>
+
+  <start>
+    <prop name="Name" type="IP.xddl#arp_msg_type" value="0"/>
+    <field name="LOCAL_IP_ADDRESS" length="8*4" type="IP.xddl#ip_address"/>
+    <field name="Timestamp" length="8*8"/>
+    <field name="Destination_Ether_Address" length="48" type="IP.xddl#hw_address"/>
+    <field name="Source_Ether_Address" length="48" type="IP.xddl#hw_address"/>
+    <field name="Ether_Type" length="16" default="2048" type="#ether_type"/>
+    <setprop name="Name" type="IP.xddl#arp_msg_type" value="0"/>
+    <switch expr="Ether_Type">
+      <case value="#800">
+        <fragment href="IP.xddl#IP-structure"/>
+      </case>
+      <case value="#8035"/>
+      <case value="#806">
+        <field name="Hardware_Type" length="16" default="1"/>
+        <field name="Protocol_Type" length="16" default="2048"/>
+        <field name="Hardware_Address_Length" length="8" default="6"/>
+        <field name="Protocol_Address_Length" length="8" default="4"/>
+        <field name="Message_Type" length="16" type="IP.xddl#arp_msg_type"/>
+        <setprop name="Name" type="IP.xddl#arp_msg_type" value="Message_Type"/>
+        <field name="Source_HW_Address" length="8 * Hardware_Address_Length" default="0" type="IP.xddl#hw_address"/>
+        <field name="Source_Protocol_Address" length="8 * Protocol_Address_Length" default="0" type="IP.xddl#ip_address"/>
+        <field name="Destination_HW_Address" length="8 * Hardware_Address_Length" default="0" type="IP.xddl#hw_address"/>
+        <field name="Destination_Protocol_Address" length="8 * Protocol_Address_Length" default="0" type="IP.xddl#ip_address"/>
+        <prop name="Direction" value="(LOCAL_IP_ADDRESS ? (LOCAL_IP_ADDRESS == Source_Protocol_Address ? 1 : (LOCAL_IP_ADDRESS == Destination_Protocol_Address ? 2 : 0)) : 0)"/>
+      </case>
+    </switch>
+  </start>
+
+</xddl>

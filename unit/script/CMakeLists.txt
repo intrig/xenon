@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+include(${CMAKE_SOURCE_DIR}/xenonunit.txt)
+add_executable(script scriptunit.cpp)
+target_link_libraries(script xenon)
+enable_testing()
+add_test(script script)

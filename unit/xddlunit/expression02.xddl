@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>A slightly more complex expression.</comment>
+  <start>
+    <field name="a" length="8"/>
+    <record name="a1">
+      <field name="c" length="8"/>
+    </record>
+    <field name="b" length="8 * a"/>
+  </start>
+</xddl>

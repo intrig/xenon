@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<!--
+   Copyright (C) 2003 - 2007 Intrig
+   
+   This file is protected by copyright and may be distributed and/or
+   modified under the terms of the GNU General Public License version 2.0.
+  
+   Please contact sales@intrig.com if these licensing terms are not
+   suitable for your needs.
+
+   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+-->
+<xddl name="MS-CHAP-1 (RFC-2433)">
+  <!-- Types -->
+  <type name="CHAP Code" id="CHAPCode">
+    
+      <item key="1" value="Challenge"/>
+      <item key="2" value="Response"/>
+      <item key="3" value="Success"/>
+      <item key="4" value="Failure"/>
+      <item key="5" value="Change Password Packet (version 1)"/>
+      <item key="6" value="Change Password Packet (version 2)"/>
+    
+  </type>
+
+  <type id="ResponsePasswdOk">
+    
+      <item key="0" value="The WinNT response is ignored and the LAN Manager response is used"/>
+      <item key="1" value="The WinNT response is provided and should be used in preference to the LAN Manager response"/>
+    
+  </type>
+
+  <type id="ChangePasswdOk">
+    
+      <item key="0" value="The WinNT fields are not used, LAN Manager fields must be provided"/>
+      <item key="1" value="The encrypted Windows NT hashed passwords are valid and should be used"/>
+    
+  </type>
+
+  <type id="ChangePasswd_V2_Bit1_Flag">
+    
+      <item key="0" value="The &apos;Password Encrypted with Old/New LM/NT Hash&apos; fields are valid and should be used"/>
+      <item key="1" value="The &apos;Password Encrypted with Old/New LM/NT Hash&apos; fields are not valid and should not be used"/>
+    
+  </type>
+
+  <!-- Fragments -->
+  <fragment name="Challenge Packet" id="Challege">
+    <field name="ValueSize" length="8" default="8"/>
+    <field name="Value" length="ValueSize * 8"/>
+    <field name="Name" length="(Length - 4 - ValueSize - 1) * 8"/>
+  </fragment>
+
+  <fragment name="Response Packet" id="Response">
+    <field name="ValueSize" length="8" default="8"/>
+    <record name="Value" length="ValueSize * 8" import="true">
+      <field name="LAN_Mgr_Response" length="24*8"/>
+      <field name="WinNT_Response" length="24*8"/>
+      <field name="PasswdOkFlag" length="8" type="ResponsePasswdOk"/>
+    </record>
+    <field name="Name" length="(Length - 4 - ValueSize - 1) * 8" type="PPP.xddl#ascii"/>
+  </fragment>
+
+  <fragment name="Success Packet" id="Success">
+    <field name="ValueSize" length="8"/>
+    <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
+  </fragment>
+
+  <fragment name="Failure" id="Failure">
+    <field name="ValueSize" length="8"/>
+    <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
+  </fragment>
+
+  <fragment name="Change Password Packet" id="ChangePasswd_V1">
+    <field name="LanMgrOldPasswdHash" length="16*8"/>
+    <field name="LanMgrNewPasswdHash" length="16*8"/>
+    <field name="WinNTOldPasswdHash" length="16*8"/>
+    <field name="WinNTNewPasswdHash" length="16*8"/>
+    <field name="PasswdLength" length="16"/>
+    <record name="Flags" length="16" import="true">
+      <field name="Reserved" length="15"/>
+      <field name="PasswdOkFlag" length="1" type="#ChangePasswdOk"/>
+    </record>
+  </fragment>
+
+  <fragment name="Change Password Packet" id="ChangePasswd_V2">
+    <field name="WinNTOldPasswdHash" length="516*8"/>
+    <field name="OldNTHashWithNewNTHash" length="16*8"/>
+    <field name="WinLMOldPasswdHash" length="516*8"/>
+    <field name="OldLMHashWithNewNTHash" length="16*8"/>
+    <field name="LMChallengeResponse" length="24*8"/>
+    <field name="WinNTChallengeResponse" length="24*8"/>
+    <record name="Flags" length="16" import="true">
+      <field name="Reserved" length="14"/>
+      <field name="UseOldNTandOldLMHash" length="1" type="#ChangePasswd_V2_Bit1_Flag"/>
+      <field name="PasswdOkFlag" length="1" type="#ChangePasswdOk"/>
+    </record>
+  </fragment>
+
+  <fragment name="MS-CHAP-1-Protocol" id="MS-CHAP-1">
+    <field name="Code" length="8" type="#CHAPCode"/>
+    <field name="Identifier" length="8"/>
+    <field name="Length" length="16"/>
+    <record name="Data" length="(Length-4) * 8" import="true">
+      <switch expr="Code">
+        <case value="1">
+          <fragment href="#Challege"/>
+        </case>
+        <case value="2">
+          <fragment href="#Response"/>
+        </case>
+        <case value="3">
+          <fragment href="#Success"/>
+        </case>
+        <case value="4">
+          <fragment href="#Failure"/>
+        </case>
+        <case value="5">
+          <fragment href="#ChangePasswd_V1"/>
+        </case>
+        <case value="6">
+          <fragment href="#ChangePasswd_V2"/>
+        </case>
+      </switch>
+    </record>
+  </fragment>
+
+  <structure>
+    <fragment href="#MS-CHAP-1"/>
+  </structure>
+
+</xddl>

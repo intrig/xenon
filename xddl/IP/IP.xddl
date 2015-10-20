@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl name="ethernet">
+
+  <export>
+    <!-- extern -->
+    <prop name="Name"/>
+    <!-- local -->
+    <prop name="Total_Packet_Length"/>
+    <prop name="Protocol_Identifier"/>
+  </export>
+
+  <type id="hw_address">
+    <script>
+    description = string.format("%02x:%02x:%02x:%02x:%02x:%02x", slice(0, 8), slice(8, 8), slice(16, 8), slice(24, 8), slice(32, 8), slice(40, 8))
+  </script>
+  </type>
+
+  <type id="ip_address">
+    <script>
+    description = string.format("%d.%d.%d.%d", slice(0, 8), slice(8, 8), slice(16, 8), slice(24, 8))
+  </script>
+  </type>
+
+  <type name="Protocol Type" id="protocol_type">
+    <item key="1" value="Internet Control Message Protocol (ICMP)"/>
+    <item key="2" value="Internet Group Message Protocol (IGMP)"/>
+    <item key="6" value="Transmission Control Protocol (TCP)"/>
+    <item key="17" value="User Datagram Protocol (UDP)"/>
+  </type>
+
+  <type name="Option-Type Definitions" id="option_type_definitions_0">
+    <item key="0" value="End of option list"/>
+    <item key="1" value="No operation"/>
+    <item key="2" value="Security options (for military users)"/>
+    <item key="7" value="Record route"/>
+    <item key="3" value="Loose source routing"/>
+    <item key="9" value="Strict source routing"/>
+    <item key="20" value="Router alert"/>
+  </type>
+
+  <type name="Option-Type Definitions" id="option_type_definitions_2">
+    <item key="4" value="Timestamp"/>
+  </type>
+
+  <type name="Timestamp Flags" id="timestamp_flags">
+    <item key="0" value="Timestamps only (do not record router addresses)"/>
+    <item key="1" value="Record router addresses, followed by timestamps"/>
+    <item key="2" value="Match timestamps with preexisting router addresses"/>
+  </type>
+
+  <type name="Options Class" id="options_class">
+    <item key="0" value="Network Control"/>
+    <item key="1" value="Reserved"/>
+    <item key="2" value="Debugging Services"/>
+    <item key="3" value="Reserved"/>
+  </type>
+
+  <type name="precedence" id="precedence">
+    <item key="0" value="0: Normal"/>
+    <item key="1" value="1: Priority"/>
+    <item key="2" value="2: Immediate"/>
+    <item key="3" value="3: Flash"/>
+    <item key="4" value="4: Flash Override"/>
+    <item key="5" value="5: Critical"/>
+    <item key="6" value="6: Internetwork Control"/>
+    <item key="7" value="7: Network Control"/>
+  </type>
+
+  <type name="Delay" id="delay">
+    
+      <item key="0" value="Normal"/>
+      <item key="1" value="Low"/>
+    
+  </type>
+
+  <type name="Throughput" id="throughput">
+    
+      <item key="0" value="Normal"/>
+      <item key="1" value="High"/>
+    
+  </type>
+
+  <type name="Reliability" id="reliability">
+    
+      <item key="0" value="Normal"/>
+      <item key="1" value="High"/>
+    
+  </type>
+
+  <type name="IP Version" id="ip_version">
+    
+      <item key="0" value="ARP"/>
+      <item key="4" value="IPv4"/>
+      <item key="6" value="IPv6"/>
+    
+  </type>
+
+  <type name="DF_type" id="df_type">
+    
+      <item key="0" value="May Fragment"/>
+      <item key="1" value="Don&apos;t Fragment"/>
+    
+  </type>
+
+  <type name="MF_type" id="mf_type">
+    
+      <item key="0" value="Last Fragment"/>
+      <item key="1" value="More Fragments"/>
+    
+  </type>
+
+  <type name="UDP Port Types" id="udp_port_type">
+    
+      <range start="0" end="0" value="Unknown"/>
+      <item key="1" value="tcpmux"/>
+      <range start="2" end="4" value="Unknown"/>
+      <item key="5" value="rje"/>
+      <range start="6" end="6" value="Unknown"/>
+      <item key="7" value="echo"/>
+      <range start="8" end="8" value="Unknown"/>
+      <item key="9" value="discard"/>
+      <range start="10" end="10" value="Unknown"/>
+      <item key="11" value="systat"/>
+      <range start="12" end="12" value="Unknown"/>
+      <item key="13" value="daytime"/>
+      <range start="14" end="16" value="Unknown"/>
+      <item key="17" value="qotd"/>
+      <item key="18" value="msp"/>
+      <item key="19" value="chargen"/>
+      <item key="20" value="ftp-data"/>
+      <item key="21" value="ftp"/>
+      <range start="22" end="20" value="Unknown"/>
+      <item key="21" value="fsp"/>
+      <item key="22" value="ssh"/>
+      <item key="23" value="telnet"/>
+      <range start="24" end="24" value="Unknown"/>
+      <item key="25" value="smtp"/>
+      <range start="26" end="36" value="Unknown"/>
+      <item key="37" value="time"/>
+      <range start="38" end="38" value="Unknown"/>
+      <item key="39" value="rlp"/>
+      <range start="40" end="41" value="Unknown"/>
+      <item key="42" value="nameserver"/>
+      <item key="43" value="nicname"/>
+      <range start="44" end="48" value="Unknown"/>
+      <item key="49" value="tacacs"/>
+      <item key="50" value="re-mail-ck"/>
+      <range start="51" end="52" value="Unknown"/>
+      <item key="53" value="domain"/>
+      <range start="54" end="62" value="Unknown"/>
+      <item key="63" value="whois++"/>
+      <range start="64" end="66" value="Unknown"/>
+      <item key="67" value="bootps"/>
+      <item key="68" value="bootpc"/>
+      <item key="69" value="tftp"/>
+      <item key="70" value="gopher"/>
+      <item key="71" value="netrjs-1"/>
+      <item key="72" value="netrjs-2"/>
+      <item key="73" value="netrjs-3"/>
+      <item key="74" value="netrjs-4"/>
+      <range start="75" end="78" value="Unknown"/>
+      <item key="79" value="finger"/>
+      <item key="80" value="http"/>
+      <range start="81" end="87" value="Unknown"/>
+      <item key="88" value="kerberos"/>
+      <range start="89" end="94" value="Unknown"/>
+      <item key="95" value="supdup"/>
+      <range start="96" end="100" value="Unknown"/>
+      <item key="101" value="hostname"/>
+      <range start="102" end="104" value="Unknown"/>
+      <item key="105" value="csnet-ns"/>
+      <item key="106" value="#3com-tsmux"/>
+      <range start="107" end="105" value="Unknown"/>
+      <item key="106" value="poppassd"/>
+      <item key="107" value="rtelnet"/>
+      <range start="108" end="108" value="Unknown"/>
+      <item key="109" value="pop2"/>
+      <item key="110" value="pop3"/>
+      <item key="111" value="sunrpc"/>
+      <range start="112" end="112" value="Unknown"/>
+      <item key="113" value="auth"/>
+      <range start="114" end="114" value="Unknown"/>
+      <item key="115" value="sftp"/>
+      <range start="116" end="116" value="Unknown"/>
+      <item key="117" value="uucp-path"/>
+      <range start="118" end="118" value="Unknown"/>
+      <item key="119" value="nntp"/>
+      <range start="120" end="122" value="Unknown"/>
+      <item key="123" value="ntp"/>
+      <range start="124" end="136" value="Unknown"/>
+      <item key="137" value="netbios-ns"/>
+      <item key="138" value="netbios-dgm"/>
+      <item key="139" value="netbios-ssn"/>
+      <range start="140" end="142" value="Unknown"/>
+      <item key="143" value="imap"/>
+      <range start="144" end="160" value="Unknown"/>
+      <item key="161" value="snmp"/>
+      <item key="162" value="snmptrap"/>
+      <item key="163" value="cmip-man"/>
+      <item key="164" value="cmip-agent"/>
+      <range start="165" end="173" value="Unknown"/>
+      <item key="174" value="mailq"/>
+      <range start="175" end="176" value="Unknown"/>
+      <item key="177" value="xdmcp"/>
+      <item key="178" value="nextstep"/>
+      <item key="179" value="bgp"/>
+      <range start="180" end="190" value="Unknown"/>
+      <item key="191" value="prospero"/>
+      <range start="192" end="193" value="Unknown"/>
+      <item key="194" value="irc"/>
+      <range start="195" end="198" value="Unknown"/>
+      <item key="199" value="smux"/>
+      <range start="200" end="200" value="Unknown"/>
+      <item key="201" value="at-rtmp"/>
+      <item key="202" value="at-nbp"/>
+      <range start="203" end="203" value="Unknown"/>
+      <item key="204" value="at-echo"/>
+      <range start="205" end="205" value="Unknown"/>
+      <item key="206" value="at-zis"/>
+      <range start="207" end="208" value="Unknown"/>
+      <item key="209" value="qmtp"/>
+      <item key="210" value="z39.50"/>
+      <range start="211" end="212" value="Unknown"/>
+      <item key="213" value="ipx"/>
+      <range start="214" end="219" value="Unknown"/>
+      <item key="220" value="imap3"/>
+      <range start="221" end="362" value="Unknown"/>
+      <item key="363" value="rsvp_tunnel"/>
+      <range start="364" end="368" value="Unknown"/>
+      <item key="369" value="rpc2portmap"/>
+      <item key="370" value="codaauth2"/>
+      <range start="371" end="371" value="Unknown"/>
+      <item key="372" value="ulistproc"/>
+      <range start="373" end="388" value="Unknown"/>
+      <item key="389" value="ldap"/>
+      <range start="390" end="426" value="Unknown"/>
+      <item key="427" value="svrloc"/>
+      <range start="428" end="433" value="Unknown"/>
+      <item key="434" value="mobileip-agent"/>
+      <item key="435" value="mobilip-mn"/>
+      <range start="436" end="442" value="Unknown"/>
+      <item key="443" value="https"/>
+      <item key="444" value="snpp"/>
+      <item key="445" value="microsoft-ds"/>
+      <range start="446" end="463" value="Unknown"/>
+      <item key="464" value="kpasswd"/>
+      <range start="465" end="467" value="Unknown"/>
+      <item key="468" value="photuris"/>
+      <range start="469" end="486" value="Unknown"/>
+      <item key="487" value="saft"/>
+      <item key="488" value="gss-http"/>
+      <range start="489" end="495" value="Unknown"/>
+      <item key="496" value="pim-rp-disc"/>
+      <range start="497" end="499" value="Unknown"/>
+      <item key="500" value="isakmp"/>
+      <range start="501" end="511" value="Unknown"/>
+      <item key="512" value="biff"/>
+      <item key="513" value="who"/>
+      <item key="514" value="syslog"/>
+      <item key="515" value="printer"/>
+      <range start="516" end="516" value="Unknown"/>
+      <item key="517" value="talk"/>
+      <item key="518" value="ntalk"/>
+      <item key="519" value="utime"/>
+      <item key="520" value="router"/>
+      <item key="521" value="ripng"/>
+      <range start="522" end="524" value="Unknown"/>
+      <item key="525" value="timed"/>
+      <range start="526" end="532" value="Unknown"/>
+      <item key="533" value="netwall"/>
+      <range start="534" end="534" value="Unknown"/>
+      <item key="535" value="iiop"/>
+      <range start="536" end="537" value="Unknown"/>
+      <item key="538" value="gdomap"/>
+      <range start="539" end="545" value="Unknown"/>
+      <item key="546" value="dhcpv6-client"/>
+      <item key="547" value="dhcpv6-server"/>
+      <item key="548" value="afpovertcp"/>
+      <range start="549" end="553" value="Unknown"/>
+      <item key="554" value="rtsp"/>
+      <range start="555" end="562" value="Unknown"/>
+      <item key="563" value="nntps"/>
+      <range start="564" end="564" value="Unknown"/>
+      <item key="565" value="whoami"/>
+      <range start="566" end="586" value="Unknown"/>
+      <item key="587" value="submission"/>
+      <range start="588" end="609" value="Unknown"/>
+      <item key="610" value="npmp-local"/>
+      <item key="611" value="npmp-gui"/>
+      <item key="612" value="hmmp-ind"/>
+      <range start="613" end="635" value="Unknown"/>
+      <item key="636" value="ldaps"/>
+      <range start="637" end="673" value="Unknown"/>
+      <item key="674" value="acap"/>
+      <range start="675" end="693" value="Unknown"/>
+      <item key="694" value="ha-cluster"/>
+      <range start="695" end="749" value="Unknown"/>
+      <item key="750" value="kerberos-iv"/>
+      <item key="751" value="kerberos_master"/>
+      <item key="752" value="passwd_server"/>
+      <range start="753" end="764" value="Unknown"/>
+      <item key="765" value="webster"/>
+      <range start="766" end="766" value="Unknown"/>
+      <item key="767" value="phonebook"/>
+      <range start="768" end="807" value="Unknown"/>
+      <item key="808" value="omirr"/>
+      <range start="809" end="872" value="Unknown"/>
+      <item key="873" value="rsync"/>
+      <range start="874" end="952" value="Unknown"/>
+      <item key="953" value="rndc"/>
+      <range start="954" end="991" value="Unknown"/>
+      <item key="992" value="telnets"/>
+      <item key="993" value="imaps"/>
+      <item key="994" value="ircs"/>
+      <item key="995" value="pop3s"/>
+      <range start="996" end="1079" value="Unknown"/>
+      <item key="1080" value="socks"/>
+      <range start="1081" end="1299" value="Unknown"/>
+      <item key="1300" value="h323hostcallsc"/>
+      <range start="1301" end="1432" value="Unknown"/>
+      <item key="1433" value="ms-sql-s"/>
+      <item key="1434" value="ms-sql-m"/>
+      <range start="1435" end="1493" value="Unknown"/>
+      <item key="1494" value="ica"/>
+      <range start="1495" end="1511" value="Unknown"/>
+      <item key="1512" value="wins"/>
+      <range start="1513" end="1523" value="Unknown"/>
+      <item key="1524" value="ingreslock"/>
+      <item key="1525" value="prospero-np"/>
+      <range start="1526" end="1644" value="Unknown"/>
+      <item key="1645" value="datametrics"/>
+      <item key="1646" value="sa-msg-port"/>
+      <range start="1647" end="1648" value="Unknown"/>
+      <item key="1649" value="kermit"/>
+      <range start="1650" end="1700" value="Unknown"/>
+      <item key="1701" value="l2tp"/>
+      <range start="1702" end="1717" value="Unknown"/>
+      <item key="1718" value="h323gatedisc"/>
+      <item key="1719" value="h323gatestat"/>
+      <item key="1720" value="h323hostcall"/>
+      <range start="1721" end="1757" value="Unknown"/>
+      <item key="1758" value="tftp-mcast"/>
+      <range start="1759" end="1788" value="Unknown"/>
+      <item key="1789" value="hello"/>
+      <range start="1790" end="1811" value="Unknown"/>
+      <item key="1812" value="radius"/>
+      <item key="1813" value="radius-acct"/>
+      <range start="1814" end="1910" value="Unknown"/>
+      <item key="1911" value="mtp"/>
+      <range start="1912" end="1984" value="Unknown"/>
+      <item key="1985" value="hsrp"/>
+      <item key="1986" value="licensedaemon"/>
+      <range start="1987" end="1996" value="Unknown"/>
+      <item key="1997" value="gdp-port"/>
+      <range start="1998" end="2048" value="Unknown"/>
+      <item key="2049" value="nfs"/>
+      <range start="2050" end="2101" value="Unknown"/>
+      <item key="2102" value="zephyr-srv"/>
+      <item key="2103" value="zephyr-clt"/>
+      <item key="2104" value="zephyr-hm"/>
+      <range start="2105" end="2149" value="Unknown"/>
+      <item key="2150" value="ninstall"/>
+      <range start="2151" end="2400" value="Unknown"/>
+      <item key="2401" value="cvspserver"/>
+      <range start="2402" end="2429" value="Unknown"/>
+      <item key="2430" value="venus"/>
+      <item key="2431" value="venus-se"/>
+      <item key="2432" value="codasrv"/>
+      <item key="2433" value="codasrv-se"/>
+      <range start="2434" end="2987" value="Unknown"/>
+      <item key="2988" value="afbackup"/>
+      <range start="2989" end="3129" value="Unknown"/>
+      <item key="3130" value="icpv2"/>
+      <range start="3131" end="3305" value="Unknown"/>
+      <item key="3306" value="mysql"/>
+      <range start="3307" end="3345" value="Unknown"/>
+      <item key="3346" value="trnsprntproxy"/>
+      <range start="3347" end="3454" value="Unknown"/>
+      <item key="3455" value="prsvp"/>
+      <range start="3456" end="4320" value="Unknown"/>
+      <item key="4321" value="rwhois"/>
+      <range start="4322" end="4443" value="Unknown"/>
+      <item key="4444" value="krb524"/>
+      <range start="4445" end="5001" value="Unknown"/>
+      <item key="5002" value="rfe"/>
+      <range start="5003" end="5231" value="Unknown"/>
+      <item key="5232" value="sgi-dgl"/>
+      <range start="5233" end="5307" value="Unknown"/>
+      <item key="5308" value="cfengine"/>
+      <range start="5309" end="5353" value="Unknown"/>
+      <item key="5354" value="noclog"/>
+      <item key="5355" value="hostmon"/>
+      <range start="5356" end="5431" value="Unknown"/>
+      <item key="5432" value="postgres"/>
+      <range start="5433" end="5998" value="Unknown"/>
+      <item key="5999" value="cvsup"/>
+      <range start="6000" end="6666" value="Unknown"/>
+      <item key="6667" value="ircd"/>
+      <range start="6668" end="6999" value="Unknown"/>
+      <item key="7000" value="afs3-fileserver"/>
+      <item key="7001" value="afs3-callback"/>
+      <item key="7002" value="afs3-prserver"/>
+      <item key="7003" value="afs3-vlserver"/>
+      <item key="7004" value="afs3-kaserver"/>
+      <item key="7005" value="afs3-volser"/>
+      <item key="7006" value="afs3-errors"/>
+      <item key="7007" value="afs3-bos"/>
+      <item key="7008" value="afs3-update"/>
+      <item key="7009" value="afs3-rmtsys"/>
+      <range start="7010" end="8007" value="Unknown"/>
+      <item key="8008" value="http-alt"/>
+      <range start="8009" end="8079" value="Unknown"/>
+      <item key="8080" value="webcache"/>
+      <item key="8081" value="tproxy"/>
+      <range start="8082" end="9358" value="Unknown"/>
+      <item key="9359" value="mandelspawn"/>
+      <range start="9360" end="9875" value="Unknown"/>
+      <item key="9876" value="sd"/>
+      <range start="9877" end="10079" value="Unknown"/>
+      <item key="10080" value="amanda"/>
+      <item key="10081" value="kamanda"/>
+      <range start="10082" end="11370" value="Unknown"/>
+      <item key="11371" value="pgpkeyserver"/>
+      <range start="11372" end="11719" value="Unknown"/>
+      <item key="11720" value="h323callsigalt"/>
+      <range start="11721" end="20010" value="Unknown"/>
+      <item key="20011" value="isdnlog"/>
+      <item key="20012" value="vboxd"/>
+      <range start="20013" end="24553" value="Unknown"/>
+      <item key="24554" value="binkp"/>
+      <range start="24555" end="25999" value="Unknown"/>
+      <item key="26000" value="quake"/>
+      <range start="26001" end="26207" value="Unknown"/>
+      <item key="26208" value="wnn6-ds"/>
+      <range start="26209" end="27373" value="Unknown"/>
+      <item key="27374" value="asp"/>
+      <range start="27375" end="33433" value="Unknown"/>
+      <item key="33434" value="traceroute"/>
+      <range start="33435" end="60176" value="Unknown"/>
+      <item key="60177" value="tfido"/>
+      <range start="60178" end="60178" value="Unknown"/>
+      <item key="60179" value="fido"/>
+      <range start="60180" end="65535" value="Unknown"/>
+    
+  </type>
+
+  <type name="TCP Port Types" id="tcp_port_type">
+    <!--
+  <fstring>%s (port %d)</fstring>
+  <arg>$$</arg>
+  <arg>$$</arg>
+ -->
+    
+      <range start="0" end="0" value="Unknown"/>
+      <item key="1" value="tcpmux"/>
+      <range start="2" end="4" value="Unknown"/>
+      <item key="5" value="rje"/>
+      <range start="6" end="6" value="Unknown"/>
+      <item key="7" value="echo"/>
+      <range start="8" end="8" value="Unknown"/>
+      <item key="9" value="discard"/>
+      <range start="10" end="10" value="Unknown"/>
+      <item key="11" value="systat"/>
+      <range start="12" end="12" value="Unknown"/>
+      <item key="13" value="daytime"/>
+      <range start="14" end="14" value="Unknown"/>
+      <item key="15" value="netstat"/>
+      <range start="16" end="16" value="Unknown"/>
+      <item key="17" value="qotd"/>
+      <item key="18" value="msp"/>
+      <item key="19" value="chargen"/>
+      <item key="20" value="ftp-data"/>
+      <item key="21" value="ftp"/>
+      <item key="22" value="ssh"/>
+      <item key="23" value="telnet"/>
+      <range start="24" end="24" value="Unknown"/>
+      <item key="25" value="smtp"/>
+      <range start="26" end="36" value="Unknown"/>
+      <item key="37" value="time"/>
+      <range start="38" end="38" value="Unknown"/>
+      <item key="39" value="rlp"/>
+      <range start="40" end="41" value="Unknown"/>
+      <item key="42" value="nameserver"/>
+      <item key="43" value="nicname"/>
+      <range start="44" end="48" value="Unknown"/>
+      <item key="49" value="tacacs"/>
+      <item key="50" value="re-mail-ck"/>
+      <range start="51" end="52" value="Unknown"/>
+      <item key="53" value="domain"/>
+      <range start="54" end="62" value="Unknown"/>
+      <item key="63" value="whois++"/>
+      <range start="64" end="66" value="Unknown"/>
+      <item key="67" value="bootps"/>
+      <item key="68" value="bootpc"/>
+      <item key="69" value="tftp"/>
+      <item key="70" value="gopher"/>
+      <item key="71" value="netrjs-1"/>
+      <item key="72" value="netrjs-2"/>
+      <item key="73" value="netrjs-3"/>
+      <item key="74" value="netrjs-4"/>
+      <range start="75" end="78" value="Unknown"/>
+      <item key="79" value="finger"/>
+      <item key="80" value="http"/>
+      <range start="81" end="87" value="Unknown"/>
+      <item key="88" value="kerberos"/>
+      <range start="89" end="94" value="Unknown"/>
+      <item key="95" value="supdup"/>
+      <range start="96" end="97" value="Unknown"/>
+      <item key="98" value="linuxconf"/>
+      <range start="99" end="100" value="Unknown"/>
+      <item key="101" value="hostname"/>
+      <item key="102" value="iso-tsap"/>
+      <range start="103" end="104" value="Unknown"/>
+      <item key="105" value="csnet-ns"/>
+      <item key="106" value="#3com-tsmux"/>
+      <range start="107" end="105" value="Unknown"/>
+      <item key="106" value="poppassd"/>
+      <item key="107" value="rtelnet"/>
+      <range start="108" end="108" value="Unknown"/>
+      <item key="109" value="pop2"/>
+      <item key="110" value="pop3"/>
+      <item key="111" value="sunrpc"/>
+      <range start="112" end="112" value="Unknown"/>
+      <item key="113" value="auth"/>
+      <range start="114" end="114" value="Unknown"/>
+      <item key="115" value="sftp"/>
+      <range start="116" end="116" value="Unknown"/>
+      <item key="117" value="uucp-path"/>
+      <range start="118" end="118" value="Unknown"/>
+      <item key="119" value="nntp"/>
+      <range start="120" end="122" value="Unknown"/>
+      <item key="123" value="ntp"/>
+      <range start="124" end="136" value="Unknown"/>
+      <item key="137" value="netbios-ns"/>
+      <item key="138" value="netbios-dgm"/>
+      <item key="139" value="netbios-ssn"/>
+      <range start="140" end="142" value="Unknown"/>
+      <item key="143" value="imap"/>
+      <range start="144" end="160" value="Unknown"/>
+      <item key="161" value="snmp"/>
+      <range start="162" end="162" value="Unknown"/>
+      <item key="163" value="cmip-man"/>
+      <item key="164" value="cmip-agent"/>
+      <range start="165" end="173" value="Unknown"/>
+      <item key="174" value="mailq"/>
+      <range start="175" end="176" value="Unknown"/>
+      <item key="177" value="xdmcp"/>
+      <item key="178" value="nextstep"/>
+      <item key="179" value="bgp"/>
+      <range start="180" end="190" value="Unknown"/>
+      <item key="191" value="prospero"/>
+      <range start="192" end="193" value="Unknown"/>
+      <item key="194" value="irc"/>
+      <range start="195" end="198" value="Unknown"/>
+      <item key="199" value="smux"/>
+      <range start="200" end="200" value="Unknown"/>
+      <item key="201" value="at-rtmp"/>
+      <item key="202" value="at-nbp"/>
+      <range start="203" end="203" value="Unknown"/>
+      <item key="204" value="at-echo"/>
+      <range start="205" end="205" value="Unknown"/>
+      <item key="206" value="at-zis"/>
+      <range start="207" end="208" value="Unknown"/>
+      <item key="209" value="qmtp"/>
+      <item key="210" value="z39.50"/>
+      <range start="211" end="212" value="Unknown"/>
+      <item key="213" value="ipx"/>
+      <range start="214" end="219" value="Unknown"/>
+      <item key="220" value="imap3"/>
+      <range start="221" end="244" value="Unknown"/>
+      <item key="245" value="link"/>
+      <range start="246" end="362" value="Unknown"/>
+      <item key="363" value="rsvp_tunnel"/>
+      <range start="364" end="368" value="Unknown"/>
+      <item key="369" value="rpc2portmap"/>
+      <item key="370" value="codaauth2"/>
+      <range start="371" end="371" value="Unknown"/>
+      <item key="372" value="ulistproc"/>
+      <range start="373" end="388" value="Unknown"/>
+      <item key="389" value="ldap"/>
+      <range start="390" end="426" value="Unknown"/>
+      <item key="427" value="svrloc"/>
+      <range start="428" end="433" value="Unknown"/>
+      <item key="434" value="mobileip-agent"/>
+      <item key="435" value="mobilip-mn"/>
+      <range start="436" end="442" value="Unknown"/>
+      <item key="443" value="https"/>
+      <item key="444" value="snpp"/>
+      <item key="445" value="microsoft-ds"/>
+      <range start="446" end="463" value="Unknown"/>
+      <item key="464" value="kpasswd"/>
+      <item key="465" value="smtps"/>
+      <range start="466" end="467" value="Unknown"/>
+      <item key="468" value="photuris"/>
+      <range start="469" end="486" value="Unknown"/>
+      <item key="487" value="saft"/>
+      <item key="488" value="gss-http"/>
+      <range start="489" end="495" value="Unknown"/>
+      <item key="496" value="pim-rp-disc"/>
+      <range start="497" end="499" value="Unknown"/>
+      <item key="500" value="isakmp"/>
+      <range start="501" end="511" value="Unknown"/>
+      <item key="512" value="exec"/>
+      <item key="513" value="login"/>
+      <item key="514" value="shell"/>
+      <item key="515" value="printer"/>
+      <range start="516" end="518" value="Unknown"/>
+      <item key="519" value="utime"/>
+      <item key="520" value="efs"/>
+      <item key="521" value="ripng"/>
+      <range start="522" end="524" value="Unknown"/>
+      <item key="525" value="timed"/>
+      <item key="526" value="tempo"/>
+      <range start="527" end="529" value="Unknown"/>
+      <item key="530" value="courier"/>
+      <item key="531" value="conference"/>
+      <item key="532" value="netnews"/>
+      <range start="533" end="534" value="Unknown"/>
+      <item key="535" value="iiop"/>
+      <range start="536" end="537" value="Unknown"/>
+      <item key="538" value="gdomap"/>
+      <range start="539" end="539" value="Unknown"/>
+      <item key="540" value="uucp"/>
+      <range start="541" end="542" value="Unknown"/>
+      <item key="543" value="klogin"/>
+      <item key="544" value="kshell"/>
+      <range start="545" end="545" value="Unknown"/>
+      <item key="546" value="dhcpv6-client"/>
+      <item key="547" value="dhcpv6-server"/>
+      <item key="548" value="afpovertcp"/>
+      <range start="549" end="553" value="Unknown"/>
+      <item key="554" value="rtsp"/>
+      <range start="555" end="555" value="Unknown"/>
+      <item key="556" value="remotefs"/>
+      <range start="557" end="562" value="Unknown"/>
+      <item key="563" value="nntps"/>
+      <range start="564" end="564" value="Unknown"/>
+      <item key="565" value="whoami"/>
+      <range start="566" end="586" value="Unknown"/>
+      <item key="587" value="submission"/>
+      <range start="588" end="609" value="Unknown"/>
+      <item key="610" value="npmp-local"/>
+      <item key="611" value="npmp-gui"/>
+      <item key="612" value="hmmp-ind"/>
+      <range start="613" end="615" value="Unknown"/>
+      <item key="616" value="gii"/>
+      <range start="617" end="635" value="Unknown"/>
+      <item key="636" value="ldaps"/>
+      <range start="637" end="673" value="Unknown"/>
+      <item key="674" value="acap"/>
+      <range start="675" end="693" value="Unknown"/>
+      <item key="694" value="ha-cluster"/>
+      <range start="695" end="748" value="Unknown"/>
+      <item key="749" value="kerberos-adm"/>
+      <item key="750" value="kerberos-iv"/>
+      <item key="751" value="kerberos_master"/>
+      <range start="752" end="753" value="Unknown"/>
+      <item key="754" value="krb5_prop"/>
+      <range start="755" end="759" value="Unknown"/>
+      <item key="760" value="krbupdate"/>
+      <range start="761" end="764" value="Unknown"/>
+      <item key="765" value="webster"/>
+      <range start="766" end="766" value="Unknown"/>
+      <item key="767" value="phonebook"/>
+      <range start="768" end="807" value="Unknown"/>
+      <item key="808" value="omirr"/>
+      <range start="809" end="870" value="Unknown"/>
+      <item key="871" value="supfilesrv"/>
+      <range start="872" end="872" value="Unknown"/>
+      <item key="873" value="rsync"/>
+      <range start="874" end="900" value="Unknown"/>
+      <item key="901" value="swat"/>
+      <range start="902" end="952" value="Unknown"/>
+      <item key="953" value="rndc"/>
+      <range start="954" end="991" value="Unknown"/>
+      <item key="992" value="telnets"/>
+      <item key="993" value="imaps"/>
+      <item key="994" value="ircs"/>
+      <item key="995" value="pop3s"/>
+      <range start="996" end="1079" value="Unknown"/>
+      <item key="1080" value="socks"/>
+      <range start="1081" end="1108" value="Unknown"/>
+      <item key="1109" value="kpop"/>
+      <range start="1110" end="1126" value="Unknown"/>
+      <item key="1127" value="supfiledbg"/>
+      <range start="1128" end="1177" value="Unknown"/>
+      <item key="1178" value="skkserv"/>
+      <range start="1179" end="1235" value="Unknown"/>
+      <item key="1236" value="rmtcfg"/>
+      <range start="1237" end="1299" value="Unknown"/>
+      <item key="1300" value="h323hostcallsc"/>
+      <range start="1301" end="1312" value="Unknown"/>
+      <item key="1313" value="xtel"/>
+      <range start="1314" end="1432" value="Unknown"/>
+      <item key="1433" value="ms-sql-s"/>
+      <item key="1434" value="ms-sql-m"/>
+      <range start="1435" end="1493" value="Unknown"/>
+      <item key="1494" value="ica"/>
+      <range start="1495" end="1511" value="Unknown"/>
+      <item key="1512" value="wins"/>
+      <range start="1513" end="1523" value="Unknown"/>
+      <item key="1524" value="ingreslock"/>
+      <item key="1525" value="prospero-np"/>
+      <range start="1526" end="1528" value="Unknown"/>
+      <item key="1529" value="support"/>
+      <range start="1530" end="1644" value="Unknown"/>
+      <item key="1645" value="datametrics"/>
+      <item key="1646" value="sa-msg-port"/>
+      <range start="1647" end="1648" value="Unknown"/>
+      <item key="1649" value="kermit"/>
+      <range start="1650" end="1700" value="Unknown"/>
+      <item key="1701" value="l2tp"/>
+      <range start="1702" end="1717" value="Unknown"/>
+      <item key="1718" value="h323gatedisc"/>
+      <item key="1719" value="h323gatestat"/>
+      <item key="1720" value="h323hostcall"/>
+      <range start="1721" end="1757" value="Unknown"/>
+      <item key="1758" value="tftp-mcast"/>
+      <range start="1759" end="1788" value="Unknown"/>
+      <item key="1789" value="hello"/>
+      <range start="1790" end="1811" value="Unknown"/>
+      <item key="1812" value="radius"/>
+      <item key="1813" value="radius-acct"/>
+      <range start="1814" end="1910" value="Unknown"/>
+      <item key="1911" value="mtp"/>
+      <range start="1912" end="1984" value="Unknown"/>
+      <item key="1985" value="hsrp"/>
+      <item key="1986" value="licensedaemon"/>
+      <range start="1987" end="1996" value="Unknown"/>
+      <item key="1997" value="gdp-port"/>
+      <range start="1998" end="2002" value="Unknown"/>
+      <item key="2003" value="cfinger"/>
+      <range start="2004" end="2048" value="Unknown"/>
+      <item key="2049" value="nfs"/>
+      <range start="2050" end="2052" value="Unknown"/>
+      <item key="2053" value="knetd"/>
+      <range start="2054" end="2101" value="Unknown"/>
+      <item key="2102" value="zephyr-srv"/>
+      <item key="2103" value="zephyr-clt"/>
+      <item key="2104" value="zephyr-hm"/>
+      <item key="2105" value="eklogin"/>
+      <range start="2106" end="2149" value="Unknown"/>
+      <item key="2150" value="ninstall"/>
+      <range start="2151" end="2400" value="Unknown"/>
+      <item key="2401" value="cvspserver"/>
+      <range start="2402" end="2429" value="Unknown"/>
+      <item key="2430" value="venus"/>
+      <item key="2431" value="venus-se"/>
+      <item key="2432" value="codasrv"/>
+      <item key="2433" value="codasrv-se"/>
+      <range start="2434" end="2808" value="Unknown"/>
+      <item key="2809" value="corbaloc"/>
+      <range start="2810" end="2987" value="Unknown"/>
+      <item key="2988" value="afbackup"/>
+      <range start="2989" end="3127" value="Unknown"/>
+      <item key="3128" value="squid"/>
+      <range start="3129" end="3129" value="Unknown"/>
+      <item key="3130" value="icpv2"/>
+      <range start="3131" end="3305" value="Unknown"/>
+      <item key="3306" value="mysql"/>
+      <range start="3307" end="3345" value="Unknown"/>
+      <item key="3346" value="trnsprntproxy"/>
+      <range start="3347" end="3454" value="Unknown"/>
+      <item key="3455" value="prsvp"/>
+      <range start="3456" end="4320" value="Unknown"/>
+      <item key="4321" value="rwhois"/>
+      <range start="4322" end="4443" value="Unknown"/>
+      <item key="4444" value="krb524"/>
+      <range start="4445" end="4556" value="Unknown"/>
+      <item key="4557" value="fax"/>
+      <range start="4558" end="4558" value="Unknown"/>
+      <item key="4559" value="hylafax"/>
+      <range start="4560" end="5001" value="Unknown"/>
+      <item key="5002" value="rfe"/>
+      <range start="5003" end="5231" value="Unknown"/>
+      <item key="5232" value="sgi-dgl"/>
+      <range start="5233" end="5307" value="Unknown"/>
+      <item key="5308" value="cfengine"/>
+      <range start="5309" end="5353" value="Unknown"/>
+      <item key="5354" value="noclog"/>
+      <item key="5355" value="hostmon"/>
+      <range start="5356" end="5431" value="Unknown"/>
+      <item key="5432" value="postgres"/>
+      <range start="5433" end="5679" value="Unknown"/>
+      <item key="5680" value="canna"/>
+      <range start="5681" end="5998" value="Unknown"/>
+      <item key="5999" value="cvsup"/>
+      <item key="6000" value="x11"/>
+      <range start="6001" end="6009" value="Unknown"/>
+      <item key="6010" value="x11-ssh-offset"/>
+      <range start="6011" end="6666" value="Unknown"/>
+      <item key="6667" value="ircd"/>
+      <range start="6668" end="6999" value="Unknown"/>
+      <item key="7000" value="afs3-fileserver"/>
+      <item key="7001" value="afs3-callback"/>
+      <item key="7002" value="afs3-prserver"/>
+      <item key="7003" value="afs3-vlserver"/>
+      <item key="7004" value="afs3-kaserver"/>
+      <item key="7005" value="afs3-volser"/>
+      <item key="7006" value="afs3-errors"/>
+      <item key="7007" value="afs3-bos"/>
+      <item key="7008" value="afs3-update"/>
+      <item key="7009" value="afs3-rmtsys"/>
+      <range start="7010" end="7099" value="Unknown"/>
+      <item key="7100" value="xfs"/>
+      <range start="7101" end="7665" value="Unknown"/>
+      <item key="7666" value="tircproxy"/>
+      <range start="7667" end="8007" value="Unknown"/>
+      <item key="8008" value="http-alt"/>
+      <range start="8009" end="8079" value="Unknown"/>
+      <item key="8080" value="webcache"/>
+      <item key="8081" value="tproxy"/>
+      <range start="8082" end="9099" value="Unknown"/>
+      <item key="9100" value="jetdirect"/>
+      <range start="9101" end="9875" value="Unknown"/>
+      <item key="9876" value="sd"/>
+      <range start="9877" end="10079" value="Unknown"/>
+      <item key="10080" value="amanda"/>
+      <item key="10081" value="kamanda"/>
+      <item key="10082" value="amandaidx"/>
+      <item key="10083" value="amidxtape"/>
+      <range start="10084" end="11370" value="Unknown"/>
+      <item key="11371" value="pgpkeyserver"/>
+      <range start="11372" end="11719" value="Unknown"/>
+      <item key="11720" value="h323callsigalt"/>
+      <range start="11721" end="20010" value="Unknown"/>
+      <item key="20011" value="isdnlog"/>
+      <item key="20012" value="vboxd"/>
+      <range start="20013" end="24553" value="Unknown"/>
+      <item key="24554" value="binkp"/>
+      <range start="24555" end="25999" value="Unknown"/>
+      <item key="26000" value="quake"/>
+      <range start="26001" end="26207" value="Unknown"/>
+      <item key="26208" value="wnn6-ds"/>
+      <range start="26209" end="27373" value="Unknown"/>
+      <item key="27374" value="asp"/>
+      <range start="27375" end="33433" value="Unknown"/>
+      <item key="33434" value="traceroute"/>
+      <range start="33435" end="60176" value="Unknown"/>
+      <item key="60177" value="tfido"/>
+      <range start="60178" end="60178" value="Unknown"/>
+      <item key="60179" value="fido"/>
+      <range start="60180" end="65535" value="Unknown"/>
+    
+  </type>
+
+  <type name="TCP Options" id="tcp_options">
+    
+      <item key="0" value="End of option list"/>
+      <item key="1" value="No operation"/>
+      <item key="2" value="Maximum segment size"/>
+      <item key="3" value="Window scale"/>
+      <item key="4" value="Selective acknowledgement permitted"/>
+      <item key="5" value="Selective acknowledgment data"/>
+      <item key="6" value="Timestamp"/>
+      <item key="8" value="Timestamp option"/>
+    
+  </type>
+
+  <type name="ICMP Query Types" id="icmp_query_type">
+    
+      <item key="0" value="ICMP Echo Reply"/>
+      <item key="3" value="ICMP Destination Unreachable"/>
+      <item key="4" value="ICMP Source Quench"/>
+      <item key="5" value="ICMP Redirect"/>
+      <item key="8" value="ICMP Echo Request"/>
+      <item key="9" value="ICMP Router Advertizement"/>
+      <item key="10" value="ICMP Router Solicitation"/>
+      <item key="11" value="ICMP Time Exceeded"/>
+      <item key="12" value="ICMP Parameter Problem"/>
+      <item key="13" value="ICMP Timestamp Request"/>
+      <item key="14" value="ICMP Timestamp Reply"/>
+      <item key="17" value="ICMP Address Mask Request"/>
+      <item key="18" value="ICMP Address Mask Reply"/>
+    
+  </type>
+
+  <type name="ICMP Unreachable Codes" id="icmp_unreachable_code_type">
+    
+      <item key="0" value="Network unreachable"/>
+      <item key="1" value="Host unreachable"/>
+      <item key="2" value="Protocol unreachable"/>
+      <item key="3" value="Port unreachable"/>
+      <item key="4" value="Fragmentation required but DF bit is set"/>
+      <item key="5" value="Source Route Failed"/>
+      <item key="6" value="Destination network unknown"/>
+      <item key="7" value="Destination host unknown"/>
+      <item key="8" value="Source host isolated (obsolete)"/>
+      <item key="9" value="Destination network administratively prohibited"/>
+      <item key="10" value="Destination host administratively prohibited"/>
+      <item key="11" value="Destination network unreachable for type-of-service"/>
+      <item key="12" value="Destination host unreachable for type-of-service"/>
+      <item key="13" value="Communication administratively prohibited"/>
+      <item key="14" value="Host precedence violation"/>
+      <item key="15" value="Precedence cutoff in effect"/>
+    
+  </type>
+
+  <type name="ICMP Redirect Codes" id="icmp_redirect_code_type">
+    
+      <item key="0" value="Redirect for destination network"/>
+      <item key="1" value="Redirect for destination host"/>
+      <item key="2" value="Redirect for destination network based on type-of-service"/>
+      <item key="3" value="Redirect for destination host based on type-of-service"/>
+    
+  </type>
+
+  <type name="ICMP Time Exceeded Codes" id="icmp_time_exceeded_code_type">
+    
+      <item key="0" value="Time-to-live exceeeded in transit"/>
+      <item key="1" value="Fragment reassembly time exceeded"/>
+    
+  </type>
+
+  <type name="ICMP Parameter Problem Codes" id="icmp_parameter_problem_code">
+    
+      <item key="0" value="Pointer indicates the error"/>
+      <item key="1" value="Required option is missing"/>
+      <item key="2" value="Bad length"/>
+    
+  </type>
+
+  <type name="ARP Message Type" id="arp_msg_type">
+    
+      <item key="1" value="ARP Request"/>
+      <item key="2" value="ARP Response"/>
+      <item key="3" value="Reverse ARP Request"/>
+      <item key="4" value="Reverse ARP Response"/>
+      <item key="5" value="Inverse ARP Request"/>
+      <item key="6" value="Inverse ARP Response"/>
+    
+  </type>
+
+  <type id="tcp_timestamp">
+    <script>
+    description = string.format("%d ms", key)
+  </script>
+  </type>
+
+  <type id="Header_Length">
+    <script>
+    description = string.format("%d bytes", key*(32/8))
+  </script>
+  </type>
+
+  <!-- 
+  Parameters to TCP_Name:
+
+  TCP_Source_Port
+  TCP_Destination_Port
+  TCP_Urgent
+  TCP_Acknowledgment
+  TCP_Reset
+  TCP_Syn
+  TCP_Fin
+  TCP_Push
+ -->
+  <type id="TCP_Name">
+    <script>
+    local s = "";
+    if (Value("TCP_Urgent") == 1) then
+      s = "URG "
+    end
+    if (Value("TCP_Acknowledgment") == 1) then
+      s = s .. "ACK "
+    end
+    if (Value("TCP_Push") == 1) then
+      s = s .. "PSH "
+    end
+    if (Value("TCP_Reset") == 1) then
+      s = s .. "RST "
+    end
+    if (Value("TCP_Syn") == 1) then
+      s = s .. "SYN "
+    end
+
+    description = string.format("TCP: %s &gt; %s [%s]", Description("TCP_Source_Port"), Description("TCP_Destination_Port"), s)
+  </script>
+  </type>
+
+  <type id="UDP_Name">
+    <script>
+    description = string.format("UDP: %s &gt; %s", Description("UDP_Source_Port"), Description("UDP_Destination_Port"))
+  </script>
+  </type>
+
+  <fragment name="IP-structure" id="IP-structure">
+    <field name="Version" length="4" default="4" type="#ip_version"/>
+    <switch expr="Version">
+      <case value="4">
+        <field name="Header_Length" length="4" type="#Header_Length"/>
+        <record name="Header_Data" length="(Header_Length * 32) - 8" import="true">
+          <record name="Type_of_Service_Flags" length="8">
+            <field name="Precedence" length="3" type="#precedence"/>
+            <field name="Delay" length="1" default="0" type="#delay"/>
+            <field name="Throughput" length="1" type="#throughput"/>
+            <field name="Reliability" length="1" type="#reliability"/>
+            <field name="TOSF_Reserved" length="2"/>
+          </record>
+          <field name="Total_Packet_Length" length="16"/>
+          <field name="Fragment_Identifier" length="16"/>
+          <record name="Fragmentation_Flags" length="3">
+            <field name="FF_Reserved" length="1"/>
+            <field name="DF" length="1" type="#df_type"/>
+            <field name="MF" length="1" type="#mf_type"/>
+          </record>
+          <field name="Fragmentation_Offset" length="13"/>
+          <field name="Time_to_Live" length="8"/>
+          <field name="Protocol_Identifier" length="8" default="6" type="#protocol_type"/>
+          <field name="Header_Checksum" length="16"/>
+          <field name="Source_IP_Address" length="32" type="#ip_address"/>
+          <field name="Destination_IP_Address" length="32" type="#ip_address"/>
+          <record name="HeaderOptions" length="(32 * Header_Length) - (20 * 8)">
+            <repeat name="NUM_IP_Header_Options">
+              <comment>The rest of the message header is IP Options.</comment>
+              <field name="copy" length="1"/>
+              <field name="option_class" length="2"/>
+              <switch expr="option_class">
+                <case value="0">
+                  <field name="option_type_0" length="5" type="#option_type_definitions_0"/>
+                  <switch expr="option_type_0">
+                    <case value="0"/>
+                    <case value="1"/>
+                    <case value="2">
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </case>
+                    <case value="7">
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </case>
+                    <case value="3">
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </case>
+                    <case value="9">
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </case>
+                    <case value="20">
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </case>
+                    <default>
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </default>
+                  </switch>
+                </case>
+                <case value="2">
+                  <field name="option_type_2" length="5" type="#option_type_definitions_2"/>
+                  <switch expr="option_type_2">
+                    <case value="4">
+                      <field name="option_length" length="8"/>
+                      <field name="byte_pointer" length="8"/>
+                      <field name="overflow" length="4"/>
+                      <field name="flags" length="4" type="#timestamp_flags"/>
+                      <field name="option_data" length="8 * option_length - 16"/>
+                    </case>
+                    <default>
+                      <field name="option_length" length="8"/>
+                      <field name="option_data" length="8 * option_length"/>
+                    </default>
+                  </switch>
+                </case>
+              </switch>
+            </repeat>
+          </record>
+        </record>
+        <record name="Data" length="(Total_Packet_Length - (Header_Length*4)) * 8">
+          <switch expr="Protocol_Identifier">
+            <case value="1">
+              <field name="ICMP_Type" length="8" type="#icmp_query_type"/>
+              <setprop name="Name" type="#icmp_query_type" value="ICMP_Type"/>
+              <record name="ICMP_Code" length="8">
+                <switch expr="ICMP_Type">
+                  <case value="3">
+                    <field name="ICMP_Unreachable_Code" length="8" type="#icmp_unreachable_code_type"/>
+                  </case>
+                  <case value="5">
+                    <field name="ICMP_Redirect_Code" length="8" type="#icmp_redirect_code_type"/>
+                  </case>
+                  <case value="11">
+                    <field name="ICMP Time Exceeded Code" length="8" type="#icmp_time_exceeded_code_type"/>
+                  </case>
+                  <case value="12">
+                    <field name="ICMP Parameter Problem Code" length="8" type="#icmp_parameter_problem_code"/>
+                  </case>
+                  <default>
+                    <field name="ICMP_Code_Default" length="8" default="0"/>
+                  </default>
+                </switch>
+              </record>
+              <field name="Checksum" length="16"/>
+              <switch expr="ICMP_Type">
+                <case value="3"/>
+                <case value="4"/>
+                <case value="5"/>
+                <case value="11"/>
+                <case value="12">
+                  <field name="ICMP_Message_Data" length="4*8"/>
+                  <field name="IP Header" length="20*8">
+                    <comment>This should be an include of the header</comment>
+                  </field>
+                  <field name="Datagram Data" length="8*8"/>
+                </case>
+                <case value="13"/>
+                <case value="14">
+                  <field name="ICMP_Identifier" length="8*2"/>
+                  <field name="ICMP_SequenceNumber" length="8*2"/>
+                  <field name="ICMP_Originate_Timestamp" length="4*8"/>
+                  <field name="ICMP_Receive_Timestamp" length="4*8"/>
+                  <field name="ICMP_Transmit_Timestamp" length="4*8"/>
+                </case>
+              </switch>
+              <field name="ICMP_Type" length="8" type="#icmp_query_type"/>
+              <setprop name="Name" type="#icmp_query_type" value="ICMP_Type"/>
+              <record name="ICMP_Code" length="8">
+                <switch expr="ICMP_Type">
+                  <case value="3">
+                    <field name="ICMP_Unreachable_Code" length="8" type="#icmp_unreachable_code_type"/>
+                  </case>
+                  <case value="5">
+                    <field name="ICMP_Redirect_Code" length="8" type="#icmp_redirect_code_type"/>
+                  </case>
+                  <case value="11">
+                    <field name="ICMP Time Exceeded Code" length="8" type="#icmp_time_exceeded_code_type"/>
+                  </case>
+                  <case value="12">
+                    <field name="ICMP Parameter Problem Code" length="8" type="#icmp_parameter_problem_code"/>
+                  </case>
+                  <default>
+                    <field name="ICMP_Code_Default" length="8" default="0"/>
+                  </default>
+                </switch>
+              </record>
+              <field name="Checksum" length="16"/>
+              <switch expr="ICMP_Type">
+                <case value="3"/>
+                <case value="4"/>
+                <case value="5"/>
+                <case value="11"/>
+                <case value="12">
+                  <field name="ICMP_Message_Data" length="4*8"/>
+                  <field name="IP Header" length="20*8">
+                    <comment>This should be an include of the header</comment>
+                  </field>
+                  <field name="Datagram Data" length="8*8"/>
+                </case>
+                <case value="13"/>
+                <case value="14">
+                  <field name="ICMP_Identifier" length="8*2"/>
+                  <field name="ICMP_SequenceNumber" length="8*2"/>
+                  <field name="ICMP_Originate_Timestamp" length="4*8"/>
+                  <field name="ICMP_Receive_Timestamp" length="4*8"/>
+                  <field name="ICMP_Transmit_Timestamp" length="4*8"/>
+                </case>
+              </switch>
+            </case>
+            <case value="2">
+              <setprop name="Name" type="#protocol_type" value="Protocol_Identifier"/>
+            </case>
+            <case value="6">
+              <record name="TCP_Header">
+                <field name="TCP_Source_Port" length="8*2" type="#tcp_port_type"/>
+                <field name="TCP_Destination_Port" length="8*2" type="#tcp_port_type"/>
+                <field name="Sequence_Identifier" length="32"/>
+                <field name="Ack_Identifier" length="32"/>
+                <field name="TCP_Header_Length" length="4"/>
+                <field name="TCP_Reserved" length="6" default="0"/>
+                <record name="TCP_Flags" length="6" import="true">
+                  <field name="TCP_Urgent" length="1"/>
+                  <field name="TCP_Acknowledgment" length="1"/>
+                  <field name="TCP_Push" length="1"/>
+                  <field name="TCP_Reset" length="1"/>
+                  <field name="TCP_Syn" length="1"/>
+                  <field name="TCP_Fin" length="1"/>
+                </record>
+                <field name="TCP_Window" length="16"/>
+                <field name="TCP_Checksum" length="16"/>
+                <field name="TCP_Urgent_Pointer" length="16"/>
+                <setprop name="Name" type="#TCP_Name" value="0"/>
+                <record name="TCP_Header_Optional" length="(TCP_Header_Length * 32) - (20*8)">
+                  <repeat name="TCP_Header_Optional_Array">
+                    <field name="TCP_Optional_Type" length="8" type="#tcp_options"/>
+                    <switch expr="TCP_Optional_Type">
+                      <case value="2">
+                        <field name="TCP_MSS_Option_Size" length="8" default="2"/>
+                        <field name="TCP_MSS_Option_Data" length="(TCP_MSS_Option_Size * 8) - (2 *8)"/>
+                      </case>
+                      <case value="3">
+                        <field name="TCP_Window_Option_Size" length="8" default="2"/>
+                        <field name="TCP_Window_Option_Scale" length="(TCP_Window_Option_Size * 8) - (2*8)"/>
+                      </case>
+                      <case value="4">
+                        <field name="TCP_SelAckP_Option_Size" length="8" default="2"/>
+                        <field name="TCP_SelAckP_Option_Data" length="(TCP_SelAckP_Option_Size * 8) - (2*8)"/>
+                      </case>
+                      <case value="5">
+                        <field name="TCP_SelAck_Option_Size" length="8" default="10"/>
+                        <field name="TCP_SelAck_Start_Block" length="8*4"/>
+                        <field name="TCP_SelAck_End_Block" length="8*4"/>
+                        <field name="TCP_SelAck_Data" length="(TCP_SelAck_Option_Size * 8) - (8 * 10)"/>
+                      </case>
+                      <case value="8">
+                        <field name="TCP_TS_Option_Size" length="8" default="10"/>
+                        <field name="TCP_Option_TS_Value" length="4*8" type="#tcp_timestamp"/>
+                        <field name="TCP_Option_TS_Echo_Reply" length="4*8" type="#tcp_timestamp"/>
+                      </case>
+                    </switch>
+                  </repeat>
+                </record>
+              </record>
+              <!-- <field length="(Total_Packet_Length*8) - (Header_Length * 32) - LEN('TCP_Header')" name="TCP_Data"/> -->
+            </case>
+            <case value="17">
+              <record name="UDP_Header">
+                <field name="UDP_Source_Port" length="8*2" type="#udp_port_type"/>
+                <field name="UDP_Destination_Port" length="8*2" type="#udp_port_type"/>
+                <setprop name="Name" type="#UDP_Name" value="0"/>
+                <field name="UDP_Length" length="8*2"/>
+                <field name="UDP_Checksum" length="8*2"/>
+              </record>
+              <!-- <field length="8*UDP_Length - LEN('UDP_Header')" name="UDP_Data"/> -->
+            </case>
+            <default>
+              <!--
+          <field name="Data">
+          </field>
+        -->
+            </default>
+          </switch>
+        </record>
+      </case>
+      <case value="6">
+        <comment>Not Supported</comment>
+      </case>
+    </switch>
+  </fragment>
+
+</xddl>

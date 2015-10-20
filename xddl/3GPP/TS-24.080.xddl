@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- UMTS Layer 3 Supplementary Services -->
+  <!-- 3GPP TS 24.080 V10.0.0 (2011-03) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group Core Network and Terminals; -->
+  <!-- Mobile radio interface layer 3 -->
+  <!-- supplementary service specification; -->
+  <!-- Formats and coding -->
+  <!-- (Release 10) -->
+  <!-- Section 3.6 Facility information element -->
+  <record name="Facility information Component" id="3.6.1">
+    <field name="Component type tag" length="8" default="@10100001" type="#3.7"/>
+    <field name="Length" length="8"/>
+    <record name="Component Data" length="Length*8">
+      <switch expr="{Component type tag}">
+        <case value="@10100001">
+          <record name="Invoke Component">
+            <!-- Table 3.4 -->
+            <record name="Component ID tag" href="#3.6.3"/>
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #80">
+              <!-- Note: There are two 3.6.3 fragments specified -->
+              <record name="Component ID tag" href="#3.6.3"/>
+            </if>
+            <record name="Operation Code" href="#3.6.4"/>
+            <record name="Facility Component Parameters" href="#4.0"/>
+          </record>
+        </case>
+        <case value="@10100010">
+          <record name="Return Result Component">
+            <!-- Table 3.4 -->
+            <record name="Component ID tag" href="#3.6.3"/>
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #30">
+              <record name="Sequence and Set tags" href="#3.6.5"/>
+            </if>
+            <peek name="iei" length="8" offset="0"/>
+            <if expr="iei == #02">
+              <record name="Operation Code" href="#3.6.4"/>
+            </if>
+            <record name="Facility Component Parameters" href="#4.0"/>
+          </record>
+        </case>
+        <case value="@10100011">
+          <record name="Return Error Component">
+            <!-- Table 3.5 -->
+            <record name="Component ID tag" href="#3.6.3"/>
+            <record name="Error Code" href="#3.6.6"/>
+            <record name="Facility Component Parameters" href="#4.0"/>
+          </record>
+        </case>
+        <case value="@10100100">
+          <record name="Reject component " length="Length * 8">
+            <!-- Table 3.6 -->
+            <fragment href="#3.6.3"/>
+            <fragment href="#3.6.7"/>
+          </record>
+          <pad/>
+        </case>
+      </switch>
+    </record>
+  </record>
+  <record name="Component type tag" id="3.6.2">
+    <field name="Component Type tag" length="8" default="@10100001" type="#3.7"/>
+    <field name="Length" length="8" default="1"/>
+  </record>
+  <type name="Component type tag" id="3.7">
+    <item key="@10100001" value="Invoke"/>
+    <item key="@10100010" value="Return Result"/>
+    <item key="@10100011" value="Return Error"/>
+    <item key="@10100100" value="Reject"/>
+  </type>
+  <record name="Component ID tag" id="3.6.3">
+    <peek name="Component ID tag" length="8" offset="0"/>
+    <switch expr="{Component ID tag}">
+      <case value="@00000101">
+        <!-- NULL tag -->
+        <field name="Null tag" length="8" default="@00000101" type="#3.9"/>
+        <field name="Length" length="8" default="0"/>
+      </case>
+      <case value="@00000010">
+        <!-- Invoke ID tag -->
+        <field name="Invoke Id tag" length="8" default="@00000010" type="#3.8"/>
+        <field name="Length" length="8" default="1"/>
+        <field name="Invoke Id" length="Length*8"/>
+      </case>
+      <case value="@10000000">
+        <!-- Linked ID tag -->
+        <field name="Linked ID tag" length="8" default="@10000000" type="#3.8"/>
+        <field name="Length" length="8" default="1"/>
+        <field name="Linked Id" length="Length*8"/>
+      </case>
+      <default>
+        <field name="Null tag" length="8" default="@00000101" type="#3.9"/>
+        <field name="Length" length="8" default="0"/>
+      </default>
+    </switch>
+  </record>
+  <type name="Coding of Component ID tag" id="3.8">
+    <item key="@00000010" value="Invoke ID"/>
+    <item key="@10000000" value="Linked ID"/>
+    <item key="@00000101" value="NULL tag"/>
+  </type>
+  <type name="Coding of NULL tag" id="3.9">
+    <item key="@00000101" value="NULL tag"/>
+  </type>
+  <record name="Operation Code" id="3.6.4">
+    <field name="Operation Code Tag" length="8" default="@00000010" type="#3.10"/>
+    <field name="Length" length="8" default="1"/>
+    <field name="Operation Code" length="Length * 8"/>
+  </record>
+  <type name="Coding of Operation Code tag" id="3.10">
+    <item key="@00000010" value="Operation Code Tag"/>
+  </type>
+  <record name="Sequence and Set tags" id="3.6.5">
+    <field name="Sequence tag" length="8" default="@00110000" type="#3.11"/>
+    <field name="Length" length="8" default="0"/>
+  </record>
+  <type name="Coding of Sequence and set tags" id="3.11">
+    <item key="@00110000" value="Sequence Tag"/>
+    <item key="@00110001" value="Set Tag"/>
+  </type>
+  <record name="Error Code" id="3.6.6">
+    <field name="Error Code tag" length="8" default="@00000010" type="#3.12"/>
+    <field name="Length" length="8" default="1"/>
+    <field name="Error Code" length="8"/>
+  </record>
+  <type name="Coding of Problem tags" id="3.12">
+    <item key="@00000010" value="Error Code Tag"/>
+  </type>
+  <record name="Problem Code" id="3.6.7">
+    <field name="Problem Code tag" length="8" default="@10000000" type="#3.13"/>
+    <field name="Length" length="8" default="1"/>
+    <switch expr="{Problem Code tag}">
+      <case value="@10000000">
+        <!-- General Problem Tag -->
+        <field name="Problem Code" length="8" type="#3.14"/>
+      </case>
+      <case value="@10000001">
+        <!-- Invoke Problem Tag -->
+        <field name="Problem Code" length="8" type="#3.15"/>
+      </case>
+      <case value="@10000010">
+        <!-- Return Result Problem Tag -->
+        <field name="Problem Code" length="8" type="#3.16"/>
+      </case>
+      <case value="@10000011">
+        <!-- Return Error Problem Tag -->
+        <field name="Problem Code" length="8" type="#3.17"/>
+      </case>
+    </switch>
+  </record>
+  <type name="Coding of Problem tags" id="3.13">
+    <item key="@10000000" value="General Problem Tag"/>
+    <item key="@10000001" value="Invoke Problem Tag"/>
+    <item key="@10000010" value="Return Result Problem Tag"/>
+    <item key="@10000011" value="Return Error Problem Tag"/>
+  </type>
+  <type name="Coding of General Problem Codes" id="3.14">
+    <item key="@00000000" value="Unrecognized Component"/>
+    <item key="@00000001" value="Mistyped Component"/>
+    <item key="@00000010" value="Badly Structured Component"/>
+  </type>
+  <type name="Coding of Invoke Problem Codes" id="3.15">
+    <item key="@00000000" value="Duplicate Invoke ID"/>
+    <item key="@00000001" value="Unrecognized Operation"/>
+    <item key="@00000010" value="Mistyped Parameter"/>
+    <item key="@00000011" value="Resource Limitation"/>
+    <item key="@00000100" value="Initiating Release"/>
+    <item key="@00000101" value="Unrecognized Linked ID"/>
+    <item key="@00000110" value="Linked Response Unexpected"/>
+    <item key="@00000111" value="Unexpected Linked Operation"/>
+  </type>
+  <type name="Coding of Return Result Problem Codes" id="3.16">
+    <item key="@00000000" value="Unrecognized Invoke ID"/>
+    <item key="@00000001" value="Return Result Unexpected"/>
+    <item key="@00000010" value="Mistyped Parameter"/>
+  </type>
+  <type name="Coding of Return Error Problem Codes" id="3.17">
+    <item key="@00000000" value="Unrecognized Invoke ID"/>
+    <item key="@00000001" value="Return Error Unexpected"/>
+    <item key="@00000010" value="Unrecognized Error"/>
+    <item key="@00000011" value="Unexpected Error"/>
+    <item key="@00000100" value="Mistyped Parameter"/>
+  </type>
+  <!-- Section 3.7.1 Supplementary service screening indicator -->
+  <type name="SS Screening Indicator" id="3.18">
+    <item key="@00" value="Default value for phase 1"/>
+    <item key="@01" value="Capability of handling ellipsis notation and phase 2 error handling"/>
+    <range start="@10" end="@11" value="For future use, interpreted as (1)"/>
+  </type>
+  <!-- gobble up the rest of the record -->
+  <record name="Facility Component Parameters" id="4.0">
+    <repeat name="Facility Parameters">
+      <field name="Parameter" length="8"/>
+    </repeat>
+  </record>
+  <!-- Section 3.7 Version handling for supplementary services -->
+  <!-- Section 3.7.2 Supplementary service version indicator -->
+  <type name="Supplementary Service Version Indicator" id="3.19">
+    <item key="0" value="Phase 2 service, ellipsis notation, and phase 2 error handling supported"/>
+    <item key="1" value="SS-Protocol version 3 supported, and phase 2 error handing supported"/>
+    <range start="2" end="#FF" value="Reserved; interpreted as (1)"/>
+  </type>
+</xddl>

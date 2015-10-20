@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>
+3GPP2 C.R1001-G 
+Version 1.0 
+Date: 19 June 2009   
+Administration of Parameter Value Assignments for cdma2000 Spread Spectrum Standards 
+Release G
+</comment>
+  <type name="Standard Service Option Number Assignments" id="3.1.1">
+    <item key="1" value="Basic Variable Rate Voice Service (8 kbps)"/>
+    <item key="2" value="Mobile Station Loopback (8 kbps)"/>
+    <item key="3" value="Enhanced Variable Rate Voice Service (8 kbps)"/>
+    <item key="4" value="Asynchronous Data Service (9.6 kbps)"/>
+    <item key="5" value="Group 3 Facsimile (9.6 kbps)"/>
+    <item key="6" value="Short Message Services (Rate Set 1)"/>
+    <item key="7" value="Packet Data Service: Internet or ISO Protocol Stack"/>
+    <item key="8" value="Packet Data Service: CDPD Protocol Stack"/>
+    <item key="9" value="Mobile Station Loopback (13 kbps)"/>
+    <item key="10" value="STU-III Transparent Service"/>
+    <item key="11" value="STU-III Non-Transparent Service"/>
+    <item key="12" value="Asynchronous Data Service (14.4 or 9.6 kbps)"/>
+    <item key="13" value="Group 3 Facsimile (14.4 or 9.6 kbps)"/>
+    <item key="14" value="Short Message Services (Rate Set 2)"/>
+    <item key="15" value="Packet Data Service: Internet or ISO Protocol Stack (14.4 kbps)"/>
+    <item key="16" value="Packet Data Service: CDPD Protocol Stack (14.4 kbps)"/>
+    <item key="17" value="High Rate Voice Service (13 kbps)"/>
+    <item key="18" value="Over-the-Air Parameter Administration (Rate Set 1)"/>
+    <item key="19" value="Over-the-Air Parameter Administration (Rate Set 2)"/>
+    <item key="20" value="Group 3 Analog Facsimile (Rate Set 1)"/>
+    <item key="21" value="Group 3 Analog Facsimile (Rate Set 2)"/>
+    <item key="22" value="High Speed Packet Data Service: Internet/ISO Protocol Stack (RS1 forward, RS1 reverse)"/>
+    <item key="23" value="High Speed Packet Data Service: Internet/ISO Protocol Stack (RS1 forward, RS2 reverse)"/>
+    <item key="24" value="High Speed Packet Data Service: Internet/ISO Protocol Stack (RS2 forward, RS1 reverse)"/>
+    <item key="25" value="High Speed Packet Data Service: Internet/ISO Protocol Stack (RS2 forward, RS2 reverse)"/>
+    <item key="26" value="High Speed Packet Data Service: CDPD Protocol Stack (RS1 forward, RS1 reverse)"/>
+    <item key="27" value="High Speed Packet Data Service: CDPD Protocol Stack (RS1 forward, RS2 reverse)"/>
+    <item key="28" value="High Speed Packet Data Service: CDPD Protocol Stack (RS2 forward, RS1 reverse)"/>
+    <item key="29" value="High Speed Packet Data Service: CDPD Protocol Stack (RS2 forward, RS2 reverse)"/>
+    <item key="30" value="Supplemental Channel Loopback Test for Rate Set 1"/>
+    <item key="31" value="Supplemental Channel Loopback Test for Rate Set 2"/>
+    <item key="32" value="Test Data Service Option (TDSO)"/>
+    <item key="33" value="cdma2000 High Speed Packet Data Service, Internet or ISO Protocol Stack"/>
+    <item key="34" value="cdma2000 High Speed Packet Data Service, CDPD Protocol Stack"/>
+    <item key="35" value="Location Services, Rate Set 1 (9.6 kbps)"/>
+    <item key="36" value="Location Services, Rate Set 2 (14.4 kbps)"/>
+    <item key="37" value="ISDN Interworking Service (64 kbps)"/>
+    <item key="38" value="GSM Voice"/>
+    <item key="39" value="GSM Circuit Data"/>
+    <item key="40" value="GSM Packet Data"/>
+    <item key="41" value="GSM Short Message Service"/>
+    <range start="42" end="53" value="Reserved for MC-MAP standard service options"/>
+    <item key="54" value="Markov Service Option (MSO)"/>
+    <item key="55" value="Data Loopback"/>
+    <item key="56" value="Selectable Mode Vocoder"/>
+    <item key="57" value="32 kbps Circuit Video Conferencing"/>
+    <item key="58" value="64 kbps Circuit Video Conferencing"/>
+    <item key="59" value="HRPD Packet Data Service"/>
+    <item key="60" value="Link Layer Assisted Robust Header Compression (LLA ROHC) - Header Removal"/>
+    <item key="61" value="Link Layer Assisted Robust Header Compression (LLA ROHC) - Header Compression"/>
+    <item key="62" value="Source-Controlled Variable-Rate Multimode Wideband Speech Codec (VMR-WB) Rate Set 2"/>
+    <item key="63" value="Source-Controlled Variable-Rate Multimode Wideband Speech Codec (VMR-WB) Rate Set 1"/>
+    <item key="64" value="HRPD auxiliary Packet Data Service instance"/>
+    <item key="65" value="cdma2000/GPRS Inter-working"/>
+    <item key="66" value="cdma2000 High Speed Packet Data Service, Internet or ISO Protocol Stack"/>
+    <item key="67" value="HRPD Packet Data IP Service where Higher Layer Protocol is IP or ROHC"/>
+    <item key="68" value="Enhanced Variable Rate Voice Service (EVRC-B)"/>
+    <item key="69" value="HRPD Packet Data Service"/>
+    <item key="70" value="Enhanced Variable Rate Voice Service (EVRC-WB)"/>
+    <item key="71" value="HRPD Packet Data Service for altPPP"/>
+    <item key="72" value="HRPD auxiliary Packet Data IP Service with PDN multiplexing header"/>
+    <item key="73" value="Enhanced Variable Rate Voice Service (EVRC-NW"/>
+    <item key="74" value="Flexible Markov Service Option"/>
+    <item key="75" value="Enhanced Loopback Service Option"/>
+    <range start="76" end="4099" value="Reserved for standard service options."/>
+    <item key="4100" value="Asynchronous Data Service, Revision 1 (9.6 or 14.4 kbps)"/>
+    <item key="4101" value="Group 3 Facsimile, Revision 1 (9.6 or 14.4 kbps)"/>
+    <item key="4102" value="Reserved for standard service option."/>
+    <item key="4103" value="Packet Data Service: Internet/ISO Protocol Stack, Rev 1 (9.6/14.4 kbps)"/>
+    <item key="4104" value="Packet Data Service: CDPD Protocol Stack, Revision 1 (9.6/14.4 kbps)"/>
+    <range start="4105" end="22783" value="Reserved for standard service options."/>
+    <range start="22784" end="23039" value="HRPD Packet Data Service"/>
+    <range start="23040" end="26879" value="Reserved for standard service options."/>
+    <range start="26880" end="27135" value="HRPD Packet Data Service"/>
+    <range start="27136" end="32759" value="Reserved for standard service options."/>
+    <item key="32760" value="Identifies service reference identifier 0"/>
+    <item key="32761" value="Identifies service reference identifier 1"/>
+    <item key="32762" value="Identifies service reference identifier 2"/>
+    <item key="32763" value="Identifies service reference identifier 3"/>
+    <item key="32764" value="Identifies service reference identifier 4"/>
+    <item key="32765" value="Identifies service reference identifier 5"/>
+    <item key="32766" value="Identifies service reference identifier 6"/>
+    <item key="32767" value="Identifies service reference identifier 7"/>
+    <range start="32768" end="32771" value="QUALCOMM Incorporated"/>
+    <range start="32772" end="32775" value="OKI telecom"/>
+    <range start="32776" end="32779" value="Lucent Technologies"/>
+    <range start="32780" end="32783" value="Nokia"/>
+    <range start="32784" end="32787" value="NORTEL NETWORKS"/>
+    <range start="32788" end="32791" value="Sony Electronics Inc."/>
+    <range start="32792" end="32795" value="Motorola"/>
+    <range start="32796" end="32799" value="QUALCOMM Incorporated"/>
+    <range start="32800" end="32803" value="QUALCOMM Incorporated"/>
+    <range start="32804" end="32807" value="QUALCOMM Incorporated"/>
+    <range start="32808" end="32811" value="QUALCOMM Incorporated"/>
+    <range start="32812" end="32815" value="Lucent Technologies"/>
+    <range start="32816" end="32819" value="Denso International"/>
+    <range start="32820" end="32823" value="Motorola"/>
+    <range start="32824" end="32827" value="Denso International"/>
+    <range start="32828" end="32831" value="Denso International"/>
+    <range start="32832" end="32835" value="Denso International"/>
+    <range start="32836" end="32839" value="NEC America"/>
+    <range start="32840" end="32843" value="Samsung Electronics"/>
+    <range start="32844" end="32847" value="Texas Instruments Incorporated"/>
+    <range start="32848" end="32851" value="Toshiba Corporation"/>
+    <range start="32852" end="32855" value="LG Electronics Inc."/>
+    <range start="32856" end="32859" value="VIA Telecom Inc."/>
+    <range start="32860" end="32863" value="Verizon Wireless"/>
+    <range start="32864" end="32867" value="Huawei Technologies"/>
+    <range start="32868" end="32871" value="QUALCOMM Incorporated"/>
+    <range start="32872" end="32875" value="ZTE Corporation"/>
+    <range start="32876" end="65535" value="Reserved"/>
+  </type>
+  <type name="Standard Data Burst Message Burst Type Assignments  " id="4.1-1">
+    <item key="@000000" value="Unknown burst type"/>
+    <item key="@000001" value="Asynchronous Data Services"/>
+    <item key="@000010" value="Group-3 Facsimile"/>
+    <item key="@000011" value="Short Message Services"/>
+    <item key="@000100" value="Over-the-Air Service Provisioning"/>
+    <item key="@000101" value="Position Determination Services"/>
+    <item key="@000110" value="Short Data Bursts"/>
+    <range start="@000111" end="@111101" value="Reserved"/>
+    <item key="@111110" value="Extended Burst Type International"/>
+    <item key="@111111" value="Extended Burst Type"/>
+  </type>
+  <type name="Standard Enhanced Roaming Indicator Number Assignments" id="8.1-1">
+    <item key="@00000000" value="Roaming Indicator On"/>
+    <item key="@00000001" value="Roaming Indicator Off"/>
+    <item key="@00000010" value="Roaming Indicator Flashing"/>
+    <item key="@00000011" value="Out of Neighborhood"/>
+    <item key="@00000100" value="Out of Building"/>
+    <item key="@00000101" value="Roaming - Preferred System"/>
+    <item key="@00000110" value="Roaming - Available System"/>
+    <item key="@00000111" value="Roaming - Alliance Partner"/>
+    <item key="@00001000" value="Roaming - Premium Partner"/>
+    <item key="@00001001" value="Roaming - Full Service Functionality"/>
+    <item key="@00001010" value="Roaming - Partial Service Functionality"/>
+    <item key="@00001011" value="Roaming Banner On"/>
+    <item key="@00001100" value="Roaming Banner Off"/>
+    <range start="@00001101" end="@00111111" value="Reserved for Standard Enhanced Roaming Indicator Numbers"/>
+    <range start="@01000000" end="@01111111" value="Reserved for Non-Standard Enhanced Roaming Indicator Numbers"/>
+    <range start="@10000000" end="@11111111" value="Reserved"/>
+  </type>
+</xddl>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>On-demand global property creation</comment>
+  <export>
+    <extern name="a"/>
+  </export>
+  <start>
+    <record name="Header">
+      <setprop name="a" value="8"/>
+    </record>
+    <switch expr="a">
+      <case value="0">
+        <field name="error" length="8"/>
+      </case>
+      <case value="8">
+        <field name="one" length="8"/>
+      </case>
+    </switch>
+  </start>
+</xddl>

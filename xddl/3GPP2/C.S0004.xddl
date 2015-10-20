@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!--
+    3GPP2 C.S0004-F v1.0
+    December 2012
+    Signaling Link Access Control (LAC) Standard for
+    cdma2000 Spread Spectrum Systems
+  -->
+  <!-- TODO MSG_TYPE or MSG_ID, pick one! -->
+  <export>
+    <!-- extern -->
+    <prop name="Name"/>
+    <prop name="MSG_TYPE"/>
+    <prop name="MSG_ID"/>
+    <prop name="Channel"/>
+    <prop name="P_REV_IN_USE"/>
+    <prop name="PAGE_CLASS"/>
+    <prop name="PAGE_SUBCLASS"/>
+  </export>
+  <!-- TODO: parser is having problems with these frags defined in the right section, ugh -->
+  <record name="Definition of ARQ Fields" id="3.1.2.1.1.1">
+    <switch expr="MSG_TYPE">
+      <case value="17">
+        <field name="MSG_SEQ" length="3"/>
+      </case>
+      <default>
+        <field name="ACK_SEQ" length="3"/>
+        <field name="MSG_SEQ" length="3"/>
+        <field name="ACK_REQ" length="1"/>
+        <field name="VALID_ACK" length="1"/>
+      </default>
+    </switch>
+  </record>
+  <record name="Addressing Fields" id="3.1.2.2.1.2.1">
+    <!-- TODO: look at this -->
+    <field name="ADDR_TYPE" length="3" type="#3.1.2.2.1.2.1-1"/>
+    <field name="ADDR_LEN" length="4"/>
+    <switch expr="ADDR_TYPE">
+      <case value="@000">
+        <field name="IMSI_S" length="34"/>
+        <field name="AT_RESERVED_1" length="6"/>
+      </case>
+      <case value="@001">
+        <field name="ESN" length="8*ADDR_LEN"/>
+      </case>
+      <case value="@010">
+        <field name="IMSI_CLASS" length="1"/>
+        <field name="IMSI_class_specific_subfields" length="7 + 8 * (ADDR_LEN - 1)"/>
+      </case>
+      <case value="@011">
+        <field name="TMSI_ZONE" length="(ADDR_LEN &gt; 4) ? (8 * (ADDR_LEN - 4)) : 0"/>
+        <field name="TMSI_CODE_ADDR" length="(ADDR_LEN &gt; 4) ? 32 : (8 * ADDR_LEN)"/>
+      </case>
+      <case value="@101">
+        <field name="BC_ADDR" length="8*ADDR_LEN"/>
+      </case>
+      <default>
+        <field name="ADDRESS" length="8*ADDR_LEN"/>
+      </default>
+    </switch>
+  </record>
+  <record name="GPM Common Fields" id="3.1.2.3.1.2.1">
+    <field name="CONFIG_MSG_SEQ" length="6"/>
+    <field name="ACC_MSG_SEQ" length="6"/>
+    <field name="CLASS_0_DONE" length="1"/>
+    <field name="CLASS_1_DONE" length="1"/>
+    <field name="TMSI_DONE" length="1"/>
+    <field name="ORDERED_TMSIS" length="1"/>
+    <field name="BROADCAST_DONE" length="1"/>
+    <field name="GPM_RESERVED_1" length="4"/>
+    <field name="ADD_LENGTH" length="3"/>
+    <field name="ADD_PFIELD" length="8 * ADD_LENGTH"/>
+  </record>
+  <record name="Authentication Fields" id="2.1.1.1.1">
+    <field name="AUTH_MODE" length="2"/>
+    <if expr="AUTH_MODE == @01">
+      <field name="AUTHR" length="18"/>
+      <field name="RANDC" length="8"/>
+      <field name="COUNT" length="6"/>
+    </if>
+  </record>
+  <record name="ARQ Fields" id="2.1.1.2.1">
+    <field name="ACK_SEQ" length="3"/>
+    <field name="MSG_SEQ" length="3"/>
+    <field name="ACK_REQ" length="1"/>
+    <field name="VALID_ACK" length="1"/>
+    <field name="ACK_TYPE" length="3"/>
+  </record>
+  <record name="Address Fields" id="2.1.1.3.1">
+    <field name="MSID_TYPE" length="3" type="#2.1.1.3.1.1-1"/>
+    <field name="MSID_LEN" length="4"/>
+    <field name="MSID" length="8 * MSID_LEN"/>
+  </record>
+  <type name="Address Types" id="2.1.1.3.1.1-1">
+    <item key="0" value="IMSI_S and ESN (Band Class 0 Only)"/>
+    <item key="1" value="ESN"/>
+    <item key="2" value="IMSI"/>
+    <item key="3" value="IMSI and ESN"/>
+    <item key="4" value="Reserved"/>
+    <item key="5" value="TMSI"/>
+    <item key="6" value="Reserved (for MC-MAP)"/>
+    <item key="7" value="Reserved (for MC-MAP)"/>
+  </type>
+  <record name="Radio Environment Report Fields" id="2.1.1.4.1.2">
+    <field name="ACTIVE_PILOT_STRENGTH" length="6"/>
+    <field name="FIRST_IS_ACTIVE" length="1"/>
+    <field name="FIRST_IS_PTA" length="1"/>
+    <field name="NUM_ADD_PILOTS" length="3"/>
+    <repeat name="PILOT_LIST" num="NUM_ADD_PILOTS">
+      <field name="PILOT_PN_PHASE" length="15"/>
+      <field name="PILOT_STRENGTH" length="6"/>
+      <field name="ACCESS_HO_EN" length="1"/>
+      <field name="ACCESS_ATTEMPTED" length="1"/>
+    </repeat>
+  </record>
+
+  <type name=" MSG_ID values on r-csch" id="2.1.1.4.1.1.2-1">
+    <item key="@000001" value="Registration Message" href="C.S0005.xddl#2.7.1.3.2.1"/>
+    <item key="@000010" value="Order Message" href="C.S0005.xddl#2.7.1.3.2.2"/>
+    <item key="@000011" value="Data Burst Message" href="C.S0005.xddl#2.7.1.3.2.3"/>
+    <item key="@000100" value="Origination Message" href="C.S0005.xddl#2.7.1.3.2.4"/>
+    <item key="@000101" value="Page Response Message" href="C.S0005.xddl#2.7.1.3.2.5"/>
+    <item key="@000110" value="Authentication Challenge Response Message" href="C.S0005.xddl#2.7.1.3.2.6"/>
+    <item key="@000111" value="Status Response Message" href="C.S0005.xddl#2.7.1.3.2.7"/>
+    <item key="@001000" value="TMSI Assignment Completion Message" href="C.S0005.xddl#2.7.1.3.2.8"/>
+    <item key="@001001" value="PACA Cancel Message" href="C.S0005.xddl#2.7.1.3.2.9"/>
+    <item key="@001010" value="Extended Status Response Message" href="C.S0005.xddl#2.7.1.3.2.10"/>
+    <item key="@001011" value="Reserved"/>
+    <item key="@001100" value="Reserved"/>
+    <item key="@001101" value="Device Information Message" href="C.S0005.xddl#2.7.1.3.2.11"/>
+    <item key="@001110" value="Security Mode Request Message" href="C.S0005.xddl#2.7.1.3.2.12"/>
+    <item key="@001111" value="Data Burst Response Message"/>
+    <item key="@010000" value="RR-level Registration Message"/>
+    <item key="@010001" value="MC-MAP Initial L3 Message"/>
+    <item key="@010010" value="MC-MAP L3 Message"/>
+    <item key="@010011" value="MC-MAP RRC Connection Request Message"/>
+    <item key="@010100" value="R-TMSI Assignment Completion Message"/>
+    <item key="@010101" value="Authentication Response Message" href="C.S0005.xddl#2.7.1.3.2.13"/>
+    <item key="@010110" value="Authentication Resynchronization Message" href="C.S0005.xddl#2.7.1.3.2.14"/>
+    <item key="@010111" value="Reconnect Message" href="C.S0005.xddl#2.7.1.3.2.15"/>
+    <item key="@011000" value="Radio Environment Message" href="C.S0005.xddl#2.7.1.3.2.16"/>
+    <item key="@011001" value="Call Recovery Request Message" href="C.S0005.xddl#2.7.1.3.2.17"/>
+    <item key="@111111" value="General Extension Message" href="C.S0005.xddl#2.7.1.3.2.18"/>
+  </type>
+  <record name="ARQ Fields" id="2.2.1.1.1.1">
+    <field name="ACK_SEQ" length="3"/>
+    <field name="MSG_SEQ" length="3"/>
+    <field name="ACK_REQ" length="1"/>
+  </record>
+  <record name="ENCRYPTION Fields" id="2.2.1.2.1.1">
+    <field name="ENCRYPTION" length="2"/>
+  </record>
+  <type name="MSG_TYPE Values for Regular PDUs on r-dsch" id="2.2.1.2.1.2-1">
+    <item key="@00000001" value="Order Message" href="C.S0005.xddl#2.7.2.3.2.1"/>
+    <item key="@00000010" value="Authentication Challenge Response Message" href="C.S0005.xddl#2.7.2.3.2.2"/>
+    <item key="@00000011" value="Flash With Information" href="C.S0005.xddl#2.7.2.3.2.3"/>
+    <item key="@00000100" value="Data Burst Message" href="C.S0005.xddl#2.7.2.3.2.4"/>
+    <item key="@00000101" value="Pilot Strength Measurement Message" href="C.S0005.xddl#2.7.2.3.2.5"/>
+    <item key="@00000110" value="Power Measurement Report Message" href="C.S0005.xddl#2.7.2.3.2.6"/>
+    <item key="@00000111" value="Send Burst DTMF Message" href="C.S0005.xddl#2.7.2.3.2.7"/>
+    <item key="@00001000" value="Status Message" href="C.S0005.xddl#2.7.2.3.2.8"/>
+    <item key="@00001001" value="Origination Continuation Message" href="C.S0005.xddl#2.7.2.3.2.9"/>
+    <item key="@00001010" value="Handoff Completion Message" href="C.S0005.xddl#2.7.2.3.2.10"/>
+    <item key="@00001011" value="Parameters Response Message" href="C.S0005.xddl#2.7.2.3.2.11"/>
+    <item key="@00001100" value="Service Request Message" href="C.S0005.xddl#2.7.2.3.2.12"/>
+    <item key="@00001101" value="Service Response Message" href="C.S0005.xddl#2.7.2.3.2.13"/>
+    <item key="@00001110" value="Service Connect Completion Message" href="C.S0005.xddl#2.7.2.3.2.14"/>
+    <item key="@00001111" value="Service Option Control Message" href="C.S0005.xddl#2.7.2.3.2.15"/>
+    <item key="@00010000" value="Status Response Message" href="C.S0005.xddl#2.7.2.3.2.16"/>
+    <item key="@00010001" value="TMSI Assignment Completion Message" href="C.S0005.xddl#2.7.2.3.2.17"/>
+    <item key="@00010010" value="Supplemental Channel Request Message" href="C.S0005.xddl#2.7.2.3.2.18"/>
+    <item key="@00010011" value="Candidate Frequency Search Response Message" href="C.S0005.xddl#2.7.2.3.2.19"/>
+    <item key="@00010100" value="Candidate Frequency Search Report Message" href="C.S0005.xddl#2.7.2.3.2.20"/>
+    <item key="@00010101" value="Periodic Pilot Strength Measurement Message" href="C.S0005.xddl#2.7.2.3.2.21"/>
+    <item key="@00010110" value="Outer Loop Report Message" href="C.S0005.xddl#2.7.2.3.2.22"/>
+    <item key="@00010111" value="Resource Request Message" href="C.S0005.xddl#2.7.2.3.2.23"/>
+    <item key="@00011000" value="Extended Release Response Message" href="C.S0005.xddl#2.7.2.3.2.25"/>
+    <item key="@00011001" value="Reserved" href="C.S0005.xddl#reserved"/>
+    <item key="@00011010" value="Enhanced Origination Message" href="C.S0005.xddl#2.7.2.3.2.32"/>
+    <item key="@00011011" value="Extended Flash With Information Message" href="C.S0005.xddl#2.7.2.3.2.33"/>
+    <item key="@00011100" value="Extended Pilot Strength Measurement Message" href="C.S0005.xddl#2.7.2.3.2.34"/>
+    <item key="@00011101" value="Extended Handoff Completion Message" href="C.S0005.xddl#2.7.2.3.2.35"/>
+    <item key="@00011110" value="Resource Release Request Message" href="C.S0005.xddl#2.7.2.3.2.29"/>
+    <item key="@00011111" value="Security Mode Request Message" href="C.S0005.xddl#2.7.2.3.2.36"/>
+    <item key="@00100000" value="Data Burst Response Message"/>
+    <item key="@00100001" value="DS-41 Inter-system Transfer Message"/>
+    <item key="@00100010" value="User Zone Update Request Message" href="C.S0005.xddl#2.7.2.3.2.31"/>
+    <item key="@00100011" value="Call Cancel Message" href="C.S0005.xddl#2.7.2.3.2.37"/>
+    <item key="@00100100" value="Device Information Message" href="C.S0005.xddl#2.7.2.3.2.38"/>
+    <item key="@00100101" value="MC-MAP Initial L3 Message"/>
+    <item key="@00100110" value="MC-MAP L3 Message"/>
+    <item key="@00100111" value="R-TMSI Assignment Completion Message"/>
+    <item key="@00101000" value="Base Station Status Request Message" href="C.S0005.xddl#2.7.2.3.2.39"/>
+    <item key="@00101001" value="CDMA Offtime Report Message" href="C.S0005.xddl#2.7.2.3.2.40"/>
+    <item key="@00101010" value="Authentication Resynchronization Message" href="C.S0005.xddl#2.7.2.3.2.42"/>
+    <item key="@00101011" value="Authentication Response Message" href="C.S0005.xddl#2.7.2.3.2.41"/>
+    <item key="@00101100" value="ITBSPM Request Message" href="C.S0005.xddl#2.7.2.3.2.43"/>
+    <item key="@00101101" value="Handoff Supplementary Information Notification Message" href="C.S0005.xddl#2.7.2.3.2.44"/>
+    <item key="@11111111" value="General Extension Message" href="C.S0005.xddl#2.7.2.3.2.45"/>
+  </type>
+<!-- r-dsch mini messages (3 bits)
+ Pilot Strength Measurement Mini Message PSMMM 000 2.7.2.3.2.27
+ Supplemental Channel Request Mini Message SCRMM 001 2.7.2.3.2.28
+ Reserved N/A 010 reserved
+-->
+  <type name="MSG_TYPE Values (3 bits) 2 for Mini PDUs on r-dsch" id="2.2.1.2.1.2-2">
+    <item key="@000" value="Pilot Strength Measurement Mini Message"/>
+    <!-- * PSMMM -->
+    <item key="@001" value="Supplemental Channel Request Mini Message"/>
+    <!-- * SCRMM -->
+    <item key="@010" value="Reserved"/>
+    <!-- N/A -->
+  </type>
+  <record id="r-dsch-mini-3bit-switch">
+    <switch expr="MSG_ID">
+      <case value="@000">
+        <fragment href="C.S0005.xddl#2.7.2.3.2.27"/>
+      </case>
+      <case value="@001">
+        <fragment href="C.S0005.xddl#2.7.2.3.2.28"/>
+      </case>
+      <case value="@010">
+        <fragment href="C.S0005.xddl#reserved"/>
+      </case>
+    </switch>
+  </record>
+  <!-- r-dsch mini messages (6 bits)
+
+Acknowledgment PDU ACK 111000 empty
+Reset PDU RESET 111001 empty
+Resource Request Mini Message RRMM 111010 2.7.2.3.2.24
+Extended Release Response Mini Message ERRMM 111011 2.7.2.3.2.26
+Resource Release Request Mini Message RRRMM 111100  2.7.2.3.2.30
+
+-->
+  <type name="MSG_TYPE Values (6 bits) for Mini PDUs on r-dsch" id="2.2.1.2.1.2-3">
+    <item key="@111000" value="Acknowledgment PDU"/>
+    <!-- ACK -->
+    <item key="@111001" value="Reset PDU"/>
+    <!-- RESET -->
+    <item key="@111010" value="Resource Request Mini Message"/>
+    <!-- * RRMM -->
+    <item key="@111011" value="Extended Release Response Mini Message"/>
+    <!-- * ERRMM -->
+    <item key="@111100" value="Resource Release Request Mini Message"/>
+    <!-- * RRRMM -->
+  </type>
+  <record id="r-dsch-mini-6bit-switch">
+    <switch expr="MSG_ID">
+      <case value="@111010">
+        <fragment href="C.S0005.xddl#2.7.2.3.2.24"/>
+      </case>
+      <case value="@111011">
+        <fragment href="C.S0005.xddl#2.7.2.3.2.26"/>
+      </case>
+      <case value="@111100">
+        <fragment href="C.S0005.xddl#2.7.2.3.2.30"/>
+      </case>
+    </switch>
+  </record>
+  <record name="Definition of Page Class Fields of a General Page Message" id="3.1.2.2.1.1.1.1">
+    <field name="PAGE_CLASS" length="2"/>
+    <field name="PAGE_SUBCLASS" length="2"/>
+  </record>
+  <record name="Definition of Page Type-specific Fields of a General Page Message" id="3.1.2.2.1.1.2.1">
+    <prop name="PAGE_SUBCLASS_EXT" value="0"/>
+    <switch expr="PAGE_CLASS">
+      <case value="@00">
+        <switch expr="PAGE_SUBCLASS">
+          <case value="@00">
+            <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+          </case>
+          <case value="@01">
+            <field name="IMSI_11_12" length="7"/>
+            <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+          </case>
+          <case value="@10">
+            <field name="MCC" length="10"/>
+            <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+          </case>
+          <case value="@11">
+            <field name="MCC" length="10"/>
+            <field name="IMSI_11_12" length="7"/>
+            <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@01">
+        <switch expr="PAGE_SUBCLASS">
+          <case value="@00">
+            <field name="IMSI_ADDR_NUM" length="3"/>
+            <field name="IMSI_11_12" length="7"/>
+            <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+          </case>
+          <case value="@01">
+            <field name="IMSI_ADDR_NUM" length="3"/>
+            <field name="MCC" length="10"/>
+            <field name="IMSI_11_12" length="7"/>
+            <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+          </case>
+          <case value="@10"/>
+          <case value="@11"/>
+        </switch>
+      </case>
+      <case value="@10">
+        <switch expr="PAGE_SUBCLASS">
+          <case value="@00">
+            <field name="TMSI_CODE_ADDR" length="32"/>
+          </case>
+          <case value="@01">
+            <field name="TMSI_CODE_ADDR" length="24"/>
+          </case>
+          <case value="@10">
+            <field name="TMSI_CODE_ADDR" length="16"/>
+          </case>
+          <case value="@11">
+            <field name="TMSI_ZONE_LEN" length="4"/>
+            <field name="TMSI_ZONE" length="8 * TMSI_ZONE_LEN"/>
+            <field name="TMSI_CODE_ADDR" length="32"/>
+          </case>
+        </switch>
+      </case>
+      <case value="@11">
+        <switch expr="PAGE_SUBCLASS">
+          <case value="@00">
+            <field name="BURST_TYPE" length="6"/>
+            <field name="ADDR_LEN" length="4"/>
+            <field name="BC_ADDR" length="8 * ADDR_LEN"/>
+          </case>
+          <case value="@01">
+            <switch expr="PAGE_SUBCLASS_EXT">
+              <case value="@00">
+                <field name="PSE_RESERVED_1" length="32"/>
+              </case>
+              <case value="@01">
+                <field name="PSE_RESERVED_1" length="24"/>
+              </case>
+              <case value="@10">
+                <field name="PSE_RESERVED_1" length="16"/>
+              </case>
+              <case value="@11">
+                <field name="LENGTH" length="4"/>
+                <field name="PSE_RESERVED_1" length="(8 * LENGTH) + 32"/>
+              </case>
+            </switch>
+          </case>
+          <case value="@10">
+            <switch expr="PAGE_SUBCLASS_EXT">
+              <case value="@00">
+                <field name="PSE_RESERVED_1" length="32"/>
+              </case>
+              <case value="@01">
+                <field name="PSE_RESERVED_1" length="68"/>
+              </case>
+              <case value="@10">
+                <field name="PSE_RESERVED_1" length="76"/>
+              </case>
+              <case value="@11"/>
+            </switch>
+          </case>
+          <case value="@11">
+            <switch expr="PAGE_SUBCLASS_EXT">
+              <case value="@00">
+                <field name="BURST_TYPE" length="6"/>
+                <field name="ADDR_LEN" length="4"/>
+                <field name="BC_ADDR" length="8 * ADDR_LEN"/>
+              </case>
+              <case value="@01"/>
+              <case value="@10"/>
+              <case value="@11"/>
+            </switch>
+          </case>
+        </switch>
+      </case>
+    </switch>
+  </record>
+  <type name="Address Types" id="3.1.2.2.1.2.1-1">
+    <item key="@000" value="IMSI_S"/>
+    <item key="@001" value="ESN"/>
+    <item key="@010" value="IMSI"/>
+    <item key="@011" value="TMSI"/>
+    <item key="@100" value="Reserved"/>
+    <item key="@101" value="BROADCAST"/>
+    <item key="@110" value="Reserved"/>
+    <item key="@111" value="Reserved"/>
+  </type>
+  <type name="IMSI_S_type" id="IMSI_S-type">
+    <script>
+      local v = imsi_s();
+      description = string.format("(%s) %s-%s", v:sub(1, 3), v:sub(4, 6), v:sub(7, 10))
+    </script>
+  </type>
+  <type name="MSG_ID Values on f-csch" id="3.1.2.3.1.1.2-1">
+    <item key="@000001" value="System Parameters Message" href="C.S0005.xddl#3.7.2.3.2.1"/>
+    <item key="@000010" value="Access Parameters Message" href="C.S0005.xddl#3.7.2.3.2.2"/>
+    <item key="@000011" value="Neighbor List Message" href="C.S0005.xddl#3.7.2.3.2.3"/>
+    <item key="@000100" value="CDMA Channel List Message" href="C.S0005.xddl#3.7.2.3.2.4"/>
+    <item key="@000111" value="Order Message" href="C.S0005.xddl#3.7.2.3.2.7"/>
+    <item key="@001000" value="Channel Assignment Message" href="C.S0005.xddl#3.7.2.3.2.8"/>
+    <item key="@001001" value="Data Burst Message" href="C.S0005.xddl#3.7.2.3.2.9"/>
+    <item key="@001010" value="Authentication Challenge Message" href="C.S0005.xddl#3.7.2.3.2.10"/>
+    <item key="@001011" value="SSD Update Message" href="C.S0005.xddl#3.7.2.3.2.11"/>
+    <item key="@001100" value="Feature Notification Message" href="C.S0005.xddl#3.7.2.3.2.12"/>
+    <item key="@001101" value="Extended System Parameters Message" href="C.S0005.xddl#3.7.2.3.2.13"/>
+    <item key="@001110" value="Extended Neighbor List Message" href="C.S0005.xddl#3.7.2.3.2.14"/>
+    <item key="@001111" value="Status Request Message" href="C.S0005.xddl#3.7.2.3.2.15"/>
+    <item key="@010000" value="Service Redirection Message" href="C.S0005.xddl#3.7.2.3.2.16"/>
+    <item key="@010001" value="General Page Message" href="C.S0005.xddl#3.7.2.3.2.17"/>
+    <item key="@010010" value="Global Service Redirection Message" href="C.S0005.xddl#3.7.2.3.2.18"/>
+    <item key="@010011" value="TMSI Assignment Message" href="C.S0005.xddl#3.7.2.3.2.19"/>
+    <item key="@010100" value="PACA Message" href="C.S0005.xddl#3.7.2.3.2.20"/>
+    <item key="@010101" value="Extended Channel Assignment Message" href="C.S0005.xddl#3.7.2.3.2.21"/>
+    <item key="@010110" value="General Neighbor List Message" href="C.S0005.xddl#3.7.2.3.2.22"/>
+    <item key="@010111" value="User Zone Identification Message" href="C.S0005.xddl#3.7.2.3.2.23"/>
+    <item key="@011000" value="Private Neighbor List Message" href="C.S0005.xddl#3.7.2.3.2.24"/>
+    <item key="@011001" value="Reserved" href="C.S0005.xddl#reserved"/>
+    <item key="@011010" value="Extended Global Service Redirection Message" href="C.S0005.xddl#3.7.2.3.2.27"/>
+    <item key="@011011" value="Extended CDMA Channel List Message" href="C.S0005.xddl#3.7.2.3.2.28"/>
+    <item key="@011100" value="User Zone Reject Message" href="C.S0005.xddl#3.7.2.3.2.29"/>
+    <item key="@011101" value="ANSI-41 System Parameters Message" href="C.S0005.xddl#3.7.2.3.2.30"/>
+    <item key="@011110" value="MC-RR Parameters Message" href="C.S0005.xddl#3.7.2.3.2.31"/>
+    <item key="@011111" value="ANSI-41 RAND Message" href="C.S0005.xddl#3.7.2.3.2.32"/>
+    <item key="@100000" value="Enhanced Access Parameters Message" href="C.S0005.xddl#3.7.2.3.2.33"/>
+    <item key="@100001" value="Universal Neighbor List Message" href="C.S0005.xddl#3.7.2.3.2.34"/>
+    <item key="@100010" value="Security Mode Command Message" href="C.S0005.xddl#3.7.2.3.2.35"/>
+    <item key="@100011" value="Universal Page Message" href="C.S0005.xddl#3.7.2.3.2.36"/>
+    <item key="@100100" value="Universal Page Message" href="C.S0005.xddl#3.7.2.3.2.36"/>
+    <item key="@100101" value="Universal Page Message" href="C.S0005.xddl#3.7.2.3.2.36"/>
+    <item key="@100110" value="Universal Page Message" href="C.S0005.xddl#3.7.2.3.2.36"/>
+    <item key="@100111" value="MC-MAP Sync Channel Message"/>
+    <item key="@101000" value="MC-MAP System Information Message"/>
+    <item key="@101001" value="MC-MAP L3 Message"/>
+    <item key="@101010" value="R-TMSI Assignment Message"/>
+    <item key="@101011" value="MC-MAP Flow Release Message"/>
+    <item key="@101100" value="Authentication Request Message" href="C.S0005.xddl#3.7.2.3.2.37"/>
+    <item key="@101101" value="Broadcast Service Parameters Message" href="C.S0005.xddl#3.7.2.3.2.38"/>
+    <item key="@101110" value="MEID Extended Channel Assignment Message"/>
+    <item key="@101111" value="Alternative Technologies Information Message" href="C.S0005.xddl#3.7.2.3.2.45"/>
+    <item key="@110000" value="Access Point Identifier Message" href="C.S0005.xddl#3.7.2.3.2.39"/>
+    <item key="@110001" value="Access Point Identifier Text Message"/>
+    <item key="@110010" value="Access Point Pilot Information Message" href="C.S0005.xddl#3.7.2.3.2.40"/>
+    <item key="@110011" value="General Overhead Information Message" href="C.S0005.xddl#3.7.2.3.2.42"/>
+    <item key="@110100" value="Flex Duplex CDMA Channel List Message"/>
+    <item key="@111111" value="General Extension Message" href="C.S0005.xddl#3.7.2.3.2.44"/>
+    <item key="@110101" value="Frequent General Overhead Information Message"/>
+    <item key="@110110" value="Generic Access Parameter Message"/>
+    <item key="@110111" value="HDP Parameters Message"/>
+  </type>
+  <record name="ARQ Fields" id="3.2.2.1.1.1">
+    <field name="ACK_SEQ" length="3"/>
+    <field name="MSG_SEQ" length="3"/>
+    <field name="ACK_REQ" length="1"/>
+  </record>
+  <record name="ENCRYPTION Fields" id="3.2.2.2.1.1">
+    <field name="ENCRYPTION" length="2"/>
+  </record>
+  <type name="MSG_TYPE Values for Regular PDUs on f-dsch" id="3.2.2.2.1.2-1">
+    <item key="@00000001" value="Order Message" href="C.S0005.xddl#3.7.3.3.2.1"/>
+    <item key="@00000010" value="Authentication Challenge Message" href="C.S0005.xddl#3.7.3.3.2.2"/>
+    <item key="@00000011" value="Alert With Information Message" href="C.S0005.xddl#3.7.3.3.2.3"/>
+    <item key="@00000100" value="Data Burst Message" href="C.S0005.xddl#3.7.3.3.2.4"/>
+    <item key="@00000110" value="Reserved (Previously: Analog Handoff Direction)" href="C.S0005.xddl#3.7.3.3.2.5"/>
+    <item key="@00000111" value="In-Traffic System Parameters Message" href="C.S0005.xddl#3.7.3.3.2.7"/>
+    <item key="@00001000" value="Neighbor List Update Message" href="C.S0005.xddl#3.7.3.3.2.8"/>
+    <item key="@00001001" value="Send Burst DTMF Message" href="C.S0005.xddl#3.7.3.3.2.9"/>
+    <item key="@00001010" value="Power Control Parameters Message" href="C.S0005.xddl#3.7.3.3.2.10"/>
+    <item key="@00001011" value="Retrieve Parameters Message" href="C.S0005.xddl#3.7.3.3.2.11"/>
+    <item key="@00001100" value="Set Parameters Message" href="C.S0005.xddl#3.7.3.3.2.12"/>
+    <item key="@00001101" value="SSD Update Message" href="C.S0005.xddl#3.7.3.3.2.13"/>
+    <item key="@00001110" value="Flash With Information Message" href="C.S0005.xddl#3.7.3.3.2.14"/>
+    <item key="@00001111" value="Mobile Station Registered Message" href="C.S0005.xddl#3.7.3.3.2.15"/>
+    <item key="@00010000" value="Status Request Message" href="C.S0005.xddl#3.7.3.3.2.16"/>
+    <item key="@00010001" value="Extended Handoff Direction Message" href="C.S0005.xddl#3.7.3.3.2.17"/>
+    <item key="@00010010" value="Service Request Message" href="C.S0005.xddl#3.7.3.3.2.18"/>
+    <item key="@00010011" value="Service Response Message" href="C.S0005.xddl#3.7.3.3.2.19"/>
+    <item key="@00010100" value="Service Connect Message" href="C.S0005.xddl#3.7.3.3.2.20"/>
+    <item key="@00010101" value="Service Option Control Message" href="C.S0005.xddl#3.7.3.3.2.21"/>
+    <item key="@00010110" value="TMSI Assignment Message" href="C.S0005.xddl#3.7.3.3.2.22"/>
+    <item key="@00010111" value="Service Redirection Message" href="C.S0005.xddl#3.7.3.3.2.23"/>
+    <item key="@00011000" value="Supplemental Channel Assignment Message" href="C.S0005.xddl#3.7.3.3.2.24"/>
+    <item key="@00011001" value="Power Control Message" href="C.S0005.xddl#3.7.3.3.2.25"/>
+    <item key="@00011010" value="Extended Neighbor List Update Message" href="C.S0005.xddl#3.7.3.3.2.26"/>
+    <item key="@00011011" value="Candidate Frequency Search Request Message" href="C.S0005.xddl#3.7.3.3.2.27"/>
+    <item key="@00011100" value="Candidate Frequency Search Control Message" href="C.S0005.xddl#3.7.3.3.2.28"/>
+    <item key="@00011101" value="Power Up Function Message" href="C.S0005.xddl#3.7.3.3.2.29"/>
+    <item key="@00011110" value="Power Up Function Completion Message" href="C.S0005.xddl#3.7.3.3.2.30"/>
+    <item key="@00011111" value="General Handoff Direction Message" href="C.S0005.xddl#3.7.3.3.2.31"/>
+    <item key="@00100000" value="Resource Allocation Message" href="C.S0005.xddl#3.7.3.3.2.32"/>
+    <item key="@00100001" value="Extended Release Message" href="C.S0005.xddl#3.7.3.3.2.34"/>
+    <item key="@00100010" value="Universal Handoff Direction Message" href="C.S0005.xddl#3.7.3.3.2.36"/>
+    <item key="@00100011" value="Extended Supplemental Channel Assignment Message" href="C.S0005.xddl#3.7.3.3.2.37"/>
+    <item key="@00100100" value="Mobile Assisted Burst Operation Parameters Message" href="C.S0005.xddl#3.7.3.3.2.40"/>
+    <item key="@00100101" value="User Zone Reject Message" href="C.S0005.xddl#3.7.3.3.2.41"/>
+    <item key="@00100110" value="User Zone Update Message" href="C.S0005.xddl#3.7.3.3.2.42"/>
+    <item key="@00100111" value="Call Assignment Message" href="C.S0005.xddl#3.7.3.3.2.43"/>
+    <item key="@00101000" value="Extended Alert With Information Message" href="C.S0005.xddl#3.7.3.3.2.44"/>
+    <item key="@00101001" value="DS-41 Inter-system Transfer Message" href="C.S0005.xddl#tbd"/>
+    <item key="@00101010" value="Extended Flash With Information Message" href="C.S0005.xddl#3.7.3.3.2.45"/>
+    <item key="@00101011" value="Security Mode Command Message" href="C.S0005.xddl#3.7.3.3.2.46"/>
+    <item key="@00101100" value="MC-MAP L3 Message" href="C.S0005.xddl#tbd"/>
+    <item key="@00101101" value="MC-MAP Inter-System Handover Command Message" href="C.S0005.xddl#tbd"/>
+    <item key="@00101110" value="MC-MAP Dedicated Mode Paging Message" href="C.S0005.xddl#tbd"/>
+    <item key="@00101111" value="R-TMSI Assignment Message" href="C.S0005.xddl#tbd"/>
+    <item key="@00110000" value="MC-MAP Flow Release Message" href="C.S0005.xddl#tbd"/>
+    <item key="@00110001" value="Base Station Status Response Message" href="C.S0005.xddl#3.7.3.3.2.47"/>
+    <item key="@00110010" value="Authentication Request Message" href="C.S0005.xddl#3.7.3.3.2.48"/>
+    <item key="@00110011" value="Rate Change Message" href="C.S0005.xddl#3.7.3.3.2.49"/>
+    <item key="@00110100" value="In-Traffic Broadcast Service Parameters Message" href="C.S0005.xddl#3.7.3.3.2.50"/>
+    <item key="@00110101" value="MEID Universal Handoff Direction Message"/>
+    <item key="@00110110" value="Radio Configuration Parameters Message" href="C.S0005.xddl#3.7.3.3.2.51"/>
+    <item key="@00110111" value="Handoff Supplementary Information Solicit Message" href="C.S0005.xddl#3.7.3.3.2.52"/>
+    <item key="@11111111" value="General Extension Message" href="C.S0005.xddl#3.7.3.3.2.53"/>
+    <item key="@00111000" value="Alternate Technology Information Message" href="C.S0005.xddl#3.7.3.3.2.54"/>
+  </type>
+  <!-- f-dsch 3 bit mini table 3.2.2.2.1.2-2
+
+Resource Allocation Mini Message RAMM 000 3.7.3.3.2.33
+Extended Release Mini Message ERMM 001 3.7.3.3.2.35
+Forward Supplemental Channel Assignment Mini Message FSCAMM 010 3.7.3.3.2.38
+Reverse Supplemental Channel Assignment Mini Message RSCAMM 011 3.7.3.3.2.39
+
+-->
+  <type name="MSG_TYPE Values (3 bits) for Mini PDUs on f-dsch" id="3.2.2.2.1.2-2">
+    <item key="@000" value="Resource Allocation Mini Message"/>
+    <item key="@001" value="Extended Release Mini Message"/>
+    <item key="@010" value="Forward Supplemental Channel Assignment Mini Message"/>
+    <item key="@011" value="Reverse Supplemental Channel Assignment Mini Message"/>
+  </type>
+  <record id="f-dsch-mini-3bit-switch">
+    <switch expr="MSG_ID">
+      <case value="@000">
+        <fragment href="C.S0005.xddl#3.7.3.3.2.33"/>
+      </case>
+      <case value="@001">
+        <fragment href="C.S0005.xddl#3.7.3.3.2.35"/>
+      </case>
+      <case value="@010">
+        <fragment href="C.S0005.xddl#3.7.3.3.2.38"/>
+      </case>
+      <case value="@011">
+        <fragment href="C.S0005.xddl#3.7.3.3.2.39"/>
+      </case>
+    </switch>
+  </record>
+  <!-- f-dsch 6 bit mini table 3.2.2.2.1.2-3
+
+Acknowledgment PDU ACK 111000 empty
+Reset PDU RESET 111001 empty
+
+-->
+  <type name="MSG_TYPE Values (3 bits) for Mini PDUs on f-dsch" id="3.2.2.2.1.2-2-mini">
+    <item key="@111000" value="Acknowledgment PDU"/>
+    <item key="@111001" value="Reset PDU"/>
+  </type>
+  <record id="f-dsch-mini-6bit-switch">
+    <switch expr="MSG_ID">
+      <case value="@111000">
+        <fragment href="C.S0005.xddl#empty"/>
+      </case>
+      <case value="@111001">
+        <fragment href="C.S0005.xddl#empty"/>
+      </case>
+    </switch>
+  </record>
+  <type name="cdma2000 Logical Signaling Channels" id="logical-signaling-channel">
+    <item key="0" value="f-sync"/>
+    <item key="1" value="f-csch forward common signaling logical channel (F-SYNC, F-PCH)"/>
+    <item key="2" value="f-dsch forward dedicated signaling logical channel (F-TCH)"/>
+    <item key="3" value="r-csch reverse common signaling logical channel (R-ACCH)"/>
+    <item key="4" value="r-dsch reverse dedicated signaling logical channel (R-TCH)"/>
+  </type>
+  <type id="f-sync-message">
+    <item key="1" value="Sync Channel Message"/>
+  </type>
+  <record name="cdma2000 Channels" id="channel-switch">
+    <prop name="num_for_sup" value="0"/>
+    <prop name="_3X_SCH_LOW_INCL" value="0"/>
+    <prop name="_3X_FCH_INFO_INCL" value="0"/>
+    <field name="MSG_LENGTH" length="8"/>
+    <switch expr="Channel">
+      <case value="0">
+        <!-- sync channel message -->
+        <record name="DATA" length="(MSG_LENGTH*8) - 38">
+          <field name="PD" length="2"/>
+          <field name="MSG_TYPE" length="6" type="#f-sync-message"/>
+          <setprop name="Name" type="#f-sync-message" value="MSG_TYPE"/>
+          <fragment href="C.S0005.xddl#3.7.2.3.2.26"/>
+          <pad name="PDU_PADDING" mod="8" offset="2"/>
+        </record>
+        <field name="CRC" length="30" type="C.S0005.xddl#hex"/>
+      </case>
+      <case value="1">
+        <!-- f-csch -->
+        <record name="DATA" length="(MSG_LENGTH*8) - 38">
+          <field name="PD" length="2"/>
+          <field name="MSG_TYPE" length="6" type="#3.1.2.3.1.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#3.1.2.3.1.1.2-1" value="MSG_TYPE"/>
+          <jump base="MSG_TYPE"/>
+          <pad name="PDU_PADDING" mod="8" offset="2"/>
+        </record>
+        <field name="CRC" length="30" type="C.S0005.xddl#hex"/>
+      </case>
+      <case value="2">
+        <!-- f-dsch -->
+        <!-- see 2.1.1.5.1.2 for this calculation -->
+        <record name="DATA" length="(MSG_LENGTH*8) -24">
+          <field name="MSG_TYPE" length="8" type="C.S0004.xddl#3.2.2.2.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#3.2.2.2.1.2-1" value="MSG_TYPE"/>
+          <fragment href="#3.2.2.1.1.1"/>
+          <fragment href="#3.2.2.2.1.1"/>
+          <jump base="MSG_TYPE"/>
+          <pad name="PDU_PADDING" mod="8"/>
+        </record>
+        <field name="CRC" length="16" type="C.S0005.xddl#hex"/>
+      </case>
+      <case value="3">
+        <!-- r-csch -->
+        <record name="DATA" length="(MSG_LENGTH*8) - 38">
+          <!-- TODO udpate with section 2.1.1.4.1.1 I think -->
+          <field name="PD" length="2"/>
+          <switch expr="PD">
+            <case value="0">
+              <setprop name="P_REV_IN_USE" value="1"/>
+            </case>
+            <case value="1">
+              <setprop name="P_REV_IN_USE" value="6"/>
+            </case>
+            <case value="2">
+              <setprop name="P_REV_IN_USE" value="7"/>
+            </case>
+            <case value="3">
+              <setprop name="P_REV_IN_USE" value="8"/>
+            </case>
+          </switch>
+          <field name="MSG_ID" length="6" type="C.S0004.xddl#2.1.1.4.1.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#2.1.1.4.1.1.2-1" value="MSG_ID"/>
+          <if expr="P_REV_IN_USE &lt; 4">
+            <fragment href="#2.1.1.2.1"/>
+            <fragment href="#2.1.1.3.1"/>
+            <fragment href="#2.1.1.1.1"/>
+            <jump base="MSG_ID"/>
+          </if>
+          <if expr="(P_REV_IN_USE == 4) || (P_REV_IN_USE == 5)">
+            <fragment href="#2.1.1.2.1"/>
+            <fragment href="#2.1.1.3.1"/>
+            <fragment href="#2.1.1.1.1"/>
+            <jump base="MSG_ID"/>
+            <fragment href="#2.1.1.4.1.2"/>
+          </if>
+          <if expr="P_REV_IN_USE &gt;= 6">
+            <field name="LAC_LENGTH" length="5"/>
+            <fragment href="#2.1.1.2.1"/>
+            <fragment href="#2.1.1.3.1"/>
+            <fragment href="#2.1.1.1.1"/>
+            <pad name="LAC_PADDING" mod="8"/>
+            <fragment href="#2.1.1.4.1.2"/>
+            <jump base="MSG_ID"/>
+          </if>
+          <pad name="PDU_PADDING" mod="8" offset="2"/>
+        </record>
+        <field name="CRC" length="30" type="C.S0005.xddl#hex"/>
+      </case>
+      <case value="4">
+        <!-- r-dsch -->
+        <record name="DATA" length="(MSG_LENGTH*8) -24">
+          <field name="MSG_TYPE" length="8" type="C.S0004.xddl#2.2.1.2.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#2.2.1.2.1.2-1" value="MSG_TYPE"/>
+          <fragment href="#2.2.1.1.1.1"/>
+          <fragment href="#2.2.1.2.1.1"/>
+          <jump base="MSG_TYPE"/>
+          <pad name="PDU_PADDING" mod="8"/>
+        </record>
+        <field name="CRC" length="16" type="C.S0005.xddl#hex"/>
+      </case>
+    </switch>
+  </record>
+  <!-- copied from above, but removed the MSG_LENGTH and CRC -->
+  <record name="cdma2000 Channels" id="l3-channel-switch">
+    <prop name="num_for_sup" value="0"/>
+    <prop name="_3X_SCH_LOW_INCL" value="0"/>
+    <prop name="_3X_FCH_INFO_INCL" value="0"/>
+    <switch expr="Channel">
+      <case value="0">
+        <!-- sync channel message -->
+        <record name="DATA">
+          <field name="PD" length="2"/>
+          <field name="MSG_TYPE" length="6" type="#f-sync-message"/>
+          <setprop name="Name" type="#f-sync-message" value="MSG_TYPE"/>
+          <fragment href="C.S0005.xddl#3.7.2.3.2.26"/>
+          <pad name="PDU_PADDING" mod="8" offset="2"/>
+        </record>
+      </case>
+      <case value="1">
+        <!-- f-csch -->
+        <record name="DATA">
+          <field name="PD" length="2"/>
+          <field name="MSG_TYPE" length="6" type="C.S0004.xddl#3.1.2.3.1.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#3.1.2.3.1.1.2-1" value="MSG_TYPE"/>
+          <jump base="MSG_TYPE"/>
+          <pad name="PDU_PADDING" mod="8" offset="2"/>
+        </record>
+      </case>
+      <case value="2">
+        <!-- f-dsch -->
+        <!-- see 2.1.1.5.1.2 for this calculation -->
+        <record name="DATA">
+          <field name="MSG_TYPE" length="8" type="C.S0004.xddl#3.2.2.2.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#3.2.2.2.1.2-1" value="MSG_TYPE"/>
+          <fragment href="#3.2.2.1.1.1"/>
+          <fragment href="#3.2.2.2.1.1"/>
+          <jump base="MSG_TYPE"/>
+          <pad name="PDU_PADDING" mod="8"/>
+        </record>
+      </case>
+      <case value="3">
+        <!-- r-csch -->
+        <record name="DATA">
+          <!-- TODO udpate with section 2.1.1.4.1.1 I think -->
+          <field name="PD" length="2"/>
+          <switch expr="PD">
+            <case value="0">
+              <setprop name="P_REV_IN_USE" value="1"/>
+            </case>
+            <case value="1">
+              <setprop name="P_REV_IN_USE" value="6"/>
+            </case>
+            <case value="2">
+              <setprop name="P_REV_IN_USE" value="7"/>
+            </case>
+            <case value="3">
+              <setprop name="P_REV_IN_USE" value="8"/>
+            </case>
+          </switch>
+          <field name="MSG_ID" length="6" type="C.S0004.xddl#2.1.1.4.1.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#2.1.1.4.1.1.2-1" value="MSG_ID"/>
+          <if expr="P_REV_IN_USE &lt; 4">
+            <fragment href="#2.1.1.2.1"/>
+            <fragment href="#2.1.1.3.1"/>
+            <fragment href="#2.1.1.1.1"/>
+            <jump base="MSG_ID"/>
+          </if>
+          <if expr="(P_REV_IN_USE == 4) || (P_REV_IN_USE == 5)">
+            <fragment href="#2.1.1.2.1"/>
+            <fragment href="#2.1.1.3.1"/>
+            <fragment href="#2.1.1.1.1"/>
+            <jump base="MSG_ID"/>
+            <fragment href="#2.1.1.4.1.2"/>
+          </if>
+          <if expr="P_REV_IN_USE &gt;= 6">
+            <field name="LAC_LENGTH" length="5"/>
+            <fragment href="#2.1.1.2.1"/>
+            <fragment href="#2.1.1.3.1"/>
+            <fragment href="#2.1.1.1.1"/>
+            <pad name="LAC_PADDING" mod="8"/>
+            <fragment href="#2.1.1.4.1.2"/>
+            <jump base="MSG_ID"/>
+          </if>
+          <pad name="PDU_PADDING" mod="8" offset="2"/>
+        </record>
+      </case>
+      <case value="4">
+        <!-- r-dsch -->
+        <record name="DATA">
+          <field name="MSG_TYPE" length="8" type="C.S0004.xddl#2.2.1.2.1.2-1"/>
+          <setprop name="Name" type="C.S0004.xddl#2.2.1.2.1.2-1" value="MSG_TYPE"/>
+          <fragment href="#2.2.1.1.1.1"/>
+          <fragment href="#2.2.1.2.1.1"/>
+          <jump base="MSG_TYPE"/>
+          <pad name="PDU_PADDING" mod="8"/>
+        </record>
+      </case>
+    </switch>
+  </record>
+  <type name="bool" id="bool">
+    <item key="0" value="false"/>
+    <item key="1" value="true"/>
+  </type>
+</xddl>

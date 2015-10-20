@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <type id="tenths">
+    <script>
+      description = string.format("%.2f secs", key / 10.0)
+    </script>
+  </type>
+  <start>
+    <field name="second" length="8" type="#tenths"/>
+  </start>
+</xddl>

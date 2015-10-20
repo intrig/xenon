@@ -1,0 +1,386 @@
+<?xml version = '1.0' encoding = "UTF-8"?>
+<xspec>
+    <nspace>ict</nspace>
+    <root>xddl</root>
+    <base>element</base>
+
+    <!-- declare types used by attributes. -->
+    <type cpp="bool" def="false">bool</type>
+    <type cpp="int64_t" def="0">integer</type>
+    <type cpp="size_t" def="1">pos_integer</type>
+    <type cpp="size_t" def="0">size</type>
+    <type cpp="std::string">string</type>
+
+    <type cpp="ict::expr">expression</type>
+    <type cpp="std::string">setprop_name</type>
+
+    <type cpp="ict::url">url</type>
+    <type cpp="ict::url">id_url</type>
+    <type cpp="std::string">jump_name</type>
+
+    <!-- code segment at the top of header file. -->
+    <code id="head"> 
+        #include &lt;ict/xddl_head.h&gt;
+        #include &lt;memory&gt;
+        #include &lt;bitset&gt;
+        #include &lt;ict/multivector.h&gt;
+        #include &lt;ict/expr.h&gt;
+    </code>
+
+    <!-- code segment at the bottom of header file. -->
+    <code id="tail">
+        #include &lt;ict/xddl_tail.h&gt;
+    </code>
+
+    <!-- commonly used group of child elements -->
+    <group name="common">
+        <child>bit</child>
+        <child>comment</child>
+        <child>field</child>
+        <child>fragment</child>
+        <child>jump</child>
+        <child>if</child>
+        <child>oob</child>
+        <child>pad</child>
+        <child>peek</child>
+        <child>per</child>
+        <child>prop</child>
+        <child>record</child>
+        <child>repeat</child>
+        <child>setprop</child>
+        <child>switch</child>
+        <child>uint8</child>
+        <child>uint16</child>
+        <child>uint32</child>
+        <child>uint64</child>
+        <child>while</child>
+    </group>
+
+    <!-- code segment placed in parser class definition -->
+    <code id="class">
+        xddl::cursor open(string64 tag, const ict::url &amp; href);
+        std::map&lt;ict::url, xddl_cursor&gt; recdef_map;
+        std::map&lt;ict::url, xddl_cursor&gt; type_map;
+        class spec * owner = 0;
+        int in_oob = 0;
+        //int in_per = 0;
+    </code>
+
+    <code id="vparse">
+        virtual void vparse(xddl_cursor self, msg_cursor parent, ibitstream &amp; bits) const;
+    </code>
+    <code id="vend_handler">
+        virtual void vend_handler(xddl_cursor self, xddl &amp; parser) final;
+    </code>
+    <code id="vdescription">
+        virtual std::string vdescription(xddl_cursor, msg_const_cursor) const final;
+    </code>
+    <code id="venum_string">
+        virtual std::string venum_string(xddl_cursor, msg_const_cursor) const final;
+    </code>
+
+    <code id="vto_string">
+        virtual void vto_string(std::ostream &amp; os) const final;
+    </code>
+
+    <code id="vhref">
+        virtual ict::url vhref() const final { return href; };
+    </code>
+
+    <code id="var_type">
+        virtual void vto_string(std::ostream &amp;) const { return; }; 
+        virtual void vparse(xddl_cursor, msg_cursor, ibitstream &amp;) const;
+        virtual void vend_handler(xddl_cursor, xddl &amp;) { return; };
+        virtual std::string vdescription(xddl_cursor, msg_const_cursor) const { return ""; };
+        virtual std::string venum_string(xddl_cursor, msg_const_cursor) const { return ""; };
+        virtual void vset_ref(xddl_cursor) {};
+        virtual std::pair&lt;bool, xddl_cursor&gt; vget_ref() { return std::make_pair(false, xddl_cursor()); };
+        virtual ict::url vhref() const { return ict::url(); }
+        virtual ~var_type() {};
+    </code>
+
+    <code id="mutable_ref">
+        virtual void vset_ref(xddl_cursor c) final { ref = c; };
+        virtual std::pair&lt;bool, xddl_cursor&gt; vget_ref() final { return std::make_pair(true, ref); };
+        mutable xddl_cursor ref;
+    </code>
+
+    <element tag="element"> <!-- base -->
+        <public>
+        void to_string(std::ostream &amp; os) const; 
+
+        enum flag_bits_type {
+            dependent_flag,
+            global_flag,
+            oob_flag,
+            per_flag
+        };
+        std::bitset&lt;4&gt; flags;
+        </public>
+    </element>
+
+    <!-- Bring on the elements! -->
+    <element tag="case" name="xcase" end_handler="true">
+        <code href="vend_handler"/>
+        <att type="integer" req="true">value</att>
+        <group href="#common"/>
+    </element>
+
+    <element tag="comment">
+    </element>
+
+    <element tag="default" name="xdefault" end_handler="true">
+        <code href="vend_handler"/>
+        <group href="#common"/>
+    </element>
+
+    <element tag="export" name="xexport">
+        <child>prop</child>
+    </element>
+
+    <element tag="field" end_handler="true">
+        <att type="integer" member ="bias" >bias</att>
+        <att type="expression" member="def">default</att>
+        <att type="expression" req="true">length</att>
+        <att type="string" local="false" req="true">name</att>
+        <att type="url" member="href">type</att>
+
+        <child>comment</child>
+        <child>item</child>
+        <child>range</child>
+        <child>script</child>
+        <code href="vparse"/>
+        <code href="vend_handler"/>
+        <code href="vdescription"/>
+        <code href="venum_string"/>
+        <code href="vhref"/>
+        <code href="mutable_ref"/>
+    </element>
+
+    <!-- TODO: make length a "fixed" att, dissallow it being set by user (make it a private?) -->
+    <element tag="bit" isa="field"><att type="expression" def="1">length</att></element>
+
+    <element tag="uint8" isa="field"> <att type="expression" def="8">length</att> </element>
+    <element tag="uint16" isa="field"> <att type="expression" def="16">length</att> </element>
+    <element tag="uint32" isa="field"> <att type="expression" def="32">length</att> </element>
+    <element tag="uint64" isa="field"> <att type="expression" def="64">length</att> </element>
+
+    <!-- fragment is an inline record ref.  
+    TODO remove this or add inline attribute to record ref? -->
+    <element tag="fragment" name="fragment">
+        <att type="url" req="true">href</att>
+        <code href="vparse"/>
+        <code href="mutable_ref"/>
+        <code href="vhref"/>
+    </element>
+
+    <element tag="if" name="xif">
+        <att type="expression" req="true">expr</att>
+        <group href="#common"/>
+        <code href="vparse"/>
+    </element>
+
+    <element tag="jump">
+        <att type="jump_name" req="true">base</att>
+        <code href="vparse"/>
+    </element>
+
+    <element tag="oob" end_handler="true"> 
+        <child>type</child>
+        <child>start</child>
+        <child>export</child>
+        <group href="#common"/>
+        <code href="vend_handler"/>
+    </element>
+
+    <element tag="pad">
+        <att type="string" local="false" def="pad">name</att>
+        <att type="pos_integer" def="8">mod</att>
+        <att type="size">offset</att>
+        <code href="vparse"/>
+    </element>
+    <element tag="peek">
+        <att type="string" local="false" req="true">name</att>
+        <att type="expression" req="true">length</att>
+        <att type="size" req="true">offset</att> <!-- TODO: make this not req -->
+        <code href="vparse"/>
+    </element>
+
+    <element tag="per" end_handler="true">
+        <child>fragment</child>
+        <child>type</child>
+        <child>start</child>
+        <group href="#common"/>
+        <code href="vend_handler"/>
+    </element>
+
+    <element tag="prop" inherits="field">
+        <att type="string" local="false" req="true">name</att>
+        <att type="expression" def="0">value</att>
+        <att type="bool">visible</att>
+        <att type="url" member="href">type</att>
+        <child>comment</child>
+        <child>item</child>
+        <child>range</child>
+        <child>script</child>
+
+        <code href="vparse"/>
+        <code href="vdescription"/>
+        <code href="venum_string"/>
+        <code href="vhref"/>
+        <code href="mutable_ref"/>
+    </element>
+
+    <!--
+    A set of elements that have the same tag.  The first one with matching attribute signature is chosen. 
+    This enables "href" style links between element pairs, as well as element specialization. 
+
+    Element specialization, for example, would be creating a custom handler for <record> elements with no 
+    length.
+
+    A function must be provided in the form:
+
+    size_t {tag}_test(const att_list & atts);
+
+    It must return the index of the matching element within the sequence, or throw exception error.
+    -->
+    <choice tag="record">
+        <element name="record">
+            <att type="expression">length</att>
+            <att type="string" local="false" def="record">name</att>
+            <code href="vparse"/>
+        </element>
+        <element name="recref">
+            <att type="expression">length</att>
+            <att type="string" local="false" def="record">name</att>
+            <att type="url">href</att>
+            <code href="vparse"/>
+            <code href="vhref"/>
+            <code href="mutable_ref"/>
+        </element>
+        <element name="recdef">
+            <att type="expression">length</att>
+            <att type="id_url">id</att>
+            <att type="string" local="false" def="record">name</att>
+            <code href="vto_string"/>
+        </element>
+        <group href="#common"/>
+    </choice>
+
+    <choice tag="repeat">
+        <element name="repeat">
+            <att type="string" local="false">name</att>
+            <att type="size">minlen</att>
+            <code href="vparse"/>
+        </element>
+        <element name="num_repeat">
+            <att type="string" local="false">name</att>
+            <att type="expression" req="true">num</att>
+            <code href="vparse"/>
+        </element>
+        <element name="bound_repeat">
+            <att type="string" local="false">name</att>
+            <att type="integer">minlen</att>
+            <att type="expression">max</att>
+            <att type="expression">min</att>
+            <code href="vparse"/>
+        </element>
+        <group href="#common"/>
+    </choice>
+
+    <element tag="setprop">
+        <att type="expression" req="true">value</att>
+        <att type="url" member="href">type</att>
+        <att type="setprop_name" local="false" req="true">name</att>
+        <child>comment</child>
+        <child>item</child>
+        <child>range</child>
+        <child>script</child>
+        <code href="vparse"/>
+        <code href="vdescription"/>
+        <code href="venum_string"/>
+        <code href="vhref"/>
+        <code href="mutable_ref"/>
+    </element>
+
+    <element tag="start">
+        <group href="#common"/>
+    </element>
+
+    <element tag="switch" name="xswitch" stack="true">
+        <att type="expression" req="true">expr</att>
+        <child>case</child>
+        <child>default</child>
+        <code href="vparse"/>
+        <public>
+        std::map&lt;int, int&gt; cases; // map of values to child index
+        bool has_default = false;
+        </public>
+    </element>
+
+    
+    <element tag="type" name="type" end_handler="true">
+        <att type="id_url" req="true">id</att>
+        <att type="string" local="false">name</att>
+        <child>comment</child>
+        <child>item</child>
+        <child>range</child>
+        <child>script</child>
+        <code href="vdescription"/>
+        <code href="venum_string"/>
+        <code href="vto_string"/>
+        <code href="vend_handler"/>
+        <public>
+        struct item_data {
+            std::string value;
+            mutable xddl_cursor ref;
+            ict::url href;
+        };
+        item_data const &amp; item_info(int64_t key) const;
+        bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }
+        ict::lua::lua_State * l = 0;
+        std::string value(xddl_cursor referer, msg_const_cursor c) const;
+        virtual ~type() final;
+        std::map&lt;std::pair&lt;int, int&gt;, item_data&gt; ranges;
+        std::map&lt;int, item_data&gt; items;
+        </public>
+    </element>
+
+    <element tag="item" name="xitem">
+        <att type="integer" req="true">key</att>
+        <att type="string" req="true">value</att>
+        <att type="url">href</att>
+        <child>comment</child>
+    </element>
+
+    <element tag="range">
+        <att type="integer" req="true">start</att>
+        <att type="integer" req="true">end</att>
+        <att type="string">value</att>
+        <att type="url">href</att>
+        <child>comment</child>
+    </element>
+
+    <element tag="script" has_cdata="true" end_handler="true">
+        <code href="vend_handler"/>
+        <public>
+            ict::lua::lua_State * l = 0;
+        </public>
+    </element>
+
+    <element tag="while" name="xwhile">
+        <att type="string" local="false" def="record">name</att>
+        <att type="expression" req="true">expr</att>
+        <group href="#common"/>
+        <code href="vparse"/>
+    </element>
+
+    <element tag="xddl" name="xddl_root" end_handler="true">
+        <group href="#common"/>
+        <child>start</child>
+        <child>type</child>
+        <child>export</child>
+        <code href="vparse"/>
+        <code href="vend_handler"/>
+    </element>
+</xspec>

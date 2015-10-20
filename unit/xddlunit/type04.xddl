@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>Type with enum and script</comment>
+  <type name="Type with Format" id="ftype">
+    <item key="0" value="zero"/>
+    <item key="1" value="one"/>
+    <item key="2" value="two"/>
+    <range start="3" end="5" value="three - five"/>
+    <script>
+      description = string.format("%d: %s", key, EnumValue(key));
+  </script>
+  </type>
+  <type name="Addition" id="all">
+    <script>
+      description = string.format("%s, %s, %d, %d", Description("first"),
+        Description("second"), key, Value("first") + Value("second") + key)
+  </script>
+  </type>
+  <start>
+    <field name="first" length="8" type="#ftype"/>
+    <field name="second" length="8" type="#ftype"/>
+    <field name="third" length="8" type="#all"/>
+  </start>
+</xddl>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl version="2.0000">
+  <!-- GSM EDGE Layer 3 LCS (Location Services) -->
+  <!-- 3GPP TS 44.071 V10.0.1 (2011-04) -->
+  <!-- 3rd Generation Partnership Project; -->
+  <!-- Technical Specification Group GSM EDGE Radio Access Network; -->
+  <!-- Location Services (LCS); -->
+  <!-- Mobile radio interface layer 3 LCS specification -->
+  <!-- (Release 10) -->
+  <!-- Section 7 General message format and information elements coding -->
+  <record name="Facility information element" id="7.5">
+    <!-- field name="FacilityIEI" length="8" default="#00" /-->
+    <field name="Length" length="8"/>
+    <record name="Components" length="Length * 8">
+      <fragment href="#8.1"/>
+    </record>
+  </record>
+  <!-- Section 8 Detailed message format and information elements coding -->
+  <record name="Transparent LCS Information" id="8.1">
+    <!-- TODO Fill in details. Uses ASN.1 format 
+         (the following field is a place holder) -->
+    <field name="CHOICE" length="8"/>
+  </record>
+</xddl>

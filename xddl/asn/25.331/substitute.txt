@@ -1,0 +1,5 @@
+patch:
+    old:
+        <field name="nas-Message" length="count * 8"/>
+    new:
+        <record name="nas-Message" length="count * 8" href="TS-24.008.xddl#NAS_Message"/>
