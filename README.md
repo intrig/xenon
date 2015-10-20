@@ -1,9 +1,12 @@
 # xenon
 The Intrig message decoder.
 
-Building the source:
+## Quick Start
 
-    make && make test
+    git clone https://github.com/intrig/xenon.git
+    cd xenon
+    make 
+    make test
 
 After building, a static library, xenon, can be found in the o directory.
 
