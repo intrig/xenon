@@ -8,6 +8,12 @@ The Intrig message decoder.
     make 
     make test
 
+## Dependencies
+
+    cmake
+    C++11 compiler
+
+
 After building, a static library, xenon, can be found in the o directory.
 
 See the examples directory for some common uses of the decoder.
