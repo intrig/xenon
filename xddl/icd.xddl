@@ -200,7 +200,7 @@
       <item key="28" value="schedulingBlock2" href="3GPP/TS-25.331.xddl#SysInfoTypeSB2"/>
       <item key="29" value="systemInformationBlockType15_5" href="3GPP/TS-25.331.xddl#SysInfoType15-5"/>
       <item key="30" value="systemInformationBlockType5bis" href="3GPP/TS-25.331.xddl#SysInfoType5"/>
-      <item key="31" value="extensionType" href="3GPP/TS-25.331.xddl#SysInfoType11bis"/>
+      <item key="31" value="extensionType" href="3GPP/TS-25.331.xddl#SysInfoType19"/>
     </type>
     <!-- Section 3.3 -->
     <record name="UTRA Non-Access Stratum (NAS)" id="3.3">

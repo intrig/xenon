@@ -506,6 +506,7 @@ inline std::ostream & operator<<(std::ostream &os, const url & x) {
     return os;
 }
 
+// create an absolute url from a base file and a relative one
 inline url relative_url(url const & base, url const & x) {
     std::ostringstream os;
     os << base.path << x.path;
@@ -701,8 +702,8 @@ inline std::string & to_bin_string(T first, T last, std::string & dest) {
     return dest;
 }
 
-template <typename T>
-inline std::string to_bin_string(T first, T last, size_t bit_size) {
+template <typename InputIterator>
+inline std::string to_bin_string(InputIterator first, InputIterator last, size_t bit_size) {
     std::string dest;
     to_bin_string(first, last, dest);
     dest.resize(bit_size);

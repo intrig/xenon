@@ -208,22 +208,23 @@ std::string message::text(std::string const & fstring, bool skip_header) const {
     return os.str();
 }
 
-message parse(spec & spec, ibitstream & bs) {
+message parse(xddl::cursor start, ibitstream & bs) {
     message m;
-    if (spec.empty()) IT_THROW("empty spec");
-    auto xddl_elem = find(spec.base().ast.root(), "xddl", tag_of);
-
-    // add the global property record
-    m.root().emplace_back(node::global, xddl_elem);
-
-    // and we're off!
-    parse(xddl_elem, m.root(), bs);
+    m.root().emplace_back(node::global, start);
+    parse(start, m.root(), bs);
     return m;
 }
 
-message parse(spec & spec, const bitstring & bits) {
+message parse(xddl::cursor start, const bitstring & bits) {
     ibitstream bs(bits);
-    return parse(spec, bs);
+    return parse(start, bs);
+}
+
+
+message parse(spec & spec, const bitstring & bits) {
+    if (spec.empty()) IT_THROW("empty spec");
+    auto start = find(spec.base().ast.root(), "xddl", tag_of);
+    return parse(start, bits);
 }
 
 } // namespace

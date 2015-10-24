@@ -404,7 +404,8 @@ void parse_ref(xddl::cursor self, message::cursor parent, ibitstream &bs, xddl::
     const url& href, Parser parser) {
     try {
         if (ref == self.end()) {
-            ref = parser->open("record", href);
+            auto url = ict::relative_url(parser->file, href); // create an abs url.
+            ref = get_record(*parser->owner, url);
         }
         parse_children(ref, parent, bs);
     } catch (ict::exception & e) {
@@ -747,6 +748,26 @@ size_t node::line() const {return elem->line; }
 std::string node::file() const { return elem->parser->file; }
 xddl::cursor xddl::open(string64 tag, const url & href) { return owner->add_spec(tag, file, href); }
 
+xddl::cursor get_record(spec & spec, const url & href) {
+    auto full = href.path + href.file; // get the filename
+
+    xddl::cursor root;
+    auto i = std::find_if(spec.doms.begin(), spec.doms.end(), [&](const xddl & dom){ return dom.file == full;} );
+    if (i == spec.doms.end()) {
+        // not found, let's load the spec
+        spec.add_spec(full);
+        root = spec.doms.back().ast.root();
+        // file was found but not even the <xddl> tag was correct
+        if (root.empty()) IT_THROW("invalid root node: " << href); 
+    } else {
+        root = i->ast.root();
+    }
+    auto p = root.begin()->parser;
+    auto j = p->recdef_map.find(href.anchor);
+    if (j != p->recdef_map.end()) return j->second;
+    IT_THROW("cannot locate anchor: " << href);
+}
+
 xddl::cursor spec::add_spec(string64 tag, const std::string & file, const url & href) {
     auto url = ict::relative_url(file, href);
     auto full = url.path + url.file;
@@ -776,25 +797,6 @@ xddl::cursor spec::add_spec(string64 tag, const std::string & file, const url & 
     }
     IT_THROW("cannot locate anchor: " << href);
 }
-
-#if 0
-spec::spec(const spec & b) : xddl_path(b.xddl_path), doms(b.doms) {
-    for (auto & d : doms) {
-        d.recdef_map.clear();
-        d.type_map.clear();
-        d.owner = this;
-        auto doc_root = d.ast.root().begin(); // the <xddl> element
-        auto v = std::dynamic_pointer_cast<xddl_root>(doc_root->v);
-        assert(v);
-        v->vend_handler(doc_root, d);
-    }
-}
-
-spec& spec::operator=(const spec & b) {
-    doms.clear();
-
-}
-#endif
 
 // algos
 std::ostream& operator<<(std::ostream& os, const node & n) {

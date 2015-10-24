@@ -32,8 +32,7 @@ void script_unit::imsi() {
     tests.push_back(std::make_pair("(760) 419-1278", "@1010010011010011010000010010100111"));
 
     for (auto & t : tests) {
-        ict::ibitstream bs(t.second);
-        m = ict::parse(spec, bs);
+        m = ict::parse(spec, t.second);
         auto n = ict::find(m.root(), ict::path("/IMSI_S"));
         IT_ASSERT(n != m.end());
         IT_ASSERT_MSG(ict::description(n) << " != " << t.first, ict::description(n) == t.first);

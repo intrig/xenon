@@ -723,4 +723,8 @@ inline std::string gsm7(const bitstring & bits, size_t fill_bits = 0)
     os << first << rem;
     return os.str();
 }
+
+inline std::string to_bin_string(const bitstring & bits) {
+    return ict::to_bin_string(bits.begin(), bits.end(), bits.bit_size());
+}
 }

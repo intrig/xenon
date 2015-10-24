@@ -104,8 +104,8 @@ public:
     xddl & base() { return *(doms.begin()); }
     std::vector<std::string> xddl_path;
 
-private:
     std::list<xddl> doms;
+private:
 
     inline bool locate(std::string & fname) {
         auto ext = ict::extension(fname);
