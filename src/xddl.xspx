@@ -58,7 +58,7 @@
 
     <!-- code segment placed in parser class definition -->
     <code id="class">
-        xddl::cursor open(string64 tag, const ict::url &amp; href);
+        <!-- xddl::cursor open(string64 tag, const ict::url &amp; href); -->
         std::map&lt;ict::url, xddl_cursor&gt; recdef_map;
         std::map&lt;ict::url, xddl_cursor&gt; type_map;
         class spec * owner = 0;

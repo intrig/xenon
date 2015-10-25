@@ -1,11 +1,10 @@
 //-- Copyright 2015 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <algorithm>
-#include <ict/spec.h>
+#include <ict/xenon.h>
 #include <ict/node.h>
 #include <ict/xddl.h>
 #include <ict/bitstring.h>
-#include <ict/message.h>
 #include <ict/ximsi.h>
 #include <ict/DateTime.h>
 #include <set>
@@ -433,9 +432,10 @@ void jump::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) con
         auto f = std::dynamic_pointer_cast<field>(elem->v);
         if (!f) IT_PANIC(base << " is not a field");
 
-        if (f->ref == elem.end()) f->ref = elem->parser->open("type", f->href);
-
-        // f->ref is the type cursor
+        if (f->ref == elem.end()) {
+            auto url = ict::relative_url(elem->parser->file, f->href); // create an abs url.
+            f->ref = get_type(*elem->parser->owner, url);
+        }
 
         // get the item out of the type with this value (or range)
         auto t = std::dynamic_pointer_cast<type>(f->ref->v);
@@ -686,7 +686,8 @@ std::string get_description(const T * self_ptr, xddl::cursor self, message::cons
     if (self_ptr->href.empty()) return "";
     else if (self_ptr->ref == self.end()) {
         try { 
-            self_ptr->ref = self->parser->open("type", self_ptr->href);
+            auto url = ict::relative_url(self->parser->file, self_ptr->href); // create an abs url.
+            self_ptr->ref = get_type(*self->parser->owner, url);
         } catch (ict::exception & e) {
             return e.what();
         }
@@ -746,55 +747,24 @@ int64_t node::value() const {
 
 size_t node::line() const {return elem->line; }
 std::string node::file() const { return elem->parser->file; }
-xddl::cursor xddl::open(string64 tag, const url & href) { return owner->add_spec(tag, file, href); }
 
 xddl::cursor get_record(spec & spec, const url & href) {
     auto full = href.path + href.file; // get the filename
 
-    xddl::cursor root;
-    auto i = std::find_if(spec.doms.begin(), spec.doms.end(), [&](const xddl & dom){ return dom.file == full;} );
-    if (i == spec.doms.end()) {
-        // not found, let's load the spec
-        spec.add_spec(full);
-        root = spec.doms.back().ast.root();
-        // file was found but not even the <xddl> tag was correct
-        if (root.empty()) IT_THROW("invalid root node: " << href); 
-    } else {
-        root = i->ast.root();
-    }
+    auto root = spec.add_spec(full);
     auto p = root.begin()->parser;
     auto j = p->recdef_map.find(href.anchor);
     if (j != p->recdef_map.end()) return j->second;
     IT_THROW("cannot locate anchor: " << href);
 }
 
-xddl::cursor spec::add_spec(string64 tag, const std::string & file, const url & href) {
-    auto url = ict::relative_url(file, href);
-    auto full = url.path + url.file;
-    // TODO create these tag constants automatically in xddl.h
-    static auto type_tag = string64("type");
-    static auto record_tag = string64("record");
+xddl::cursor get_type(spec & spec, const url & href) {
+    auto full = href.path + href.file; // get the filename
 
-    xddl::cursor root;
-    auto i = std::find_if(doms.begin(), doms.end(), [&](const xddl & dom){ return dom.file == full;} );
-    if (i == doms.end()) {
-        // not found, let's load the spec
-        add_spec(full);
-        root = doms.back().ast.root();
-        // file was found but not even the <xddl> tag was correct
-        if (root.empty()) IT_THROW("invalid root node: " << href); 
-    } else {
-        root = i->ast.root();
-    }
-    
+    auto root = spec.add_spec(full);
     auto p = root.begin()->parser;
-    if (tag == type_tag) { 
-        auto i = p->type_map.find(href.anchor);
-        if (i != p->type_map.end()) return i->second;
-    } else if (tag == record_tag) {
-        auto i = p->recdef_map.find(href.anchor);
-        if (i != p->recdef_map.end()) return i->second;
-    }
+    auto j = p->type_map.find(href.anchor);
+    if (j != p->type_map.end()) return j->second;
     IT_THROW("cannot locate anchor: " << href);
 }
 

@@ -1,10 +1,10 @@
 all:
 	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make -j12 || cd ..
+	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && cd .. && make -C build -j12
 
 serial:
 	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make VERBOSE=1 || cd ..
+	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make VERBOSE=1 && cd ..
 
 clean:
 	rm -f include/ict/xddl.h

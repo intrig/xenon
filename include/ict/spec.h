@@ -62,26 +62,29 @@ public:
         add_spec(first, last, "<buffer>");
     }
 
-    xddl::cursor add_spec(string64 tag, const std::string & base_file, const ict::url & href);
-
     template <typename InputIterator>
-    void add_spec(InputIterator first, InputIterator last, const std::string & name) 
+    xddl::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) 
     {
         //IT_WARN("adding spec: " << name);
         doms.emplace_back();
         doms.back().owner = this;
         doms.back().open(first, last, name);
+        auto root = doms.back().ast.root();
+        if (root.empty()) IT_THROW("invalid root node in " << name);
+        return root;
     }
 
     /*!
      Add another spec.
      */
-    void add_spec(const std::string & filename) 
+    xddl::cursor add_spec(const std::string & filename) 
     {
+        auto i = std::find_if(doms.begin(), doms.end(), [&](const xddl & dom){ return dom.file == filename;} );
+        if (i !=doms.end()) return i->ast.root();
         auto x = filename;
         if (!locate(x)) IT_PANIC("cannot open \"" << filename << "\"");
         auto contents = ict::read_file(x);
-        add_spec(contents.begin(), contents.end(), x);
+        return add_spec(contents.begin(), contents.end(), x);
     }
 
     /*!

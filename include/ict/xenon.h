@@ -22,5 +22,7 @@ message parse(spec & spec, const bitstring & bits);
 
 xddl::cursor get_record(spec & spec, const url & href);
 
+xddl::cursor get_type(spec & spec, const url & href);
+
 }
 
