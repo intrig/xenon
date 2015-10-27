@@ -57,20 +57,23 @@
     </group>
 
     <!-- code segment placed in parser class definition -->
-    <code id="class">
-        <!-- xddl::cursor open(string64 tag, const ict::url &amp; href); -->
-        std::map&lt;ict::url, xddl_cursor&gt; recdef_map;
-        std::map&lt;ict::url, xddl_cursor&gt; type_map;
-        class spec * owner = 0;
-        int in_oob = 0;
-        //int in_per = 0;
-    </code>
+    <parser>
+        <name>spec</name>
+        <code id="class">
+            <!-- xddl::cursor open(string64 tag, const ict::url &amp; href); -->
+            std::map&lt;ict::url, xddl_cursor&gt; recdef_map;
+            std::map&lt;ict::url, xddl_cursor&gt; type_map;
+            class spec_server * owner = 0;
+            int in_oob = 0;
+            //int in_per = 0;
+        </code>
+    </parser>
 
     <code id="vparse">
         virtual void vparse(xddl_cursor self, msg_cursor parent, ibitstream &amp; bits) const;
     </code>
     <code id="vend_handler">
-        virtual void vend_handler(xddl_cursor self, xddl &amp; parser) final;
+        virtual void vend_handler(xddl_cursor self, spec &amp; parser) final;
     </code>
     <code id="vdescription">
         virtual std::string vdescription(xddl_cursor, msg_const_cursor) const final;
@@ -90,7 +93,7 @@
     <code id="var_type">
         virtual void vto_string(std::ostream &amp;) const { return; }; 
         virtual void vparse(xddl_cursor, msg_cursor, ibitstream &amp;) const;
-        virtual void vend_handler(xddl_cursor, xddl &amp;) { return; };
+        virtual void vend_handler(xddl_cursor, spec &amp;) { return; };
         virtual std::string vdescription(xddl_cursor, msg_const_cursor) const { return ""; };
         virtual std::string venum_string(xddl_cursor, msg_const_cursor) const { return ""; };
         virtual void vset_ref(xddl_cursor) {};
@@ -375,7 +378,7 @@
         <code href="vparse"/>
     </element>
 
-    <element tag="xddl" name="xddl_root" end_handler="true">
+    <element tag="xddl" end_handler="true">
         <group href="#common"/>
         <child>start</child>
         <child>type</child>

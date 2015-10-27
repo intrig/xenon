@@ -28,7 +28,7 @@ inline int64_t bit_size(message::cursor parent) {
 
 // Create a global prop and set it equal to the given bitstring, or the default given by the spec.
 // Precondition: The global does not yet exist.
-inline message::cursor create_global(xddl::cursor xddl_root, message::cursor globs, const std::string & name, 
+inline message::cursor create_global(spec::cursor xddl_root, message::cursor globs, const std::string & name, 
     bitstring bits = bitstring()) {
     static auto prop_path = path("export/prop");
     auto root = xddl_root;
@@ -50,7 +50,7 @@ inline message::cursor create_global(xddl::cursor xddl_root, message::cursor glo
     return globs.emplace(node::prop_node, c, bits);
 }
 
-inline message::cursor set_global(xddl::cursor self, message::cursor value) {
+inline message::cursor set_global(spec::cursor self, message::cursor value) {
     auto globs = ict::get_root(value).begin(); 
     auto g = ict::find(globs, value->name());
     if (g == globs.end()) g = create_global(get_root(self).begin(), globs, value->name(), value->bits);
@@ -58,22 +58,22 @@ inline message::cursor set_global(xddl::cursor self, message::cursor value) {
     return g;
 }
 
-inline message::cursor set_global(xddl::cursor self, message::cursor value, xddl::cursor elem) {
+inline message::cursor set_global(spec::cursor self, message::cursor value, spec::cursor elem) {
     auto g = set_global(self, value);
     if (!elem->v->vhref().empty()) g->elem = elem;
     return g;
 }
 
 // load time 
-inline xddl::cursor get_variable(const std::string & name, xddl::cursor context) {
+inline spec::cursor get_variable(const std::string & name, spec::cursor context) {
     static auto prop_path = path("xddl/export/prop");
     static auto extern_path = path("xddl/extern");
-    xddl::ascending_cursor first(context);
+    spec::ascending_cursor first(context);
     while (!first.is_root()) {
         if (name == first->name()) return first;
         ++first;
     }
-    auto root = xddl::cursor(first);
+    auto root = spec::cursor(first);
     auto x = find(root, prop_path, tag_of, cmp_name(name));
     if (x != root.end()) return x;
 
@@ -110,13 +110,13 @@ inline message::cursor get_variable(const std::string & name, message::cursor co
 }
 
 // load time validation
-inline int64_t eval_variable(const std::string &name, xddl::cursor context) {
+inline int64_t eval_variable(const std::string &name, spec::cursor context) {
     get_variable(name, context);
     return 1;
 }
 
 // TODO: move this one to spec.h, otherwise loading a doc is dependent on message.h
-inline int64_t eval_function(const std::string &name, xddl::cursor, 
+inline int64_t eval_function(const std::string &name, spec::cursor, 
     const std::vector<ict::expression::param_type> &params) {
     if ((name == "sizeof") || (name == "defined") || (name == "value") || (name == "gsm7")) {
         if ((params.size() == 1) && (!params[0].name.empty())) return 1;
@@ -124,7 +124,7 @@ inline int64_t eval_function(const std::string &name, xddl::cursor,
     IT_PANIC("load time eval_function not implemented for " << name);
 }
 
-inline int64_t eval_variable_list(const std::string &first, const std::string &second, xddl::cursor context) {
+inline int64_t eval_variable_list(const std::string &first, const std::string &second, spec::cursor context) {
     auto f = get_variable(first, context);
     auto s = find(f, second);
     if (s == f.end()) {

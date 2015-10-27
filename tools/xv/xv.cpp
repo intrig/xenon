@@ -223,7 +223,7 @@ class XvFile {
     }
 
     bool validate() {
-        ict::spec doc;
+        ict::spec_server doc;
         if (!xddl_path.empty()) doc.xddl_path.push_back(xddl_path);
         ict::message m;
         std::string xddl_file;
@@ -233,7 +233,8 @@ class XvFile {
             if (xddl_file != i->xddl_file) {
                 xddl_file = i->xddl_file;
                 if (verbose) std::cout << "processing xddl file " << xddl_file << "\n";
-                doc.open(xddl_file.c_str());
+                doc.clear();
+                doc.add_spec(xddl_file);
             }
 
             if (verbose) std::cout << "    " << ict::to_string(i->bs) << "\n";
@@ -247,7 +248,7 @@ class XvFile {
 
     std::string reprint() {
         std::ostringstream os;
-        ict::spec doc;
+        ict::spec_server doc;
         if (!xddl_path.empty()) doc.xddl_path.push_back(xddl_path);
         ict::message m;
         std::string xddl_file;
@@ -255,7 +256,8 @@ class XvFile {
         for (; i!=data.end(); ++i) {
             if (xddl_file != i->xddl_file) {
                 xddl_file = i->xddl_file;
-                doc.open(xddl_file.c_str());
+                doc.clear();
+                doc.add_spec(xddl_file);
             }
 
             m = ict::parse(doc, i->bs);
@@ -281,7 +283,7 @@ void validate_xv_file(const std::string & name, bool name_only, bool force_print
     else if (!file.validate()) exit(1);
 }
 
-void print_xv_message(ict::spec & spec, const std::string xddl_file, const std::string ascii_msg) {
+void print_xv_message(ict::spec_server & spec, const std::string xddl_file, const std::string ascii_msg) {
     auto m = ict::parse(spec, ict::bitstring(ascii_msg.c_str()));
     XvMessage xm(xddl_file, m);
     xm.to_stream(cout);
@@ -317,7 +319,7 @@ int main(int argc, char **argv) {
         ict::timer timer;
         timer.start();
 
-        ict::spec spec2;
+        ict::spec_server spec2;
         if (!xddl_path.empty()) spec2.xddl_path.push_back(xddl_path);
 
         for (auto const & arg : line.targets) {
@@ -325,7 +327,8 @@ int main(int argc, char **argv) {
             if (ict::ends_with(arg, ".xddl")) {
                 // load xddl file, set as spec for future operations
                 xddl_file = arg.c_str();
-                spec2.open(xddl_file.c_str());
+                spec2.clear();
+                spec2.add_spec(xddl_file);
             }
             else if (ict::ends_with(arg, ".xv")) {
                 // validate an xv file

@@ -53,9 +53,10 @@ int main(int argc, char **argv) {
 
 void processXddlFile(ict::command const & line, command_flags const & flags) {
     auto i = line.targets.begin();
-    ict::spec d;
+    ict::spec_server d;
     try { 
-        d.open(i->c_str());
+        d.clear();
+        d.add_spec(i->c_str());
         ++i;
 
         ict::bitstring bs; // the message to parse

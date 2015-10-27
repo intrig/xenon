@@ -26,10 +26,11 @@ xsp_parser::xsp_parser() {
     // validate 
     p.root_tag("xspec");
     p.add_children("xspec", { "nspace", "root", "base", "header", "type", "element", "choice", 
-        "group", "code" });
+        "group", "code", "parser" });
     p.add_children("element", { "att", "child", "class", "constr", "start", "end", "public", "group", "code" });
     p.add_children("choice", { "element", "group"} );
     p.add_children("group", { "child" });
+    p.add_children("parser", { "name", "code" });
 
     // handlers
     p.cdata_handler([&](const char * cdata){this->cdata += cdata; });
@@ -129,9 +130,13 @@ xsp_parser::xsp_parser() {
 
     p.end_handler("name", [&]{ names.push_back(cdata); cdata.clear(); });
 
+    p.end_handler("parser", [&]{ 
+        class_name = ict::normalize(names.back()); 
+        names.pop_back();
+    });
+
     p.end_handler("root", [&]{ 
         root = ict::normalize(cdata); 
-        class_name = root;
         cdata.clear(); });
 
     p.end_handler("element", [&]{ 
@@ -201,9 +206,9 @@ xsp_parser::xsp_parser() {
         });
 }
 
-template <typename OStream, typename NamedList>
-void forward_declare(OStream & os, const NamedList & l) {
-    for (const auto & x : l) os << "struct " << x.name << ";";
+template <typename StringVec, typename NamedList>
+void add_forward(StringVec & v, const NamedList & l) {
+    for (const auto & x : l) v.push_back(x.name);
 }
 
 template <typename T>
@@ -213,7 +218,6 @@ std::string code_seg(const T & refs, const std::string & name) {
     return "";
 }
 
-
 std::string xsp_parser::header() const  {
     std::ostringstream os;
     os << "#pragma once //\n";
@@ -221,10 +225,13 @@ std::string xsp_parser::header() const  {
 
     os << "namespace " << name_space << " {";
 
-    os << "struct "<< root << ";";
-
-    forward_declare(os, elems.back());
-    for (const auto & x : choices) forward_declare(os, x.elems);
+    auto f = std::vector<std::string>();
+    f.push_back(class_name);
+    add_forward(f, elems.back());
+    for (const auto & x : choices) add_forward(f, x.elems);
+    std::sort(f.begin(), f.end());
+    f.erase(std::unique(f.begin(), f.end()), f.end());
+    for (auto & x : f) os << "struct " << x << ";\n";
 
     for (const auto & elem : elems.back()) to_decl(os, elem, root);
 
@@ -271,7 +278,7 @@ std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, cons
         os << "std::string name() const { return name_.empty() ? tag_.c_str() : name_;}";
         os << "std::shared_ptr<var_type> v;";
         os << "size_t line = 0;" <<
-        root << " * parser = 0;" << 
+        class_name << " * parser = 0;" << 
         "string64 tag_;" << 
         "std::string name_;";
         

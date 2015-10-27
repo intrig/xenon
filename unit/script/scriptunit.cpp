@@ -22,7 +22,7 @@ void script_unit::imsi() {
           </start>
         </xddl>)";
 
-    ict::spec spec(xddl.begin(), xddl.end());
+    ict::spec_server spec(xddl.begin(), xddl.end());
 
     ict::message m;
 

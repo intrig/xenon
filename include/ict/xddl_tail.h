@@ -32,15 +32,15 @@ inline std::ostream& operator<<(std::ostream & os, const element & e) {
     return os;
 }
 
-inline element& elem_of(xddl::cursor c) {
+inline element& elem_of(spec::cursor c) {
     return *c;
 }
 
-inline void parse(xddl::cursor self, msg_cursor parent, ibitstream & bs) {
+inline void parse(spec::cursor self, msg_cursor parent, ibitstream & bs) {
     self->v->vparse(self, parent, bs);
 }
 
-inline std::string description(xddl::cursor self, xddl::cursor referer, msg_const_cursor c) {
+inline std::string description(spec::cursor self, spec::cursor referer, msg_const_cursor c) {
     if (!c->desc.empty()) return c->desc;
     return self->v->vdescription(referer, c);
 }
@@ -49,7 +49,7 @@ inline std::string description(msg_const_cursor c) {
     return description(c->elem, c->elem, c);
 }
 
-inline std::string enum_string(xddl::cursor self, msg_const_cursor c) {
+inline std::string enum_string(spec::cursor self, msg_const_cursor c) {
     return self->v->venum_string(self, c);
 }
 
@@ -58,7 +58,7 @@ inline std::string create_jump_name(Cursor start, const std::string & value) {
     static auto prop_path = path("xddl/export/prop");
     auto c = ict::rfind(start, value);
     if (c.is_root()) {
-        auto root = xddl::cursor(c);
+        auto root = spec::cursor(c);
         auto x = find(root, prop_path, tag_of, cmp_name(value));
         if (x == root.end()) IT_PANIC("cannot find " << value);
     }        

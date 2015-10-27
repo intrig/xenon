@@ -7,7 +7,7 @@
 void exception_unit::invalidExpression() {
     std::string error;
     try {
-        ict::spec doc("invalid01.xddl");
+        ict::spec_server doc("invalid01.xddl");
     } catch (ict::exception & e) {
         error = e.what();
     }
@@ -17,7 +17,7 @@ void exception_unit::invalidExpression() {
 void exception_unit::fileNotFound() {
     std::string error;
     try {
-        ict::spec doc("notthere.xddl");
+        ict::spec_server doc("notthere.xddl");
     } catch (ict::exception & e) {
         error = e.what();
     }

@@ -19,7 +19,7 @@ int main(int, char**) {
         auto fields = std::vector<nv_pairs>();
 
         cout << "loading\n";
-        ict::spec doc("icd.xddl");
+        ict::spec_server doc("icd.xddl");
         cout << "assigning\n";
         auto msg = ict::parse(doc, "0101046B102C000114E03003603800203801C03801E03801F030037030002030"
               "00903000603000E0300120300130380000300110300030380080300200300210"

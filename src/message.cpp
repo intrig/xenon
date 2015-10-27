@@ -2,7 +2,7 @@
 //-- See https://github.com/intrig/xenon for license.
 #include <ict/message.h>
 #include <ict/xddl.h>
-#include <ict/spec.h>
+#include <ict/spec_server.h>
 
 struct attr {
     attr(const char * key, const char * value) : key(key), value(std::string(value)) {}
@@ -208,20 +208,20 @@ std::string message::text(std::string const & fstring, bool skip_header) const {
     return os.str();
 }
 
-message parse(xddl::cursor start, ibitstream & bs) {
+message parse(spec::cursor start, ibitstream & bs) {
     message m;
     m.root().emplace_back(node::global, start);
     parse(start, m.root(), bs);
     return m;
 }
 
-message parse(xddl::cursor start, const bitstring & bits) {
+message parse(spec::cursor start, const bitstring & bits) {
     ibitstream bs(bits);
     return parse(start, bs);
 }
 
 
-message parse(spec & spec, const bitstring & bits) {
+message parse(spec_server & spec, const bitstring & bits) {
     if (spec.empty()) IT_THROW("empty spec");
     auto start = find(spec.base().ast.root(), "xddl", tag_of);
     return parse(start, bits);

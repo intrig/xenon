@@ -145,7 +145,7 @@ void type::vto_string(std::ostream & os) const {
 }
 
 // xddl load time
-void xcase::vend_handler(xddl::cursor, xddl & parser) {
+void xcase::vend_handler(spec::cursor, spec & parser) {
     auto & xs = parser.xswitch_stack.back();
     if (xs->has_default) IT_PANIC("<default> must be the last case");
     auto i = xs->cases.size(); // get the index of the current case
@@ -157,7 +157,7 @@ void xcase::vend_handler(xddl::cursor, xddl & parser) {
 }
 
 template <typename T>
-void build_type_struct(xddl::cursor parent, T type_ptr) {
+void build_type_struct(spec::cursor parent, T type_ptr) {
     for (auto c = parent.begin(); c!= parent.end(); ++c) {
         auto t = c->tag();
         if (t == "script") {
@@ -183,7 +183,7 @@ void build_type_struct(xddl::cursor parent, T type_ptr) {
 }
 
 template <typename T>
-void create_anon_type(T * self_ptr, xddl::cursor self, xddl & parser) {
+void create_anon_type(T * self_ptr, spec::cursor self, spec & parser) {
     self_ptr->href= "anon";
     std::shared_ptr<var_type> v = std::make_shared<type>("anon");
 
@@ -196,7 +196,7 @@ void create_anon_type(T * self_ptr, xddl::cursor self, xddl & parser) {
     e->line = self->line;
 }
 
-inline bool has_anon_type(xddl::cursor self) {
+inline bool has_anon_type(spec::cursor self) {
     if (self.empty()) return false;
     for (auto first = self.begin(); first != self.end(); ++first) {
         if (first->tag() != "comment") return true;
@@ -204,13 +204,13 @@ inline bool has_anon_type(xddl::cursor self) {
     return false;
 }
 
-void field::vend_handler(xddl::cursor self, xddl &parser) {
+void field::vend_handler(spec::cursor self, spec &parser) {
     if (has_anon_type(self)) {
         create_anon_type(this, self, parser);
     }
 }
 
-void xdefault::vend_handler(xddl::cursor, xddl & parser) {
+void xdefault::vend_handler(spec::cursor, spec & parser) {
     auto & xs = parser.xswitch_stack.back();
     xs->has_default = true;
 }
@@ -221,7 +221,7 @@ void reg_func(State l, Op func, const char * name) {
     ict::lua::lua_setglobal(l, name);
 }
 
-void script::vend_handler(xddl::cursor, xddl & dom) {
+void script::vend_handler(spec::cursor, spec & dom) {
     l = lua::luaL_newstate();
     lua::luaL_openlibs(l);
 
@@ -243,7 +243,7 @@ void script::vend_handler(xddl::cursor, xddl & dom) {
     ict::lua::lua_setglobal(l, "f");
 }
 
-void type::vend_handler(xddl::cursor self, xddl &) {
+void type::vend_handler(spec::cursor self, spec &) {
     build_type_struct(self, this);
     // now that we built all the needed data structures, we can delete the child items.
     // TODO: get this to work
@@ -298,7 +298,7 @@ void link_type_refs(Cursor & self, Map &recmap) {
 // If the hrefs are local, then validate them and link the ref.
 template <typename Cursor, typename RecMap, typename TypeMap>
 void link_local_refs(Cursor parent, RecMap & rec_map, TypeMap & type_map) {
-    ict::recurse(parent, [&](xddl::cursor self, xddl::cursor) {
+    ict::recurse(parent, [&](spec::cursor self, spec::cursor) {
         auto url = self->v->vhref();
         if (!url.empty()) {
             if (self->tag() == "fragment" || self->tag() == "record") link_ref(self, url, rec_map);
@@ -310,16 +310,16 @@ void link_local_refs(Cursor parent, RecMap & rec_map, TypeMap & type_map) {
     });
 }
 
-void link_anon_types(xddl::cursor parent) {
+void link_anon_types(spec::cursor parent) {
     static auto field_tag = string64("field");
     static auto prop_tag = string64("prop");
-    ict::recurse(parent, [&](xddl::cursor self, xddl::cursor) {
+    ict::recurse(parent, [&](spec::cursor self, spec::cursor) {
         auto t = self->tag();
         if ((t == field_tag || t == prop_tag) && has_anon_type(self)) self->v->vset_ref(--self.end());
     });
 }
 
-void link_reflective_properties(xddl::cursor doc_root) {
+void link_reflective_properties(spec::cursor doc_root) {
     // create a set of names for the globals
     auto globs = std::set<std::string>();
 
@@ -328,7 +328,7 @@ void link_reflective_properties(xddl::cursor doc_root) {
     if (x != doc_root.end()) for (auto & prop : x) globs.insert(prop.name());
     if (globs.empty()) return;
 
-    ict::recurse(doc_root, [&](xddl::cursor self, xddl::cursor) {
+    ict::recurse(doc_root, [&](spec::cursor self, spec::cursor) {
         auto & e = elem_of(self);
         if (e.tag() == "field" || e.tag() == "prop" || e.tag() == "setprop") {
             if (globs.find(e.name()) != globs.end()) e.flags.set(element::global_flag);
@@ -339,23 +339,23 @@ void link_reflective_properties(xddl::cursor doc_root) {
 // set a flag of all descendents
 template <typename Cursor, typename T>
 void set_flag(Cursor parent, T flag) {
-    recurse(parent, [&](xddl::cursor self, xddl::cursor) {
+    recurse(parent, [&](spec::cursor self, spec::cursor) {
         self->flags.set(flag);
     });
 }
 
-void oob::vend_handler(xddl::cursor self, xddl &) {
+void oob::vend_handler(spec::cursor self, spec &) {
     set_flag(self, element::oob_flag);
     promote_last(self.parent());
 }
 
-void per::vend_handler(xddl::cursor self, xddl &) {
+void per::vend_handler(spec::cursor self, spec &) {
     set_flag(self, element::per_flag);
     promote_last(self.parent());
 
 }
 
-void xddl_root::vend_handler(xddl::cursor self, xddl & parser) {
+void xddl::vend_handler(spec::cursor self, spec & parser) {
     create_url_map<recdef>(self, parser.recdef_map, "record");
     create_url_map<type>(self, parser.type_map, "type");
 
@@ -378,7 +378,7 @@ inline void add_extra(SpecCursor self,  MessageCursor parent, B & bs) {
     parent.emplace_back(node::extra_node, self, bs.read(bs.remaining()));
 }
 
-inline void parse_children(xddl::cursor self, message::cursor parent, ibitstream & bs) {
+inline void parse_children(spec::cursor self, message::cursor parent, ibitstream & bs) {
     if (parent.empty()) parent.reserve(self.size());
     bitmarker mk{bs};
     for (auto c = self.begin(); c != self.end(); ++c) {
@@ -387,11 +387,11 @@ inline void parse_children(xddl::cursor self, message::cursor parent, ibitstream
 }
 
 // the default vparse is just to parse the children (<xddl> for example)
-void var_type::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void var_type::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     parse_children(self, parent, bs);
 }
 
-void xddl_root::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void xddl::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto st = find(self, "start", tag_of);
     if (st == self.end()) IT_PANIC("no <start> element in " << self->parser->file);
     parse(st, parent, bs);
@@ -399,7 +399,7 @@ void xddl_root::vparse(xddl::cursor self, message::cursor parent, ibitstream & b
 }
 
 template <typename Parser>
-void parse_ref(xddl::cursor self, message::cursor parent, ibitstream &bs, xddl::cursor & ref,
+void parse_ref(spec::cursor self, message::cursor parent, ibitstream &bs, spec::cursor & ref,
     const url& href, Parser parser) {
     try {
         if (ref == self.end()) {
@@ -416,11 +416,11 @@ void parse_ref(xddl::cursor self, message::cursor parent, ibitstream &bs, xddl::
     }
 }
 
-void fragment::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) const {
+void fragment::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
     parse_ref(self, parent, bs, ref, href, self->parser);
 }
 
-void jump::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) const {
+void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
     try { 
         // get the field this jump is based on
         auto c = rfind(leaf(parent), base); // c is a field node
@@ -448,21 +448,21 @@ void jump::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) con
     }
 }
 
-void recref::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) const {
+void recref::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
     auto rec = parent.emplace(node::record_node, self);
     constraint ct(bs, length.value(rec));
     parse_ref(self, rec, bs, ref, href, self->parser);
     if (!length.empty()) add_extra(self, parent, bs);
 }
 
-void record::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void record::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto rec = parent.emplace(node::record_node, self);
     constraint ct(bs, length.value(rec));
     parse_children(self, rec, bs);
     if (!length.empty()) add_extra(self, parent, bs);
 }
 
-void pad::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) const {
+void pad::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
     size_t l = mod - ((bs.tellg() - bs.last_mark() - offset) % mod);
     if (l > 0 && l < mod) {
         l = std::min(l, bs.remaining());
@@ -470,39 +470,16 @@ void pad::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) cons
     }
 }
 
-void peek::vparse(xddl::cursor self, message::cursor parent, ibitstream &bs) const {
+void peek::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
     auto l = length.value(leaf(parent));
     auto bits = bs.peek(l, offset);
     parent.emplace_back(node::prop_node, self, bits);
 }
 
-void prop::vparse(xddl::cursor self, message::cursor parent, ibitstream &) const {
+void prop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
     parent.emplace_back(node::prop_node, self, ict::from_integer(v));
 }
-
-#if 0
-inline message::cursor get_variable(const std::string & name, message::cursor context) {
-    auto first = ict::rfind(context, name);
-    if (!first.is_root()) return first;
-
-    // first is now pointing at message root
-    auto globs = first.begin();
-    auto g = find(globs, name);
-    if (g == globs.end()) {
-        auto xddl_root = ict::get_root(context->elem).begin();
-        try {
-            g = create_global(xddl_root, globs, name);
-        } catch (ict::exception & e) {
-            std::ostringstream os;
-            os << e.what() << " [" << context->file() << ":" << context->line() << "]";
-            ict::exception e2(os.str());
-            throw e2;
-        }
-    }
-    return g;
-}
-#endif
 
 // same as get_variable but filtered on props only (lambda param?)
 message::cursor get_prop(message::cursor first, const std::string & name) {
@@ -520,7 +497,7 @@ message::cursor get_prop(message::cursor first, const std::string & name) {
     return r; // just return root
 }
 
-void setprop::vparse(xddl::cursor self, message::cursor parent, ibitstream &) const {
+void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
     auto c = parent.emplace(node::set_prop_node, self, ict::from_integer(v));
     auto i = get_prop(previous(c), "Name");
@@ -531,7 +508,7 @@ void setprop::vparse(xddl::cursor self, message::cursor parent, ibitstream &) co
     if (c->elem->flags.test(element::global_flag)) set_global(self, c, self);
 }
 
-void field::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (size_t l = std::max((int64_t) 0, length.value(leaf(parent)))) {
         auto c = parent.emplace(node::field_node, self, bs.read(l));
         if (c->bits.bit_size() < l) c->type = node::incomplete_node;
@@ -539,22 +516,22 @@ void field::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) c
     }
 }
 
-void xif::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void xif::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (expr.value(leaf(parent)) != 0) parse_children(self, parent, bs);
 }
 
-inline message::cursor add_repeat_record(xddl::cursor self, message::cursor parent, ibitstream & bs) {
+inline message::cursor add_repeat_record(spec::cursor self, message::cursor parent, ibitstream & bs) {
     auto rec = parent.emplace(node::repeat_record_node, self);
     parse_children(self, rec, bs);
     return rec;
 }
 
-void repeat::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto rec = parent.emplace(node::repeat_node, self);
     while (bs.remaining() > (size_t) minlen) add_repeat_record(self, rec, bs);
 }
 
-void num_repeat::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void num_repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto num_value = num.value(leaf(parent));
     if (num_value > 0) {
         auto rep = parent.emplace(node::repeat_node, self);
@@ -563,7 +540,7 @@ void num_repeat::vparse(xddl::cursor self, message::cursor parent, ibitstream & 
     }
 }
 
-void bound_repeat::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void bound_repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto lb = min.value(leaf(parent));
     auto ub = max.value(leaf(parent));
     auto rep = parent.emplace(node::repeat_node, self);
@@ -583,7 +560,7 @@ void bound_repeat::vparse(xddl::cursor self, message::cursor parent, ibitstream 
     }
 }
 
-void xswitch::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void xswitch::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto val = expr.value(leaf(parent));
     auto i = cases.find(val);
     if (i != cases.end()) {
@@ -594,7 +571,7 @@ void xswitch::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs)
     else if (has_default) parse_children(self.end() - 1, parent, bs);
 }
 
-void xwhile::vparse(xddl::cursor self, message::cursor parent, ibitstream & bs) const {
+void xwhile::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     auto rec = parent.emplace(node::record_node, self);
     auto cont = expr.value(leaf(parent));
     while (cont) {
@@ -673,7 +650,7 @@ std::string type::value(xddl_cursor, message::const_cursor c) const {
     return std::string();
 }
 
-std::string type::vdescription(xddl::cursor referer, message::const_cursor c) const {
+std::string type::vdescription(spec::cursor referer, message::const_cursor c) const {
     if (l) return value(referer, c);
     return enum_string(referer, c);
 }
@@ -681,7 +658,7 @@ std::string type::vdescription(xddl::cursor referer, message::const_cursor c) co
 
 
 template <typename T>
-std::string get_description(const T * self_ptr, xddl::cursor self, message::const_cursor c) {
+std::string get_description(const T * self_ptr, spec::cursor self, message::const_cursor c) {
     if (!c->desc.empty()) return c->desc;
     if (self_ptr->href.empty()) return "";
     else if (self_ptr->ref == self.end()) {
@@ -695,29 +672,29 @@ std::string get_description(const T * self_ptr, xddl::cursor self, message::cons
     return description(self_ptr->ref, self, c);
 }
 
-std::string field::vdescription(xddl::cursor self, message::const_cursor c) const {
+std::string field::vdescription(spec::cursor self, message::const_cursor c) const {
     return get_description(this, self, c);
 }
 
-std::string field::venum_string(xddl::cursor self, message::const_cursor c) const {
+std::string field::venum_string(spec::cursor self, message::const_cursor c) const {
     if (ref == self.end()) return "";
     else return ref->v->venum_string(self, c);
 }
 
-std::string prop::vdescription(xddl::cursor self, message::const_cursor c) const {
+std::string prop::vdescription(spec::cursor self, message::const_cursor c) const {
     return get_description(this, self, c);
 }
 
-std::string prop::venum_string(xddl::cursor self, message::const_cursor c) const {
+std::string prop::venum_string(spec::cursor self, message::const_cursor c) const {
     if (ref == self.end()) return "";
     else return ref->v->venum_string(self, c);
 }
 
-std::string setprop::vdescription(xddl::cursor self, message::const_cursor c) const {
+std::string setprop::vdescription(spec::cursor self, message::const_cursor c) const {
     return get_description(this, self, c);
 }
 
-std::string setprop::venum_string(xddl::cursor self, message::const_cursor c) const {
+std::string setprop::venum_string(spec::cursor self, message::const_cursor c) const {
     if (ref == self.end()) return "";
     else return ref->v->venum_string(self, c);
 }
@@ -748,7 +725,7 @@ int64_t node::value() const {
 size_t node::line() const {return elem->line; }
 std::string node::file() const { return elem->parser->file; }
 
-xddl::cursor get_record(spec & spec, const url & href) {
+spec::cursor get_record(spec_server & spec, const url & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);
@@ -758,7 +735,7 @@ xddl::cursor get_record(spec & spec, const url & href) {
     IT_THROW("cannot locate anchor: " << href);
 }
 
-xddl::cursor get_type(spec & spec, const url & href) {
+spec::cursor get_type(spec_server & spec, const url & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);

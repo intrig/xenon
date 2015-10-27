@@ -18,7 +18,7 @@ void doc_unit::fieldtypes() {
       </xddl>
     )";
 
-    ict::spec spec(xddl.begin(), xddl.end());
+    ict::spec_server spec(xddl.begin(), xddl.end());
 
     auto m = parse(spec, ict::bitstring("#08"));
 
@@ -42,7 +42,7 @@ void doc_unit::allTypes() {
       </xddl>
     )";
 
-    ict::spec doc(xddl.begin(), xddl.end());
+    ict::spec_server doc(xddl.begin(), xddl.end());
 
     ict::obitstream ob;
     ob << ict::bitstring("@1") << ict::from_integer<uint8_t>(8) << ict::from_integer<uint16_t>(16) <<

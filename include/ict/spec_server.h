@@ -6,7 +6,7 @@
 #include <vector>
 namespace ict {
 
-class spec {
+class spec_server {
 public:
     /*!!!
      Constructors
@@ -15,7 +15,7 @@ public:
     /*!
      Create an empty document.  
      */
-    spec() 
+    spec_server() 
     {
         std::string xddlroot = ict::get_env_var("XDDLPATH");
         xddl_path = ict::split(xddlroot, ';');
@@ -23,47 +23,28 @@ public:
     }
 
     // TODO get these to work, possibly making doms a shared ptr
-    spec(const spec & b) = delete;
-    spec& operator=(const spec & b) = delete;
+    spec_server(const spec_server & b) = delete;
+    spec_server& operator=(const spec_server & b) = delete;
 
     /*!
      Create a spec from a xddl file.  
      */
-    spec(const std::string & filename) 
-        : spec() {
-        open(filename);
+    spec_server(const std::string & filename) 
+        : spec_server() {
+        add_spec(filename);
     }
 
     template <typename InputIterator>
     /*!
      Create a spec from input iterators.  
      */
-    spec(InputIterator first, InputIterator last) 
-        : spec() {
-        add_spec(first, last, "<buffer>");
-    }
-
-    /*!
-     Clear current spec and open another.
-     */
-    void open(const std::string & filename) 
-    {
-        clear();
-        add_spec(filename);
-    }
-
-    template <typename InputIterator>
-    /*!
-     Clear current spec and open another.
-     */
-    void open(InputIterator first, InputIterator last) 
-    {
-        clear();
+    spec_server(InputIterator first, InputIterator last) 
+        : spec_server() {
         add_spec(first, last, "<buffer>");
     }
 
     template <typename InputIterator>
-    xddl::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) 
+    spec::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) 
     {
         //IT_WARN("adding spec: " << name);
         doms.emplace_back();
@@ -77,9 +58,9 @@ public:
     /*!
      Add another spec.
      */
-    xddl::cursor add_spec(const std::string & filename) 
+    spec::cursor add_spec(const std::string & filename) 
     {
-        auto i = std::find_if(doms.begin(), doms.end(), [&](const xddl & dom){ return dom.file == filename;} );
+        auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ return dom.file == filename;} );
         if (i !=doms.end()) return i->ast.root();
         auto x = filename;
         if (!locate(x)) IT_PANIC("cannot open \"" << filename << "\"");
@@ -99,15 +80,15 @@ public:
     bool empty() const 
     { return doms.empty(); }
 
-    friend std::ostream& operator<<(std::ostream &os, const spec & s) {
+    friend std::ostream& operator<<(std::ostream &os, const spec_server & s) {
         for (const auto & d : s.doms) os << d.ast;
         return os;
     }
 
-    xddl & base() { return *(doms.begin()); }
+    spec & base() { return *(doms.begin()); }
     std::vector<std::string> xddl_path;
 
-    std::list<xddl> doms;
+    std::list<spec> doms;
 private:
 
     inline bool locate(std::string & fname) {
