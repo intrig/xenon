@@ -729,6 +729,7 @@ spec::cursor get_record(spec_server & spec, const url & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);
+    if (href.anchor.empty()) return root;
     auto p = root.begin()->parser;
     auto j = p->recdef_map.find(href.anchor);
     if (j != p->recdef_map.end()) return j->second;

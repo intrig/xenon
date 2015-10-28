@@ -36,9 +36,9 @@ int main(int argc, char **argv) {
         line.parse(argc, argv);
 
         if (line.targets.empty()) IT_THROW("no file given");
-        auto filename = line.targets[0];
+        auto filename = ict::url(line.targets[0]);
 
-        if (ict::ends_with(filename, ".xddl")) {
+        if (!filename.file.empty()) {
             processXddlFile(line, flags);
         }
 
@@ -56,9 +56,10 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
     ict::spec_server d;
     try { 
         d.clear();
-        d.add_spec(i->c_str());
+        auto u = ict::url(*i);
+        auto r = d.add_spec(u.path + u.file);
         ++i;
-
+        
         ict::bitstring bs; // the message to parse
         std::ostringstream inst_dump;
         for (; i != line.targets.end(); ++i) {
@@ -71,9 +72,14 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
                 line.help();
                 exit(0);
             } 
-            inst = ict::parse(d, bs);
+            ict::spec::cursor start;
+            if (!u.anchor.empty()) {
+                start = ict::get_record(d, u);
+            }
+            else start = d.start();
+            inst = ict::parse(start, bs);
             if (flags.output_xml) inst_dump << ict::to_xml(inst.root());
-            else inst_dump << inst.text(flags.format, true);
+            else inst_dump << ict::to_text(inst, flags.format);
 
             cout << inst_dump.str(); 
             inst_dump.str("");

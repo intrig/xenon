@@ -62,6 +62,7 @@ inline std::string create_jump_name(Cursor start, const std::string & value) {
         auto x = find(root, prop_path, tag_of, cmp_name(value));
         if (x == root.end()) IT_PANIC("cannot find " << value);
     }        
+    c->flags.set(element::dependent_flag);
 
     return value;
 }

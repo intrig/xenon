@@ -52,7 +52,7 @@ public:
         doms.back().open(first, last, name);
         auto root = doms.back().ast.root();
         if (root.empty()) IT_THROW("invalid root node in " << name);
-        return root;
+        return root.begin();
     }
 
     /*!
@@ -85,10 +85,21 @@ public:
         return os;
     }
 
-    spec & base() { return *(doms.begin()); }
+    /*!
+     Return the default start record or throw exception.
+     */
+    spec::cursor start() const {
+        if (empty()) IT_THROW("empty spec list");
+        auto root = base().ast.root();
+        auto st = find(root, "xddl/start", tag_of);
+        if (st == root.end()) IT_PANIC("no <start> element in " << root->parser->file);
+        return st;
+    }
+
+    spec & base() const { return *(doms.begin()); }
     std::vector<std::string> xddl_path;
 
-    std::list<spec> doms;
+    mutable std::list<spec> doms;
 private:
 
     inline bool locate(std::string & fname) {

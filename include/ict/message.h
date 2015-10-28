@@ -111,9 +111,36 @@ inline message::cursor get_variable(const std::string & name, message::cursor co
 
 // load time validation
 inline int64_t eval_variable(const std::string &name, spec::cursor context) {
-    get_variable(name, context);
+    auto c = get_variable(name, context);
+
+    // Tell the message parser is another node that is dependent on the value of nodes based on this element
+    // i.e., its not a plain old field.
+    c->flags.set(element::dependent_flag);
     return 1;
 }
+
+inline int64_t eval_variable_list(const std::string &first, const std::string &second, spec::cursor context) {
+    auto f = get_variable(first, context);
+    auto s = find(f, second);
+    if (s == f.end()) { // second not found, it may be in another spec though (f may be a recref)
+        // f is a recref, so get the record it is pointing to.
+        if (auto r = get_ptr<recref>(f->v)) {
+            auto xddl = rfind(context, "xddl", tag_of);
+            auto c = find(xddl, "record", tag_of, [&](const element &e) {
+                if (auto rec = get_ptr<recdef>(e.v)) {
+                    if (rec->id == r->href) return 1;
+                }
+                return 0;
+            });
+            if (c == xddl.end()) IT_PANIC("cannot find record: " << r->href);
+            s = find(c, second);
+            if (s == c.end()) IT_PANIC("cannot find " << second << " in " << r->href);
+        }
+    }
+    s->flags.set(element::dependent_flag);
+    return 1;
+}
+
 
 // TODO: move this one to spec.h, otherwise loading a doc is dependent on message.h
 inline int64_t eval_function(const std::string &name, spec::cursor, 
@@ -122,25 +149,6 @@ inline int64_t eval_function(const std::string &name, spec::cursor,
         if ((params.size() == 1) && (!params[0].name.empty())) return 1;
     }
     IT_PANIC("load time eval_function not implemented for " << name);
-}
-
-inline int64_t eval_variable_list(const std::string &first, const std::string &second, spec::cursor context) {
-    auto f = get_variable(first, context);
-    auto s = find(f, second);
-    if (s == f.end()) {
-        if (auto r = get_ptr<recref>(f->v)) {
-            auto xddl = rfind(context, "xddl", tag_of);
-            auto c = find(xddl, "record", tag_of, [&](const element &e) {
-                if (auto rec = get_ptr<recdef>(e.v)) {
-                    if (rec->id == r->href) return true;
-                }
-                return false;
-            });
-            if (c == xddl.end()) IT_PANIC("cannot find record: " << r->href);
-            if (find(c, second) == c.end()) IT_PANIC("cannot find " << second << " in " << r->href);
-        }
-    }
-    return 1;
 }
 
 // parse time validation

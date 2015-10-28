@@ -48,6 +48,7 @@ struct node {
 
     bool is_per() const { return elem->flags[element::per_flag]; }
     bool is_oob() const { return elem->flags[element::oob_flag]; }
+    bool is_pof() const { return is_field() && !elem->flags[element::dependent_flag]; } // "plain ol' field"
 
     const char * mnemonic() const {
         switch (type) {
