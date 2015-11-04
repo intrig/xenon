@@ -46,7 +46,7 @@ public:
     template <typename InputIterator>
     spec::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) 
     {
-        //IT_WARN("adding spec: " << name);
+        // IT_WARN("adding spec: " << name);
         doms.emplace_back();
         doms.back().owner = this;
         doms.back().open(first, last, name);
@@ -60,10 +60,12 @@ public:
      */
     spec::cursor add_spec(const std::string & filename) 
     {
-        auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ return dom.file == filename;} );
-        if (i !=doms.end()) return i->ast.root();
         auto x = filename;
         if (!locate(x)) IT_PANIC("cannot open \"" << filename << "\"");
+        auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ 
+            // IT_WARN(dom.file << " == " << x);
+            return dom.file == x;} );
+        if (i !=doms.end()) return i->ast.root();
         auto contents = ict::read_file(x);
         return add_spec(contents.begin(), contents.end(), x);
     }

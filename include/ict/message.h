@@ -8,9 +8,7 @@
 
 namespace ict {
 
-struct message : public multivector<node> {
-    std::string text(std::string const & fstring, bool skip_header) const;
-};
+using message = multivector<node>;
 
 // node info type
 

@@ -28,9 +28,13 @@ inline void recombobulate(Message & a) {
     });
 }
 
+#if 1
+std::string to_text(const message & m, const std::string & format = "nlvhs");
+#else
 inline std::string to_text(const message & m, const std::string & format = "nlvhs") {
     return m.text(format, true);
 }
+#endif
    
 message parse(spec::cursor start, ibitstream & bs);
 
