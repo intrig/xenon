@@ -83,7 +83,7 @@ public:
     { return doms.empty(); }
 
     friend std::ostream& operator<<(std::ostream &os, const spec_server & s) {
-        for (const auto & d : s.doms) os << d.ast;
+        for (const auto & d : s.doms) os << ict::to_text(d.ast);
         return os;
     }
 

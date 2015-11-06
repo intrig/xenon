@@ -43,7 +43,7 @@
         <child>oob</child>
         <child>pad</child>
         <child>peek</child>
-        <child>per</child>
+        <child>enc</child>
         <child>prop</child>
         <child>record</child>
         <child>repeat</child>
@@ -65,7 +65,6 @@
             std::map&lt;ict::url, xddl_cursor&gt; type_map;
             class spec_server * owner = 0;
             int in_oob = 0;
-            //int in_per = 0;
         </code>
     </parser>
 
@@ -90,6 +89,10 @@
         virtual ict::url vhref() const final { return href; };
     </code>
 
+    <code id="is_visible">
+        virtual bool is_visible() const final { return visible; };
+    </code>
+
     <code id="var_type">
         virtual void vto_string(std::ostream &amp;) const { return; }; 
         virtual void vparse(xddl_cursor, msg_cursor, ibitstream &amp;) const;
@@ -99,6 +102,7 @@
         virtual void vset_ref(xddl_cursor) {};
         virtual std::pair&lt;bool, xddl_cursor&gt; vget_ref() { return std::make_pair(false, xddl_cursor()); };
         virtual ict::url vhref() const { return ict::url(); }
+        virtual bool is_visible() const { return true; }
         virtual ~var_type() {};
     </code>
 
@@ -116,7 +120,7 @@
             dependent_flag,
             global_flag,
             oob_flag,
-            per_flag
+            enc_flag
         };
         std::bitset&lt;4&gt; flags;
         </public>
@@ -209,7 +213,7 @@
         <code href="vparse"/>
     </element>
 
-    <element tag="per" end_handler="true">
+    <element tag="enc" end_handler="true">
         <child>fragment</child>
         <child>type</child>
         <child>start</child>
@@ -232,6 +236,7 @@
         <code href="venum_string"/>
         <code href="vhref"/>
         <code href="mutable_ref"/>
+        <code href="is_visible"/>
     </element>
 
     <!--
