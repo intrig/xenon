@@ -31,6 +31,13 @@
     <prop name="TP_User_Data_Header_Length_prop" value="0"/>
     <prop name="Message_Waiting_Indication_prop" value="0"/>
     <prop name="Message_Coding_prop" value="0"/>
+
+    <!-- UTRA -->
+    <prop name="DTMGPRSMultiSlotClassIncl_prop" value="0"/>
+    <prop name="DTMGPRSMultiSlotClass_prop" value="0"/>
+    <prop name="DTMEGPRSMultiSlotClass_prop" value="0"/>
+    <prop name="DTMEGPRSMultiSlotClassIncl_prop" value="0"/>
+    <prop name="L2PseudoLengthExists_prop" value="0"/>
   </export>
   <oob>
     <!-- This entire icd is out-of-band -->
@@ -119,11 +126,6 @@
       <item key="999" value="UTRA Message"/>
     </type>
     <record name="UTRA" id="3">
-      <prop name="DTMGPRSMultiSlotClassIncl_prop" value="0"/>
-      <prop name="DTMGPRSMultiSlotClass_prop" value="0"/>
-      <prop name="DTMEGPRSMultiSlotClass_prop" value="0"/>
-      <prop name="DTMEGPRSMultiSlotClassIncl_prop" value="0"/>
-      <prop name="L2PseudoLengthExists_prop" value="0"/>
       <setprop name="Name" type="#utra-temp-type" value="999"/>
       <field name="Sublayer" length="8" type="#3-1"/>
       <jump base="Sublayer"/>

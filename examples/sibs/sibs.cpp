@@ -7,7 +7,7 @@ using std::cerr;
 
 int main(int argc, char ** argv) {
     try {
-        ict::spec_server ss("icd.xddl");
+        ict::spec_server ss;
 
         ict::command line("sibs", 
             "Example to parse a sib message containing another.", 
@@ -18,7 +18,8 @@ int main(int argc, char ** argv) {
 
         line.parse(argc, argv);
 
-        auto msg = ict::parse(ss, "220008342E1F7F61BA04C697D176821A7A9F4EA20663F3");
+        auto start = ict::get_record(ss, "icd.xddl");
+        auto msg = ict::parse(start, "220008342E1F7F61BA04C697D176821A7A9F4EA20663F3");
 
         // display sib message
         cout << ict::to_text(msg) << '\n';
@@ -32,11 +33,11 @@ int main(int argc, char ** argv) {
 
         // now parse the inner sib as a SysInfoType19
         // We first get the record we are interested from the spec, and then use it to parse.
-        auto start = ict::get_record(ss, "3GPP/TS-25.331.xddl#SysInfoType19");
+        start = ict::get_record(ss, "3GPP/TS-25.331.xddl#SysInfoType19");
         auto inner = ict::parse(start, c->bits);
 
         // display inner sib
-        cout << ict::to_text(inner);
+        cout << ict::to_text(inner, "nlvsFL");
     }
 
     catch (std::exception & e) {

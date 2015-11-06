@@ -707,6 +707,7 @@ std::string node::name() const {
         case extra_node : return "extra";
         case repeat_record_node : return "record";
         case error_node : return "error";
+        case global : return "global";
         default: break;
     };
     return elem_of(elem).name(); 
