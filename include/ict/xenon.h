@@ -1,6 +1,8 @@
 #pragma once
 //-- Copyright 2015 Intrig
 //-- see https://github.com/intrig/xenon for license
+#include <random>
+#include <functional>
 #include <ict/message.h>
 #include <ict/spec_server.h>
 
@@ -28,13 +30,8 @@ inline void recombobulate(Message & a) {
     });
 }
 
-#if 1
-std::string to_text(const message & m, const std::string & format = "nlvhs");
-#else
-inline std::string to_text(const message & m, const std::string & format = "nlvhs") {
-    return m.text(format, true);
-}
-#endif
+std::string to_text(const message & m, const std::string & format = "nlvhs",
+    std::function<bool(message::const_cursor c)> filter=[&](message::const_cursor){ return true; });
    
 message parse(spec::cursor start, ibitstream & bs);
 

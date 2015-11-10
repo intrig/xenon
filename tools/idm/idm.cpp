@@ -11,25 +11,28 @@ struct command_flags {
     bool output_xml = false;
     bool pretty_xml = true;
     bool output_dom = false;
+    bool encoding = false;
     std::string format = "nlvhs";
 };
 
 void processXddlFile(ict::command const & line, command_flags const & flags);
 
 int main(int argc, char **argv) {
+    using ict::command;
+    using ict::option;
     try {
         command_flags flags;
 
-        ict::command line("lt", "Linesight from the cli", 
-            "lt [options] xddl_file [message]...\n"
-            "lt [options] pcap_file");
+        command line("idm", "A cli message decoder.", 
+            "idm [options] xddl_file [message]...\n");
 
-        line.add(ict::Option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
-        line.add(ict::Option("flat-xml", 'f', "Display message(s) in flat XML", 
+        line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
+        line.add(option("encoding", 'e', "Display encoding fields", [&]{ flags.encoding = true; } ));
+        line.add(option("flat-xml", 'f', "Display message(s) in flat XML", 
             [&]{ flags.output_xml = true; flags.pretty_xml = false;} ));
-        line.add(ict::Option("format", 'F', "message columns", flags.format, 
-            [&](const std::string & v){ flags.format = v; } ));
-        line.add(ict::Option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
+        line.add(option("location", 'L', "show xddl source location", [&]{ flags.format += "FL"; } ));
+        line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
+        line.add(option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
 
         line.add_note("message : an ASCII hex or binary message string: e.g., 010304 or @11011011");
 
@@ -78,8 +81,10 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             }
             else start = d.start();
             inst = ict::parse(start, bs);
-            if (flags.output_xml) inst_dump << ict::to_xml(inst.root());
-            else inst_dump << ict::to_text(inst, flags.format);
+            if (flags.output_xml) inst_dump << ict::to_xml(inst.root()) << '\n';
+            else inst_dump << ict::to_text(inst, flags.format, [&](ict::message::const_cursor c) { 
+                if (c->is_per() && !flags.encoding) return false;
+                return true; });
 
             cout << inst_dump.str(); 
             inst_dump.str("");

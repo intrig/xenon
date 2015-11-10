@@ -111,12 +111,13 @@ std::string to_xml(message::cursor c) {
 
 // get the file name of a message cursor
 
-void node_text(ht::text_rows & rows, message::const_cursor parent, std::vector<ht::heading> & vh, int level = 0) {
+template <typename Filter>
+void node_text(ht::text_rows & rows, message::const_cursor parent, std::vector<ht::heading> & vh, Filter & filter, int level = 0) {
     ht::text_row row;
 
     auto first = parent.begin();  // for calculating row
     for (auto n = parent.begin(); n != parent.end(); ++n) {
-        if (!n->is_per()) {
+        if (filter(n)) {
             for (auto & h : vh) {
                 std::string curr = "";
                 switch (h.type) {
@@ -161,12 +162,13 @@ void node_text(ht::text_rows & rows, message::const_cursor parent, std::vector<h
             }
             rows.push_back(row);
             row.clear();
-            if (!n.empty()) node_text(rows, n, vh, level + 1);
+            if (!n.empty()) node_text(rows, n, vh, filter, level + 1);
         }
     }
 }
 
-std::string to_text(const message & m, const std::string & format) {
+std::string to_text(const message & m, const std::string & format, 
+    std::function<bool(message::const_cursor c)> filter) {
     auto fsv = format;
     std::vector<ht::heading> vh;
 
@@ -197,7 +199,7 @@ std::string to_text(const message & m, const std::string & format) {
 
     rows.push_back(header);
 
-    node_text(rows, m.root(), vh);
+    node_text(rows, m.root(), vh, filter);
 
     std::ostringstream os;
     for (auto i = vh.begin(); i != vh.end()-1; ++i) ++i->width;

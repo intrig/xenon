@@ -74,6 +74,7 @@ string ElementTypeList::optional_bitmap(std::vector<Type *> const & item_list) c
     if (optional.empty()) return std::string();
 
     std::ostringstream xml;
+    xml << "<per>";
     xml << "<record name=''option''>";
     int i = 0;
     for (it = optional.begin(); it!=optional.end(); ++it, ++i) {
@@ -81,6 +82,7 @@ string ElementTypeList::optional_bitmap(std::vector<Type *> const & item_list) c
     }
 
     xml << "</record>";
+    xml << "</per>";
     return xml.str();
     
 }
@@ -88,6 +90,7 @@ string ElementTypeList::optional_bitmap(std::vector<Type *> const & item_list) c
 string ElementTypeList::extension_bitmap(std::vector<Type *> const & item_list) const
 {
     std::ostringstream xml;
+    xml << "<per>";
     xml << "<field name=''ext-cnt'' length=''7'' bias=''1''/>";
     xml << "<record name=''option'' length=''{ext-cnt}''>";
     int i = 0;
@@ -96,6 +99,7 @@ string ElementTypeList::extension_bitmap(std::vector<Type *> const & item_list) 
         xml << "<field name=''" << (*it)->name() << "'' length=''1'' type=''#opt''/>";
     }
     xml << "</record>";
+    xml << "</per>";
     return xml.str();
     
 }
