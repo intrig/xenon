@@ -26,7 +26,6 @@ struct node {
         repeat_record_node,
         prop_node,
         set_prop_node,
-        global,
         peek_node,
         error_node
     };
@@ -43,6 +42,8 @@ struct node {
     size_t length() const { return bits.bit_size(); }
     int64_t value() const;
     bool is_field() const { return type == field_node; }
+    bool is_prop() const { return type == prop_node; }
+    bool is_extra() const { return type == extra_node; }
     bool consumes() const { return type == field_node || type == incomplete_node || type == extra_node; }
     bool is_terminal() const { return consumes() || type == prop_node || type == set_prop_node ||  type == peek_node; }
 
@@ -64,7 +65,6 @@ struct node {
             case node::repeat_record_node : return "RPR";
             case node::prop_node : return "PRP";
             case node::set_prop_node : return "SET";
-            case node::global : return "GLB";
             case node::peek_node : return "PEK";
             case node::error_node : return "ERR";
         }

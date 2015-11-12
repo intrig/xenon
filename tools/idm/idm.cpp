@@ -12,6 +12,8 @@ struct command_flags {
     bool pretty_xml = true;
     bool output_dom = false;
     bool encoding = false;
+    bool properties = false;
+    bool show_extra = false;
     std::string format = "nlvhs";
 };
 
@@ -28,11 +30,13 @@ int main(int argc, char **argv) {
 
         line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
         line.add(option("encoding", 'e', "Display encoding fields", [&]{ flags.encoding = true; } ));
+        line.add(option("properties", 'p', "Display properties", [&]{ flags.properties = true; } ));
         line.add(option("flat-xml", 'f', "Display message(s) in flat XML", 
             [&]{ flags.output_xml = true; flags.pretty_xml = false;} ));
         line.add(option("location", 'L', "show xddl source location", [&]{ flags.format += "FL"; } ));
         line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
         line.add(option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
+        line.add(option("extra", 'E', "Display extra bits", [&]{ flags.show_extra = true; } ));
 
         line.add_note("message : an ASCII hex or binary message string: e.g., 010304 or @11011011");
 
@@ -83,7 +87,9 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             inst = ict::parse(start, bs);
             if (flags.output_xml) inst_dump << ict::to_xml(inst.root()) << '\n';
             else inst_dump << ict::to_text(inst, flags.format, [&](ict::message::const_cursor c) { 
-                if (c->is_per() && !flags.encoding) return false;
+                if (!flags.encoding   && c->is_per()  ) return false;
+                if (!flags.properties && c->is_prop() ) return false;
+                if (!flags.show_extra && c->is_extra()) return false;
                 return true; });
 
             cout << inst_dump.str(); 

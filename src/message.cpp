@@ -215,7 +215,7 @@ std::string to_text(const message & m, const std::string & format,
 
 message parse(spec::cursor start, ibitstream & bs) {
     message m;
-    m.root().emplace_back(node::global, start);
+    m.root().emplace_back(node::prop_node, start);
     parse(start, m.root(), bs);
     return m;
 }
