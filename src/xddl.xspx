@@ -90,6 +90,10 @@
         virtual ict::url vhref() const final { return href; };
     </code>
 
+    <code id="is_visible">
+        virtual bool is_visible() const final { return visible; };
+    </code>
+
     <code id="var_type">
         virtual void vto_string(std::ostream &amp;) const { return; }; 
         virtual void vparse(xddl_cursor, msg_cursor, ibitstream &amp;) const;
@@ -99,6 +103,7 @@
         virtual void vset_ref(xddl_cursor) {};
         virtual std::pair&lt;bool, xddl_cursor&gt; vget_ref() { return std::make_pair(false, xddl_cursor()); };
         virtual ict::url vhref() const { return ict::url(); }
+        virtual bool is_visible() const { return true; }
         virtual ~var_type() {};
     </code>
 
@@ -232,6 +237,7 @@
         <code href="venum_string"/>
         <code href="vhref"/>
         <code href="mutable_ref"/>
+        <code href="is_visible"/>
     </element>
 
     <!--
