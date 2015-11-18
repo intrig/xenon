@@ -33,6 +33,10 @@ inline void recombobulate(Message & a) {
 std::string to_text(const message & m, const std::string & format = "nlvhs",
     std::function<bool(message::const_cursor c)> filter=[&](message::const_cursor){ return true; });
    
+std::string to_xml(const message & m, 
+    std::function<bool(message::const_cursor c)> filter=[&](message::const_cursor){ return true; });
+   
+
 message parse(spec::cursor start, ibitstream & bs);
 
 message parse(spec::cursor start, const bitstring & bits);

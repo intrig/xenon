@@ -91,10 +91,10 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             }
             else start = d.start();
             inst = ict::parse(start, bs);
-            if (flags.flat_xml) inst_dump << ict::to_xml(inst.root()) << '\n';
-            else if (flags.pretty_xml)  {
+            if (flags.flat_xml) inst_dump << ict::to_xml(inst, filter) << '\n';
+            else if (flags.pretty_xml) {
                 ict::Xml pretty;
-                pretty << ict::to_xml(inst.root()) << "\n";
+                pretty << ict::to_xml(inst, filter) << "\n";
                 inst_dump << pretty;
             }
             else inst_dump << ict::to_text(inst, flags.format, filter);
@@ -109,3 +109,4 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
     }
 }
 
+// idm icd.xddl C308D1472EEFC299D40000000000060003018C1FAD90001801520040028200005354AAD3DA18D73B9830140A4800

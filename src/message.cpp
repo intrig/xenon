@@ -27,10 +27,10 @@ const node_info_list node_info = {
 
     { "root", node_info_type::is_nil }, // not sure about this
     
-    { "extra", node_info_type::is_terminal, [&](std::ostream& os, message::cursor n) { 
+    { "extra", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
         os << "<extra" << attr("length", n->bits.bit_size()) << attr("data",to_string(n->bits)) << ">"; } },
 
-    { "field", node_info_type::is_terminal, [&](std::ostream& os, message::cursor n) { 
+    { "field", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
         if (auto f = get_ptr<field>(n->elem->v)) {
             os << "<field" << attr("name", n->name()) << attr("length", n->bits.bit_size()) <<  
                 attr("data", to_string(n->bits));
@@ -50,68 +50,74 @@ const node_info_list node_info = {
         IT_PANIC("conversion to xml panic error");
     }},
 
-    { "float", node_info_type::is_terminal, [&](std::ostream& os, message::cursor n) { 
+    { "float", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
         os << "<float" << attr("name", n->name()) << attr("data", n->bits) << ">";
         description_xml(os, n);
     }},
 
-    { "incomplete", node_info_type::is_terminal, [&](std::ostream& os, message::cursor n) { 
+    { "incomplete", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
         os << "<incomplete" << attr("name", n->name()) << attr("value", n->value()) << ">";
     }},
 
-    { "message", node_info_type::is_parent, [&](std::ostream& os, message::cursor n) { 
+    { "message", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
         os << "<message" << attr("docref", n->file()) << ">";
     }},
     
-    { "record", node_info_type::is_parent, [&](std::ostream& os, message::cursor n) { 
+    { "record", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
         os << "<record" << attr("name", n->name()) << ">";
     }},
     
-    { "repeat", node_info_type::is_parent, [&](std::ostream& os, message::cursor n) { 
+    { "repeat", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
         os << "<repeat" << attr("name", n->name()) << ">";
     }},
 
-    { "prop", node_info_type::is_property, [&](std::ostream& os, message::cursor n) { 
+    // repeat record
+    { "record", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
+        os << "<record" << attr("name", n->name()) << ">";
+    }},
+
+    { "prop", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
         os << "<prop" << attr("name", n->name()) << attr("value", n->value()) << ">";
         description_xml(os, n);
     }},
     
-    { "setprop", node_info_type::is_property, [&](std::ostream& os, message::cursor n) { 
+    { "setprop", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
         os << "<setprop" << attr("name", n->name()) << attr("value", n->value()) << ">";
         description_xml(os, n);
     }},
 
-    { "global", node_info_type::is_property, [&](std::ostream& os, message::cursor n) { 
-        os << "<global" << attr("name", n->name())  << ">";
-    }},
-    
-    
-    { "peek", node_info_type::is_property, [&](std::ostream& os, message::cursor n) { 
+    { "peek", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
         os << "<peek" << attr("name", n->name()) << attr("value", n->value()) << ">";
     }},
 
-    { "error", node_info_type::is_property, [&](std::ostream& os, message::cursor n) { 
+    { "error", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
         os << "<error" << attr("desc", n->desc) << ">";
     }},
 };
 
 // convert a message cursor to xml
 namespace util {
-    void to_xml(std::ostringstream &os, message::cursor c) {
+    template <typename Cursor, typename Filter>
+    void to_xml(std::ostringstream &os, Cursor c, Filter filter) {
         node_info[c->type].start_tag(os, c);
-        if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) to_xml(os, n);
+        if (!c.empty() && filter(c)) for (auto n = c.begin(); n!= c.end(); ++n) to_xml(os, n, filter);
         os << "</" << node_info[c->type].name << ">";
+    }
+
+    template <typename Cursor, typename Filter>
+    std::string to_xml(Cursor c, Filter filter) {
+        std::ostringstream os;
+        os << "<message>";
+        if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) util::to_xml(os, n, filter);
+        os << "</message>";
+        return os.str();
     }
 }
 
-std::string to_xml(message::cursor c) {
-    std::ostringstream os;
-    os << "<message>";
-    if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) util::to_xml(os, n);
-    os << "</message>";
-    return os.str();
+std::string to_xml(const message & m, 
+    std::function<bool(message::const_cursor c)> filter) {
+    return util::to_xml(m.root(), filter);
 }
-
 
 // get the file name of a message cursor
 
