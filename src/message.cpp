@@ -96,15 +96,19 @@ const node_info_list node_info = {
 };
 
 // convert a message cursor to xml
-void to_xml(std::ostringstream &os, message::cursor c) {
-    node_info[c->type].start_tag(os, c);
-    if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) to_xml(os, n);
-    os << "</" << node_info[c->type].name << ">";
+namespace util {
+    void to_xml(std::ostringstream &os, message::cursor c) {
+        node_info[c->type].start_tag(os, c);
+        if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) to_xml(os, n);
+        os << "</" << node_info[c->type].name << ">";
+    }
 }
 
 std::string to_xml(message::cursor c) {
     std::ostringstream os;
-    if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) to_xml(os, n);
+    os << "<message>";
+    if (!c.empty()) for (auto n = c.begin(); n!= c.end(); ++n) util::to_xml(os, n);
+    os << "</message>";
     return os.str();
 }
 

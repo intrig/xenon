@@ -2,14 +2,15 @@
 //-- See https://github.com/intrig/xenon for license.
 #include <ict/xenon.h>
 #include <ict/command.h>
+#include <ict/xddl_code.h>
 
 using std::cout;
 using std::cerr;
 using std::endl;
 
 struct command_flags {
-    bool output_xml = false;
-    bool pretty_xml = true;
+    bool flat_xml = false;
+    bool pretty_xml = false;
     bool output_dom = false;
 
     bool encoding = false;
@@ -29,13 +30,11 @@ int main(int argc, char **argv) {
         command line("idm", "A cli message decoder.", 
             "idm [options] xddl_file [message]...\n");
 
-        line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
         line.add(option("encoding", 'e', "Display encoding fields", [&]{ flags.encoding = true; } ));
         line.add(option("properties", 'p', "Display properties", [&]{ flags.properties = true; } ));
-        line.add(option("flat-xml", 'f', "Display message(s) in flat XML", 
-            [&]{ flags.output_xml = true; flags.pretty_xml = false; } ));
+        line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.pretty_xml = true; } ));
+        line.add(option("flat-xml", 'f', "Display message(s) in flat XML", [&]{ flags.flat_xml = true; } ));
         line.add(option("location", 'L', "show xddl source location", [&]{ flags.format += "FL"; } ));
-        line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
         line.add(option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
         line.add(option("extra", 'E', "Display extra bits", [&]{ flags.show_extra = true; } ));
 
@@ -70,6 +69,12 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
         
         ict::bitstring bs; // the message to parse
         std::ostringstream inst_dump;
+
+        auto filter = [&](ict::message::const_cursor c) { 
+                if (!flags.encoding   && c->is_per()  ) return false;
+                if (!flags.properties && c->is_prop() && !c->elem->v->is_visible()) return false;
+                if (!flags.show_extra && c->is_extra()) return false;
+                return true; };
         for (; i != line.targets.end(); ++i) {
             ict::message inst;
             bs = ict::bitstring(i->c_str());
@@ -86,16 +91,13 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             }
             else start = d.start();
             inst = ict::parse(start, bs);
-            if (flags.output_flat_xml) inst_dump << ict::to_xml(inst.root()) << '\n';
-            else if (flags.output_xml)  {
-                std::ostringstream os;
-                ict::to_xml(os, inst.root());
+            if (flags.flat_xml) inst_dump << ict::to_xml(inst.root()) << '\n';
+            else if (flags.pretty_xml)  {
+                ict::Xml pretty;
+                pretty << ict::to_xml(inst.root()) << "\n";
+                inst_dump << pretty;
             }
-            else inst_dump << ict::to_text(inst, flags.format, [&](ict::message::const_cursor c) { 
-                if (!flags.encoding   && c->is_per()  ) return false;
-                if (!flags.properties && c->is_prop() && !c->elem->v->is_visible()) return false;
-                if (!flags.show_extra && c->is_extra()) return false;
-                return true; });
+            else inst_dump << ict::to_text(inst, flags.format, filter);
 
             cout << inst_dump.str(); 
             inst_dump.str("");
