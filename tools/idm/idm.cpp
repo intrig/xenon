@@ -11,6 +11,7 @@ using std::endl;
 struct command_flags {
     bool flat_xml = false;
     bool pretty_xml = false;
+    bool debug_print = false;
     bool output_dom = false;
 
     bool encoding = false;
@@ -36,6 +37,7 @@ int main(int argc, char **argv) {
         line.add(option("flat-xml", 'f', "Display message(s) in flat XML", [&]{ flags.flat_xml = true; } ));
         line.add(option("location", 'L', "show xddl source location", [&]{ flags.format += "FL"; } ));
         line.add(option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
+        line.add(option("debug", 'D', "Display message(s) in debug gibberish", [&]{ flags.debug_print = true; } ));
         line.add(option("extra", 'E', "Display extra bits", [&]{ flags.show_extra = true; } ));
 
         line.add_note("message : an ASCII hex or binary message string: e.g., 010304 or @11011011");
@@ -96,6 +98,9 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
                 ict::Xml pretty;
                 pretty << ict::to_xml(inst, filter) << "\n";
                 inst_dump << pretty;
+            }
+            else if (flags.debug_print) {
+                inst_dump << inst.root() << '\n';
             }
             else inst_dump << ict::to_text(inst, flags.format, filter);
 
