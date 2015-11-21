@@ -44,16 +44,24 @@ struct node {
     std::string file() const;
     size_t length() const { return bits.bit_size(); }
     int64_t value() const;
-    bool is_field() const { return type == field_node; }
-    //bool is_field() const { return flags.test(field_node); }
+    //bool is_field() const { return type == field_node; }
+    bool is_field() const { return flags.test(field_node); }
     bool is_prop() const { return type == prop_node || type == setprop_node; }
-    bool is_extra() const { return type == extra_node; }
-    bool consumes() const { return is_field() || type == incomplete_node || type == extra_node; }
+    bool is_extra() const { return flags.test(extra_node); }
+    bool is_incomplete() const { return flags.test(incomplete_node); }
+    bool consumes() const { return is_field() || is_incomplete() || is_extra(); }
     bool is_terminal() const { return consumes() || type == prop_node || type == setprop_node ||  type == peek_node; }
 
     bool is_per() const { return elem->flags[element::per_flag]; }
     bool is_oob() const { return elem->flags[element::oob_flag]; }
     bool is_pof() const { return is_field() && !elem->flags[element::dependent_flag]; } // "plain ol' field"
+
+    void set_incomplete() {
+        type = incomplete_node;
+        flags.reset(field_node);
+        flags.set(incomplete_node);
+    }
+    void set(node_type type) { flags.set(type); }
 
     const char * mnemonic() const {
         switch (type) {

@@ -511,7 +511,7 @@ void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) co
 void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (size_t l = std::max((int64_t) 0, length.value(leaf(parent)))) {
         auto c = parent.emplace(node::field_node, self, bs.read(l));
-        if (c->bits.bit_size() < l) c->type = node::incomplete_node;
+        if (c->bits.bit_size() < l) c->set_incomplete();
         if (c->elem->flags.test(element::global_flag)) set_global(self, c, self);
     }
 }
