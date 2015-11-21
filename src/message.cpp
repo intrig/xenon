@@ -223,24 +223,5 @@ std::string to_text(const message & m, const std::string & format,
     return os.str();
 }
 
-message parse(spec::cursor start, ibitstream & bs) {
-    message m;
-    m.root().emplace_back(node::prop_node, start);
-    parse(start, m.root(), bs);
-    return m;
-}
-
-message parse(spec::cursor start, const bitstring & bits) {
-    ibitstream bs(bits);
-    return parse(start, bs);
-}
-
-
-message parse(spec_server & spec, const bitstring & bits) {
-    if (spec.empty()) IT_THROW("empty spec");
-    auto start = find(spec.base().ast.root(), "xddl", tag_of);
-    return parse(start, bits);
-}
-
 } // namespace
 

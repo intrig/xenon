@@ -100,7 +100,7 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
                 inst_dump << pretty;
             }
             else if (flags.debug_print) {
-                inst_dump << inst.root() << '\n';
+                inst_dump << ict::to_debug_text(inst, filter) << '\n';
             }
             else inst_dump << ict::to_text(inst, flags.format, filter);
 

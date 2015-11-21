@@ -499,7 +499,7 @@ message::cursor get_prop(message::cursor first, const std::string & name) {
 
 void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
-    auto c = parent.emplace(node::set_prop_node, self, ict::from_integer(v));
+    auto c = parent.emplace(node::setprop_node, self, ict::from_integer(v));
     auto i = get_prop(previous(c), "Name");
     if (!i.is_root()) { 
         i->bits = c->bits;

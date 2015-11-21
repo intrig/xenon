@@ -25,14 +25,17 @@ struct node {
         repeat_node,
         repeat_record_node,
         prop_node,
-        set_prop_node,
+        setprop_node,
         peek_node,
-        error_node
+        error_node,
+        node_count
     };
 
     inline const node_info_type & info() const;
     node() = default;
-    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) {};
+    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) {
+        flags.set(type);
+    };
 
     bool empty() { return bits.empty(); }
     string64 tag() const;
@@ -42,10 +45,11 @@ struct node {
     size_t length() const { return bits.bit_size(); }
     int64_t value() const;
     bool is_field() const { return type == field_node; }
-    bool is_prop() const { return type == prop_node; }
+    //bool is_field() const { return flags.test(field_node); }
+    bool is_prop() const { return type == prop_node || type == setprop_node; }
     bool is_extra() const { return type == extra_node; }
-    bool consumes() const { return type == field_node || type == incomplete_node || type == extra_node; }
-    bool is_terminal() const { return consumes() || type == prop_node || type == set_prop_node ||  type == peek_node; }
+    bool consumes() const { return is_field() || type == incomplete_node || type == extra_node; }
+    bool is_terminal() const { return consumes() || type == prop_node || type == setprop_node ||  type == peek_node; }
 
     bool is_per() const { return elem->flags[element::per_flag]; }
     bool is_oob() const { return elem->flags[element::oob_flag]; }
@@ -64,9 +68,10 @@ struct node {
             case node::repeat_node : return "REP";
             case node::repeat_record_node : return "RPR";
             case node::prop_node : return "PRP";
-            case node::set_prop_node : return "SET";
+            case node::setprop_node : return "SET";
             case node::peek_node : return "PEK";
             case node::error_node : return "ERR";
+            default: break;
         }
         return "err";
     }
@@ -75,6 +80,7 @@ struct node {
         return a.value() == b;
     }
 
+    std::bitset<node_count> flags;
     node_type type = nil_node;
     xddl_cursor elem;
     bitstring bits;
@@ -129,6 +135,20 @@ inline S& end_tag(S& os, C) {
 template <>
 inline std::string name_of(const node & n) {
     return n.name();
+}
+
+template <typename Stream>
+Stream & to_debug(Stream & os, const node & n) {
+    os << n.tag() << " " << n.mnemonic() << " " << n.name() << " (" <<
+        (n.is_field() ? "field " : "") <<
+        (n.is_prop() ? "prop " : "") <<
+        (n.is_extra() ? "extra " : "") <<
+        (n.consumes() ? "consumes " : "") <<
+        (n.is_terminal() ? "term " : "") <<
+        (n.is_per() ? "per " : "") <<
+        (n.is_oob() ? "oob " : "") <<
+        (n.is_pof() ? "pof " : "") << ')';
+    return os;
 }
 } // namespace
 
