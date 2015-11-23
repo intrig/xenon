@@ -44,43 +44,38 @@ struct node {
     std::string file() const;
     size_t length() const { return bits.bit_size(); }
     int64_t value() const;
-    //bool is_field() const { return type == field_node; }
     bool is_field() const { return flags.test(field_node); }
-    bool is_prop() const { return type == prop_node || type == setprop_node; }
+    bool is_prop() const { return flags.test(prop_node) || flags.test(setprop_node) || flags.test(peek_node); }
     bool is_extra() const { return flags.test(extra_node); }
     bool is_incomplete() const { return flags.test(incomplete_node); }
     bool consumes() const { return is_field() || is_incomplete() || is_extra(); }
-    bool is_terminal() const { return consumes() || type == prop_node || type == setprop_node ||  type == peek_node; }
+    bool is_terminal() const { return consumes() || is_prop(); }
 
-    bool is_per() const { return elem->flags[element::per_flag]; }
-    bool is_oob() const { return elem->flags[element::oob_flag]; }
-    bool is_pof() const { return is_field() && !elem->flags[element::dependent_flag]; } // "plain ol' field"
+    bool is_per() const { return elem->flags.test(element::per_flag); }
+    bool is_oob() const { return elem->flags.test(element::oob_flag); }
+    bool is_pof() const { return is_field() && !elem->flags.test(element::dependent_flag); } // "plain ol' field"
 
     void set_incomplete() {
-        type = incomplete_node;
+        // type = incomplete_node;
         flags.reset(field_node);
         flags.set(incomplete_node);
     }
-    void set(node_type type) { flags.set(type); }
 
     const char * mnemonic() const {
-        switch (type) {
-            case node::nil_node : return "EMP";
-            case node::root_node : return "ROT";
-            case node::extra_node : return "EXT";
-            case node::field_node : return "FLD";
-            case node::float_node : return "FLT";
-            case node::incomplete_node : return "INC";
-            case node::message_node : return "MSG";
-            case node::record_node : return "REC";
-            case node::repeat_node : return "REP";
-            case node::repeat_record_node : return "RPR";
-            case node::prop_node : return "PRP";
-            case node::setprop_node : return "SET";
-            case node::peek_node : return "PEK";
-            case node::error_node : return "ERR";
-            default: break;
-        }
+        if (flags.test(nil_node)) return "EMP";
+        if (flags.test(root_node)) return "ROT";
+        if (flags.test(extra_node)) return "EXT";
+        if (flags.test(field_node)) return "FLD";
+        if (flags.test(float_node)) return "FLT";
+        if (flags.test(incomplete_node)) return "INC";
+        if (flags.test(message_node)) return "MSG";
+        if (flags.test(record_node)) return "REC";
+        if (flags.test(repeat_node)) return "REP";
+        if (flags.test(repeat_record_node)) return "RPR";
+        if (flags.test(prop_node)) return "PRP";
+        if (flags.test(setprop_node)) return "SET";
+        if (flags.test(peek_node)) return "PEK";
+        if (flags.test(error_node)) return "ERR";
         return "err";
     }
 
