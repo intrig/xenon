@@ -31,10 +31,14 @@ struct node {
         node_count
     };
 
+    enum node_flags {
+        visible,
+        flag_count
+    };
+
     inline const node_info_type & info() const;
     node() = default;
     node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) {
-        flags.set(type);
     };
 
     bool empty() { return bits.empty(); }
@@ -44,38 +48,40 @@ struct node {
     std::string file() const;
     size_t length() const { return bits.bit_size(); }
     int64_t value() const;
-    bool is_field() const { return flags.test(field_node); }
-    bool is_prop() const { return flags.test(prop_node) || flags.test(setprop_node) || flags.test(peek_node); }
-    bool is_extra() const { return flags.test(extra_node); }
-    bool is_incomplete() const { return flags.test(incomplete_node); }
+    bool is_field() const { return type == field_node; }
+    bool is_prop() const { return type == prop_node || type == setprop_node || type == peek_node; }
+    bool is_extra() const { return type == extra_node; }
+    bool is_incomplete() const { return type == incomplete_node; }
     bool consumes() const { return is_field() || is_incomplete() || is_extra(); }
     bool is_terminal() const { return consumes() || is_prop(); }
 
     bool is_per() const { return elem->flags.test(element::per_flag); }
     bool is_oob() const { return elem->flags.test(element::oob_flag); }
     bool is_pof() const { return is_field() && !elem->flags.test(element::dependent_flag); } // "plain ol' field"
+    bool is_visible() const { return flags.test(visible); }
 
     void set_incomplete() {
-        // type = incomplete_node;
-        flags.reset(field_node);
-        flags.set(incomplete_node);
+        type = incomplete_node;
     }
 
     const char * mnemonic() const {
-        if (flags.test(nil_node)) return "EMP";
-        if (flags.test(root_node)) return "ROT";
-        if (flags.test(extra_node)) return "EXT";
-        if (flags.test(field_node)) return "FLD";
-        if (flags.test(float_node)) return "FLT";
-        if (flags.test(incomplete_node)) return "INC";
-        if (flags.test(message_node)) return "MSG";
-        if (flags.test(record_node)) return "REC";
-        if (flags.test(repeat_node)) return "REP";
-        if (flags.test(repeat_record_node)) return "RPR";
-        if (flags.test(prop_node)) return "PRP";
-        if (flags.test(setprop_node)) return "SET";
-        if (flags.test(peek_node)) return "PEK";
-        if (flags.test(error_node)) return "ERR";
+        switch (type) {
+            case nil_node: return "EMP";
+            case root_node: return "ROT";
+            case extra_node: return "EXT";
+            case field_node: return "FLD";
+            case float_node: return "FLT";
+            case incomplete_node: return "INC";
+            case message_node: return "MSG";
+            case record_node: return "REC";
+            case repeat_node: return "REP";
+            case repeat_record_node: return "RPR";
+            case prop_node: return "PRP";
+            case setprop_node: return "SET";
+            case peek_node: return "PEK";
+            case error_node: return "ERR";
+            default: return "err";
+        }
         return "err";
     }
 
@@ -83,7 +89,7 @@ struct node {
         return a.value() == b;
     }
 
-    std::bitset<node_count> flags;
+    std::bitset<flag_count> flags;
     node_type type = nil_node;
     xddl_cursor elem;
     bitstring bits;

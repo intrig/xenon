@@ -27,10 +27,10 @@ const node_info_list node_info = {
 
     { "root", node_info_type::is_nil }, // not sure about this
     
-    { "extra", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
+    { "extra", node_info_type::is_terminal, [](std::ostream& os, message::const_cursor n) { 
         os << "<extra" << attr("length", n->bits.bit_size()) << attr("data",to_string(n->bits)) << ">"; } },
 
-    { "field", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
+    { "field", node_info_type::is_terminal, [](std::ostream& os, message::const_cursor n) { 
         if (auto f = get_ptr<field>(n->elem->v)) {
             os << "<field" << attr("name", n->name()) << attr("length", n->bits.bit_size()) <<  
                 attr("data", to_string(n->bits));
@@ -50,47 +50,47 @@ const node_info_list node_info = {
         IT_PANIC("conversion to xml panic error");
     }},
 
-    { "float", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
+    { "float", node_info_type::is_terminal, [](std::ostream& os, message::const_cursor n) { 
         os << "<float" << attr("name", n->name()) << attr("data", n->bits) << ">";
         description_xml(os, n);
     }},
 
-    { "incomplete", node_info_type::is_terminal, [&](std::ostream& os, message::const_cursor n) { 
+    { "incomplete", node_info_type::is_terminal, [](std::ostream& os, message::const_cursor n) { 
         os << "<incomplete" << attr("name", n->name()) << attr("value", n->value()) << ">";
     }},
 
-    { "message", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
+    { "message", node_info_type::is_parent, [](std::ostream& os, message::const_cursor n) { 
         os << "<message" << attr("docref", n->file()) << ">";
     }},
     
-    { "record", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
+    { "record", node_info_type::is_parent, [](std::ostream& os, message::const_cursor n) { 
         os << "<record" << attr("name", n->name()) << ">";
     }},
     
-    { "repeat", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
+    { "repeat", node_info_type::is_parent, [](std::ostream& os, message::const_cursor n) { 
         os << "<repeat" << attr("name", n->name()) << ">";
     }},
 
     // repeat record
-    { "record", node_info_type::is_parent, [&](std::ostream& os, message::const_cursor n) { 
+    { "record", node_info_type::is_parent, [](std::ostream& os, message::const_cursor n) { 
         os << "<record" << attr("name", n->name()) << ">";
     }},
 
-    { "prop", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
+    { "prop", node_info_type::is_property, [](std::ostream& os, message::const_cursor n) { 
         os << "<prop" << attr("name", n->name()) << attr("value", n->value()) << ">";
         description_xml(os, n);
     }},
     
-    { "setprop", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
+    { "setprop", node_info_type::is_property, [](std::ostream& os, message::const_cursor n) { 
         os << "<setprop" << attr("name", n->name()) << attr("value", n->value()) << ">";
         description_xml(os, n);
     }},
 
-    { "peek", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
+    { "peek", node_info_type::is_property, [](std::ostream& os, message::const_cursor n) { 
         os << "<peek" << attr("name", n->name()) << attr("value", n->value()) << ">";
     }},
 
-    { "error", node_info_type::is_property, [&](std::ostream& os, message::const_cursor n) { 
+    { "error", node_info_type::is_property, [](std::ostream& os, message::const_cursor n) { 
         os << "<error" << attr("desc", n->desc) << ">";
     }},
 };

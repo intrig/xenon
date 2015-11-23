@@ -32,11 +32,11 @@ inline void recombobulate(Message & a) {
 
 // TODO: change this to header only
 std::string to_text(const message & m, const std::string & format = "nlvhs",
-    std::function<bool(message::const_cursor c)> filter=[&](message::const_cursor){ return true; });
+    std::function<bool(message::const_cursor c)> filter=[](message::const_cursor){ return true; });
    
 // TODO: change this to header only
 std::string to_xml(const message & m, 
-    std::function<bool(message::const_cursor c)> filter=[&](message::const_cursor){ return true; });
+    std::function<bool(message::const_cursor c)> filter=[](message::const_cursor){ return true; });
 
 namespace util {
     template <typename Stream, typename Cursor, typename Filter>
