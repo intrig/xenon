@@ -38,8 +38,7 @@ struct node {
 
     inline const node_info_type & info() const;
     node() = default;
-    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) {
-    };
+    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) { };
 
     bool empty() { return bits.empty(); }
     string64 tag() const;
@@ -55,7 +54,7 @@ struct node {
     bool consumes() const { return is_field() || is_incomplete() || is_extra(); }
     bool is_terminal() const { return consumes() || is_prop(); }
 
-    bool is_per() const { return elem->flags.test(element::per_flag); }
+    bool is_encoding() const { return elem->flags.test(element::enc_flag); }
     bool is_oob() const { return elem->flags.test(element::oob_flag); }
     bool is_pof() const { return is_field() && !elem->flags.test(element::dependent_flag); } // "plain ol' field"
     bool is_visible() const { return flags.test(visible); }
@@ -155,7 +154,7 @@ Stream & to_debug(Stream & os, const node & n) {
         (n.is_extra() ? "extra " : "") <<
         (n.consumes() ? "consumes " : "") <<
         (n.is_terminal() ? "term " : "") <<
-        (n.is_per() ? "per " : "") <<
+        (n.is_encoding() ? "encoding " : "") <<
         (n.is_oob() ? "oob " : "") <<
         (n.is_pof() ? "pof " : "") << ')';
     return os;

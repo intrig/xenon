@@ -349,8 +349,8 @@ void oob::vend_handler(spec::cursor self, spec &) {
     promote_last(self.parent());
 }
 
-void per::vend_handler(spec::cursor self, spec &) {
-    set_flag(self, element::per_flag);
+void enc::vend_handler(spec::cursor self, spec &) {
+    set_flag(self, element::enc_flag);
     promote_last(self.parent());
 
 }
