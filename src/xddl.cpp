@@ -478,7 +478,8 @@ void peek::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
 
 void prop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
-    parent.emplace_back(node::prop_node, self, ict::from_integer(v));
+    auto c = parent.emplace(node::prop_node, self, ict::from_integer(v));
+    c->set_visible(visible);
 }
 
 // same as get_variable but filtered on props only (lambda param?)

@@ -74,7 +74,7 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
 
         auto filter = [&](ict::message::const_cursor c) { 
                 if (!flags.encoding   && c->is_per()  ) return false;
-                if (!flags.properties && c->is_prop() && !c->elem->v->is_visible()) return false;
+                if (!flags.properties && c->is_prop() && c->is_visible()) return false;
                 if (!flags.show_extra && c->is_extra()) return false;
                 return true; };
         for (; i != line.targets.end(); ++i) {

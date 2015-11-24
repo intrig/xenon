@@ -59,6 +59,7 @@ struct node {
     bool is_oob() const { return elem->flags.test(element::oob_flag); }
     bool is_pof() const { return is_field() && !elem->flags.test(element::dependent_flag); } // "plain ol' field"
     bool is_visible() const { return flags.test(visible); }
+    void set_visible(bool yes) { flags.set(visible, yes); }
 
     void set_incomplete() {
         type = incomplete_node;
