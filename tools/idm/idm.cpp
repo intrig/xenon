@@ -73,10 +73,10 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
         std::ostringstream inst_dump;
 
         auto filter = [&](ict::message::const_cursor c) { 
-                if (!flags.encoding   && c->is_per()  ) return false;
-                if (!flags.properties && c->is_prop() && c->is_visible()) return false;
-                if (!flags.show_extra && c->is_extra()) return false;
-                return true; };
+            if (!flags.encoding   && c->is_per()  ) return false;
+            if (!flags.properties && c->is_prop() && !c->is_visible()) return false;
+            if (!flags.show_extra && c->is_extra()) return false;
+            return true; };
         for (; i != line.targets.end(); ++i) {
             ict::message inst;
             bs = ict::bitstring(i->c_str());
