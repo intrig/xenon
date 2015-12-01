@@ -24,7 +24,7 @@ int main(int argc, char ** argv) {
         // display sib message
         cout << ict::to_text(msg) << '\n';
 
-        // grab the inner sib
+        // grab the inner sib. The '//' means it doesn't have to be a direct child of msg.root()
         auto c = ict::find(msg.root(), "//SIB-Data-variable");
         if (c==msg.end()) IT_THROW("can't find SIB-Data-variable");
 
