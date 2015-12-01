@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         line.add(option("debug", 'D', "Display message(s) in debug gibberish", [&]{ flags.debug_print = true; } ));
         line.add(option("extra", 'E', "Display extra bits", [&]{ flags.show_extra = true; } ));
 
-        line.add_note("message : an ASCII hex or binary message string: e.g., 010304 or @11011011");
+        line.add_note("message : an ASCII hex or binary message string: e.g., A10304 or @11011011");
 
         line.parse(argc, argv);
 
