@@ -1,6 +1,8 @@
 #pragma once
 //-- Copyright 2015 Intrig
 //-- see https://github.com/intrig/xenon for license
+#include <random>
+#include <functional>
 #include <ict/message.h>
 #include <ict/spec_server.h>
 
@@ -28,19 +30,51 @@ inline void recombobulate(Message & a) {
     });
 }
 
-#if 1
-std::string to_text(const message & m, const std::string & format = "nlvhs");
-#else
-inline std::string to_text(const message & m, const std::string & format = "nlvhs") {
-    return m.text(format, true);
-}
-#endif
+// TODO: change this to header only
+std::string to_text(const message & m, const std::string & format = "nlvhs",
+    std::function<bool(message::const_cursor c)> filter=[](message::const_cursor){ return true; });
    
-message parse(spec::cursor start, ibitstream & bs);
+// TODO: change this to header only
+std::string to_xml(const message & m, 
+    std::function<bool(message::const_cursor c)> filter=[](message::const_cursor){ return true; });
 
-message parse(spec::cursor start, const bitstring & bits);
+namespace util {
+    template <typename Stream, typename Cursor, typename Filter>
+    void to_debug_text(Stream & os, Cursor parent, Filter filter, int level) {
+        for (auto c = parent.begin(); c != parent.end(); ++c) if (filter(c)) {
+            // os << ict::spaces(level * 2) << c->tag() << " " << c->mnemonic() << " " << c->name() << '\n';
+            os << ict::spaces(level * 2);
+            to_debug(os, *c);
+            os << '\n';
+            to_debug_text(os, c, filter, level + 1);
+        }
+    }
+}
+   
+template <typename Filter>
+inline std::string to_debug_text(const message & m, Filter filter) {
+    std::ostringstream ss;
+    util::to_debug_text(ss, m.root(), filter, 0);
+    return ss.str();
+}
 
-message parse(spec_server &, const bitstring & bits);
+inline message parse(spec::cursor start, ibitstream & bs) {
+    message m;
+    m.root().emplace_back(node::prop_node, start);
+    parse(start, m.root(), bs);
+    return m;
+}
+
+inline message parse(spec::cursor start, const bitstring & bits) {
+    ibitstream bs(bits);
+    return parse(start, bs);
+}
+
+inline message parse(spec_server & spec, const bitstring & bits) {
+    if (spec.empty()) IT_THROW("empty spec");
+    auto start = find(spec.base().ast.root(), "xddl", tag_of);
+    return parse(start, bits);
+}
 
 spec::cursor get_record(spec_server &, const url & href);
 

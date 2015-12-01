@@ -25,15 +25,20 @@ struct node {
         repeat_node,
         repeat_record_node,
         prop_node,
-        set_prop_node,
-        global,
+        setprop_node,
         peek_node,
-        error_node
+        error_node,
+        node_count
+    };
+
+    enum node_flags {
+        visible,
+        flag_count
     };
 
     inline const node_info_type & info() const;
     node() = default;
-    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) {};
+    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) { };
 
     bool empty() { return bits.empty(); }
     string64 tag() const;
@@ -43,30 +48,39 @@ struct node {
     size_t length() const { return bits.bit_size(); }
     int64_t value() const;
     bool is_field() const { return type == field_node; }
-    bool consumes() const { return type == field_node || type == incomplete_node || type == extra_node; }
-    bool is_terminal() const { return consumes() || type == prop_node || type == set_prop_node ||  type == peek_node; }
+    bool is_prop() const { return type == prop_node || type == setprop_node || type == peek_node; }
+    bool is_extra() const { return type == extra_node; }
+    bool is_incomplete() const { return type == incomplete_node; }
+    bool consumes() const { return is_field() || is_incomplete() || is_extra(); }
+    bool is_terminal() const { return consumes() || is_prop(); }
 
-    bool is_per() const { return elem->flags[element::per_flag]; }
-    bool is_oob() const { return elem->flags[element::oob_flag]; }
-    bool is_pof() const { return is_field() && !elem->flags[element::dependent_flag]; } // "plain ol' field"
+    bool is_encoding() const { return elem->flags.test(element::enc_flag); }
+    bool is_oob() const { return elem->flags.test(element::oob_flag); }
+    bool is_pof() const { return is_field() && !elem->flags.test(element::dependent_flag); } // "plain ol' field"
+    bool is_visible() const { return flags.test(visible); }
+    void set_visible(bool yes) { flags.set(visible, yes); }
+
+    void set_incomplete() {
+        type = incomplete_node;
+    }
 
     const char * mnemonic() const {
         switch (type) {
-            case node::nil_node : return "EMP";
-            case node::root_node : return "ROT";
-            case node::extra_node : return "EXT";
-            case node::field_node : return "FLD";
-            case node::float_node : return "FLT";
-            case node::incomplete_node : return "INC";
-            case node::message_node : return "MSG";
-            case node::record_node : return "REC";
-            case node::repeat_node : return "REP";
-            case node::repeat_record_node : return "RPR";
-            case node::prop_node : return "PRP";
-            case node::set_prop_node : return "SET";
-            case node::global : return "GLB";
-            case node::peek_node : return "PEK";
-            case node::error_node : return "ERR";
+            case nil_node: return "EMP";
+            case root_node: return "ROT";
+            case extra_node: return "EXT";
+            case field_node: return "FLD";
+            case float_node: return "FLT";
+            case incomplete_node: return "INC";
+            case message_node: return "MSG";
+            case record_node: return "REC";
+            case repeat_node: return "REP";
+            case repeat_record_node: return "RPR";
+            case prop_node: return "PRP";
+            case setprop_node: return "SET";
+            case peek_node: return "PEK";
+            case error_node: return "ERR";
+            default: return "err";
         }
         return "err";
     }
@@ -75,6 +89,7 @@ struct node {
         return a.value() == b;
     }
 
+    std::bitset<flag_count> flags;
     node_type type = nil_node;
     xddl_cursor elem;
     bitstring bits;
@@ -94,12 +109,12 @@ struct node_info_type {
         is_property    = 1u << 4
     };
 
-    typedef std::function<void(std::ostream&, msg_cursor)> start_tag_op;
+    typedef std::function<void(std::ostream&, msg_const_cursor)> start_tag_op;
     node_info_type(const char * name, flag_type flags) : name(name), flags(flags) {}
     node_info_type(const char * name, flag_type flags, start_tag_op op) : name(name), flags(flags), start_tag(op) {}
     const char * name;
     flag_type flags;
-    start_tag_op start_tag = [&](std::ostream&, msg_cursor){};
+    start_tag_op start_tag = [&](std::ostream&, msg_const_cursor){};
 };
 
 inline std::string node_tag(const node & n) {
@@ -129,6 +144,20 @@ inline S& end_tag(S& os, C) {
 template <>
 inline std::string name_of(const node & n) {
     return n.name();
+}
+
+template <typename Stream>
+Stream & to_debug(Stream & os, const node & n) {
+    os << n.tag() << " " << n.mnemonic() << " " << n.name() << " (" <<
+        (n.is_field() ? "field " : "") <<
+        (n.is_prop() ? "prop " : "") <<
+        (n.is_extra() ? "extra " : "") <<
+        (n.consumes() ? "consumes " : "") <<
+        (n.is_terminal() ? "term " : "") <<
+        (n.is_encoding() ? "encoding " : "") <<
+        (n.is_oob() ? "oob " : "") <<
+        (n.is_pof() ? "pof " : "") << ')';
+    return os;
 }
 } // namespace
 

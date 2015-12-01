@@ -3,8 +3,8 @@
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
   <start>
-    <per>
+    <enc>
       <field name="foo" length="1" default="1"/>
-    </per>
+    </enc>
   </start>
 </xddl>

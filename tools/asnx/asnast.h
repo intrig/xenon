@@ -30,8 +30,8 @@ inline std::string var_length()
 {
     std::ostringstream os;
     os << 
-      "<per><field name=''b0'' length=''1''/>"
-      "<field name=''length'' length=''b0 ? 15 : 7''/></per>";
+      "<enc><field name=''b0'' length=''1''/>"
+      "<field name=''length'' length=''b0 ? 15 : 7''/></enc>";
 
     return os.str();
 }
@@ -243,7 +243,7 @@ class AlternativeTypeList : public ast {
         int range = ict::required_bits(0, items.size() - 1);
 
         std::ostringstream xml;
-        xml << "<per><field name=''choice'' length=''" << range << "''>";
+        xml << "<enc><field name=''choice'' length=''" << range << "''>";
         int i=0;
         std::vector<Type *>::const_iterator it;
 
@@ -251,7 +251,7 @@ class AlternativeTypeList : public ast {
         {
             xml << "<item key=''" << i++ << "'' value=''" << (*it)->name() << "''/>";
         }
-        xml << "</field></per>";
+        xml << "</field></enc>";
         
         // now create the switch statement
         xml << "<switch expr=''choice''>";
@@ -270,7 +270,7 @@ class AlternativeTypeList : public ast {
     std::string ext_choice() const
     {
         std::ostringstream xml;
-        xml << "<per><field name=''b0'' length=''1''/>"
+        xml << "<enc><field name=''b0'' length=''1''/>"
         "<field name=''choice'' length=''b0 ? 15 : 6''>";
         int i=0;
         std::vector<Type *>::const_iterator it;
@@ -279,7 +279,7 @@ class AlternativeTypeList : public ast {
         {
             xml << "<item key=''" << i++ << "'' value=''" << (*it)->name() << "''/>";
         }
-        xml << "</field></per>";
+        xml << "</field></enc>";
         
         // length of the extension
         xml << var_length();
@@ -315,7 +315,7 @@ class AlternativeTypeList : public ast {
 		// add the extension bit if it exists
             if (extension)
             {
-                xml << "<per><field name=''ext'' length=''1''/></per>"
+                xml << "<enc><field name=''ext'' length=''1''/></enc>"
                 "<switch expr=''ext''>"
                   "<case value=''0''>" << 
                      root_choice() <<

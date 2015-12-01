@@ -28,10 +28,16 @@ inline message::cursor get_cursor(State * L) {
 static int script_datetime(ict::lua::lua_State *L) {
     auto n = get_cursor(L);
     auto value = ict::to_integer<int64_t>(n->bits);
-    auto dt = DateTime(value);
-    std::ostringstream os;
-    os << dt;
-    ict::lua::lua_pushstring(L, os.str().c_str());
+    // TODO: scripts should just throw exceptions and not return error codes
+    try { 
+        auto dt = DateTime(value);
+        std::ostringstream os;
+        os << dt;
+        auto s = os.str();
+        ict::lua::lua_pushstring(L, s.c_str());
+    } catch (std::exception & e) {
+        ict::lua::lua_pushstring(L, e.what());
+    }
     return 1;
 }
 
@@ -71,7 +77,6 @@ static int script_Slice(ict::lua::lua_State *L) {
     ict::lua::lua_pushnumber(L, num);
     return 1;
 }
-
 
 static int script_TwosComplement(ict::lua::lua_State * L) {
     auto n = get_cursor(L);
@@ -349,8 +354,8 @@ void oob::vend_handler(spec::cursor self, spec &) {
     promote_last(self.parent());
 }
 
-void per::vend_handler(spec::cursor self, spec &) {
-    set_flag(self, element::per_flag);
+void enc::vend_handler(spec::cursor self, spec &) {
+    set_flag(self, element::enc_flag);
     promote_last(self.parent());
 
 }
@@ -478,7 +483,8 @@ void peek::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
 
 void prop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
-    parent.emplace_back(node::prop_node, self, ict::from_integer(v));
+    auto c = parent.emplace(node::prop_node, self, ict::from_integer(v));
+    c->set_visible(visible);
 }
 
 // same as get_variable but filtered on props only (lambda param?)
@@ -499,7 +505,7 @@ message::cursor get_prop(message::cursor first, const std::string & name) {
 
 void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
-    auto c = parent.emplace(node::set_prop_node, self, ict::from_integer(v));
+    auto c = parent.emplace(node::setprop_node, self, ict::from_integer(v));
     auto i = get_prop(previous(c), "Name");
     if (!i.is_root()) { 
         i->bits = c->bits;
@@ -511,7 +517,7 @@ void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) co
 void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (size_t l = std::max((int64_t) 0, length.value(leaf(parent)))) {
         auto c = parent.emplace(node::field_node, self, bs.read(l));
-        if (c->bits.bit_size() < l) c->type = node::incomplete_node;
+        if (c->bits.bit_size() < l) c->set_incomplete();
         if (c->elem->flags.test(element::global_flag)) set_global(self, c, self);
     }
 }
@@ -618,7 +624,7 @@ std::string type::venum_string(xddl_cursor, msg_const_cursor c) const {
     return "invalid value";
 }
 
-std::string type::value(xddl_cursor, message::const_cursor c) const {
+std::string type::value(xddl_cursor x, message::const_cursor c) const {
     ict::lua::lua_pushnumber(l, c->value());
     ict::lua::lua_setglobal(l, "key"); 
 
@@ -632,7 +638,7 @@ std::string type::value(xddl_cursor, message::const_cursor c) const {
     int s = ict::lua::lua_pcall(l, 0, 0, 0);
     if (s) {
         // print error string and return it
-        IT_WARN("error: " << ict::lua::lua_tostring(l, -1));
+        IT_WARN("error: " << x->parser->file << ":" << x->line << " " << ict::lua::lua_tostring(l, -1));
         std::string v = ict::lua::lua_tostring(l, -1);
         ict::lua::lua_pop(l, 1);
         return v;

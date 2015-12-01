@@ -74,6 +74,7 @@ string ElementTypeList::optional_bitmap(std::vector<Type *> const & item_list) c
     if (optional.empty()) return std::string();
 
     std::ostringstream xml;
+    xml << "<enc>";
     xml << "<record name=''option''>";
     int i = 0;
     for (it = optional.begin(); it!=optional.end(); ++it, ++i) {
@@ -81,6 +82,7 @@ string ElementTypeList::optional_bitmap(std::vector<Type *> const & item_list) c
     }
 
     xml << "</record>";
+    xml << "</enc>";
     return xml.str();
     
 }
@@ -88,6 +90,7 @@ string ElementTypeList::optional_bitmap(std::vector<Type *> const & item_list) c
 string ElementTypeList::extension_bitmap(std::vector<Type *> const & item_list) const
 {
     std::ostringstream xml;
+    xml << "<enc>";
     xml << "<field name=''ext-cnt'' length=''7'' bias=''1''/>";
     xml << "<record name=''option'' length=''{ext-cnt}''>";
     int i = 0;
@@ -96,6 +99,7 @@ string ElementTypeList::extension_bitmap(std::vector<Type *> const & item_list) 
         xml << "<field name=''" << (*it)->name() << "'' length=''1'' type=''#opt''/>";
     }
     xml << "</record>";
+    xml << "</enc>";
     return xml.str();
     
 }
@@ -104,7 +108,7 @@ string ElementTypeList::instance() const
 {
     ostringstream xml;
 
-    if (extension) xml << "<per><field name=''ext'' length=''1''/></per>";
+    if (extension) xml << "<enc><field name=''ext'' length=''1''/></enc>";
 
     xml << optional_bitmap(items);
 
@@ -329,7 +333,7 @@ string EnumeratedType::base_enum_field(Name * id, vector<NamedNumber *> items) c
 string ext_enum_field(Name * id, vector<NamedNumber *> items)
 {
     ostringstream os;
-    os << "<per><field name=''b0'' length=''1''/></per>"
+    os << "<enc><field name=''b0'' length=''1''/></enc>"
       "<field name=''" << id->name() << "'' length=''b0 ? 15 : 6''>";
 
     vector<NamedNumber *>::iterator it;
@@ -348,7 +352,7 @@ string EnumeratedType::instance(Name * id) const
 
     if (number_list->extension)
     {
-        os << "<per><field name=''ext'' length=''1''/></per>";
+        os << "<enc><field name=''ext'' length=''1''/></enc>";
         if (number_list->items.size() > 1)
         {
             os << "<switch expr=''ext''>"
@@ -584,10 +588,10 @@ string Subtype::declaration(Name * id) const {
 
 string SubtypeSpec::size_field() {
     ostringstream os;
-    os << "<per><field name=''count'' length=''" << size_str() << "''";
+    os << "<enc><field name=''count'' length=''" << size_str() << "''";
     string l = lower()->qstr();
     if (l != "0" && is_range()) os << " bias=''" << l << "''";
-    os << "/></per>";
+    os << "/></enc>";
     return os.str();
 }
 
