@@ -456,6 +456,7 @@ std::string xsp_parser::parser_impl() const {
     os << "std::string file;";
     os << "typedef multivector<" << base << "> multivector_type;";
     os << "typedef multivector_type::cursor cursor;";
+    os << "typedef multivector_type::const_cursor const_cursor;";
     os << "typedef multivector_type::ascending_cursor ascending_cursor;";
     os << "multivector_type " << "ast;" <<  
     "std::vector<multivector_type::cursor> parents;";

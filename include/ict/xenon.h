@@ -84,5 +84,7 @@ inline std::string to_hex_string(const bitstring & bits) {
     return to_hex_string(bits.begin(), bits.end());
 }
 
+std::string to_html(const spec & s);
+
 }
 
