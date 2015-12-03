@@ -139,6 +139,7 @@ void element::to_string(std::ostream & os) const {
     else os << "(nullptr)";
 }
 
+
 void recdef::vto_string(std::ostream & os) const {
     os << id;
 }
@@ -766,5 +767,28 @@ std::string to_string(const node & n) {
     return os.str();
 }
 
-} // namespace
+void to_html(element elem, std::ostream & os) {
+    if (elem.v) elem.v->vto_string(os);
+    else os << "(nullptr)";
+}
 
+std::string to_html(const spec & s) {
+    std::ostringstream os;
+    os << "<h2>" << s.file << "</h2>";
+    ict::recurse(s.ast.root(), 
+        [&](spec::const_cursor self, spec::const_cursor, int) {
+            os << "<li>";
+            to_html(*self, os);
+            if (!self.empty()) os << "<ul>";
+        },
+        [&](spec::const_cursor self, spec::const_cursor, int) {
+            os << "</li>";
+            if (!self.empty()) os << "</ul>";
+        });
+    return os.str();
+}
+        
+
+
+
+} // namespace
