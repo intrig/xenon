@@ -13,6 +13,7 @@ struct command_flags {
     bool pretty_xml = false;
     bool debug_print = false;
     bool output_dom = false;
+    bool output_html = false;
 
     bool encoding = false;
     bool properties = false;
@@ -37,6 +38,7 @@ int main(int argc, char **argv) {
         line.add(option("flat-xml", 'f', "Display message(s) in flat XML", [&]{ flags.flat_xml = true; } ));
         line.add(option("location", 'L', "show xddl source location", [&]{ flags.format += "FL"; } ));
         line.add(option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
+        line.add(option("html", 'H', "Display in html", [&]{ flags.output_html = true; } ));
         line.add(option("debug", 'D', "Display message(s) in debug gibberish", [&]{ flags.debug_print = true; } ));
         line.add(option("extra", 'E', "Display extra bits", [&]{ flags.show_extra = true; } ));
 
@@ -107,7 +109,10 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             cout << inst_dump.str(); 
             inst_dump.str("");
         }
-        if (flags.output_dom) cout << d;
+        if (flags.output_dom) {
+            if (flags.output_html) cout << ict::to_html(d.base());
+            else cout << d;
+        }
     } catch (ict::exception & e) {
         if (flags.output_dom) cout << d;
         throw;

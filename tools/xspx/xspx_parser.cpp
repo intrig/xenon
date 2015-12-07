@@ -289,8 +289,9 @@ std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, cons
     os << "};"; // end of class
 
     if (elem.is_base) {
-        os << "typedef multivector<element>::cursor xddl_cursor;";
-        os << "typedef multivector<element>::ascending_cursor xddl_ascending_cursor;";
+        os << "typedef multivector<element>::cursor spec_cursor;";
+        os << "typedef multivector<element>::const_cursor spec_const_cursor;";
+        os << "typedef multivector<element>::ascending_cursor spec_ascending_cursor;";
         os << "}";
         os << "#include <ict/node.h>";
         os << "namespace ict {";
