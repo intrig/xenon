@@ -61,29 +61,34 @@
         <name>spec</name>
         <code id="class">
             <!-- xddl::cursor open(string64 tag, const ict::url &amp; href); -->
-            std::map&lt;ict::url, xddl_cursor&gt; recdef_map;
-            std::map&lt;ict::url, xddl_cursor&gt; type_map;
+            std::map&lt;ict::url, spec_cursor&gt; recdef_map;
+            std::map&lt;ict::url, spec_cursor&gt; type_map;
             class spec_server * owner = 0;
             int in_oob = 0;
         </code>
     </parser>
 
     <code id="vparse">
-        virtual void vparse(xddl_cursor self, msg_cursor parent, ibitstream &amp; bits) const;
+        virtual void vparse(spec_cursor self, msg_cursor parent, ibitstream &amp; bits) const;
     </code>
     <code id="vend_handler">
-        virtual void vend_handler(xddl_cursor self, spec &amp; parser) final;
+        virtual void vend_handler(spec_cursor self, spec &amp; parser) final;
     </code>
     <code id="vdescription">
-        virtual std::string vdescription(xddl_cursor, msg_const_cursor) const final;
+        virtual std::string vdescription(spec_cursor, msg_const_cursor) const final;
     </code>
     <code id="venum_string">
-        virtual std::string venum_string(xddl_cursor, msg_const_cursor) const final;
+        virtual std::string venum_string(spec_cursor, msg_const_cursor) const final;
     </code>
 
     <code id="vto_string">
         virtual void vto_string(std::ostream &amp; os) const final;
     </code>
+
+    <code id="vto_html">
+        virtual void vto_html(spec_const_cursor, std::ostream &amp;) const final;
+    </code>
+
 
     <code id="vhref">
         virtual ict::url vhref() const final { return href; };
@@ -95,21 +100,22 @@
 
     <code id="var_type">
         virtual void vto_string(std::ostream &amp;) const { return; }; 
-        virtual void vparse(xddl_cursor, msg_cursor, ibitstream &amp;) const;
-        virtual void vend_handler(xddl_cursor, spec &amp;) { return; };
-        virtual std::string vdescription(xddl_cursor, msg_const_cursor) const { return ""; };
-        virtual std::string venum_string(xddl_cursor, msg_const_cursor) const { return ""; };
-        virtual void vset_ref(xddl_cursor) {};
-        virtual std::pair&lt;bool, xddl_cursor&gt; vget_ref() { return std::make_pair(false, xddl_cursor()); };
+        virtual void vto_html(spec_const_cursor c, std::ostream &amp; os) const { os &lt;&lt; c-&gt;name(); }
+        virtual void vparse(spec_cursor, msg_cursor, ibitstream &amp;) const;
+        virtual void vend_handler(spec_cursor, spec &amp;) { return; };
+        virtual std::string vdescription(spec_cursor, msg_const_cursor) const { return ""; };
+        virtual std::string venum_string(spec_cursor, msg_const_cursor) const { return ""; };
+        virtual void vset_ref(spec_cursor) {};
+        virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() { return std::make_pair(false, spec_cursor()); };
         virtual ict::url vhref() const { return ict::url(); }
         virtual bool is_visible() const { return true; }
         virtual ~var_type() {};
     </code>
 
     <code id="mutable_ref">
-        virtual void vset_ref(xddl_cursor c) final { ref = c; };
-        virtual std::pair&lt;bool, xddl_cursor&gt; vget_ref() final { return std::make_pair(true, ref); };
-        mutable xddl_cursor ref;
+        virtual void vset_ref(spec_cursor c) final { ref = c; };
+        virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() final { return std::make_pair(true, ref); };
+        mutable spec_cursor ref;
     </code>
 
     <element tag="element"> <!-- base -->
@@ -142,6 +148,7 @@
     </element>
 
     <element tag="export" name="xexport">
+        <code href="vto_html"/>
         <child>prop</child>
     </element>
 
@@ -226,6 +233,7 @@
         <att type="expression" def="0">value</att>
         <att type="bool">visible</att>
         <att type="url" member="href">type</att>
+        <code href="vto_html"/>
         <child>comment</child>
         <child>item</child>
         <child>range</child>
@@ -237,6 +245,7 @@
         <code href="vhref"/>
         <code href="mutable_ref"/>
         <code href="is_visible"/>
+        <!-- <code href="vto_html"/> -->
     </element>
 
     <!--
@@ -341,13 +350,13 @@
         <public>
         struct item_data {
             std::string value;
-            mutable xddl_cursor ref;
+            mutable spec_cursor ref;
             ict::url href;
         };
         item_data const &amp; item_info(int64_t key) const;
         bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }
         ict::lua::lua_State * l = 0;
-        std::string value(xddl_cursor referer, msg_const_cursor c) const;
+        std::string value(spec_cursor referer, msg_const_cursor c) const;
         virtual ~type() final;
         std::map&lt;std::pair&lt;int, int&gt;, item_data&gt; ranges;
         std::map&lt;int, item_data&gt; items;

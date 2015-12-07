@@ -310,6 +310,7 @@ struct expr_type {
 
     private:
     std::istringstream input; // pointer to input stream
+    std::string initial_string;
     std::vector<token_value> tokens;
 
     public:
@@ -319,11 +320,15 @@ struct expr_type {
         tokens.push_back(END);
     }
 
+    std::ostream & operator<<(std::ostream & os) {
+        os << initial_string;
+    }
+
     // we denote empty as constant max value for T
     expr_type() : expr_type(std::numeric_limits<T>::max()) {
     }
 
-    expr_type(const std::string & expr) : input(expr) {
+    expr_type(const std::string & expr) : input(expr), initial_string(expr) {
         tokenize();
         if (tokens.empty()) IT_PANIC("no tokens in expression");
     }

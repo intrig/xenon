@@ -1,3 +1,5 @@
+.PHONY: tags 
+
 all:
 	mkdir -p build
 	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && cd .. && make -C build -j12
