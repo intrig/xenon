@@ -320,9 +320,7 @@ struct expr_type {
         tokens.push_back(END);
     }
 
-    std::ostream & operator<<(std::ostream & os) {
-        os << initial_string;
-    }
+    std::string to_string() const { return initial_string; }
 
     // we denote empty as constant max value for T
     expr_type() : expr_type(std::numeric_limits<T>::max()) {
@@ -546,5 +544,11 @@ struct expr_type {
 
 typedef expr_type<int64_t> expr;
 typedef expr_type<int64_t> expression;
+
+template <typename Stream, typename T>
+Stream & operator<<(Stream & os, expr_type<T> x) {
+    os << x.to_string();
+    return os;
+}
 
 } // namespace
