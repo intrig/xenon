@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2015 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <comment>
+ IDM Multiple RAT ICD 
+ Version 1.0
+ </comment>
+  <export>
+    <prop name="Name" value="999"/>
+    <prop name="Technology" value="0"/>
+    <prop name="Source" value="0"/>
+    <prop name="Timestamp" value="0"/>
+    <prop name="Channel" value="0"/>
+    <prop name="Ciphered" value="0"/>
+
+    <!-- Global Properties -->
+    <prop name="NasName1" value="999"/>
+    <prop name="NasName2" value="999"/>
+    <prop name="nas_message_type" value="0"/>
+    <prop name="ACS_prop" value="0"/>
+    <prop name="Sublayer" value="0"/>
+    <prop name="Direction" value="2"/>
+    <prop name="LengthIndicatorSize" value="0"/>
+    <prop name="MSG_TYPE" value="0"/>
+    <prop name="MSG_ID" value="0"/>
+    <prop name="InConfig" value="0"/>
+    <prop name="P_REV_IN_USE" value="7"/>
+    <prop name="PREV_IN_USE" value="0"/>
+    <prop name="MessageID" value="0"/>
+    <prop name="TP_User_Data_Header_Length_prop" value="0"/>
+    <prop name="Message_Waiting_Indication_prop" value="0"/>
+    <prop name="Message_Coding_prop" value="0"/>
+
+    <!-- UTRA -->
+    <prop name="DTMGPRSMultiSlotClassIncl_prop" value="0"/>
+    <prop name="DTMGPRSMultiSlotClass_prop" value="0"/>
+    <prop name="DTMEGPRSMultiSlotClass_prop" value="0"/>
+    <prop name="DTMEGPRSMultiSlotClassIncl_prop" value="0"/>
+    <prop name="L2PseudoLengthExists_prop" value="0"/>
+  </export>
+  <oob>
+    <!-- This entire icd is out-of-band -->
+    <!-- Common Types -->
+    <type name="Zero" id="zero">
+      <item key="0" value="zero"/>
+    </type>
+    <!-- Section 1 -->
+    <record name="Common" id="1">
+      <field name="TimestampIncl" length="1" type="#bool"/>
+      <field name="SourceDestIncl" length="1" type="#bool"/>
+      <field name="Reserved" length="1" type="#zero"/>
+      <field name="Technology" length="5" type="#1-1"/>
+      <if expr="TimestampIncl">
+        <field name="Timestamp" length="64">
+          <script>
+            description = dot_net_time();
+          </script>
+        </field>
+      </if>
+      <if expr="SourceDestIncl">
+        <field name="Source" length="16"/>
+        <field name="Destination" length="16"/>
+      </if>
+      <jump base="Technology"/>
+    </record>
+    <type name="boolean" id="bool">
+      <item key="0" value="false"/>
+      <item key="1" value="true"/>
+    </type>
+    <type name="Technology" id="1-1">
+      <item key="0" value="unknown"/>
+      <item key="1" value="cdma2000" href="#2"/>
+      <item key="2" value="UTRA" href="#3"/>
+      <item key="3" value="LTE" href="#4"/>
+      <item key="4" value="IP Header" href="#5"/>
+      <script>
+        description = EnumValue()
+        sub = find("//Sublayer")
+        if (sub != "") then
+          description = description .. " | " .. sub
+        end
+      </script>
+      <!--
+      -->
+    </type>
+    <!-- Section 2 -->
+    <record name="cdma2000" id="2">
+      <field name="Sublayer" length="8" type="#2-1"/>
+      <jump base="Sublayer"/>
+    </record>
+    <type name="cdma2000 Sublayer" id="2-1">
+      <item key="1" value="1xRTT L2 SAR" href="#2.1"/>
+      <item key="2" value="EVDO" href="#2.2"/>
+    </type>
+    <!-- Section 2.1 -->
+    <record name="1xRTT" id="2.1">
+      <field name="Channel" length="8" type="#2.1-1"/>
+      <setprop name="Direction" type="#2.2-1" value="Channel &gt; 2 ? 1 : 0"/>
+      <fragment href="3GPP2/C.S0004.xddl#channel-switch"/>
+    </record>
+    <type name="1xRTT Channel" id="2.1-1">
+      <item key="0" value="sync channel message"/>
+      <item key="1" value="f-csch forward common signaling logical channel (F-SYNC, F-PCH)"/>
+      <item key="2" value="f-dsch forward dedicated signaling logical channel (F-TCH)"/>
+      <item key="3" value="r-csch reverse common signaling logical channel (R-ACCH)"/>
+      <item key="4" value="r-dsch reverse dedicated signaling logical channel (R-TCH)"/>
+    </type>
+    <!-- Section 2.2 -->
+    <record name="EVDO" id="2.2">
+      <field name="Reserved" length="6" type="#zero"/>
+      <field name="Direction" length="1" type="#2.2-1"/>
+      <field name="InConfig" length="1" type="#2.2-2"/>
+      <fragment href="3GPP2/C.S0024-B.xddl#start"/>
+    </record>
+    <type name="EVDO Direction" id="2.2-1">
+      <item key="0" value="Forward"/>
+      <item key="1" value="Reverse"/>
+    </type>
+    <type name="In Use/In Config" id="2.2-2">
+      <item key="0" value="In Use"/>
+      <item key="1" value="In Configuration"/>
+    </type>
+    <!-- Section 3 -->
+    <type id="utra-temp-type">
+      <item key="999" value="UTRA Message"/>
+    </type>
+    <record name="UTRA" id="3">
+      <setprop name="Name" type="#utra-temp-type" value="999"/>
+      <field name="Sublayer" length="8" type="#3-1"/>
+      <jump base="Sublayer"/>
+    </record>
+    <type name="Sublayer" id="3-1">
+      <item key="0" value="RRC" href="#3.1"/>
+      <item key="1" value="SIB" href="#3.2"/>
+      <item key="2" value="NAS" href="#3.3"/>
+      <item key="3" value="Radio Resource (RR) Layer 2" href="#3.4"/>
+      <item key="4" value="Radio Resource (RR) Short" href="#3.5"/>
+      <item key="5" value="Radio Link Control (RLC)" href="#3.6"/>
+    </type>
+    <!-- Section 3.1 -->
+    <record name="UTRA RRC" id="3.1">
+      <field name="Channel" length="8" type="#3.1-1"/>
+      <setprop name="LengthIndicatorSize" value="Channel &amp; 1"/>
+      <setprop name="Direction" value="0"/>
+      <switch expr="Channel">
+        <case value="1"/>
+        <case value="3"/>
+        <case value="6">
+          <setprop name="Direction" value="1"/>
+        </case>
+      </switch>
+      <jump base="Channel"/>
+      <setprop name="Name" type="#UTRA-RRC-NameType" value="999"/>
+    </record>
+    <type name="UTRA RRC Channel" id="3.1-1">
+      <item key="0" value="Downlink Dedicated Control Channel (DL-DCCH)" href="3GPP/TS-25.331.xddl#DL-DCCH-Message"/>
+      <item key="1" value="Uplink Dedicated Control Channel (UL-DCCH)" href="3GPP/TS-25.331.xddl#UL-DCCH-Message"/>
+      <item key="2" value="Downlink Common Control Channel (DL-CCCH)" href="3GPP/TS-25.331.xddl#DL-CCCH-Message"/>
+      <item key="3" value="Uplink Common Control Channel (CUL-CCH)" href="3GPP/TS-25.331.xddl#UL-CCCH-Message"/>
+      <item key="4" value="Paging Control Channel (PCCH)" href="3GPP/TS-25.331.xddl#PCCH-Message"/>
+      <item key="5" value="Downlink Shared Control Channel (DL-SHCCH)" href="3GPP/TS-25.331.xddl#DL-SHCCH-Message"/>
+      <item key="6" value="Uplink Shared Control Channel (UL-SHCCH)" href="3GPP/TS-25.331.xddl#UL-SHCCH-Message"/>
+      <item key="7" value="Broadcast Control Channel (BCCH) Forward Access Channel (FACH)" href="3GPP/TS-25.331.xddl#BCCH-FACH-Message"/>
+      <item key="8" value="Broadcast Control Channel (BCCH) Broadcast Channel (BCH)" href="3GPP/TS-25.331.xddl#BCCH-BCH-Message"/>
+      <item key="11" value="Handover To UTRAN Command" href="3GPP/TS-25.331.xddl#HandoverToUTRANCommand"/>
+    </type>
+    <!-- Section 3.2 -->
+    <record name="UTRA SIB" id="3.2">
+      <field name="SibType" length="8" type="#3.2-1"/>
+      <jump base="SibType"/>
+    </record>
+    <type name="UTRA SIB Type" id="3.2-1">
+      <item key="0" value="masterInformationBlock" href="3GPP/TS-25.331.xddl#MasterInformationBlock"/>
+      <item key="1" value="systemInformationBlockType1" href="3GPP/TS-25.331.xddl#SysInfoType1"/>
+      <item key="2" value="systemInformationBlockType2" href="3GPP/TS-25.331.xddl#SysInfoType2"/>
+      <item key="3" value="systemInformationBlockType3" href="3GPP/TS-25.331.xddl#SysInfoType3"/>
+      <item key="4" value="systemInformationBlockType4" href="3GPP/TS-25.331.xddl#SysInfoType4"/>
+      <item key="5" value="systemInformationBlockType5" href="3GPP/TS-25.331.xddl#SysInfoType5"/>
+      <item key="6" value="systemInformationBlockType6" href="3GPP/TS-25.331.xddl#SysInfoType6"/>
+      <item key="7" value="systemInformationBlockType7" href="3GPP/TS-25.331.xddl#SysInfoType7"/>
+      <item key="8" value="systemInformationBlockType8" href="3GPP/TS-25.331.xddl#SysInfoType8"/>
+      <item key="9" value="systemInformationBlockType9" href="3GPP/TS-25.331.xddl#SysInfoType9"/>
+      <item key="10" value="systemInformationBlockType10" href="3GPP/TS-25.331.xddl#SysInfoType10"/>
+      <item key="11" value="systemInformationBlockType11" href="3GPP/TS-25.331.xddl#SysInfoType11"/>
+      <item key="12" value="systemInformationBlockType12" href="3GPP/TS-25.331.xddl#SysInfoType12"/>
+      <item key="13" value="systemInformationBlockType13" href="3GPP/TS-25.331.xddl#SysInfoType13"/>
+      <item key="14" value="systemInformationBlockType13_1" href="3GPP/TS-25.331.xddl#SysInfoType13-1"/>
+      <item key="15" value="systemInformationBlockType13_2" href="3GPP/TS-25.331.xddl#SysInfoType13-2"/>
+      <item key="16" value="systemInformationBlockType13_3" href="3GPP/TS-25.331.xddl#SysInfoType13-3"/>
+      <item key="17" value="systemInformationBlockType13_4" href="3GPP/TS-25.331.xddl#SysInfoType13-4"/>
+      <item key="18" value="systemInformationBlockType14" href="3GPP/TS-25.331.xddl#SysInfoType14"/>
+      <item key="19" value="systemInformationBlockType15" href="3GPP/TS-25.331.xddl#SysInfoType15"/>
+      <item key="20" value="systemInformationBlockType15_1" href="3GPP/TS-25.331.xddl#SysInfoType15-1"/>
+      <item key="21" value="systemInformationBlockType15_2" href="3GPP/TS-25.331.xddl#SysInfoType15-2"/>
+      <item key="22" value="systemInformationBlockType15_3" href="3GPP/TS-25.331.xddl#SysInfoType15-3"/>
+      <item key="23" value="systemInformationBlockType16" href="3GPP/TS-25.331.xddl#SysInfoType16"/>
+      <item key="24" value="systemInformationBlockType17" href="3GPP/TS-25.331.xddl#SysInfoType17"/>
+      <item key="25" value="systemInformationBlockType15_4" href="3GPP/TS-25.331.xddl#SysInfoType15-4"/>
+      <item key="26" value="systemInformationBlockType18" href="3GPP/TS-25.331.xddl#SysInfoType18"/>
+      <item key="27" value="schedulingBlock1" href="3GPP/TS-25.331.xddl#SysInfoTypeSB1"/>
+      <item key="28" value="schedulingBlock2" href="3GPP/TS-25.331.xddl#SysInfoTypeSB2"/>
+      <item key="29" value="systemInformationBlockType15_5" href="3GPP/TS-25.331.xddl#SysInfoType15-5"/>
+      <item key="30" value="systemInformationBlockType5bis" href="3GPP/TS-25.331.xddl#SysInfoType5"/>
+      <item key="31" value="extensionType" href="3GPP/TS-25.331.xddl#SysInfoType19"/>
+    </type>
+    <!-- Section 3.3 -->
+    <record name="UTRA Non-Access Stratum (NAS)" id="3.3">
+      <field name="Reserved" length="7" type="#zero"/>
+      <field name="Direction" length="1" type="#3.3-1"/>
+      <fragment href="3GPP/TS-24.008.xddl#NAS_Message"/>
+    </record>
+    <type name="UTRA NAS Direction" id="3.3-1">
+      <item key="0" value="Downlink, network to mobile station"/>
+      <item key="1" value="Uplink, mobile station to network"/>
+    </type>
+    <!-- Section 3.4 -->
+    <record name="Radio Resource (RR) Layer 2" id="3.4">
+      <field name="Reserved" length="7" type="#zero"/>
+      <field name="Direction" length="1" type="#3.3-1"/>
+      <fragment href="3GPP/TS-44.018.xddl#10.5.2.19"/>
+    </record>
+    <!-- Section 3.5 -->
+    <record name="Radio Resource (RR) Short" id="3.5">
+      <field name="Reserved" length="7" type="#zero"/>
+      <field name="Direction" length="1" type="#3.3-1"/>
+      <fragment href="3GPP/TS-44.018.xddl#RR_Short_Message"/>
+    </record>
+    <!-- Section 3.6 -->
+    <record name="UTRA RLC (Radio Link Control)" id="3.6">
+      <field name="Channel" length="8" type="#3.6-1"/>
+      <setprop name="LengthIndicatorSize" value="Channel &amp; 1"/>
+      <jump base="Channel"/>
+    </record>
+    <type name="UTRA RLC Channel" id="3.6-1">
+      <item key="1" value="RLC AMD PDU (7-bit LI)" href="3GPP/TS-25.322.xddl#9.2.1.4"/>
+      <item key="2" value="RLC AMD PDU (15-bit LI)" href="3GPP/TS-25.322.xddl#9.2.1.4"/>
+      <item key="3" value="RLC UMD PDU (7-bit LI)" href="3GPP/TS-25.322.xddl#9.2.1.3"/>
+      <item key="4" value="RLC UMD PDU (15-bit LI)" href="3GPP/TS-25.322.xddl#9.2.1.3"/>
+      <item key="5" value="RLC TMD PDU" href="3GPP/TS-25.322.xddl#9.2.1.2"/>
+    </type>
+    <!-- Section 4 -->
+    <record name="LTE" id="4">
+      <!-- LTE/NAS properties -->
+      <prop name="Message_type" value="999"/>
+      <field name="Ciphered" length="1" type="#4-0"/>
+      <field name="Sublayer" length="7" type="#4-1"/>
+      <field name="Channel" length="8" type="#4-2"/>
+      <setprop name="Direction" value="Channel &gt; 2 ? 0 : 1"/>
+      <jump base="Sublayer"/>
+    </record>
+    <type name="LTE Ciphered" id="4-0">
+      <item key="0" value="Decode NAS even if it is ciphered"/>
+      <item key="1" value="Do not decode NAS if it is ciphered"/>
+    </type>
+    <type name="LTE Sublayer" id="4-1">
+      <item key="0" value="RRC" href="#4.1"/>
+      <item key="1" value="NAS" href="#4.2"/>
+    </type>
+    <type name="LTE Channel" id="4-2">
+      <item key="1" value="UL-CCCH" href="3GPP/TS-36.331.xddl#UL-CCCH-MessageType"/>
+      <item key="2" value="UL-DCCH" href="3GPP/TS-36.331.xddl#UL-DCCH-MessageType"/>
+      <item key="3" value="DL-CCCH" href="3GPP/TS-36.331.xddl#DL-CCCH-MessageType"/>
+      <item key="4" value="DL-DCCH" href="3GPP/TS-36.331.xddl#DL-DCCH-MessageType"/>
+      <item key="5" value="PCCH" href="3GPP/TS-36.331.xddl#PCCH-MessageType"/>
+      <item key="6" value="BCCH-DL-SCH" href="3GPP/TS-36.331.xddl#BCCH-DL-SCH-MessageType"/>
+      <item key="7" value="BCCH-BCH" href="3GPP/TS-36.331.xddl#BCCH-BCH-Message"/>
+    </type>
+    <type id="UTRA-RRC-NameType">
+      <script>
+      rrc = find("//message/choice")
+      description = rrc
+      if (find("//Channel") == "BCCH-BCH") then
+        description = "Master Information Block"
+      end
+
+      n1 = find("//NAS_MessageType")
+      if (rrc!="") then
+        if (n1!="") then
+          description = description .. " | " .. n1
+        end
+      end
+    </script>
+    </type>
+    <type id="UTRA-NAS-NameType">
+      <script>
+      description = find("//NAS_MessageType")
+      </script>
+    </type>
+
+    <type id="LTE-RRC-NameType">
+      <script>
+      rrc = find("//c1/choice")
+      description = rrc
+      if (find("//Channel") == "BCCH-BCH") then
+        description = "Master Information Block"
+      end
+
+      n1 = find("//NasName1")
+      n2 = find("//NasName2")
+      if (rrc!="") then
+        if (n1!="") then 
+          description = description .. " | " .. n1
+          if (n2 != "") then
+            description = description .. " | " .. n2
+          end
+        end
+      end
+    </script>
+    </type>
+    <type id="LTE-NAS-NameType">
+      <script>
+      n1 = find("//NasName1")
+      n2 = find("//NasName2")
+      if (n1!="") then 
+        description = n1
+        if (n2 != "") then
+          description = description .. " | " .. n2
+        end
+      end
+    </script>
+    </type>
+    <!-- Section 4.1 -->
+    <record name="LTE RRC" id="4.1">
+      <jump base="Channel"/>
+      <setprop name="Name" type="#LTE-RRC-NameType" value="999"/>
+    </record>
+    <!-- Section 4.2 -->
+    <record name="LTE NAS" id="4.2">
+      <fragment href="3GPP/TS-24.301.xddl#NASOnlyMessage_V"/>
+      <setprop name="Name" type="#LTE-NAS-NameType" value="999"/>
+    </record>
+    <!-- Section 5 -->
+    <record name="IP Header" id="5">
+      <field name="Reserved" length="8" type="#zero"/>
+      <fragment href="IP/IP.xddl#IP-structure"/>
+    </record>
+  </oob>
+  <start>
+    <fragment href="#1"/>
+  </start>
+</xddl>

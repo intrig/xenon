@@ -47,7 +47,13 @@
       </case>
       <case value="@010">
         <field name="IMSI_CLASS" length="1"/>
-        <field name="IMSI_class_specific_subfields" length="7 + 8 * (ADDR_LEN - 1)"/>
+          <record name="IMSI class-specific subfields" length="7 + 8 * (ADDR_LEN -1)">
+            <field name="IMSI_CLASS_0_TYPE" length="2" type="#2.1.1.3.1.1-2"/>
+            <if expr="IMSI_CLASS_0_TYPE eq @00">
+              <field name="RESERVED" length="3"/>
+              <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+            </if>
+          </record>
       </case>
       <case value="@011">
         <field name="TMSI_ZONE" length="(ADDR_LEN &gt; 4) ? (8 * (ADDR_LEN - 4)) : 0"/>
@@ -90,8 +96,25 @@
   </record>
   <record name="Address Fields" id="2.1.1.3.1">
     <field name="MSID_TYPE" length="3" type="#2.1.1.3.1.1-1"/>
+    <if expr="MSID_TYPE eq @100">
+      <field name="EXT_MSID_TYPE" length="3" type="#2.1.1.3.1.1-1a"/>
+    </if>
     <field name="MSID_LEN" length="4"/>
-    <field name="MSID" length="8 * MSID_LEN"/>
+    <record name="MSID" length="8 * MSID_LEN">
+      <switch expr="MSID_TYPE">
+        <case value="@011">
+          <field name="ESN" length="32"/>
+          <bit name="IMSI_CLASS"/>
+          <record name="IMSI class-specific subfields" length="7 + 8 * (MSID_LEN -5)">
+            <field name="IMSI_CLASS_0_TYPE" length="2" type="#2.1.1.3.1.1-2"/>
+            <if expr="IMSI_CLASS_0_TYPE eq @00">
+              <field name="RESERVED" length="3"/>
+              <field name="IMSI_S" length="34" type="#IMSI_S-type"/>
+            </if>
+          </record>
+        </case>
+      </switch>
+    </record>
   </record>
   <type name="Address Types" id="2.1.1.3.1.1-1">
     <item key="0" value="IMSI_S and ESN (Band Class 0 Only)"/>
@@ -102,6 +125,17 @@
     <item key="5" value="TMSI"/>
     <item key="6" value="Reserved (for MC-MAP)"/>
     <item key="7" value="Reserved (for MC-MAP)"/>
+  </type>
+  <type name="IMSI Class 0 Types" id="2.1.1.3.1.1-2">
+    <item key="@00" value="IMSI_S included"/>
+    <item key="@01" value="IMSI_S and IMSI_11_12 included"/>
+    <item key="@10" value="IMSI_S and MCC included"/>
+    <item key="@11" value="IMSI_S IMSI_11_12, and MCC included"/>
+  </type>
+  <type name="Address Types" id="2.1.1.3.1.1-1a">
+    <item key="@000" value="MEID"/>
+    <item key="@001" value="IMSI and MEID"/>
+    <item key="@010" value="IMSI ESN, and MEID"/>
   </type>
   <record name="Radio Environment Report Fields" id="2.1.1.4.1.2">
     <field name="ACTIVE_PILOT_STRENGTH" length="6"/>
@@ -596,7 +630,7 @@ Reset PDU RESET 111001 empty
         <record name="DATA" length="(MSG_LENGTH*8) - 38">
           <field name="PD" length="2"/>
           <field name="MSG_TYPE" length="6" type="#3.1.2.3.1.1.2-1"/>
-          <setprop name="Name" type="C.S0004.xddl#3.1.2.3.1.1.2-1" value="MSG_TYPE"/>
+          <setprop name="Name" type="#3.1.2.3.1.1.2-1" value="MSG_TYPE"/>
           <jump base="MSG_TYPE"/>
           <pad name="PDU_PADDING" mod="8" offset="2"/>
         </record>
@@ -696,8 +730,8 @@ Reset PDU RESET 111001 empty
         <!-- f-csch -->
         <record name="DATA">
           <field name="PD" length="2"/>
-          <field name="MSG_TYPE" length="6" type="C.S0004.xddl#3.1.2.3.1.1.2-1"/>
-          <setprop name="Name" type="C.S0004.xddl#3.1.2.3.1.1.2-1" value="MSG_TYPE"/>
+          <field name="MSG_TYPE" length="6" type="#3.1.2.3.1.1.2-1"/>
+          <setprop name="Name" type="#3.1.2.3.1.1.2-1" value="MSG_TYPE"/>
           <jump base="MSG_TYPE"/>
           <pad name="PDU_PADDING" mod="8" offset="2"/>
         </record>

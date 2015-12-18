@@ -562,6 +562,11 @@ struct multivector {
     item_reference operator[](int index) { return root()[index]; }
     const_item_reference operator[](int index) const { return root()[index]; }
 
+    template <class... Args>
+    void emplace_back(Args&&... args) {
+        root().emplace_back(std::forward<Args>(args)...);
+    }
+
     //! clear
     void clear() { root_.clear(); }
     void pop_back() { root().pop_back(); }

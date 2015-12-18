@@ -800,4 +800,8 @@ void prop::vto_html(spec::const_cursor self, std::ostream & os) const {
     os << self->name() << " | " << value << " | " << href;
 }
 
+void type::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << self->name();
+}
+
 } // namespace

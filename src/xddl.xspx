@@ -347,6 +347,7 @@
         <code href="venum_string"/>
         <code href="vto_string"/>
         <code href="vend_handler"/>
+        <code href="vto_html"/>
         <public>
         struct item_data {
             std::string value;
