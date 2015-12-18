@@ -151,8 +151,8 @@ void node_text(ht::text_rows & rows, message::const_cursor parent, std::vector<h
                     case ht::hex: 
                         if (n->consumes()) {
                             curr = ict::to_string(n->bits);
-                            if (n->length() > 64) {
-                                curr.resize(64 / 4);
+                            if (curr.size() > 16) {
+                                curr.resize(16);
                                 curr += "...";
                             }
                         }
@@ -215,7 +215,8 @@ std::string to_text(const message & m, const std::string & format,
     for (auto i = vh.begin(); i != vh.end()-1; ++i) ++i->width;
     for (auto const & row : rows) {
         for (unsigned i =0; i< vh.size(); ++i) {
-            os << row[i] << ict::spaces(vh[i].width - row[i].size());
+            os << row[i];
+            if (i != vh.size() - 1) os << ict::spaces(vh[i].width - row[i].size());
         }
         os << "\n";
     }

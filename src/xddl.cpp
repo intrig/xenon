@@ -139,6 +139,7 @@ void element::to_string(std::ostream & os) const {
     else os << "(nullptr)";
 }
 
+
 void recdef::vto_string(std::ostream & os) const {
     os << id;
 }
@@ -606,7 +607,7 @@ type::item_data const & type::item_info(int64_t key) const {
     IT_PANIC("invalid index to type: " << key);
 }
 
-std::string type::venum_string(xddl_cursor, msg_const_cursor c) const {
+std::string type::venum_string(spec::cursor, msg_const_cursor c) const {
     //IT_WARN("type::venum_string");
     auto key = c->value();
     if (!items.empty()) {
@@ -624,7 +625,7 @@ std::string type::venum_string(xddl_cursor, msg_const_cursor c) const {
     return "invalid value";
 }
 
-std::string type::value(xddl_cursor x, message::const_cursor c) const {
+std::string type::value(spec::cursor x, message::const_cursor c) const {
     ict::lua::lua_pushnumber(l, c->value());
     ict::lua::lua_setglobal(l, "key"); 
 
@@ -766,5 +767,41 @@ std::string to_string(const node & n) {
     return os.str();
 }
 
-} // namespace
+void to_html(spec::const_cursor self, std::ostream & os) {
+    if (self->v) self->v->vto_html(self, os);
+    else os << "(nullptr)";
+}
 
+std::string to_html(const spec & s) {
+    std::ostringstream os;
+    os << "<h2>" << s.file << "</h2><ul>";
+    ict::recurse(s.ast.root(), 
+        [&](spec::const_cursor self, spec::const_cursor, int level) {
+            auto space = ict::spaces(level * 2);
+            os << space << "<li>";
+            to_html(self, os);
+            if (!self.empty()) os << "<ul>\n";
+        },
+        [&](spec::const_cursor self, spec::const_cursor, int level) {
+            auto space = ict::spaces(level * 2);
+            os << space << "</li>";
+            if (!self.empty()) os << "</ul>";
+            os << "\n";
+        });
+    os <<"</ul>\n";
+    return os.str();
+}
+        
+void xexport::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << "global properties";
+}
+
+void prop::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << self->name() << " | " << value << " | " << href;
+}
+
+void type::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << self->name();
+}
+
+} // namespace

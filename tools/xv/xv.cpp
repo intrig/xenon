@@ -130,32 +130,14 @@ class XvMessage {
         if (xddl_file != rhs.xddl_file) IT_PANIC("xddl_file doesn't match");
 
         if (bs != rhs.bs) {
-            std::ostringstream os;
-            os << "bitstrings don't match: " << ict::to_string(bs) << " != " << ict::to_string(rhs.bs) << location(*this) << "\n";
-            to_stream(os);
-            auto t = os.str();
-            IT_PANIC(t.c_str());
+            std::cerr << "bitstrings don't match: " << ict::to_string(bs) << " != " << ict::to_string(rhs.bs) << location(*this) << "\n";
+            return false;
         }
 
         if (fields != rhs.fields) {
             std::ostringstream os;
-            os << "field vectors don't match" << endl;
-            os << xddl_file << " " << ict::to_hex_string(bs.begin(), bs.end()) << endl;
-
-            auto li = fields.begin();
-            auto ri = rhs.fields.begin();
-            for (; li!= fields.end() && ri!=rhs.fields.end(); ++li, ++ri) {
-                if (*li != *ri) {
-                    os << "+";
-                    li->to_stream(os); 
-                    os << endl;
-                    os << "-";
-                    ri->to_stream(os); 
-                    os << endl;
-                }
-            }
-            auto t = os.str();
-            IT_PANIC(t.c_str());
+            std::cerr << "fields don't match: " << xddl_file << " " << ict::to_hex_string(bs.begin(), bs.end()) << endl;
+            return false;
         }
         return true;
     }
@@ -222,7 +204,8 @@ class XvFile {
         }
     }
 
-    bool validate() {
+    int validate() {
+        int errors = 0;
         ict::spec_server doc;
         if (!xddl_path.empty()) doc.xddl_path.push_back(xddl_path);
         ict::message m;
@@ -241,9 +224,9 @@ class XvFile {
             m = ict::parse(doc, i->bs);
 
             XvMessage xvm(xddl_file, m);
-            if (!i->compare(xvm)) return false;
+            if (!i->compare(xvm)) ++errors;
         }
-        return true;
+        return errors;
     }
 
     std::string reprint() {
@@ -280,7 +263,12 @@ void validate_xv_file(const std::string & name, bool name_only, bool force_print
     file.name_only = name_only;
 
     if (force_print) cout << file.reprint() << endl;
-    else if (!file.validate()) exit(1);
+    else {
+        if (auto errors = file.validate()) {
+            std::cerr << errors << " errors\n";
+            exit(1);
+        }
+    }
 }
 
 void print_xv_message(ict::spec_server & spec, const std::string xddl_file, const std::string ascii_msg) {

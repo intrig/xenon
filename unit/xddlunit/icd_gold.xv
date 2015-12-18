@@ -1,5 +1,5 @@
 m: icd.xddl: #0101012F0CEC4A07CFF3C7CC01054142434445020B0000020406080A0C0E1012030C00000020406080A0C0E101201C7C1038
-count: 59
+count: 61
 f: /TimestampIncl: 0: 1: @0: false
 f: /SourceDestIncl: 0: 1: @0: false
 f: /Reserved: 0: 1: @0: zero
@@ -16,7 +16,9 @@ f: /DATA/VALID_ACK: 0: 1: @0:
 f: /DATA/ADDR_TYPE: 2: 3: @010: IMSI
 f: /DATA/ADDR_LEN: 5: 4: @0101: 
 f: /DATA/IMSI_CLASS: 0: 1: @0: 
-f: /DATA/IMSI_class_specific_subfields: 0: 39: @000001111100111111110011110001111100110: 
+f: /DATA/IMSI class-specific subfields/IMSI_CLASS_0_TYPE: 0: 2: @00: IMSI_S included
+f: /DATA/IMSI class-specific subfields/RESERVED: 0: 3: @000: 
+f: /DATA/IMSI class-specific subfields/IMSI_S: 0: 34: @1111100111111110011110001111100110: (;00) ;00-8;09
 f: /DATA/RELEASE: 0: 1: @0: 
 f: /DATA/repeat/record/RECORD_TYPE: 1: 8: #01: Display
 f: /DATA/repeat/record/RECORD_LEN: 5: 8: #05: 
@@ -4537,7 +4539,7 @@ f: /DATA/PDU_PADDING: 0: 4: @0000:
 f: /CRC: 905: 16: #0389: #389
 
 m: icd.xddl: #010103284468B272EBE6907207CFF3C7CC002E120CD46000601C88888880009631CBE5E5472310333572CF
-count: 95
+count: 99
 f: /TimestampIncl: 0: 1: @0: false
 f: /SourceDestIncl: 0: 1: @0: false
 f: /Reserved: 0: 1: @0: zero
@@ -4555,7 +4557,11 @@ f: /DATA/VALID_ACK: 0: 1: @0:
 f: /DATA/ACK_TYPE: 2: 3: @010: 
 f: /DATA/MSID_TYPE: 3: 3: @011: IMSI and ESN
 f: /DATA/MSID_LEN: 9: 4: @1001: 
-f: /DATA/MSID: 0: 72: #75F3483903E7F9E3E6: 
+f: /DATA/MSID/ESN: 1978878009: 32: #75F34839: 
+f: /DATA/MSID/IMSI_CLASS: 0: 1: @0: 
+f: /DATA/MSID/IMSI class-specific subfields/IMSI_CLASS_0_TYPE: 0: 2: @00: IMSI_S included
+f: /DATA/MSID/IMSI class-specific subfields/RESERVED: 0: 3: @000: 
+f: /DATA/MSID/IMSI class-specific subfields/IMSI_S: 0: 34: @1111100111111110011110001111100110: (;00) ;00-8;09
 f: /DATA/AUTH_MODE: 0: 2: @00: 
 f: /DATA/LAC_PADDING: 0: 7: @0000000: 
 f: /DATA/ACTIVE_PILOT_STRENGTH: 11: 6: @001011: 

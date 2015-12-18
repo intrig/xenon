@@ -38,7 +38,7 @@ struct node {
 
     inline const node_info_type & info() const;
     node() = default;
-    node(node_type type, xddl_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) { };
+    node(node_type type, spec_cursor elem, bitstring bs = bitstring()) : type(type), elem(elem), bits(bs) { };
 
     bool empty() { return bits.empty(); }
     string64 tag() const;
@@ -91,7 +91,7 @@ struct node {
 
     std::bitset<flag_count> flags;
     node_type type = nil_node;
-    xddl_cursor elem;
+    spec_cursor elem;
     bitstring bits;
     std::string desc;
     size_t dom_length = 0; 
