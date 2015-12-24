@@ -132,4 +132,13 @@ inline void end_handler(Cursor self, Parser & parser) {
 struct element;
 inline std::ostream& operator<<(std::ostream & os, const element &);
 
+    namespace lua {
+        // using this wrapper instead of just lua_State is required since lua_State is opaque.
+        struct state_wrapper {
+            state_wrapper(lua_State * p) : p(p) {}
+            lua_State * p;
+        };
+
+        inline lua_State * get(std::shared_ptr<state_wrapper> const & l) { return l.get()->p; }
+    }
 } // namespace

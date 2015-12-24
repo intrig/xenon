@@ -253,17 +253,17 @@ std::string xsp_parser::header() const  {
 std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, const std::string & root) const {
     if (!elem.isa.empty()) return os;
 
-    if (elem.is_base)  {
-        os << "struct var_type;";
-    }
     os << "struct " << elem.name;
-    if (!elem.is_base) os << " : public var_type";
+    if (!elem.is_base) os << " : public element::var_type";
     
     os  << " {";
     if (elem.is_base) {
+        os << "struct var_type;";
+        // os << "template <typename T> struct model;";
         os << "inline " << elem.name << "();";
-        os << elem.name << "(std::shared_ptr<var_type> v, string64 tag, const std::string & name = \"\"" <<
-            ") : v(v), tag_(tag), name_(name) {}";
+        os << "inline " << elem.name << "(std::shared_ptr<var_type> v, string64 tag, const std::string & name = \"\"" << ");";
+        os << "template <typename T> \n";
+        os << "inline " << elem.name << "(T x, string64 tag, const std::string & name = \"\"" << ");";
     } else {
         auto plist = to_param_list(elem.attributes, custom_types);
         if (!plist.empty()) {
@@ -277,11 +277,11 @@ std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, cons
         os << "string64 tag() const { return tag_;}";
         os << "std::string name() const { return name_.empty() ? tag_.c_str() : name_;}";
         os << "std::shared_ptr<var_type> v;";
+        // os << "std::shared_ptr<model<var_type>> v2;";
         os << "size_t line = 0;" <<
         class_name << " * parser = 0;" << 
         "string64 tag_;" << 
         "std::string name_;";
-        
     }
     for (const auto & a : elem.attributes) to_code(os, a, custom_types);
 
@@ -295,8 +295,18 @@ std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, cons
         os << "}";
         os << "#include <ict/node.h>";
         os << "namespace ict {";
-        os << "struct var_type {" << code_seg(code_refs, "var_type") << "};";
-        os << "inline element::element() { v = std::make_shared<var_type>(); }";
+        os << "struct element::var_type {" << code_seg(code_refs, "var_type") << "};";
+        // os << "template <typename T> struct element::model : element::var_type {" << code_seg(code_refs, "model") << "};";
+
+        os << R"(
+        inline element::element() : v(std::make_shared<var_type>()) {};
+        inline element::element(std::shared_ptr<var_type> v, string64 tag, const std::string & name) : 
+            v(v), tag_(tag), name_(name) {};
+        template <typename T> 
+        inline element::element(T x, string64 tag, const std::string & name) : 
+            v(std::make_shared<T>(x)), 
+            tag_(tag), name_(name) { };
+        )";
         
     }
 
@@ -336,16 +346,15 @@ std::ostream& xsp_parser::start_handler_contents(std::ostream& os, const elem_ty
             }
         }
         if (!params.empty()) os << "auto first = leaf(parent);";
-        os << "std::shared_ptr<var_type> v = std::make_shared<" << elem.name << ">(";
-        if (!params.empty()) os << ict::join(params.begin(), params.end(), ", //;");
-        os << ");";
-        params.clear();
 
-        os << "auto c = parent.emplace(v, " << qt(elem.tag);
+        os << "auto c = parent.emplace(" << elem.name << "(" << ict::join(params.begin(), params.end(), ", //;") <<
+        "), " << qt(elem.tag);
+
+        params.clear();
         for (const auto & att : elem.attributes) {
             if (!att.local) {
                 std::ostringstream param;
-                att_param(param, "leaf(parent)", att);
+                att_param(param, "first", att);
                 params.push_back(param.str());
             }
         }
