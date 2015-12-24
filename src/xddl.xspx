@@ -109,9 +109,18 @@
         virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() { return std::make_pair(false, spec_cursor()); };
         virtual ict::url vhref() const { return ict::url(); }
         virtual bool is_visible() const { return true; }
-        virtual ~var_type() {};
+
+        virtual ~var_type() = default;
     </code>
 
+    <code id="model">
+        model() = default;
+        model(T x) : data_(x) {}
+        void draw_(spec_const_cursor self, std::ostream&amp; out, size_t position) const {
+            draw(self, data_, out, position); }
+        T data_;
+
+    </code>
     <code id="mutable_ref">
         virtual void vset_ref(spec_cursor c) final { ref = c; };
         virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() final { return std::make_pair(true, ref); };
@@ -121,6 +130,9 @@
     <element tag="element"> <!-- base -->
         <public>
         void to_string(std::ostream &amp; os) const; 
+
+        template &lt;typename Cursor&gt;
+        friend void draw(Cursor self, const var_type&amp; x, std::ostream &amp; out, size_t position);
 
         enum flag_bits_type {
             dependent_flag,
@@ -349,6 +361,16 @@
         <code href="vend_handler"/>
         <code href="vto_html"/>
         <public>
+        template &lt;typename Items, typename Ranges, typename LuaState&gt;
+        type(ict::url id, LuaState l, Items &amp; items, Ranges &amp; ranges) : id(id), l(l), items(items), ranges(ranges) {}
+        #if 0
+        type(type &amp;&amp; x) noexcept {
+            id = std::move(x.id);
+            l = x.l;
+            items = std::move(x.items);
+            ranges = std::move(x.ranges);
+        }
+        #endif
         struct item_data {
             std::string value;
             mutable spec_cursor ref;
@@ -356,11 +378,11 @@
         };
         item_data const &amp; item_info(int64_t key) const;
         bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }
-        ict::lua::lua_State * l = 0;
         std::string value(spec_cursor referer, msg_const_cursor c) const;
         virtual ~type() final;
-        std::map&lt;std::pair&lt;int, int&gt;, item_data&gt; ranges;
+        std::shared_ptr&lt;ict::lua::state_wrapper&gt; l = 0;
         std::map&lt;int, item_data&gt; items;
+        std::map&lt;std::pair&lt;int, int&gt;, item_data&gt; ranges;
         </public>
     </element>
 
@@ -382,7 +404,7 @@
     <element tag="script" has_cdata="true" end_handler="true">
         <code href="vend_handler"/>
         <public>
-            ict::lua::lua_State * l = 0;
+            std::shared_ptr&lt;ict::lua::state_wrapper&gt; l = 0;
         </public>
     </element>
 
