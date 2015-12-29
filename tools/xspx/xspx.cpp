@@ -9,9 +9,11 @@
 int main(int argc, char **argv) {
 
     try {
+        bool dispatch = false;
         xsp_parser p;
 
         ict::command line("xsp", "Xspec Processor", "xsp [options] xspec-file");
+        line.add(ict::option("dispatcher", 'd', "Generate displatch function", [&]{ dispatch = true; } ));
 
         line.parse(argc, argv);
 
@@ -19,7 +21,8 @@ int main(int argc, char **argv) {
 
         p.open(line.targets[0]);
 
-        std::cout << p.header();
+        if (dispatch) xspx::to_dispatch(std::cout, p);
+        else std::cout << p.header();
 
     } catch (ict::exception & e) {
         std::cerr << e.what() << std::endl;

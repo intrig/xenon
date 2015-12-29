@@ -206,11 +206,43 @@ class xsp_parser {
 
 // algo
 namespace xspx {
-    template <typename Xsp, typename Pred>
-    void for_each_element(Xsp & xspx, Pred op);
+template <typename Xsp, typename Pred>
+void for_each_element(Xsp & xspx, Pred op) {
+    for (auto & i : xspx.elems) {
+        for (auto & j : i) {
+            if (!j.is_base) op(j);
+        }
+    }    
+
+    for (auto & choice : xspx.choices) {
+        for (auto & i : choice.elems) op(i);
+    }
+}
+
 
     std::vector<elem_type> unique_elems(const xsp_parser & xspx);
+
+template <typename Os, typename Xsp>
+void to_dispatch(Os & os, const Xsp & xsp) {
+    os << R"(
+template <typename Cursor, typename Pred>
+void dispatch(Cursror c, Pred op) {
+    switch (c->uid) {
+)";
+
+    for_each_element(xsp, [&](const elem_type & x) {
+        os << "        case ict::" << x.name << "_uid : op(c, std::static_pointer_cast<" << x.name << ">(c->v));\n";
+        os << "        break;\n";
+        
+    });
+
+os << R"(
+    } // end switch
 }
+)";
+}
+} // namespace xspx
+
 
 
 
