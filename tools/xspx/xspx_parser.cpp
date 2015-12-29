@@ -203,12 +203,13 @@ xsp_parser::xsp_parser() {
                 children.clear();
             }
         }
+    });
+    p.end_handler("xspec", [&]{
+        int i = 1;
+        xspx::for_each_element(*this, [&](elem_type & x){
+            x.uid = i++;
         });
-}
-
-template <typename StringVec, typename NamedList>
-void add_forward(StringVec & v, const NamedList & l) {
-    for (const auto & x : l) v.push_back(x.name);
+    });
 }
 
 template <typename T>
@@ -218,6 +219,15 @@ std::string code_seg(const T & refs, const std::string & name) {
     return "";
 }
 
+template <typename S, typename T>
+// S is an output stream
+// T is an iterator to sorted elem_type vector
+void generate_uid_constants(S & os, T first, T last) {
+    std::for_each(first, last, [&](decltype(*first) & x) {
+        os << "const uint8_t " << x.name << "_uid = " << x.uid << ";\n";
+    });
+}
+
 std::string xsp_parser::header() const  {
     std::ostringstream os;
     os << "#pragma once //\n";
@@ -225,13 +235,11 @@ std::string xsp_parser::header() const  {
 
     os << "namespace " << name_space << " {";
 
-    auto f = std::vector<std::string>();
-    f.push_back(class_name);
-    add_forward(f, elems.back());
-    for (const auto & x : choices) add_forward(f, x.elems);
-    std::sort(f.begin(), f.end());
-    f.erase(std::unique(f.begin(), f.end()), f.end());
-    for (auto & x : f) os << "struct " << x << ";\n";
+    os << "struct spec;";
+    auto f = xspx::unique_elems(*this);
+    for (auto & x : f) os << "struct " << x.name << ";";
+
+    generate_uid_constants(os, f.begin(), f.end());
 
     for (const auto & elem : elems.back()) to_decl(os, elem, root);
 
@@ -362,6 +370,7 @@ std::ostream& xsp_parser::start_handler_contents(std::ostream& os, const elem_ty
         os << ");";
         params.clear();
 
+        os << "c->uid = " << elem.name << "_uid;";
         os << R"(
             c->parser = this;
             c->line = p.line();
@@ -486,23 +495,27 @@ std::string xsp_parser::parser_impl() const {
 
 namespace xspx {
 
-std::vector<elem_type const *> unique_elems(const xsp_parser & xspx) {
-    auto v = std::vector<elem_type const *>();
+std::vector<elem_type> unique_elems(const xsp_parser & xspx) {
+    auto v = std::vector<elem_type>();
 
-    for (auto & i : xspx.elems) {
-        for (auto & j : i) {
-            if (!j.is_base) v.push_back(&j);
-        }
-    }    
+    for_each_element(xspx, [&](const elem_type & x){ v.push_back(x); });
 
-    for (auto & i : xspx.choices) {
-        v.push_back(&i.elems.front());
-    }
-
-    std::sort(v.begin(), v.end(), [](elem_type const * a, elem_type const * b) { 
-        return std::lexicographical_compare(a->tag.begin(), a->tag.end(), b->tag.begin(), b->tag.end());
+    std::sort(v.begin(), v.end(), [](elem_type const & a, elem_type const & b) { 
+        return a.name < b.name;
     });
+    v.erase(std::unique(v.begin(), v.end()), v.end());
+
     return v;
 }
 
+#if 0
+template <typename Cursor, typename Op>
+void dispatch(Cursor c, Op op) {
+    switch (c->uid()) {
+        case ict::xddl_tag : Op(c, std::static_pointer_cast<xddl>(c->v)); break;
+    }
 }
+#endif
+
+} // namespace xspx
+

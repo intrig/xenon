@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<xddl version="2.0000">
+<xddl>
   <!-- Radio Resource Control (RRC) Iu Mode -->
   <!-- 3GPP TS 44.118 V10.0.0 (2011-03) -->
   <!-- 3rd Generation Partnership Project; -->

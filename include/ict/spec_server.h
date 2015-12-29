@@ -15,8 +15,7 @@ public:
     /*!
      Create an empty document.  
      */
-    spec_server() 
-    {
+    spec_server() {
         std::string xddlroot = ict::get_env_var("XDDLPATH");
         xddl_path = ict::split(xddlroot, ';');
         xddl_path.push_back(".");
@@ -44,8 +43,7 @@ public:
     }
 
     template <typename InputIterator>
-    spec::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) 
-    {
+    spec::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) {
         // IT_WARN("adding spec: " << name);
         doms.emplace_back();
         doms.back().owner = this;
@@ -58,8 +56,7 @@ public:
     /*!
      Add another spec.
      */
-    spec::cursor add_spec(const std::string & filename) 
-    {
+    spec::cursor add_spec(const std::string & filename) {
         auto x = filename;
         if (!locate(x)) IT_PANIC("cannot open \"" << filename << "\"");
         auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ 

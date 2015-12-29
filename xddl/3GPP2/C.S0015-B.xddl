@@ -8,7 +8,7 @@
    WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
    PURPOSE.
 -->
-<xddl xmlns="http://www.intrig.com/2007/XDDLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.intrig.com/2007/XDDLSchema http://www.intrig.com/2007/XDDLSchema.xsd">
+<xddl>
   <comment>
     3GPP2 C.S0015-B 
     Version 2.0 

@@ -20,7 +20,7 @@ class doc_unit
         ut.add(&doc_unit::index2);
         ut.add(&doc_unit::index3);
 
-        ut.skip(&doc_unit::ip_protocol);
+        ut.add(&doc_unit::ip_protocol);
         ut.skip(&doc_unit::search_paths);
 
         ut.add(&doc_unit::icd);

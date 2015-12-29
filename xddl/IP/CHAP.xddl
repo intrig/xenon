@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<xddl name="CHAP (RFC-???)">
+<xddl>
   <!-- Types -->
   <export>
     <prop name="Length" value="0"/>
@@ -15,23 +15,22 @@
     
   </type>
 
-  <!-- Fragments -->
-  <fragment name="Challenge/Response" id="ChallegeResponse">
+  <record name="Challenge/Response" id="ChallegeResponse">
     <field name="ValueSize" length="8"/>
     <field name="Value" length="ValueSize * 8"/>
     <field name="Name" length="(Length - 4 - ValueSize - 1) * 8"/>
-  </fragment>
+  </record>
 
-  <fragment name="Success/Failure" id="SuccessFailure">
+  <record name="Success/Failure" id="SuccessFailure">
     <field name="ValueSize" length="8"/>
     <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="CHAP-Protocol" id="CHAP">
+  <record name="CHAP-Protocol" id="CHAP">
     <field name="Code" length="8" type="#CHAPCode"/>
     <field name="Identifier" length="8"/>
     <field name="Length" length="16"/>
-    <record name="Data" length="(Length-4) * 8" import="true">
+    <record name="Data" length="(Length-4) * 8">
       <switch expr="Code">
         <case value="1"/>
         <case value="2">
@@ -43,7 +42,7 @@
         </case>
       </switch>
     </record>
-  </fragment>
+  </record>
 
   <start>
     <fragment href="#CHAP"/>
