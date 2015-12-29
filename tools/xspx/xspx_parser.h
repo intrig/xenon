@@ -49,6 +49,18 @@ typedef std::vector<custom_type> custom_type_list;
 
 // an xml element
 struct elem_type {
+    friend bool operator<(const elem_type & a, const elem_type & b) {
+        return a.name < b.name;
+    }
+    friend bool operator>(const elem_type & a, const elem_type & b) {
+        return a.name > b.name;
+    }
+    friend bool operator==(const elem_type & a, const elem_type & b) {
+        return a.name == b.name;
+    }
+    friend bool operator!=(const elem_type & a, const elem_type & b) {
+        return !(a.name == b.name);
+    }
     ict::string64 tag; // the xml tag
     std::string name; // the cpp type, same as tag by defualt
     bool end_handler;
@@ -64,6 +76,7 @@ struct elem_type {
 
     // derived
     bool is_base = false;
+    int uid = 0;
 };
 
 typedef std::vector<elem_type> elem_list;
@@ -193,7 +206,10 @@ class xsp_parser {
 
 // algo
 namespace xspx {
-    std::vector<elem_type const *> unique_elems(const xsp_parser & xspx);
+    template <typename Xsp, typename Pred>
+    void for_each_element(Xsp & xspx, Pred op);
+
+    std::vector<elem_type> unique_elems(const xsp_parser & xspx);
 }
 
 
