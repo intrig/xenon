@@ -226,13 +226,14 @@ template <typename Os, typename Xsp>
 void to_dispatch(Os & os, const Xsp & xsp) {
     os << R"(
 template <typename Cursor, typename Pred>
-void dispatch(Cursror c, Pred op) {
+void dispatch(Cursor c, Pred op) {
     switch (c->uid) {
 )";
 
     for_each_element(xsp, [&](const elem_type & x) {
-        os << "        case ict::" << x.name << "_uid : op(c, std::static_pointer_cast<" << x.name << ">(c->v));\n";
-        os << "        break;\n";
+        os << "        ";
+        os << "case ict::" << x.name << "_uid : op(c, std::static_pointer_cast<ict::" << x.name << ">(c->v)); ";
+        os << "break;\n";
         
     });
 
