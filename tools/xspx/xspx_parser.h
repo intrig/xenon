@@ -226,14 +226,18 @@ template <typename Os, typename Xsp>
 void to_dispatch(Os & os, const Xsp & xsp, std::string const & name) {
     os << "template <typename Cursor, typename... Args>\n";
     os << "void " << name << "(Cursor c, Args&&... args) {\n";
-    os << "    switch(c->uid()) {\n";
-    for_each_element(xsp, [&](const elem_type & x) {
-        os << "        ";
-        os << "case ict::" << x.name << "_uid : " << name << 
-            "(c, static_cast<ict::" << x.name << "*>(c->v.get()), std::forward<Args>(args)...); ";
-        os << "break;\n";
-        
-    });
+    os << "    switch(c->uid) {\n";
+
+    auto uniqs = unique_elems(xsp);
+
+    for (auto & x : uniqs) {
+        if (!x.is_mod) {
+            os << "        ";
+            os << "case ict::" << x.name << "_uid : " << name << 
+                "(c, static_cast<ict::" << x.name << "*>(c->v.get()), std::forward<Args>(args)...); ";
+            os << "break;\n";
+        }
+    }
 
 os << R"(
     } // end switch
