@@ -13,3 +13,5 @@ add_custom_command(
     VERBATIM)
 
 add_library(xenon ${CMAKE_SOURCE_DIR}/include/ict/xddl.h lua-5.1.4/src/lua_all.cpp xml_parser_base.cpp message.cpp xddl.cpp)
+
+set_target_properties(xenon PROPERTIES POSITION_INDEPENDENT_CODE ON)
