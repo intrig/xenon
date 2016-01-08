@@ -17,7 +17,9 @@ The Intrig message decoder.
 
 These dependencies are not required for xenon, but are for running some tests.
 
-    sudo apt-get install libboost-all-dev
+    ubuntu: sudo apt-get install libboost-all-dev
+    mac: brew install boost
+    windows: dunno, I just skip it
 
 After building, a static library, xenon, can be found in the o directory.
 

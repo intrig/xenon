@@ -6,8 +6,10 @@
 #include <boost/filesystem.hpp>
 
 void load_unit::sanity() {
-    ict::spec_server doc;
     IT_ASSERT(doc.empty());
+}
+
+void load_unit::load_all_specs() {
 }
 
 
