@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<xddl version="2.0000">
+<xddl>
   <!-- GSM/EDGE  Radio subsystem link control -->
   <!-- 3GPP TS 05.08 V8.23.0 (2005-11) -->
   <!-- 3rd Generation Partnership Project; -->
