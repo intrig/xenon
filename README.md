@@ -13,6 +13,11 @@ The Intrig message decoder.
     cmake
     C++11 compiler
 
+## Additinal dependencies
+
+These dependencies are not required for xenon, but are for running some tests.
+
+    sudo apt-get install libboost-all-dev
 
 After building, a static library, xenon, can be found in the o directory.
 
