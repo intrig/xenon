@@ -12,48 +12,51 @@
     
   </type>
 
-  <!-- Fragments -->
-  <fragment name="Challenge Packet" id="Challege">
+  <record name="Challenge Packet" id="Challege">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8" default="16"/>
     <field name="Value" length="ValueSize * 8"/>
     <field name="Name" length="(Length - 4 - ValueSize - 1) * 8"/>
-  </fragment>
+  </record>
 
-  <fragment name="Response Packet" id="Response">
+  <record name="Response Packet" id="Response">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8"/>
-    <record name="Value" length="ValueSize * 8" import="true">
+    <record name="Value" length="ValueSize * 8">
       <field name="Peer_Challenge" length="16*8"/>
       <field name="Reserved" length="8*8"/>
       <field name="NT_Response" length="24*8"/>
       <field name="Flags" length="8"/>
     </record>
     <field name="Name" length="(Length - 4 - ValueSize - 1) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="Success Packet" id="Success">
+  <record name="Success Packet" id="Success">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8"/>
     <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="Failure" id="Failure">
+  <record name="Failure" id="Failure">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8"/>
     <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="Change Password Packet" id="ChangePasswd">
+  <record name="Change Password Packet" id="ChangePasswd">
     <field name="EncryptedPasswd" length="516*8"/>
     <field name="EncryptedHash" length="16*8"/>
     <field name="PeerChallenge" length="16*8"/>
     <field name="Reserved" length="8*8"/>
     <field name="NT-Response" length="24*8"/>
     <field name="Flags" length="2*8"/>
-  </fragment>
+  </record>
 
-  <fragment name="MS-CHAP-1-Protocol" id="MS-CHAP-1">
+  <record name="MS-CHAP-1-Protocol" id="MS-CHAP-1">
     <field name="Code" length="8" type="#CHAPCode"/>
     <field name="Identifier" length="8"/>
     <field name="Length" length="16"/>
-    <record name="Data" length="(Length-4) * 8" import="true">
+    <record name="Data" length="(Length-4) * 8">
       <switch expr="Code">
         <case value="1">
           <fragment href="#Challege"/>
@@ -72,10 +75,10 @@
         </case>
       </switch>
     </record>
-  </fragment>
+  </record>
 
-  <structure>
+  <start>
     <fragment href="#MS-CHAP-1"/>
-  </structure>
+  </start>
 
 </xddl>
