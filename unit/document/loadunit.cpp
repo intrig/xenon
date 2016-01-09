@@ -33,25 +33,14 @@ void load_unit::load_all_specs() {
     try {
         get_all_xddl(p, paths);
         for (auto & p : paths) {
-            cout << "adding spec: " << p << '\n';
+            // cout << "adding spec: " << p << '\n';
             specs.add_spec(p.string());
 
         }
-#if 0
-        if (exists(p)) {
-          if (bf::is_regular_file(p)) cout << p << " size is " << bf::file_size(p) << '\n';
-          else if (bf::is_directory(p)) {
-            cout << p << " is a directory containing:\n";
-            for (bf::directory_entry& x : bf::directory_iterator(p)) cout << "    " << x.path() << '\n'; 
-          }
-          else
-            cout << p << " exists, but is not a regular file or directory\n";
-        }
-        else
-          cout << p << " does not exist\n";
-#endif
       } catch (const bf::filesystem_error& ex) {
-        cout << ex.what() << '\n';
+        IT_FORCE_ASSERT("filesystem error: " << ex.what());
+      } catch (const ict::exception & ex) {
+        IT_FORCE_ASSERT(ex.what());
       }
 }
 
