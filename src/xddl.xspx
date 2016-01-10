@@ -140,6 +140,7 @@
             oob_flag,
             enc_flag
         };
+        uint8_t uid;
         std::bitset&lt;4&gt; flags;
         </public>
     </element>

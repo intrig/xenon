@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<!--
-   Copyright (C) 2003 - 2007 Intrig
-   
-   This file is protected by copyright and may be distributed and/or
-   modified under the terms of the GNU General Public License version 2.0.
-  
-   Please contact sales@intrig.com if these licensing terms are not
-   suitable for your needs.
-
-   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE.
--->
-<xddl name="VJHC (RFC-1144)">
-  <!-- Types -->
-  <!-- Fragments -->
-  <fragment name="VJHC-Protocol" id="VJHC">
-    <record name="Byte0" length="8" import="true">
+<xddl>
+  <record name="VJHC-Protocol" id="VJHC">
+    <record name="Byte0" length="8">
       <field name="Unused" length="1"/>
       <field name="C" length="1"/>
       <field name="I" length="1"/>
@@ -28,52 +13,52 @@
       <field name="W" length="1"/>
       <field name="U" length="1"/>
     </record>
-    <if expr="C">
+    <if expr="Byte0.C">
       <field name="ConnectionNumber" length="8"/>
-      <if expr="C==0">
+      <if expr="Byte0.C==0">
         <field name="ConnectionNumber" length="16"/>
       </if>
     </if>
     <field name="TCPChecksum" length="8"/>
-    <if expr="U">
+    <if expr="Byte0.U">
       <field name="UrgentPointer" length="8"/>
-      <if expr="U==0">
+      <if expr="Byte0.U==0">
         <field name="UrgentPointer" length="16"/>
       </if>
     </if>
-    <if expr="W">
+    <if expr="Byte0.W">
       <field name="Window" length="8"/>
-      <if expr="W==0">
+      <if expr="Byte0.W==0">
         <field name="Window" length="16"/>
       </if>
     </if>
-    <if expr="A">
+    <if expr="Byte0.A">
       <field name="Ack" length="8"/>
-      <if expr="A==0">
+      <if expr="Byte0.A==0">
         <field name="Ack" length="16"/>
       </if>
     </if>
-    <if expr="S">
+    <if expr="Byte0.S">
       <field name="Sequence" length="8"/>
-      <if expr="S==0">
+      <if expr="Byte0.S==0">
         <field name="Sequence" length="16"/>
       </if>
     </if>
-    <if expr="I">
+    <if expr="Byte0.I">
       <field name="IP_ID" length="8"/>
-      <if expr="I==0">
+      <if expr="Byte0.I==0">
         <field name="IP_ID" length="16"/>
       </if>
     </if>
-    <record name="Data" import="true">
+    <record name="Data">
       <repeat name="ByteArray">
         <field name="Char" length="8"/>
       </repeat>
     </record>
-  </fragment>
+  </record>
 
-  <structure>
+  <start>
     <fragment href="#VJHC"/>
-  </structure>
+  </start>
 
 </xddl>

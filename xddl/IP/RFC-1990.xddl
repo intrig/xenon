@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<!--
-   Copyright (C) 2003 - 2010 Intrig
-   
-   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE.
--->
-<xddl name="RFC-1990">
-  <fragment name="Multilink-Max-Receive-Reconstructed-Unit" id="Multilink_MRRU">
+<xddl>
+  <record name="Multilink-Max-Receive-Reconstructed-Unit" id="Multilink_MRRU">
     <field name="MRRU" length="16"/>
-  </fragment>
+  </record>
 
-  <fragment name="Multilink-Max-Receive-Reconstructed-Unit" id="Multilink_Endpoint_Discriminator">
+  <record name="Multilink-Max-Receive-Reconstructed-Unit" id="Multilink_Endpoint_Discriminator">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="Class" length="16"/>
     <switch expr="Class">
       <case value="1">
@@ -34,6 +28,6 @@
         <field name="TelephoneNumber" length="(Length - 3) * 8"/>
       </case>
     </switch>
-  </fragment>
+  </record>
 
 </xddl>

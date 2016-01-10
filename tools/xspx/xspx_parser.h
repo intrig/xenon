@@ -49,6 +49,18 @@ typedef std::vector<custom_type> custom_type_list;
 
 // an xml element
 struct elem_type {
+    friend bool operator<(const elem_type & a, const elem_type & b) {
+        return a.name < b.name;
+    }
+    friend bool operator>(const elem_type & a, const elem_type & b) {
+        return a.name > b.name;
+    }
+    friend bool operator==(const elem_type & a, const elem_type & b) {
+        return a.name == b.name;
+    }
+    friend bool operator!=(const elem_type & a, const elem_type & b) {
+        return !(a.name == b.name);
+    }
     ict::string64 tag; // the xml tag
     std::string name; // the cpp type, same as tag by defualt
     bool end_handler;
@@ -64,6 +76,7 @@ struct elem_type {
 
     // derived
     bool is_base = false;
+    int uid = 0;
 };
 
 typedef std::vector<elem_type> elem_list;
@@ -193,8 +206,46 @@ class xsp_parser {
 
 // algo
 namespace xspx {
-    std::vector<elem_type const *> unique_elems(const xsp_parser & xspx);
+template <typename Xsp, typename Pred>
+void for_each_element(Xsp & xspx, Pred op) {
+    for (auto & i : xspx.elems) {
+        for (auto & j : i) {
+            if (!j.is_base) op(j);
+        }
+    }    
+
+    for (auto & choice : xspx.choices) {
+        for (auto & i : choice.elems) op(i);
+    }
 }
+
+
+    std::vector<elem_type> unique_elems(const xsp_parser & xspx);
+
+template <typename Os, typename Xsp>
+void to_dispatch(Os & os, const Xsp & xsp, std::string const & name) {
+    os << "template <typename Cursor, typename... Args>\n";
+    os << "void " << name << "(Cursor c, Args&&... args) {\n";
+    os << "    switch(c->uid) {\n";
+
+    auto uniqs = unique_elems(xsp);
+
+    for (auto & x : uniqs) {
+        if (!x.is_mod) {
+            os << "        ";
+            os << "case ict::" << x.name << "_uid : " << name << 
+                "(c, static_cast<ict::" << x.name << "*>(c->v.get()), std::forward<Args>(args)...); ";
+            os << "break;\n";
+        }
+    }
+
+os << R"(
+    } // end switch
+}
+)";
+}
+} // namespace xspx
+
 
 
 
