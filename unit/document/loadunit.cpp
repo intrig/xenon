@@ -42,16 +42,7 @@ void load_unit::load_all_specs() {
 
     auto p = bf::path(root);
     try {
-#if 1
         load_all_xddl(p, specs);
-#else
-        get_all_xddl(p, paths);
-        for (auto & p : paths) {
-            // cout << "adding spec: " << p << '\n';
-            specs.add_spec(p.string());
-
-        }
-#endif
       } catch (const bf::filesystem_error& ex) {
         IT_FORCE_ASSERT("filesystem error: " << ex.what());
       } catch (const ict::exception & ex) {
