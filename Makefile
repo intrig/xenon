@@ -19,7 +19,7 @@ clean:
 	test -d build && rm -rf build
 
 test:
-	make TEST_OUTPUT_ON_FAILURE=1 -C build test
+	make CTEST_OUTPUT_ON_FAILURE=1 -C build test
 
 tags:
 	mkdir -p o

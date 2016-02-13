@@ -258,13 +258,13 @@
       <item key="1" value="NAS" href="#4.2"/>
     </type>
     <type name="LTE Channel" id="4-2">
-      <item key="1" value="UL-CCCH" href="3GPP/TS-36.331.xddl#UL-CCCH-MessageType"/>
-      <item key="2" value="UL-DCCH" href="3GPP/TS-36.331.xddl#UL-DCCH-MessageType"/>
-      <item key="3" value="DL-CCCH" href="3GPP/TS-36.331.xddl#DL-CCCH-MessageType"/>
-      <item key="4" value="DL-DCCH" href="3GPP/TS-36.331.xddl#DL-DCCH-MessageType"/>
-      <item key="5" value="PCCH" href="3GPP/TS-36.331.xddl#PCCH-MessageType"/>
-      <item key="6" value="BCCH-DL-SCH" href="3GPP/TS-36.331.xddl#BCCH-DL-SCH-MessageType"/>
-      <item key="7" value="BCCH-BCH" href="3GPP/TS-36.331.xddl#BCCH-BCH-Message"/>
+      <item key="1" value="UL-CCCH" href="../3GPP/TS-36.331.xddl#UL-CCCH-MessageType"/>
+      <item key="2" value="UL-DCCH" href="../3GPP/TS-36.331.xddl#UL-DCCH-MessageType"/>
+      <item key="3" value="DL-CCCH" href="../3GPP/TS-36.331.xddl#DL-CCCH-MessageType"/>
+      <item key="4" value="DL-DCCH" href="../3GPP/TS-36.331.xddl#DL-DCCH-MessageType"/>
+      <item key="5" value="PCCH" href="../3GPP/TS-36.331.xddl#PCCH-MessageType"/>
+      <item key="6" value="BCCH-DL-SCH" href="../3GPP/TS-36.331.xddl#BCCH-DL-SCH-MessageType"/>
+      <item key="7" value="BCCH-BCH" href="../3GPP/TS-36.331.xddl#BCCH-BCH-Message"/>
     </type>
     <type id="UTRA-RRC-NameType">
       <script>

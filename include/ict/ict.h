@@ -47,6 +47,7 @@ std::string to_string(const T & value)
 #endif
 }
 
+// split on a single character
 template <typename T>
 inline std::vector<std::string> split(const T & source, char c) {
     std::vector<std::string> l;
@@ -60,6 +61,31 @@ inline std::vector<std::string> split(const T & source, char c) {
         l.push_back(std::string(first, i));
         first = i;
         if (first != last) ++first;
+    }
+    return l;
+}
+
+// split on any of the supplied characters
+template <typename T>
+inline std::vector<std::string> split(const T & source, const char * s, bool include_del = false) {
+    std::vector<std::string> l;
+    if (source.size() == 0) return l;
+
+    auto first = 0;
+    auto last = source.size();
+
+    while (first != last) {
+        auto i = source.find_first_of(s, first);
+        if (i == std::string::npos) {
+            auto s = source.substr(first);
+            if (!s.empty()) l.push_back(s);
+            first = last;
+        } else {
+            auto s = std::string(source.begin() + first, source.begin() + i + (include_del == true));
+            l.push_back(s);
+            first = i;
+            ++first;
+        }
     }
     return l;
 }
@@ -772,6 +798,42 @@ inline int safe_str_copy(char * dest, size_t size_dest, const char * src, size_t
 template<typename T, typename... Args>
 std::unique_ptr<T> make_unique(Args&&... args) {
     return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
+
+template <typename T>
+inline void to_json(std::string & os, const std::vector<T> & v);
+
+inline void to_json(std::string & os, const std::string & s) {
+    os += "\"";
+    os += s; 
+    os += "\"";
+}
+
+template <typename T, typename U>
+inline void to_json(std::string & os, const T & k, const U & v) {
+    to_json(os, k);
+    os += " : ";
+    to_json(os, v);
+    os += '\n';
+}
+
+template <typename T>
+inline void to_json(std::string & os, const std::vector<T> & v) {
+    os += '[';
+    for (auto & i : v) {
+        to_json(os, i);
+        os += ", ";
+    }
+    if (!v.empty()) os.resize(os.size() - 2);
+    os += ']';
+
+}
+
+template <typename T>
+inline std::string to_json(const std::vector<T> & v) {
+    auto os = std::string();
+    to_json(os, v);
+    return os;
 }
 
 } // namespace
