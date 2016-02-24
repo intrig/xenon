@@ -353,6 +353,18 @@ struct ibitstream {
         return read_blind(n);
     }
 
+    bitstring read_to(char ch) {
+        auto first = bits.begin() + index / 8; // current byte
+        auto n = 0;
+        while (*first != ch) {
+            IT_WARN("ch = " << *first);
+            ++first;
+            ++n;
+        }
+        ++n; // include ch 
+        return read_blind(n * 8);
+    }
+
     // peek ahead
     bitstring peek(size_t n, size_t offset=0) {
         return bitstring(bits.begin(), n, index + offset);

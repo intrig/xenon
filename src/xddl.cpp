@@ -515,6 +515,14 @@ void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) c
     }
 }
 
+void cstr::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+    auto c = parent.emplace(node::field_node, self, bs.read_to('\0'));
+}
+
+std::string cstr::vdescription(spec::cursor referer, message::const_cursor c) const {
+    return std::string(c->bits.begin(), c->bits.end());
+}
+
 void xif::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (expr.value(leaf(parent)) != 0) parse_children(self, parent, bs);
 }

@@ -66,7 +66,7 @@
 
   <record name="Sync" id="sync">
     <uint64 name="Current Time"/>
-    <fragment href="#cstring"/>
+    <cstr name="Time Scale"/>
   </record>
 
   <record id="cstring">
