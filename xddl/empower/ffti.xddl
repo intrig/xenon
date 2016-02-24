@@ -66,6 +66,10 @@
 
   <record name="Sync" id="sync">
     <uint64 name="Current Time"/>
+    <fragment href="#cstring"/>
+  </record>
+
+  <record id="cstring">
     <prop name="i" value="1"/>
     <while expr="i != #00">
       <field length="8" name="ch">
