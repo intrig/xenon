@@ -69,18 +69,6 @@
     <cstr name="Time Scale"/>
   </record>
 
-  <record id="cstring">
-    <prop name="i" value="1"/>
-    <while expr="i != #00">
-      <field length="8" name="ch">
-        <script>
-        description = string.format("%c", key);
-        </script>
-      </field>
-      <setprop name="i" value="ch"/>
-    </while>
-  </record>
-
   <start>
     <fragment href="#frame"/>
   </start>
