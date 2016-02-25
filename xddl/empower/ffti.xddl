@@ -24,14 +24,14 @@
     </field>
 
     <uint8 name="ARQ id"/>
-    <record name="Payload" length="Length * 8 - 8" href="#payload"/>
+    <record name="Payload" length="Length * 8 - 16" href="#payload"/>
   </record>
 
   <record id="payload">
     <field length="8" name="Message Type">
       <item value="Reset" key="#01"/>
       <item value="ResetAck" key="#02"/>
-      <item value="Start" key="#10"/>
+      <item value="Start" key="#10" href="#start"/>
       <item value="Abort" key="#11"/>
       <item value="Started" key="#20"/>
       <item value="Complete" key="#21"/>
@@ -41,6 +41,10 @@
       <item value="RSSI" key="#ff"/>
     </field>
 
+    <jump base="Message Type"/>
+  </record>
+
+  <record id="start">
     <field length="16" name="Transaction Type"> 
       <item value="None" key="#0"/>
       <item value="Register" key="#1001"/>
