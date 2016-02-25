@@ -24,10 +24,10 @@
     </field>
 
     <uint8 name="ARQ id"/>
-    <record name="Payload" length="Length * 8 - 8" href="#payload"/>
+    <record name="Payload" length="Length * 8 - 16" href="#payload"/>
   </record>
 
-  <record id="payload" length="">
+  <record id="payload">
     <field length="8" name="Message Type">
       <item value="Reset" key="#01"/>
       <item value="ResetAck" key="#02"/>
