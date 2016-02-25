@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xddl>
+  <comment>
+    Empower Decision Systems
+    FleetChief Field Terminal Interface 
+  </comment>
+  <record id="frame">
+    <uint16 name="flag"/>
+    <uint16 name="Sender"/>
+    <uint16 name="Length"/>
+    <record name="Arq packet" length="Length * 8" href="#arq"/>
+  </record>
+
+  <record id="arq">
+
+    <field length="8" name="frame type">
+      <item key="0" value="Data"/>
+      <item key="1" value="Ack"/>
+      <item key="2" value="KeepAlive"/>
+    </field>
+
+    <uint8 name="ARQ id"/>
+    <record name="Payload" href="#payload"/>
+  </record>
+
+  <record id="payload">
+    <field length="8" name="Message Type">
+      <item value="Reset" key="#01"/>
+      <item value="ResetAck" key="#02"/>
+      <item value="Start" key="#10"/>
+      <item value="Abort" key="#11"/>
+      <item value="Started" key="#20"/>
+      <item value="Complete" key="#21"/>
+      <item value="Failed" key="#22"/>
+      <item value="Event" key="#23"/>
+      <item value="EventAck" key="#24"/>
+      <item value="RSSI" key="#ff"/>
+    </field>
+
+    <field length="16" name="Transaction Type"> 
+      <item value="None" key="#0"/>
+      <item value="Register" key="#1001"/>
+      <item value="PowerOn" key="#1002"/>
+      <item value="PowerOff" key="#1003"/>
+      <item value="Login" key="#1004"/>
+      <item value="Logout" key="#1005"/>
+      <item value="StatusReport" key="#1006"/>
+      <item value="AcceptJob" key="#1007"/>
+      <item value="StartJob" key="#1008"/>
+      <item value="CompleteJob" key="#1009"/>
+
+      <item value="Dispatch" key="#2001"/>
+      <item value="Alert" key="#2002"/>
+      <item value="Event" key="#2003"/>
+      <item value="Sync" key="#2004" href="#sync"/>
+      <item value="SysLogout" key="#2005"/>
+
+      <item value="Ping" key="#3001"/>
+    </field>
+
+    <uint32 name="Session ID"/>
+    <uint32 name="Transaction ID"/>
+
+    <jump base="Transaction Type"/>
+  </record>
+
+  <record name="Sync" id="sync">
+    <uint64 name="Current Time"/>
+    <cstr name="Time Scale"/>
+  </record>
+
+  <start>
+    <fragment href="#frame"/>
+  </start>
+</xddl>

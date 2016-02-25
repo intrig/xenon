@@ -36,6 +36,7 @@
     <group name="common">
         <child>bit</child>
         <child>comment</child>
+        <child>cstr</child>
         <child>field</child>
         <child>fragment</child>
         <child>jump</child>
@@ -166,7 +167,7 @@
     </element>
 
     <element tag="field" end_handler="true">
-        <att type="integer" member ="bias" >bias</att>
+        <att type="integer" member ="bias">bias</att>
         <att type="expression" member="def">default</att>
         <att type="expression" req="true">length</att>
         <att type="string" local="false" req="true">name</att>
@@ -191,6 +192,13 @@
     <element tag="uint16" isa="field"> <att type="expression" def="16">length</att> </element>
     <element tag="uint32" isa="field"> <att type="expression" def="32">length</att> </element>
     <element tag="uint64" isa="field"> <att type="expression" def="64">length</att> </element>
+
+    <element tag="cstr">
+        <att type="expression" def="1024">max</att>
+        <att type="string" local="false" req="true">name</att>
+        <code href="vparse"/>
+        <code href="vdescription"/>
+    </element>
 
     <!-- fragment is an inline record ref.  
     TODO remove this or add inline attribute to record ref? -->

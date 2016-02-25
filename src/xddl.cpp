@@ -515,6 +515,14 @@ void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) c
     }
 }
 
+void cstr::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+    auto c = parent.emplace(node::field_node, self, bs.read_to('\0'));
+}
+
+std::string cstr::vdescription(spec::cursor referer, message::const_cursor c) const {
+    return std::string(c->bits.begin(), c->bits.end());
+}
+
 void xif::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (expr.value(leaf(parent)) != 0) parse_children(self, parent, bs);
 }
@@ -663,7 +671,7 @@ std::string get_description(const T * self_ptr, spec::cursor self, message::cons
     if (self_ptr->href.empty()) return "";
     else if (self_ptr->ref == self.end()) {
         try { 
-            auto url = ict::relative_url(self->parser->file, self_ptr->href); // create an abs url.
+            auto url = ict::relative_url(self->parser->file, self_ptr->href); // create an abs file path.
             self_ptr->ref = get_type(*self->parser->owner, url);
         } catch (ict::exception & e) {
             return e.what();

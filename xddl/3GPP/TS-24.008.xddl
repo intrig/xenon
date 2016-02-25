@@ -7295,11 +7295,11 @@
   </type>
   <record name="Additional Access Technologies" id="10.5.146a">
     <field name="Included" length="1" type="#IE_Included"/>
-    <while expr="Included">
+    <if expr="Included">
       <field name="Access Technology Type_1" length="4" type="#10.5.146t"/>
       <field name="GMSK Power Class_1" length="3" default="1" type="#10.5.146h3"/>
       <field name="8PSK Power Class_1" length="2" type="#10.5.146h2"/>
-    </while>
+    </if>
   </record>
   <type name="8-PSK Power Class" id="10.5.146h2">
     <item key="@00" value="8-PSK modulation not supported for uplink"/>

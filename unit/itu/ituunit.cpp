@@ -2,6 +2,9 @@
 //-- See https://github.com/intrig/xenon for license.
 #include "ituunit.h"
 
+using std::string;
+using std::vector;
+
 void itu_unit::host()
 {
     ict::Platform p = ict::hostPlatform();
@@ -57,6 +60,41 @@ void itu_unit::bit_lengths() {
         ++c;
     }
 }
+
+void itu_unit::splits() {
+    struct split_type {
+        split_type(char c, const string & s, const vector<string> & expected) : c(c), s(s), expected(expected) {}
+        split_type(const string & any, const string & s, const vector<string> & expected) : 
+            any(any), s(s), expected(expected) {}
+        char c;
+        string any;
+        string s;
+        vector<string> expected;
+
+        void confirm() {
+            auto r = vector<string>();
+            if (any.empty()) r = ict::split(s, c); // split on single char
+            else r = ict::split(s, any.c_str());
+
+            IT_ASSERT_MSG(s << ": " << ict::to_json(r) << " == " << ict::to_json(expected), r == expected);
+        }
+    };
+
+    auto tests = vector<split_type>{ 
+        { ' ', "split on spaces", {"split", "on", "spaces"}}, 
+        { ' ', "split on spaces ", {"split", "on", "spaces"}}, 
+        { '.', "split.on.dots", {"split", "on", "dots"}},
+        { "./", "split.on.any/test", {"split", "on", "any", "test"}},
+        { "./-", "split.on.any/test-", {"split", "on", "any", "test"}},
+        { "./-_", "pcapng/pcapng_interface_description_block", 
+            {"pcapng", "pcapng", "interface", "description", "block"}}
+
+    };
+
+    for (auto & i : tests) i.confirm();
+}
+
+
 
 
 
