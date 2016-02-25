@@ -428,16 +428,11 @@ void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
         auto f = std::dynamic_pointer_cast<field>(elem->v);
         if (!f) IT_PANIC(base << " is not a field");
 
-        // IT_WARN("href = " << f->href);
-
         if (f->ref == elem.end()) {
-            IT_WARN("here");
             auto url = ict::relative_url(elem->parser->file, f->href); // create an abs url.
-            IT_WARN("url: " << url);
             f->ref = get_type(*elem->parser->owner, url);
         }
 
-        //IT_WARN("type: " << *f->ref);
         // get the item out of the type with this value (or range)
         auto t = std::dynamic_pointer_cast<type>(f->ref->v);
         auto & info = t->item_info(c->value());
@@ -453,11 +448,8 @@ void recref::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) c
     auto rec = parent.emplace(node::record_node, self);
     auto l = length.value(rec);
     constraint ct(bs, length.value(rec));
-    IT_WARN("parsing bound record " << *self << " of length " << l);
     parse_ref(self, rec, bs, ref, href, self->parser);
-    if (!length.empty()) {
-        add_extra(self, rec, bs);
-    }
+    if (!length.empty()) add_extra(self, rec, bs);
 }
 
 void record::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
