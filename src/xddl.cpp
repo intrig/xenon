@@ -430,16 +430,21 @@ void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
         auto f = std::dynamic_pointer_cast<field>(elem->v);
         if (!f) IT_PANIC(base << " is not a field");
 
+        // IT_WARN("href = " << f->href);
+
         if (f->ref == elem.end()) {
+            IT_WARN("here");
             auto url = ict::relative_url(elem->parser->file, f->href); // create an abs url.
+            IT_WARN("url: " << url);
             f->ref = get_type(*elem->parser->owner, url);
         }
 
+        //IT_WARN("type: " << *f->ref);
         // get the item out of the type with this value (or range)
         auto t = std::dynamic_pointer_cast<type>(f->ref->v);
         auto & info = t->item_info(c->value());
 
-        parse_ref(f->ref, parent, bs, info.ref, info.href, self->parser);
+        if (!info.href.empty()) parse_ref(f->ref, parent, bs, info.ref, info.href, self->parser);
 
     } catch (ict::exception & e) {
         IT_WARN(e.what());

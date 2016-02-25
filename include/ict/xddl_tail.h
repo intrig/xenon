@@ -37,7 +37,7 @@ inline element& elem_of(spec::cursor c) {
 }
 
 inline void parse(spec::cursor self, msg_cursor parent, ibitstream & bs) {
-    // IT_WARN("parsing: " << *self << " " << self->parser->file << ":" << self->line);
+    //IT_WARN("parsing: " << *self << " " << self->parser->file << ":" << self->line);
     self->v->vparse(self, parent, bs);
 }
 
