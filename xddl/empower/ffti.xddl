@@ -4,6 +4,10 @@
     Empower Decision Systems
     FleetChief Field Terminal Interface 
   </comment>
+  <export>
+    <prop name="Length" value="0"/>
+  </export>
+
   <record id="frame">
     <uint16 name="flag"/>
     <uint16 name="Sender"/>
@@ -20,7 +24,7 @@
     </field>
 
     <uint8 name="ARQ id"/>
-    <record name="Payload" href="#payload"/>
+    <record name="Payload" length="Length * 8 - 8" href="#payload"/>
   </record>
 
   <record id="payload" length="">
