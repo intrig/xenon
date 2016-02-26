@@ -9,70 +9,190 @@
   </export>
 
   <record id="frame">
-    <uint16 name="flag"/>
-    <uint16 name="Sender"/>
+    <uint16 name="Flag"/>
+    <uint16 name="Channel"/>
     <uint16 name="Length"/>
-    <record name="Arq packet" length="Length * 8" href="#arq"/>
+    <switch expr="Channel">
+      <case value="0">
+        <record name="Ctl packet" length="Length * 8" href="#ctl"/>
+      </case>
+      <default>
+        <record name="Arq packet" length="Length * 8" href="#arq"/>
+      </default>
+    </switch>
   </record>
 
-  <record id="arq">
-
-    <field length="8" name="frame type">
-      <item key="0" value="Data"/>
-      <item key="1" value="Ack"/>
-      <item key="2" value="KeepAlive"/>
+  <record id="ctl">
+    <field length="16" name="Message Type">
+      <item key="5" value="Connect" href="#ctl-connect"/>
+      <item key="6" value="Disconnect" href="#ctl-disconnect"/>
+      <item key="7" value="TermIdentity" href="#ctl-termidentity"/>
     </field>
-
-    <uint8 name="ARQ id"/>
-    <record name="Payload" length="Length * 8 - 16" href="#payload"/>
-  </record>
-
-  <record id="payload">
-    <field length="8" name="Message Type">
-      <item value="Reset" key="#01"/>
-      <item value="ResetAck" key="#02"/>
-      <item value="Start" key="#10" href="#start"/>
-      <item value="Abort" key="#11"/>
-      <item value="Started" key="#20"/>
-      <item value="Complete" key="#21"/>
-      <item value="Failed" key="#22"/>
-      <item value="Event" key="#23"/>
-      <item value="EventAck" key="#24"/>
-      <item value="RSSI" key="#ff"/>
-    </field>
-
     <jump base="Message Type"/>
   </record>
 
-  <record id="start">
-    <field length="16" name="Transaction Type"> 
-      <item value="None" key="#0"/>
-      <item value="Register" key="#1001"/>
-      <item value="PowerOn" key="#1002"/>
-      <item value="PowerOff" key="#1003"/>
-      <item value="Login" key="#1004"/>
-      <item value="Logout" key="#1005"/>
-      <item value="StatusReport" key="#1006"/>
-      <item value="AcceptJob" key="#1007"/>
-      <item value="StartJob" key="#1008"/>
-      <item value="CompleteJob" key="#1009"/>
+  <record id="ctl-connect">
+    <uint32 name="Old Term Key"/>
+    <uint32 name="Process ID"/>
+    <cstr name="Machine"/>
+    <cstr name="Version"/>
+    <uint64 name="Term ID"/>
+  </record>
 
-      <item value="Dispatch" key="#2001"/>
-      <item value="Alert" key="#2002"/>
-      <item value="Event" key="#2003"/>
-      <item value="Sync" key="#2004" href="#sync"/>
-      <item value="SysLogout" key="#2005"/>
+  <record id="ctl-disconnect">
+  </record>
 
-      <item value="Ping" key="#3001"/>
+  <record id="ctl-termidentity">
+  </record>
+
+  <record id="arq">
+    <field length="8" name="Frame Type">
+      <item key="0" value="Data" href="#message"/>
+      <item key="1" value="Ack"/>
+      <item key="2" value="KeepAlive"/>
     </field>
+    <uint8 name="ARQ id"/>
+    <jump base="Frame Type"/>
+  </record>
 
+  <record id="message" length="Length * 8 - 16">
+    <field length="8" name="Message Type">
+      <item key="#01" value="Reset"       href="#msg-reset"/>
+      <item key="#02" value="ResetAck"    href="#msg-resetack"/>
+      <item key="#10" value="Start"       href="#msg-start"/>
+      <item key="#11" value="Abort"/>     <!-- Not used -->
+      <item key="#20" value="Started"/>   <!-- Not used -->
+      <item key="#21" value="Complete"    href="#msg-complete"/>
+      <item key="#22" value="Failed"/>    <!-- Not used -->
+      <item key="#23" value="Event"       href="#msg-event"/>
+      <item key="#24" value="EventAck"    href="#msg-eventack"/>
+      <item key="#ff" value="RSSI"/>      <!-- Not used -->
+    </field>
+    <jump base="Message Type"/>
+  </record>
+
+  <record id="msg-reset">
+    <uint32 name="Session ID"/>
+  </record>
+
+  <record id="msg-resetack">
+    <uint32 name="Session ID"/>
+  </record>
+
+  <!-- Note that this references start structures but it is referenced by both start and stop... -->
+  <type name="Transaction Type" id="transtype">
+    <item key="#0"    value="None"/>
+    <item key="#1001" value="Register"/>
+    <item key="#1002" value="PowerOn"         href="#start-poweron"/>
+    <item key="#1003" value="PowerOff"/>
+    <item key="#1004" value="Login"           href="#start-login"/>
+    <item key="#1005" value="Logout"/>
+    <item key="#1006" value="StatusReport"    href="#start-statusreport"/>
+    <item key="#1007" value="AcceptJob"       href="#start-acceptjob"/>
+    <item key="#1008" value="StartJob"        href="#start-startjob"/>
+    <item key="#1009" value="CompleteJob"     href="#start-completejob"/>
+    <item key="#2001" value="Dispatch"        href="#start-dispatch"/>
+    <item key="#2002" value="Alert"           href="#start-alert"/>
+    <item key="#2003" value="Event"           href="#start-event"/>
+    <item key="#2004" value="Sync"            href="#start-sync"/>
+    <item key="#2005" value="SysLogout"/>
+    <item key="#3001" value="Ping"/>
+  </type>
+
+  <record id="msg-start">
+    <field name="Transaction Type" length="16" type="#transtype"/> 
     <uint32 name="Session ID"/>
     <uint32 name="Transaction ID"/>
-
     <jump base="Transaction Type"/>
   </record>
 
-  <record name="Sync" id="sync">
+  <record id="msg-complete">
+    <uint32 name="Session ID"/>
+    <uint32 name="Transaction ID"/>
+    <!-- Optional type and type-spec data (default type = 0) -->
+    <field name="Transaction Type" length="16" type="#transtype"/> 
+  </record>
+
+  <type name="Entity Type" id="entitytype">
+    <item key="#0" value="Terminal"/>
+    <item key="#1" value="FieldAgent"/>
+    <item key="#2" value="GatewayAgent"/>
+    <item key="#3" value="ServerAgent"/>
+  </type>
+
+  <record id="msg-event">
+    <field name="Entity" length="8" type="#entitytype"/>
+    <uint16 name="Event Type"/>
+    <uint16 name="Event ID"/>
+    <uint64 name="Timestamp"/>
+    <!-- Optional event data -->
+  </record>
+
+  <record id="msg-eventack">
+    <uint32 name="Event ID"/>
+  </record>
+
+
+  <record name="Power On" id="start-poweron">
+    <field name="Entity" length="8" type="#entitytype"/>
+  </record>
+
+  <record name="Power On" id="start-login">
+    <cstr name="User"/>
+    <cstr name="Vehicle"/>
+  </record>
+
+  <record name="Status Report" id="start-statusreport">
+    <cstr name="Name"/>
+    <uint32 name="Ref ID"/>
+    <uint16 name="DataLength"/>
+    <field name="Data" length="DataLength * 8"/>
+  </record>
+
+  <record name="Accept Job" id="start-acceptjob">
+    <uint32 name="Dispatch ID"/>
+  </record>
+
+  <record name="Start Job" id="start-startjob">
+    <uint32 name="Dispatch ID"/>
+  </record>
+
+  <record name="Complete Job" id="start-completejob">
+    <uint32 name="Dispatch ID"/>
+    <uint16 name="DataLength"/>
+    <field name="Data" length="DataLength * 8"/>
+  </record>
+
+  <record name="Dispatch" id="start-dispatch">
+    <uint32 name="Stop ID"/>
+    <cstr name="Description"/>
+    <cstr name="Work Type"/>
+    <uint8 name="Hard TW"/>
+    <uint64 name="TW Start"/>
+    <uint64 name="TW End"/>
+    <cstr name="Street Address"/>
+    <cstr name="Latitude"/>
+    <cstr name="Longitude"/>
+    <uint32 name="Travel Time"/>
+    <uint64 name="Arrive Time"/>
+    <cstr name="Time At Stop"/>
+    <uint16 name="DetailsLength"/>
+    <field name="Details" length="DetailsLength * 8"/>
+    <uint16 name="FormDataLength"/>
+    <field name="Form Data" length="FormDataLength * 8"/>
+  </record>
+
+  <record name="Alert" id="start-alert">
+    <uint32 name="Alert ID"/>
+    <cstr name="Message"/>
+  </record>
+
+  <record name="Event" id="start-event">
+    <uint32 name="Ref ID"/>
+    <cstr name="Message"/>
+  </record>
+
+  <record name="Sync" id="start-sync">
     <uint64 name="Current Time"/>
     <cstr name="Time Scale"/>
   </record>
