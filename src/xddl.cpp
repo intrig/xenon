@@ -304,7 +304,7 @@ void link_local_refs(Cursor parent, RecMap & rec_map, TypeMap & type_map) {
         auto url = self->v->vhref();
         if (!url.empty()) {
             if (self->tag() == "fragment" || self->tag() == "record") link_ref(self, url, rec_map);
-            else if (self->tag() == "field" || self->tag() == "prop" || self->tag() == "setprop") 
+            else if (self->uid == field_uid || self->tag() == "prop" || self->tag() == "setprop") 
                 link_ref(self, url, type_map);
         }
 
@@ -313,11 +313,9 @@ void link_local_refs(Cursor parent, RecMap & rec_map, TypeMap & type_map) {
 }
 
 void link_anon_types(spec::cursor parent) {
-    static auto field_tag = string64("field");
-    static auto prop_tag = string64("prop");
     ict::recurse(parent, [&](spec::cursor self, spec::cursor) {
-        auto t = self->tag();
-        if ((t == field_tag || t == prop_tag) && has_anon_type(self)) self->v->vset_ref(--self.end());
+        auto t = self->uid;
+        if ((t == field_uid || t == prop_uid) && has_anon_type(self)) self->v->vset_ref(--self.end());
     });
 }
 
@@ -332,7 +330,7 @@ void link_reflective_properties(spec::cursor doc_root) {
 
     ict::recurse(doc_root, [&](spec::cursor self, spec::cursor) {
         auto & e = elem_of(self);
-        if (e.tag() == "field" || e.tag() == "prop" || e.tag() == "setprop") {
+        if (e.uid == field_uid || e.tag() == "prop" || e.tag() == "setprop") {
             if (globs.find(e.name()) != globs.end()) e.flags.set(element::global_flag);
         }
     });
@@ -430,16 +428,11 @@ void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
         auto f = std::dynamic_pointer_cast<field>(elem->v);
         if (!f) IT_PANIC(base << " is not a field");
 
-        // IT_WARN("href = " << f->href);
-
         if (f->ref == elem.end()) {
-            IT_WARN("here");
             auto url = ict::relative_url(elem->parser->file, f->href); // create an abs url.
-            IT_WARN("url: " << url);
             f->ref = get_type(*elem->parser->owner, url);
         }
 
-        //IT_WARN("type: " << *f->ref);
         // get the item out of the type with this value (or range)
         auto t = std::dynamic_pointer_cast<type>(f->ref->v);
         auto & info = t->item_info(c->value());
@@ -453,9 +446,10 @@ void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
 
 void recref::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
     auto rec = parent.emplace(node::record_node, self);
+    auto l = length.value(rec);
     constraint ct(bs, length.value(rec));
     parse_ref(self, rec, bs, ref, href, self->parser);
-    if (!length.empty()) add_extra(self, parent, bs);
+    if (!length.empty()) add_extra(self, rec, bs);
 }
 
 void record::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
