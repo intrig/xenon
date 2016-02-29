@@ -519,7 +519,7 @@ void cstr::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) co
 }
 
 std::string cstr::vdescription(spec::cursor referer, message::const_cursor c) const {
-    return std::string(c->bits.begin(), c->bits.end());
+    return std::string(c->bits.begin(), c->bits.end()-1);
 }
 
 void xif::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
