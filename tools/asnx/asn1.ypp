@@ -958,7 +958,7 @@ int main(int argc, char **argv)
     bool comments = true;
     string filename;
 
-    ict::command line("asnx", "Convert asn.1 to xddl", "asnx [optios] asn_file ...");
+    ict::command line("asnx", "Convert asn.1 to xddl", "asnx [options] asn_file ...");
 
     try {
         line.add(ict::Option("comments", 'c', "Do not print header comment in resulting xddl",
