@@ -3,7 +3,7 @@
 //-- see https://github.com/intrig/xenon for license
 #include <ict/message.h>
 #include <ict/spec_server.h>
-
+#include <random>
 namespace ict {
 inline bitstring serialize(const message & m) {
     obitstream bs;
