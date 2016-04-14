@@ -10,6 +10,11 @@ template <class T> class netvar {
     typedef unsigned char * iterator;
     typedef const iterator const_iterator;
 
+    template <typename InputIter> 
+    netvar(const char * first) { // presume big-endian to start with
+        std::copy(first, first + data.size(), data.begin());
+    }
+
     netvar(T number = 0) {
         auto first = (char *) &number;
         std::reverse_copy(first, first + data.size(), data.begin());
@@ -69,15 +74,6 @@ template <class T> class netvar {
 
     /** Conversion */
     void encode(T number) { *this = number; }
-
-#if 0
-    static T swap(T number) {
-        T value;
-        auto first = (char *) &number;
-        std::reverse_copy(first, first + sizeof(T), (char *) &value);
-        return value;
-    }
-#endif
 
     std::array<unsigned char, sizeof(T)> data;
 };

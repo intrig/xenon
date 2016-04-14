@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<!--
-   Copyright (C) 2003 - 2007 Intrig
-   
-   This file is protected by copyright and may be distributed and/or
-   modified under the terms of the GNU General Public License version 2.0.
-  
-   Please contact sales@intrig.com if these licensing terms are not
-   suitable for your needs.
-
-   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE.
--->
-<xddl name="RFC-2686">
+<xddl>
   <type id="MultilinkHeaderFormatCode">
     
       <item key="2" value="Long sequence number fragment format with classes"/>
@@ -22,7 +9,7 @@
     
   </type>
 
-  <fragment id="PrefixElision">
+  <record id="PrefixElision">
     <repeat name="PrefixInfoList">
       <field name="Class" length="8"/>
       <field name="PrefixLength" length="8"/>
@@ -30,11 +17,11 @@
                 or it included the Class and PrefixLength fields -->
       <field name="Prefix" length="PrefixLength * 8"/>
     </repeat>
-  </fragment>
+  </record>
 
-  <fragment id="MultilinkHeaderFormat">
+  <record id="MultilinkHeaderFormat">
     <field name="Code" length="8" type="#MultilinkHeaderFormatCode"/>
     <field name="NumSuspendableClasses" length="8"/>
-  </fragment>
+  </record>
 
 </xddl>

@@ -26,32 +26,33 @@
     <item key="#0A0D0D0A" value="Section Header Block"/>
   </type>
 
-  <fragment name="Common Block Header" id="pcapng_block_header_t">
+  <record name="Common Block Header" id="pcapng_block_header_t">
     <uint32 name="block_type" type="#block_types"/>
     <uint32 name="block_total_length"/>
-  </fragment>
+  </record>
 
-  <fragment name="Section Header Block" id="pcapng_section_header_block_t">
+  <record name="Section Header Block" id="pcapng_section_header_block_t">
     <record name="block_header" href="#pcapng_block_header_t"/>
     <uint32 name="magic"/>
+    <!-- TODO work in progress 
     <endian big="magic == #1A2B3C4D"/>
-
+    -->
     <uint16 name="version_major"/>
     <uint16 name="version_minor"/>
     <uint64 name="section_length"/> <!-- might be -1 for unknown -->
     <prop name="adj_section_length" value = "(section_length == -1) ? block_header.block_total_length : section_length"/>
     <!-- options -->
-  </fragment>
+  </record>
 
-  <fragment name="Interface Description Block" id="pcapng_interface_description_block">
+  <record name="Interface Description Block" id="pcapng_interface_description_block">
     <record href="#pcapng_block_header_t"/>
     <uint16 name="linktype"/>
     <uint16 name="reserved"/>
     <uint64 name="snaplen"/>
     <!-- options -->
-  </fragment>
+  </record>
 
-  <fragment name="Enhanced Packet Block" id="epb">
+  <record name="Enhanced Packet Block" id="epb">
     <record href="#pcapng_block_header_t"/>
     <uint32 name="interface_id"/>
     <uint32 name="timestamp_high"/>
@@ -61,7 +62,7 @@
     <!-- <data name="packet" length="packet_len"/> -->
     <!-- padding -->
     <!-- options -->
-  </fragment>
+  </record>
 
   <start>
     <fragment href="#pcapng_section_header_block_t"/>

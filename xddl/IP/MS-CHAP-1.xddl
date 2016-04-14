@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<!--
-   Copyright (C) 2003 - 2007 Intrig
-   
-   This file is protected by copyright and may be distributed and/or
-   modified under the terms of the GNU General Public License version 2.0.
-  
-   Please contact sales@intrig.com if these licensing terms are not
-   suitable for your needs.
+<xddl>
 
-   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE.
--->
-<xddl name="MS-CHAP-1 (RFC-2433)">
   <!-- Types -->
   <type name="CHAP Code" id="CHAPCode">
     
@@ -48,64 +36,67 @@
     
   </type>
 
-  <!-- Fragments -->
-  <fragment name="Challenge Packet" id="Challege">
+  <record name="Challenge Packet" id="Challege">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8" default="8"/>
     <field name="Value" length="ValueSize * 8"/>
     <field name="Name" length="(Length - 4 - ValueSize - 1) * 8"/>
-  </fragment>
+  </record>
 
-  <fragment name="Response Packet" id="Response">
+  <record name="Response Packet" id="Response">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8" default="8"/>
-    <record name="Value" length="ValueSize * 8" import="true">
+    <record name="Value" length="ValueSize * 8">
       <field name="LAN_Mgr_Response" length="24*8"/>
       <field name="WinNT_Response" length="24*8"/>
       <field name="PasswdOkFlag" length="8" type="ResponsePasswdOk"/>
     </record>
     <field name="Name" length="(Length - 4 - ValueSize - 1) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="Success Packet" id="Success">
+  <record name="Success Packet" id="Success">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8"/>
     <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="Failure" id="Failure">
+  <record name="Failure" id="Failure">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="ValueSize" length="8"/>
     <field name="Message" length="(Length - 4) * 8" type="PPP.xddl#ascii"/>
-  </fragment>
+  </record>
 
-  <fragment name="Change Password Packet" id="ChangePasswd_V1">
+  <record name="Change Password Packet" id="ChangePasswd_V1">
     <field name="LanMgrOldPasswdHash" length="16*8"/>
     <field name="LanMgrNewPasswdHash" length="16*8"/>
     <field name="WinNTOldPasswdHash" length="16*8"/>
     <field name="WinNTNewPasswdHash" length="16*8"/>
     <field name="PasswdLength" length="16"/>
-    <record name="Flags" length="16" import="true">
+    <record name="Flags" length="16">
       <field name="Reserved" length="15"/>
       <field name="PasswdOkFlag" length="1" type="#ChangePasswdOk"/>
     </record>
-  </fragment>
+  </record>
 
-  <fragment name="Change Password Packet" id="ChangePasswd_V2">
+  <record name="Change Password Packet" id="ChangePasswd_V2">
     <field name="WinNTOldPasswdHash" length="516*8"/>
     <field name="OldNTHashWithNewNTHash" length="16*8"/>
     <field name="WinLMOldPasswdHash" length="516*8"/>
     <field name="OldLMHashWithNewNTHash" length="16*8"/>
     <field name="LMChallengeResponse" length="24*8"/>
     <field name="WinNTChallengeResponse" length="24*8"/>
-    <record name="Flags" length="16" import="true">
+    <record name="Flags" length="16">
       <field name="Reserved" length="14"/>
       <field name="UseOldNTandOldLMHash" length="1" type="#ChangePasswd_V2_Bit1_Flag"/>
       <field name="PasswdOkFlag" length="1" type="#ChangePasswdOk"/>
     </record>
-  </fragment>
+  </record>
 
-  <fragment name="MS-CHAP-1-Protocol" id="MS-CHAP-1">
+  <record name="MS-CHAP-1-Protocol" id="MS-CHAP-1">
     <field name="Code" length="8" type="#CHAPCode"/>
     <field name="Identifier" length="8"/>
     <field name="Length" length="16"/>
-    <record name="Data" length="(Length-4) * 8" import="true">
+    <record name="Data" length="(Length-4) * 8">
       <switch expr="Code">
         <case value="1">
           <fragment href="#Challege"/>
@@ -127,10 +118,10 @@
         </case>
       </switch>
     </record>
-  </fragment>
+  </record>
 
-  <structure>
+  <start>
     <fragment href="#MS-CHAP-1"/>
-  </structure>
+  </start>
 
 </xddl>

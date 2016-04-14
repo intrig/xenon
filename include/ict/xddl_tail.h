@@ -67,4 +67,5 @@ inline std::string create_jump_name(Cursor start, const std::string & value) {
     return value;
 }
 
+
 } // namespace

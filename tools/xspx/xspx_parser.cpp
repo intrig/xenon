@@ -203,12 +203,13 @@ xsp_parser::xsp_parser() {
                 children.clear();
             }
         }
+    });
+    p.end_handler("xspec", [&]{
+        int i = 1;
+        xspx::for_each_element(*this, [&](elem_type & x){
+            x.uid = i++;
         });
-}
-
-template <typename StringVec, typename NamedList>
-void add_forward(StringVec & v, const NamedList & l) {
-    for (const auto & x : l) v.push_back(x.name);
+    });
 }
 
 template <typename T>
@@ -218,6 +219,15 @@ std::string code_seg(const T & refs, const std::string & name) {
     return "";
 }
 
+template <typename S, typename T>
+// S is an output stream
+// T is an iterator to sorted elem_type vector
+void generate_uid_constants(S & os, T first, T last) {
+    std::for_each(first, last, [&](decltype(*first) & x) {
+        os << "const uint8_t " << x.name << "_uid = " << x.uid << ";\n";
+    });
+}
+
 std::string xsp_parser::header() const  {
     std::ostringstream os;
     os << "#pragma once //\n";
@@ -225,13 +235,11 @@ std::string xsp_parser::header() const  {
 
     os << "namespace " << name_space << " {";
 
-    auto f = std::vector<std::string>();
-    f.push_back(class_name);
-    add_forward(f, elems.back());
-    for (const auto & x : choices) add_forward(f, x.elems);
-    std::sort(f.begin(), f.end());
-    f.erase(std::unique(f.begin(), f.end()), f.end());
-    for (auto & x : f) os << "struct " << x << ";\n";
+    os << "struct spec;";
+    auto f = xspx::unique_elems(*this);
+    for (auto & x : f) os << "struct " << x.name << ";";
+
+    generate_uid_constants(os, f.begin(), f.end());
 
     for (const auto & elem : elems.back()) to_decl(os, elem, root);
 
@@ -253,17 +261,17 @@ std::string xsp_parser::header() const  {
 std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, const std::string & root) const {
     if (!elem.isa.empty()) return os;
 
-    if (elem.is_base)  {
-        os << "struct var_type;";
-    }
     os << "struct " << elem.name;
-    if (!elem.is_base) os << " : public var_type";
+    if (!elem.is_base) os << " : public element::var_type";
     
     os  << " {";
     if (elem.is_base) {
+        os << "struct var_type;";
+        // os << "template <typename T> struct model;";
         os << "inline " << elem.name << "();";
-        os << elem.name << "(std::shared_ptr<var_type> v, string64 tag, const std::string & name = \"\"" <<
-            ") : v(v), tag_(tag), name_(name) {}";
+        os << "inline " << elem.name << "(std::shared_ptr<var_type> v, string64 tag, const std::string & name = \"\"" << ");";
+        os << "template <typename T> \n";
+        os << "inline " << elem.name << "(T x, string64 tag, const std::string & name = \"\"" << ");";
     } else {
         auto plist = to_param_list(elem.attributes, custom_types);
         if (!plist.empty()) {
@@ -277,11 +285,11 @@ std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, cons
         os << "string64 tag() const { return tag_;}";
         os << "std::string name() const { return name_.empty() ? tag_.c_str() : name_;}";
         os << "std::shared_ptr<var_type> v;";
+        // os << "std::shared_ptr<model<var_type>> v2;";
         os << "size_t line = 0;" <<
         class_name << " * parser = 0;" << 
         "string64 tag_;" << 
         "std::string name_;";
-        
     }
     for (const auto & a : elem.attributes) to_code(os, a, custom_types);
 
@@ -289,13 +297,24 @@ std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, cons
     os << "};"; // end of class
 
     if (elem.is_base) {
-        os << "typedef multivector<element>::cursor xddl_cursor;";
-        os << "typedef multivector<element>::ascending_cursor xddl_ascending_cursor;";
+        os << "typedef multivector<element>::cursor spec_cursor;";
+        os << "typedef multivector<element>::const_cursor spec_const_cursor;";
+        os << "typedef multivector<element>::ascending_cursor spec_ascending_cursor;";
         os << "}";
         os << "#include <ict/node.h>";
         os << "namespace ict {";
-        os << "struct var_type {" << code_seg(code_refs, "var_type") << "};";
-        os << "inline element::element() { v = std::make_shared<var_type>(); }";
+        os << "struct element::var_type {" << code_seg(code_refs, "var_type") << "};";
+        // os << "template <typename T> struct element::model : element::var_type {" << code_seg(code_refs, "model") << "};";
+
+        os << R"(
+        inline element::element() : v(std::make_shared<var_type>()) {};
+        inline element::element(std::shared_ptr<var_type> v, string64 tag, const std::string & name) : 
+            v(v), tag_(tag), name_(name) {};
+        template <typename T> 
+        inline element::element(T x, string64 tag, const std::string & name) : 
+            v(std::make_shared<T>(x)), 
+            tag_(tag), name_(name) { };
+        )";
         
     }
 
@@ -335,16 +354,15 @@ std::ostream& xsp_parser::start_handler_contents(std::ostream& os, const elem_ty
             }
         }
         if (!params.empty()) os << "auto first = leaf(parent);";
-        os << "std::shared_ptr<var_type> v = std::make_shared<" << elem.name << ">(";
-        if (!params.empty()) os << ict::join(params.begin(), params.end(), ", //;");
-        os << ");";
-        params.clear();
 
-        os << "auto c = parent.emplace(v, " << qt(elem.tag);
+        os << "auto c = parent.emplace(" << elem.name << "(" << ict::join(params.begin(), params.end(), ", //;") <<
+        "), " << qt(elem.tag);
+
+        params.clear();
         for (const auto & att : elem.attributes) {
             if (!att.local) {
                 std::ostringstream param;
-                att_param(param, "leaf(parent)", att);
+                att_param(param, "first", att);
                 params.push_back(param.str());
             }
         }
@@ -352,6 +370,7 @@ std::ostream& xsp_parser::start_handler_contents(std::ostream& os, const elem_ty
         os << ");";
         params.clear();
 
+        os << "c->uid = " << elem.name << "_uid;";
         os << R"(
             c->parser = this;
             c->line = p.line();
@@ -456,6 +475,7 @@ std::string xsp_parser::parser_impl() const {
     os << "std::string file;";
     os << "typedef multivector<" << base << "> multivector_type;";
     os << "typedef multivector_type::cursor cursor;";
+    os << "typedef multivector_type::const_cursor const_cursor;";
     os << "typedef multivector_type::ascending_cursor ascending_cursor;";
     os << "multivector_type " << "ast;" <<  
     "std::vector<multivector_type::cursor> parents;";
@@ -475,23 +495,27 @@ std::string xsp_parser::parser_impl() const {
 
 namespace xspx {
 
-std::vector<elem_type const *> unique_elems(const xsp_parser & xspx) {
-    auto v = std::vector<elem_type const *>();
+std::vector<elem_type> unique_elems(const xsp_parser & xspx) {
+    auto v = std::vector<elem_type>();
 
-    for (auto & i : xspx.elems) {
-        for (auto & j : i) {
-            if (!j.is_base) v.push_back(&j);
-        }
-    }    
+    for_each_element(xspx, [&](const elem_type & x){ v.push_back(x); });
 
-    for (auto & i : xspx.choices) {
-        v.push_back(&i.elems.front());
-    }
-
-    std::sort(v.begin(), v.end(), [](elem_type const * a, elem_type const * b) { 
-        return std::lexicographical_compare(a->tag.begin(), a->tag.end(), b->tag.begin(), b->tag.end());
+    std::sort(v.begin(), v.end(), [](elem_type const & a, elem_type const & b) { 
+        return a.name < b.name;
     });
+    v.erase(std::unique(v.begin(), v.end()), v.end());
+
     return v;
 }
 
+#if 0
+template <typename Cursor, typename Op>
+void dispatch(Cursor c, Op op) {
+    switch (c->uid()) {
+        case ict::xddl_tag : Op(c, std::static_pointer_cast<xddl>(c->v)); break;
+    }
 }
+#endif
+
+} // namespace xspx
+

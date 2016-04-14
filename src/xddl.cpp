@@ -28,10 +28,16 @@ inline message::cursor get_cursor(State * L) {
 static int script_datetime(ict::lua::lua_State *L) {
     auto n = get_cursor(L);
     auto value = ict::to_integer<int64_t>(n->bits);
-    auto dt = DateTime(value);
-    std::ostringstream os;
-    os << dt;
-    ict::lua::lua_pushstring(L, os.str().c_str());
+    // TODO: scripts should just throw exceptions and not return error codes
+    try { 
+        auto dt = DateTime(value);
+        std::ostringstream os;
+        os << dt;
+        auto s = os.str();
+        ict::lua::lua_pushstring(L, s.c_str());
+    } catch (std::exception & e) {
+        ict::lua::lua_pushstring(L, e.what());
+    }
     return 1;
 }
 
@@ -71,7 +77,6 @@ static int script_Slice(ict::lua::lua_State *L) {
     ict::lua::lua_pushnumber(L, num);
     return 1;
 }
-
 
 static int script_TwosComplement(ict::lua::lua_State * L) {
     auto n = get_cursor(L);
@@ -134,6 +139,7 @@ void element::to_string(std::ostream & os) const {
     else os << "(nullptr)";
 }
 
+
 void recdef::vto_string(std::ostream & os) const {
     os << id;
 }
@@ -156,46 +162,35 @@ void xcase::vend_handler(spec::cursor, spec & parser) {
     xs->cases[value] = i;
 }
 
-template <typename T>
-void build_type_struct(spec::cursor parent, T type_ptr) {
+type create_type_struct(ict::url url, spec::cursor parent) {
+    std::shared_ptr<ict::lua::state_wrapper> l = 0;
+    std::map<int, type::item_data> items;
+    std::map<std::pair<int, int>, type::item_data> ranges;
+
     for (auto c = parent.begin(); c!= parent.end(); ++c) {
         auto t = c->tag();
         if (t == "script") {
-            if (type_ptr->l) IT_PANIC("multiple scripts in type definition");
-            type_ptr->l = get_ptr<script>(c->v)->l;
+            if (l) IT_PANIC("multiple scripts in type definition");
+            l = get_ptr<script>(c->v)->l;
         }
         else if (t == "item") {
             auto item = get_ptr<xitem>(c->v);
-            auto i = type_ptr->items.find(item->key);
-            if (i != type_ptr->items.end()) IT_PANIC("<item> \"" << item->value << "\" with key " << 
+            auto i = items.find(item->key);
+            if (i != items.end()) IT_PANIC("<item> \"" << item->value << "\" with key " << 
                 item->key << " already defined");
-            type_ptr->items[item->key] = type::item_data { item->value, parent.end(), item->href };
+            items[item->key] = type::item_data { item->value, parent.end(), item->href };
         }
         else if (t == "range") {
             auto r = get_ptr<range>(c->v);
             if (r->start > r->end) IT_PANIC("invalid <range>");
             auto key = std::make_pair(r->start, r->end);
-            auto i = type_ptr->ranges.find(key);
-            if (i != type_ptr->ranges.end()) IT_PANIC("<range> already defined");
-            type_ptr->ranges[key] = type::item_data { r->value, parent.end(), r->href };
+            auto i = ranges.find(key);
+            if (i != ranges.end()) IT_PANIC("<range> already defined");
+            ranges[key] = type::item_data { r->value, parent.end(), r->href };
         }
     }
+    return type(url, l, items, ranges);
 }
-
-template <typename T>
-void create_anon_type(T * self_ptr, spec::cursor self, spec & parser) {
-    self_ptr->href= "anon";
-    std::shared_ptr<var_type> v = std::make_shared<type>("anon");
-
-    build_type_struct(self, std::dynamic_pointer_cast<type>(v));
-
-    // we now have a complete type struct.  Remove all the current children and replace them with it.
-    self.clear();
-    auto e = self.emplace(v, "type", "anon");
-    e->parser = &parser;
-    e->line = self->line;
-}
-
 inline bool has_anon_type(spec::cursor self) {
     if (self.empty()) return false;
     for (auto first = self.begin(); first != self.end(); ++first) {
@@ -206,7 +201,13 @@ inline bool has_anon_type(spec::cursor self) {
 
 void field::vend_handler(spec::cursor self, spec &parser) {
     if (has_anon_type(self)) {
-        create_anon_type(this, self, parser);
+        auto mv = multivector<element>(self); // copy into temp multivector
+        self.clear();
+
+        href= "anon";
+        auto e = self.emplace(create_type_struct("anon", mv.root()), "type", "anon");
+        e->parser = &parser;
+        e->line = self->line;
     }
 }
 
@@ -215,39 +216,40 @@ void xdefault::vend_handler(spec::cursor, spec & parser) {
     xs->has_default = true;
 }
 
-template <typename State, typename Op> 
-void reg_func(State l, Op func, const char * name) {
-    ict::lua::lua_pushcfunction(l, func); \
-    ict::lua::lua_setglobal(l, name);
+template <typename Op> 
+void reg_func(ict::lua::lua_State * state, Op func, const char * name) {
+    ict::lua::lua_pushcfunction(state, func);
+    ict::lua::lua_setglobal(state, name);
 }
 
 void script::vend_handler(spec::cursor, spec & dom) {
-    l = lua::luaL_newstate();
-    lua::luaL_openlibs(l);
+    auto p = ict::lua::luaL_newstate();
+    l = std::make_shared<lua::state_wrapper>(p);
+    p = lua::get(l); // should be the same
+    lua::luaL_openlibs(p);
 
-    reg_func(l, script_Description, "Description");
-    reg_func(l, script_datetime, "dot_net_time");
-    reg_func(l, script_EnumValue, "EnumValue");
-    reg_func(l, script_Value, "Value");
-    reg_func(l, script_Slice, "slice");
-    reg_func(l, script_TwosComplement, "TwosComplement");
-    reg_func(l, script_Ascii, "ascii");
-    reg_func(l, script_Gsm7, "gsm7");
-    reg_func(l, script_Search, "search");
-    reg_func(l, script_find, "find");
-    reg_func(l, script_Imsi_S, "imsi_s");
+    reg_func(p, script_Description, "Description");
+    reg_func(p, script_datetime, "dot_net_time");
+    reg_func(p, script_EnumValue, "EnumValue");
+    reg_func(p, script_Value, "Value");
+    reg_func(p, script_Slice, "slice");
+    reg_func(p, script_TwosComplement, "TwosComplement");
+    reg_func(p, script_Ascii, "ascii");
+    reg_func(p, script_Gsm7, "gsm7");
+    reg_func(p, script_Search, "search");
+    reg_func(p, script_find, "find");
+    reg_func(p, script_Imsi_S, "imsi_s");
 
-    if (ict::lua::luaL_loadstring(l, dom.cdata.c_str())) IT_PANIC(ict::lua::lua_tostring(l, -1));
+    if (ict::lua::luaL_loadstring(p, dom.cdata.c_str())) IT_PANIC(ict::lua::lua_tostring(p, -1));
 
     // pop the compiled script off the stack and set it to the global "f"
-    ict::lua::lua_setglobal(l, "f");
+    ict::lua::lua_setglobal(p, "f");
 }
 
-void type::vend_handler(spec::cursor self, spec &) {
-    build_type_struct(self, this);
-    // now that we built all the needed data structures, we can delete the child items.
-    // TODO: get this to work
-    if (!self.empty()) self.clear();
+void type::vend_handler(spec::cursor self, spec &parser) {
+    auto mv = multivector<element>(self); // copy into temp multivector
+    self.clear();
+    self->v = std::make_shared<type>(create_type_struct(id, mv.root()));
 }
 
 template <typename T, typename Cursor, typename Map>
@@ -349,8 +351,8 @@ void oob::vend_handler(spec::cursor self, spec &) {
     promote_last(self.parent());
 }
 
-void per::vend_handler(spec::cursor self, spec &) {
-    set_flag(self, element::per_flag);
+void enc::vend_handler(spec::cursor self, spec &) {
+    set_flag(self, element::enc_flag);
     promote_last(self.parent());
 
 }
@@ -364,10 +366,6 @@ void xddl::vend_handler(spec::cursor self, spec & parser) {
     link_anon_types(self);
 
     link_reflective_properties(self);
-
-    //IT_WARN("verifying " << parser.file);
-    //ict::verify(parser.ast);
-    //IT_WARN("ok.");
 }
 
 
@@ -387,7 +385,7 @@ inline void parse_children(spec::cursor self, message::cursor parent, ibitstream
 }
 
 // the default vparse is just to parse the children (<xddl> for example)
-void var_type::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void element::var_type::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     parse_children(self, parent, bs);
 }
 
@@ -478,7 +476,8 @@ void peek::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
 
 void prop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
-    parent.emplace_back(node::prop_node, self, ict::from_integer(v));
+    auto c = parent.emplace(node::prop_node, self, ict::from_integer(v));
+    c->set_visible(visible);
 }
 
 // same as get_variable but filtered on props only (lambda param?)
@@ -499,7 +498,7 @@ message::cursor get_prop(message::cursor first, const std::string & name) {
 
 void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
     auto v = value.value(leaf(parent));
-    auto c = parent.emplace(node::set_prop_node, self, ict::from_integer(v));
+    auto c = parent.emplace(node::setprop_node, self, ict::from_integer(v));
     auto i = get_prop(previous(c), "Name");
     if (!i.is_root()) { 
         i->bits = c->bits;
@@ -511,7 +510,7 @@ void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) co
 void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
     if (size_t l = std::max((int64_t) 0, length.value(leaf(parent)))) {
         auto c = parent.emplace(node::field_node, self, bs.read(l));
-        if (c->bits.bit_size() < l) c->type = node::incomplete_node;
+        if (c->bits.bit_size() < l) c->set_incomplete();
         if (c->elem->flags.test(element::global_flag)) set_global(self, c, self);
     }
 }
@@ -582,7 +581,7 @@ void xwhile::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) 
 
 // member functions
 type::~type() {
-    if (l) ict::lua::lua_close(l);
+    if (l.unique() && lua::get(l)) ict::lua::lua_close(lua::get(l));
 }
 
 type::item_data const & type::item_info(int64_t key) const {
@@ -600,7 +599,7 @@ type::item_data const & type::item_info(int64_t key) const {
     IT_PANIC("invalid index to type: " << key);
 }
 
-std::string type::venum_string(xddl_cursor, msg_const_cursor c) const {
+std::string type::venum_string(spec::cursor, msg_const_cursor c) const {
     //IT_WARN("type::venum_string");
     auto key = c->value();
     if (!items.empty()) {
@@ -618,29 +617,30 @@ std::string type::venum_string(xddl_cursor, msg_const_cursor c) const {
     return "invalid value";
 }
 
-std::string type::value(xddl_cursor, message::const_cursor c) const {
-    ict::lua::lua_pushnumber(l, c->value());
-    ict::lua::lua_setglobal(l, "key"); 
+std::string type::value(spec::cursor x, message::const_cursor c) const {
+    auto p = lua::get(l);
+    ict::lua::lua_pushnumber(p, c->value());
+    ict::lua::lua_setglobal(p, "key"); 
 
     // push the script back on the stack and call it
-    ict::lua::lua_getglobal(l, "f");
+    ict::lua::lua_getglobal(p, "f");
     
     // set the node to a global for function to use
-    ict::lua::lua_pushlightuserdata(l, &c);
-    ict::lua::lua_setglobal(l, "node");
+    ict::lua::lua_pushlightuserdata(p, &c);
+    ict::lua::lua_setglobal(p, "node");
 
-    int s = ict::lua::lua_pcall(l, 0, 0, 0);
+    int s = ict::lua::lua_pcall(p, 0, 0, 0);
     if (s) {
         // print error string and return it
-        IT_WARN("error: " << ict::lua::lua_tostring(l, -1));
-        std::string v = ict::lua::lua_tostring(l, -1);
-        ict::lua::lua_pop(l, 1);
+        IT_WARN("error: " << x->parser->file << ":" << x->line << " " << ict::lua::lua_tostring(p, -1));
+        std::string v = ict::lua::lua_tostring(p, -1);
+        ict::lua::lua_pop(p, 1);
         return v;
     } else {
-        ict::lua::lua_getglobal(l, "description");
-        if (ict::lua::lua_isstring(l, -1)) {
-            std::string v = ict::lua::lua_tostring(l, -1);
-            ict::lua::lua_pop(l, 1);
+        ict::lua::lua_getglobal(p, "description");
+        if (ict::lua::lua_isstring(p, -1)) {
+            std::string v = ict::lua::lua_tostring(p, -1);
+            ict::lua::lua_pop(p, 1);
             return v;
         } else {
             return "<script> must set description to a string";
@@ -760,5 +760,41 @@ std::string to_string(const node & n) {
     return os.str();
 }
 
-} // namespace
+void to_html(spec::const_cursor self, std::ostream & os) {
+    if (self->v) self->v->vto_html(self, os);
+    else os << "(nullptr)";
+}
 
+std::string to_html(const spec & s) {
+    std::ostringstream os;
+    os << "<h2>" << s.file << "</h2><ul>";
+    ict::recurse(s.ast.root(), 
+        [&](spec::const_cursor self, spec::const_cursor, int level) {
+            auto space = ict::spaces(level * 2);
+            os << space << "<li>";
+            to_html(self, os);
+            if (!self.empty()) os << "<ul>\n";
+        },
+        [&](spec::const_cursor self, spec::const_cursor, int level) {
+            auto space = ict::spaces(level * 2);
+            os << space << "</li>";
+            if (!self.empty()) os << "</ul>";
+            os << "\n";
+        });
+    os <<"</ul>\n";
+    return os.str();
+}
+        
+void xexport::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << "global properties";
+}
+
+void prop::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << self->name() << " | " << value << " | " << href;
+}
+
+void type::vto_html(spec::const_cursor self, std::ostream & os) const {
+    os << self->name();
+}
+
+} // namespace

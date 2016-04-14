@@ -2,36 +2,47 @@
 //-- See https://github.com/intrig/xenon for license.
 #include <ict/xenon.h>
 #include <ict/command.h>
+#include <ict/xddl_code.h>
 
 using std::cout;
 using std::cerr;
 using std::endl;
 
 struct command_flags {
-    bool output_xml = false;
-    bool pretty_xml = true;
+    bool flat_xml = false;
+    bool pretty_xml = false;
+    bool debug_print = false;
     bool output_dom = false;
+    bool output_html = false;
+
+    bool encoding = false;
+    bool properties = false;
+    bool show_extra = false;
     std::string format = "nlvhs";
 };
 
 void processXddlFile(ict::command const & line, command_flags const & flags);
 
 int main(int argc, char **argv) {
+    using ict::command;
+    using ict::option;
     try {
         command_flags flags;
 
-        ict::command line("lt", "Linesight from the cli", 
-            "lt [options] xddl_file [message]...\n"
-            "lt [options] pcap_file");
+        command line("idm", "A cli message decoder.", 
+            "idm [options] xddl_file [message]...\n");
 
-        line.add(ict::Option("xml", 'x', "Display message(s) in XML", [&]{ flags.output_xml = true; } ));
-        line.add(ict::Option("flat-xml", 'f', "Display message(s) in flat XML", 
-            [&]{ flags.output_xml = true; flags.pretty_xml = false;} ));
-        line.add(ict::Option("format", 'F', "message columns", flags.format, 
-            [&](const std::string & v){ flags.format = v; } ));
-        line.add(ict::Option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
+        line.add(option("encoding", 'e', "Display encoding fields", [&]{ flags.encoding = true; } ));
+        line.add(option("properties", 'p', "Display properties", [&]{ flags.properties = true; } ));
+        line.add(option("xml", 'x', "Display message(s) in XML", [&]{ flags.pretty_xml = true; } ));
+        line.add(option("flat-xml", 'f', "Display message(s) in flat XML", [&]{ flags.flat_xml = true; } ));
+        line.add(option("location", 'L', "show xddl source location", [&]{ flags.format += "FL"; } ));
+        line.add(option("dom", 'd', "Display xddl dom", [&]{ flags.output_dom = true; } ));
+        line.add(option("html", 'H', "Display in html", [&]{ flags.output_html = true; } ));
+        line.add(option("debug", 'D', "Display message(s) in debug gibberish", [&]{ flags.debug_print = true; } ));
+        line.add(option("extra", 'E', "Display extra bits", [&]{ flags.show_extra = true; } ));
 
-        line.add_note("message : an ASCII hex or binary message string: e.g., 010304 or @11011011");
+        line.add_note("message : an ASCII hex or binary message string: e.g., A10304 or @11011011");
 
         line.parse(argc, argv);
 
@@ -42,7 +53,7 @@ int main(int argc, char **argv) {
             processXddlFile(line, flags);
         }
 
-        else IT_THROW("unrecognized file: " << filename);
+        else IT_PANIC("unrecognized file: " << filename);
         
 
     } catch (ict::exception & e) {
@@ -62,6 +73,12 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
         
         ict::bitstring bs; // the message to parse
         std::ostringstream inst_dump;
+
+        auto filter = [&](ict::message::const_cursor c) { 
+            if (!flags.encoding   && c->is_encoding()  ) return false;
+            if (!flags.properties && c->is_prop() && !c->is_visible()) return false;
+            if (!flags.show_extra && c->is_extra()) return false;
+            return true; };
         for (; i != line.targets.end(); ++i) {
             ict::message inst;
             bs = ict::bitstring(i->c_str());
@@ -78,16 +95,30 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             }
             else start = d.start();
             inst = ict::parse(start, bs);
-            if (flags.output_xml) inst_dump << ict::to_xml(inst.root());
-            else inst_dump << ict::to_text(inst, flags.format);
+            if (flags.flat_xml) inst_dump << ict::to_xml(inst, filter) << '\n';
+            else if (flags.pretty_xml) {
+                ict::Xml pretty;
+                pretty << ict::to_xml(inst, filter) << "\n";
+                inst_dump << pretty;
+            }
+            else if (flags.debug_print) {
+                inst_dump << ict::to_debug_text(inst, filter) << '\n';
+            }
+            else inst_dump << ict::to_text(inst, flags.format, filter);
 
             cout << inst_dump.str(); 
             inst_dump.str("");
         }
-        if (flags.output_dom) cout << d;
+        if (flags.output_dom) {
+            if (flags.output_html) cout << ict::to_html(d.base());
+            else cout << d;
+        }
     } catch (ict::exception & e) {
         if (flags.output_dom) cout << d;
         throw;
     }
 }
 
+/* 
+idm icd.xddl C308D1472EEFC299D40000000000060003018C1FAD90001801520040028200005354AAD3DA18D73B9830140A4800
+*/

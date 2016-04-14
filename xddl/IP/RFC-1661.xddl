@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!-- - Copyright 2015 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
-<!--
-   Copyright (C) 2003 - 2007 Intrig
-   
-   This file is protected by copyright and may be distributed and/or
-   modified under the terms of the GNU General Public License version 2.0.
-  
-   Please contact sales@intrig.com if these licensing terms are not
-   suitable for your needs.
-
-   This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-   WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE.
--->
-<xddl name="RFC-1661">
+<xddl>
   <type name="Authentication Type" id="AuthProtoType">
     
       <item key="#c023" value="Password Authentication Protocol"/>
@@ -37,22 +24,23 @@
     
   </type>
 
-  <fragment name="Authentication-Data" id="AuthData">
+  <record name="Authentication-Data" id="AuthData">
     <field name="AuthProtocol" length="16" default="#c023" type="#AuthProtoType"/>
     <switch expr="AuthProtocol">
       <case value="#c223">
         <field name="Algorithm" length="8" default="5" type="#AuthAlgoType"/>
       </case>
     </switch>
-  </fragment>
+  </record>
 
-  <fragment name="Quality-Protocol" id="QualityProtocol">
+  <record name="Quality-Protocol" id="QualityProtocol">
+    <prop name="Length"/> <!-- TODO hack -->
     <field name="QualityProtocol" length="16" default="#c025" type="#QualProtoType"/>
     <field name="Data" length="(Length -4) * 8"/>
-  </fragment>
+  </record>
 
-  <fragment name="Magic-Number" id="MagicNumber">
+  <record name="Magic-Number" id="MagicNumber">
     <field name="Magic_Number" length="32" type="PPP.xddl#MagicNumber"/>
-  </fragment>
+  </record>
 
 </xddl>

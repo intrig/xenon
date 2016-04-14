@@ -140,7 +140,8 @@ void doc_unit::index3() {
 }
 
 void doc_unit::ip_protocol() {
-    std::string xddlroot = ict::get_env_var("XDDLROOT");
+    std::string xddlroot = ict::get_env_var("XDDLPATH");
+    if (xddlroot.empty()) return;
     std::string ip = xddlroot;
     ip += "/IP/index.xddl";
     ict::spec_server doc(ip.c_str());
