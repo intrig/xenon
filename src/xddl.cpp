@@ -58,6 +58,10 @@ static int script_EnumValue(ict::lua::lua_State *L) {
     return 1;
 }
 
+#ifdef _MSC_VER
+#pragma warning(once : 4244)
+#endif
+
 // get the value of a previous node
 static int script_Value(ict::lua::lua_State *L) {
     const char * s = ict::lua::luaL_checklstring(L, 1, NULL);

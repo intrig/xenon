@@ -7,7 +7,7 @@
 struct attr {
     attr(const char * key, const char * value) : key(key), value(std::string(value)) {}
     attr(const char * key, const std::string & value) : key(key), value(value) {}
-    attr(const char * key, int value) : key(key), value(ict::to_string(value).c_str()) {}
+    attr(const char * key, int64_t value) : key(key), value(ict::to_string(value).c_str()) {}
     attr(const char * key, const ict::bitstring &  value) : key(key), value(to_string(value)) {}
 
     const char * key;
@@ -36,7 +36,8 @@ const node_info_list node_info = {
                 attr("data", to_string(n->bits));
             if (f->bias) {
                 // TODO why is this check here?
-                if (n->bits.bit_size() <= 32) os << attr("value", n->value()); 
+                if (n->bits.bit_size() <= 32) 
+					os << attr("value", n->value()); 
             }
             os << ">";
             description_xml(os, n);
