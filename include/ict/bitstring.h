@@ -510,6 +510,11 @@ inline bitstring::bitstring(int base, const char * str) {
 template <typename T>
 inline void reverse_bytes(T & number) { std::reverse((char *) &number, (char *) &number + sizeof(T)); }
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4800)
+#endif
+
 template <typename T>
 inline T to_integer(bitstring const & bits, bool swap = true) {
     const size_t type_size = sizeof(T) * 8;
@@ -560,6 +565,10 @@ inline T to_integer(bitstring const & bits, bool swap = true) {
     }
     return 0;
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 // 11011 (2, 1)
 // 11

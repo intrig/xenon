@@ -113,7 +113,7 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             if (flags.output_html) cout << ict::to_html(d.base());
             else cout << d;
         }
-    } catch (ict::exception & e) {
+    } catch (ict::exception &) {
         if (flags.output_dom) cout << d;
         throw;
     }

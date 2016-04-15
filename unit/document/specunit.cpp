@@ -195,7 +195,7 @@ void doc_unit::fail3() {
         ict::spec_server doc(xddl.begin(), xddl.end());
 
         IT_FORCE_ASSERT("Shouldn't be here");
-    } catch (ict::exception & e) {
+    } catch (ict::exception &) {
     }
 }
 
