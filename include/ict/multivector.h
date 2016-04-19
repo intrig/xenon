@@ -743,6 +743,7 @@ struct path {
     typedef std::vector<std::string>::iterator iterator;
     typedef std::vector<std::string>::const_iterator const_iterator;
 
+    path() : abs(true) {}
     path(const std::vector<std::string> & path, bool abs = true) : p(path), abs(abs) { }
 
     path(const std::string & path_string) {
@@ -845,6 +846,40 @@ inline Cursor find(Cursor parent, const path & path, Op op, Test test) {
         return parent.end();
     }
 }
+
+#if 0
+void match_path(Cursor parent, path & curr_path, const path & path) {
+    for (iterator i = parent.begin(); i!= parent.end(); ++i) {
+        curr_path += name_of(i);
+        if (curr_path.has_tail(path)) f(
+    }
+}
+
+template <typename Cursor, const path & path, typename Function>
+inline Function for_each_path(cursor parent, const path & path, Op f) {
+    typedef typename Cursor::linear_type iterator;
+    path curr;
+    for (iterator i = parent.begin(); i!= parent.end(); ++i) {
+        curr = name_of(i);
+    }
+
+    if (path.absolute()) return util::find_x(parent, path.begin(), path.end(), op, test);
+    else {
+        for (iterator i = parent.begin(); i!= parent.end(); ++i) {
+            if (op(*i) == *path.begin()) {
+                if (path.begin() + 1 == path.end()) {
+                    if (test(*i)) return i;
+                } else {
+                    auto c = Cursor(i);
+                    auto x = util::find_x(c, path.begin() + 1, path.end(), op, test);
+                    if (x != c.end()) return x;
+                }
+            }
+        }
+        return parent.end();
+    }
+}
+#endif
 
 template <typename Cursor, typename Op>
 inline Cursor find(Cursor parent, const path & path, Op op) {
