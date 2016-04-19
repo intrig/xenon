@@ -205,7 +205,7 @@ string size_string(Value * lower, Value * upper) {
         int64_t lb = ict::to_integer<int64_t>(lower->qstr());
         int64_t ub = ict::to_integer<int64_t>(upper->qstr());
         int bits = ict::required_bits(lb, ub);
-        //IT_WARN("(" << lower->qstr() << ", " << upper->qstr() << ") = " << bits << " bits");
+        IT_WARN("(" << lower->qstr() << ", " << upper->qstr() << ") = " << bits << " bits");
         os << bits;
     } else {
         os << "size(" << lower->qstr() << ", " << upper->qstr() << ")";

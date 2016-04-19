@@ -41,7 +41,28 @@ void itu_unit::bit_lengths() {
         {0, 6, 3},
         {0, 7, 3},
         {0, 8, 4},
-        {0, 549755813887, 39}
+        {0, 549755813887, 39},
+        {0, 9, 4},
+        {0, 19, 5},
+        {0, 31, 5},
+        {0, 39, 6},
+        {0, 63, 6},
+        {0, 79, 7},
+        {0, 127, 7},
+        {0, 159, 8},
+        {0, 255, 8},
+        {0, 256, 9},
+        {0, 316, 9},
+        {0, 317, 9},
+        {0, 318, 9},
+        //{0, 319, 9},
+        {0, 320, 9},
+        {0, 511, 9},
+        {0, 639, 10},
+        {0, 1023, 10},
+        {0, 1279, 11},
+        {0, 2047, 11},
+        {0, 2559, 12}
     };
 
     int64_t v = ict::to_integer<int64_t>("549755813887");
@@ -54,7 +75,8 @@ void itu_unit::bit_lengths() {
 
     while (first != last) {
         int bits = ict::required_bits(first->lower, first->upper);
-        IT_ASSERT_MSG("test " << c << ": calculated " << bits << ", expected " << first->bit_size,  
+        IT_ASSERT_MSG("test " << c << " (" << first->lower << ", " << first->upper << "): calculated " << 
+            bits << ", expected " << first->bit_size,  
             bits == first->bit_size);
         ++first;
         ++c;

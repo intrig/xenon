@@ -627,6 +627,12 @@ T to_integer(String s) {
 }
 
 inline int required_bits(int64_t lower, int64_t upper) {
+#if 1
+    int range = upper - lower + 1;
+    if (range <= 0) return 0;
+    int count = 0;
+    while (range >>= 1) ++count;
+#else
     uint64_t diff = upper - lower;
     int count = sizeof(uint64_t) * 8;
 
@@ -642,6 +648,7 @@ inline int required_bits(int64_t lower, int64_t upper) {
             }
         }
     }
+#endif
     return count;
 }
 
