@@ -626,23 +626,19 @@ T to_integer(String s) {
     return value;
 }
 
+// y = log2(x)
+template <typename Int> 
+// Int is a postive integer
+Int log_2(Int x) {
+    int y = 0;
+    while (x >>= 1) ++y;
+    return y;
+}
+
 inline int required_bits(int64_t lower, int64_t upper) {
-    uint64_t diff = upper - lower;
-    int count = sizeof(uint64_t) * 8;
-
-    auto v = netvar<uint64_t>(diff);
-
-    // now that it is in network byte order, just count the leading 0 bits
-    for (auto i = v.data.begin(); i!=v.data.end(); ++i) {
-        if (*i == 0) count -= 8;
-        else {
-            for (int b=0; b<7; ++b) {
-                if (!bit_is_set(*i, b)) --count;
-                else return count;
-            }
-        }
-    }
-    return count;
+    auto range = upper - lower;
+    if (range <= 0) return 0;
+    return log_2(range) + 1;
 }
 
 /** Convert a character between '0' and 'F' to 0 and 15.

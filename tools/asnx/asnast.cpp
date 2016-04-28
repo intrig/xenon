@@ -205,7 +205,7 @@ string size_string(Value * lower, Value * upper) {
         int64_t lb = ict::to_integer<int64_t>(lower->qstr());
         int64_t ub = ict::to_integer<int64_t>(upper->qstr());
         int bits = ict::required_bits(lb, ub);
-        //IT_WARN("(" << lower->qstr() << ", " << upper->qstr() << ") = " << bits << " bits");
+        // IT_WARN("(" << lower->qstr() << ", " << upper->qstr() << ") = " << bits << " bits");
         os << bits;
     } else {
         os << "size(" << lower->qstr() << ", " << upper->qstr() << ")";
@@ -459,7 +459,13 @@ string OctetString::instance(Name * id, SubtypeSpec * spec) const
     ostringstream os;
     if (ContainingSubtype * s = dynamic_cast<ContainingSubtype *>(spec))
     {
+#if 1
+        os << var_length() << 
+            "<field name=''octet size'' length=''8''/>" 
+            "<record name=''" << id->str() << "'' length=''{octet size} * 8'' href=''#" << s->size_str() << "''/>";
+#else
         os << var_length() << "<record name=''" << id->str() << "'' length=''length * 8'' href=''#" << s->size_str() << "''/>";
+#endif
     } else if (SizeConstraint * s = dynamic_cast<SizeConstraint *>(spec)) {
         if (s->is_range())
         {
