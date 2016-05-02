@@ -26,13 +26,23 @@ int main(int, char**) {
               "3001903001603000F03000703000403000C03000503000D1A03C9E16C18070DE"
               "2C7CFF3C7CC1001E00E01C000389");
 
+        cout << "iterating over top level nodes only\n";
+        for (auto c = msg.begin(); c != msg.end(); ++c) {
+            // and now we can process each node
+            cout << c->name() << '\n';
+        }
+
+        // using a linear cursor, we can iterate through the entire message in a depth first way
         cout << "putting fields and their values into a vector: " << ict::to_text(msg);
         for (auto c = ict::linear_begin(msg.root()); c != msg.end(); ++c) {
             if (c->consumes()) fields.emplace_back(c->name(), c->value());
         }
         cout << "done, processed " << fields.size() << " fields\n\n";
-
         fields.clear();
+
+        // We an also do the same thing using the ict::recurse() algorithm that takes a root node and
+        // a lambda expression.  This is currently more efficient and recommonded over the linear_cursor 
+        // method above.
         cout << "again, using recurse algorithm\n";
         ict::recurse(msg.root(), [&](message::cursor c, message::cursor) {
             if (c->consumes()) fields.emplace_back(c->name(), c->value());
