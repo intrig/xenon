@@ -1,4 +1,4 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <iostream>
 #include <vector>
@@ -34,7 +34,7 @@ int main(int, char**) {
 
         // using a linear cursor, we can iterate through the entire message in a depth first way
         cout << "putting fields and their values into a vector: " << ict::to_text(msg);
-        for (auto c = ict::linear_begin(msg.root()); c != msg.end(); ++c) {
+        for (auto c = ict::to_linear(msg.root()); c != msg.end(); ++c) {
             // consumes() means it consumes bits from the message, usually a field 
             if (c->consumes()) fields.emplace_back(c->name(), c->value());
         }
