@@ -11,6 +11,7 @@
 
 // xddl script
 #include <ict/xddl.h>
+#include <ict/find_functions.h>
 #include <ict/lua.hpp>
 
 namespace ict {

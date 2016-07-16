@@ -5,7 +5,6 @@
 #include <functional>
 #include <ict/message.h>
 #include <ict/spec_server.h>
-#include <random>
 namespace ict {
 inline bitstring serialize(const message & m) {
     obitstream bs;

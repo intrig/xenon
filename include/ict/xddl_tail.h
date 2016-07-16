@@ -2,6 +2,8 @@
 //-- Copyright 2015 Intrig
 //-- see https://github.com/intrig/xenon for license
 
+//#include <ict/find_functions.h>
+
 namespace ict { 
 
 template <typename T, typename U>

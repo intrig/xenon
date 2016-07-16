@@ -7,6 +7,7 @@
 #include <ict/multivector.h>
 #include <string>
 #include <ict/att_pair.h>
+#include <ict/find_functions.h>
 
 namespace ict {
     namespace lua {
@@ -15,6 +16,7 @@ namespace ict {
 }
 
 namespace ict {
+
 
 // convert attribute strings to custom types
 template <typename Cursor>
