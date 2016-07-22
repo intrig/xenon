@@ -1,8 +1,8 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include "scriptunit.h"
 
-#include <ict/xenon.h>
+#include <xenon/xenon.h>
 
 void script_unit::sanity() {
     IT_ASSERT(1);
@@ -22,9 +22,9 @@ void script_unit::imsi() {
           </start>
         </xddl>)";
 
-    ict::spec_server spec(xddl.begin(), xddl.end());
+    xenon::spec_server spec(xddl.begin(), xddl.end());
 
-    ict::message m;
+    xenon::message m;
 
     std::vector<std::pair<std::string, ict::bitstring> > tests;
     tests.push_back(std::make_pair("(012) 345-6789", "@1110000101001110101001101010100110"));
@@ -32,10 +32,10 @@ void script_unit::imsi() {
     tests.push_back(std::make_pair("(760) 419-1278", "@1010010011010011010000010010100111"));
 
     for (auto & t : tests) {
-        m = ict::parse(spec, t.second);
-        auto n = ict::find(m.root(), ict::path("/IMSI_S"));
+        m = xenon::parse(spec, t.second);
+        auto n = xenon::find(m.root(), xenon::path("/IMSI_S"));
         IT_ASSERT(n != m.end());
-        IT_ASSERT_MSG(ict::description(n) << " != " << t.first, ict::description(n) == t.first);
+        IT_ASSERT_MSG(xenon::description(n) << " != " << t.first, xenon::description(n) == t.first);
     }
 }
 

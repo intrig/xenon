@@ -1,8 +1,8 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include "xmlparseunit.h"
 
-#include <ict/xml_parser_base.h>
+#include <xenon/xml_parser_base.h>
 
 #include <cstring>
 #include <vector>
@@ -12,7 +12,8 @@
 #include <typeinfo>
 #include <fstream>
 
-class Scanner : public ict::xml_parser_base
+
+class Scanner : public xenon::xml_parser_base
 {
     public:
     void startElement(const char * s, const char ** atts) 
@@ -47,16 +48,16 @@ void xml_parse_unit::sanity()
 
         try {
             p.parse("", 0, true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             IT_FORCE_ASSERT(e.what());
-        }
+        } 
 
         try {
             p.reset();
             const char * str = "<a></a>";
             p.parse(str, strlen(str), true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         { 
             IT_FORCE_ASSERT(e.what());
         }
@@ -64,7 +65,7 @@ void xml_parse_unit::sanity()
         try {
             const char * str = "<a></a>";
             p.parse(str, strlen(str), true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             if (!ict::contains(e.what(), "finished parsing")) IT_FORCE_ASSERT(e.what());
         }
@@ -74,7 +75,7 @@ void xml_parse_unit::sanity()
             p.reset();
             const char * str = "<a></a";
             p.parse(str, strlen(str), true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         { 
             if (!ict::contains(e.what(), "parsing incomplete")) IT_FORCE_ASSERT(e.what());
         }
@@ -83,7 +84,7 @@ void xml_parse_unit::sanity()
             p.reset();
             const char * str = "<a/>";
             p.parse(str, strlen(str), true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         { 
             IT_FORCE_ASSERT(e.what());
         }
@@ -166,7 +167,7 @@ void xml_parse_unit::syntax()
             try {
                 Scanner p;
                 p.parse(parse_tests[i].d, strlen(parse_tests[i].d), true);
-            } catch (ict::exception & e)
+            } catch (std::exception & e)
             {
                 error = true;
                 if (!parse_tests[i].is_error) IT_FORCE_ASSERT(parse_tests[i].d << "\n" << e.what());
@@ -176,7 +177,7 @@ void xml_parse_unit::syntax()
                 IT_FORCE_ASSERT(parse_tests[i].d << "\n" << "expected error");
             }
         }
-    } catch (ict::exception & e)
+    } catch (std::exception & e)
     {
         IT_FORCE_ASSERT(e.what());
     }
@@ -195,7 +196,7 @@ void xml_parse_unit::reset()
         try {
             p.reset();
             p.parse(parse_tests[i].d, strlen(parse_tests[i].d), true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             error = true;
             if (!parse_tests[i].is_error) IT_FORCE_ASSERT(parse_tests[i].d << "\n" << e.what());
@@ -223,7 +224,7 @@ void xml_parse_unit::cdata()
 
             IT_ASSERT(p.cdata_vec == e);
 
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             IT_FORCE_ASSERT(e.what());
         }
@@ -239,7 +240,7 @@ void xml_parse_unit::cdata()
 
             IT_ASSERT_MSG(p.cdata_vec[0] << " != " << e[0], p.cdata_vec == e);
 
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             IT_FORCE_ASSERT(e.what());
         }
@@ -277,7 +278,7 @@ void xml_parse_unit::atts()
 
             p.parse(xml3, strlen(xml3), true);
 
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             IT_FORCE_ASSERT(e.what());
         }
@@ -295,7 +296,7 @@ void xml_parse_unit::atts()
                 p.att_map == e);
 
             p.parse(xml2, strlen(xml2), true);
-        } catch (ict::exception & e)
+        } catch (std::exception & e)
         {
             IT_FORCE_ASSERT(e.what());
         }
@@ -381,7 +382,7 @@ void xml_parse_unit::files() {
             auto b = ict::read_file(std::string(xml_files[i]));
             p.parse(b.data(), b.size(), true);
         }
-    } catch(ict::exception & e)
+    } catch(std::exception & e)
     {
         IT_FORCE_ASSERT(e.what() << " in file: " << xml_files[i]);
     }
@@ -396,7 +397,7 @@ void xml_parse_unit::junk() {
     do {
         try {
             p.parse(ch, strlen(ch), true);
-        } catch (ict::exception & e) 
+        } catch (std::exception & e) 
         {
             if (!ict::contains(e.what(), "junk after")) IT_FORCE_ASSERT(e.what());
             ch = ch + p.byte() - 1;
@@ -411,7 +412,7 @@ void xml_parse_unit::big() {
         Scanner p;
         auto b = ict::read_file("cdma2000.xddl");
         p.parse(b.data(), b.size(), true);
-    } catch(ict::exception & e)
+    } catch(std::exception & e)
     {
         IT_FORCE_ASSERT(e.what());
     }

@@ -1,4 +1,4 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 
 /* This doesn't work with gcc 4.8.  Requires 4.9. So its been removed from build.

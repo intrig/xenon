@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = "UTF-8"?>
 <xspec>
-    <nspace>ict</nspace>
+    <nspace>xenon</nspace>
     <root>xddl</root>
     <base>element</base>
 
@@ -20,7 +20,7 @@
 
     <!-- code segment at the top of header file. -->
     <code id="head"> 
-        #include &lt;ict/xddl_head.h&gt;
+        #include &lt;xenon/xddl_head.h&gt;
         #include &lt;memory&gt;
         #include &lt;bitset&gt;
         #include &lt;ict/multivector.h&gt;
@@ -29,7 +29,7 @@
 
     <!-- code segment at the bottom of header file. -->
     <code id="tail">
-        #include &lt;ict/xddl_tail.h&gt;
+        #include &lt;xenon/xddl_tail.h&gt;
     </code>
 
     <!-- commonly used group of child elements -->
@@ -70,7 +70,7 @@
     </parser>
 
     <code id="vparse">
-        virtual void vparse(spec_cursor self, msg_cursor parent, ibitstream &amp; bits) const;
+        virtual void vparse(spec_cursor self, msg_cursor parent, ict::ibitstream &amp; bits) const;
     </code>
     <code id="vend_handler">
         virtual void vend_handler(spec_cursor self, spec &amp; parser) final;
@@ -102,7 +102,7 @@
     <code id="var_type">
         virtual void vto_string(std::ostream &amp;) const { return; }; 
         virtual void vto_html(spec_const_cursor c, std::ostream &amp; os) const { os &lt;&lt; c-&gt;name(); }
-        virtual void vparse(spec_cursor, msg_cursor, ibitstream &amp;) const;
+        virtual void vparse(spec_cursor, msg_cursor, ict::ibitstream &amp;) const;
         virtual void vend_handler(spec_cursor, spec &amp;) { return; };
         virtual std::string vdescription(spec_cursor, msg_const_cursor) const { return ""; };
         virtual std::string venum_string(spec_cursor, msg_const_cursor) const { return ""; };
@@ -389,7 +389,7 @@
         bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }
         std::string value(spec_cursor referer, msg_const_cursor c) const;
         virtual ~type() final;
-        std::shared_ptr&lt;ict::lua::state_wrapper&gt; l = 0;
+        std::shared_ptr&lt;lua::state_wrapper&gt; l = 0;
         std::map&lt;int, item_data&gt; items;
         std::map&lt;std::pair&lt;int, int&gt;, item_data&gt; ranges;
         </public>
@@ -413,7 +413,7 @@
     <element tag="script" has_cdata="true" end_handler="true">
         <code href="vend_handler"/>
         <public>
-            std::shared_ptr&lt;ict::lua::state_wrapper&gt; l = 0;
+            std::shared_ptr&lt;lua::state_wrapper&gt; l = 0;
         </public>
     </element>
 

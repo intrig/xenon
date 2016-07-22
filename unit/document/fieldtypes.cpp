@@ -1,8 +1,8 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include "specunit.h"
 
-#include <ict/xenon.h>
+#include <xenon/xenon.h>
 
 #include <vector>
 #include <string>
@@ -18,11 +18,11 @@ void doc_unit::fieldtypes() {
       </xddl>
     )";
 
-    ict::spec_server spec(xddl.begin(), xddl.end());
+    xenon::spec_server spec(xddl.begin(), xddl.end());
 
     auto m = parse(spec, ict::bitstring("#08"));
 
-    auto n = ict::find(m.root(), "byte");
+    auto n = xenon::find(m.root(), "byte");
     IT_ASSERT(n != m.end());
     IT_ASSERT(n->value() == 0x08);
 }
@@ -42,7 +42,7 @@ void doc_unit::allTypes() {
       </xddl>
     )";
 
-    ict::spec_server doc(xddl.begin(), xddl.end());
+    xenon::spec_server doc(xddl.begin(), xddl.end());
 
     ict::obitstream ob;
     ob << ict::bitstring("@1") << ict::from_integer<uint8_t>(8) << ict::from_integer<uint16_t>(16) <<
@@ -52,17 +52,17 @@ void doc_unit::allTypes() {
 
     IT_ASSERT_MSG("bs.length == " << bs.bit_size(), bs.bit_size() == (1 + 8 + 16 + 32 + 64));
 
-    auto m = ict::parse(doc, bs);
+    auto m = xenon::parse(doc, bs);
 
-    auto n = ict::find(m.root(), "bit");
+    auto n = xenon::find(m.root(), "bit");
     IT_ASSERT(n != m.root().end());
     IT_ASSERT(n->length() == 1);
 
-    IT_ASSERT(ict::find(m.root(), "bit")->value() == 1);
-    IT_ASSERT(ict::find(m.root(), "uint8")->value() == 8);
-    IT_ASSERT(ict::find(m.root(), "uint16")->value() == 16);
-    IT_ASSERT(ict::find(m.root(), "uint32")->value() == 32);
-    IT_ASSERT(ict::find(m.root(), "uint64")->value() == 64);
+    IT_ASSERT(xenon::find(m.root(), "bit")->value() == 1);
+    IT_ASSERT(xenon::find(m.root(), "uint8")->value() == 8);
+    IT_ASSERT(xenon::find(m.root(), "uint16")->value() == 16);
+    IT_ASSERT(xenon::find(m.root(), "uint32")->value() == 32);
+    IT_ASSERT(xenon::find(m.root(), "uint64")->value() == 64);
 }
 
 // endian not supported for now in mt

@@ -1,9 +1,9 @@
 #pragma once
-//-- Copyright 2015 Intrig
-//-- see https://github.com/intrig/xenon for license
+//-- Copyright 2016 Intrig
+//-- See https://github.com/intrig/xenon for license.
 
 #include <ict/unit.h>
-#include <ict/xenon.h>
+#include <xenon/xenon.h>
 
 class load_unit {
     public:
@@ -19,5 +19,5 @@ class load_unit {
     void sanity();
     void load_all_specs();
 
-    ict::spec_server specs;
+    xenon::spec_server specs;
 };

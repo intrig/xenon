@@ -18,7 +18,7 @@ clean:
 	test -d build && make -C build clean
 	test -d build && rm -rf build
 
-test:
+test: all
 	make CTEST_OUTPUT_ON_FAILURE=1 -C build test
 
 tags:

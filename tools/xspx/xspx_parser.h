@@ -1,14 +1,14 @@
 #pragma once
-//-- Copyright 2015 Intrig
-//-- see https://github.com/intrig/xenon for license
+//-- Copyright 2016 Intrig
+//-- See https://github.com/intrig/xenon for license.
 
-#include <ict/cpp_code.h>
+#include <xenon/cpp_code.h>
 
 #include <vector>
 #include <algorithm>
 #include <sstream>
 
-#include <ict/xml_parser.h>
+#include <xenon/xml_parser.h>
 #include <ict/string64.h>
 
 #define qt(x) "\"" << x << "\""
@@ -100,7 +100,7 @@ typedef std::vector<choice_type> choice_list;
 
 inline std::ostream& to_code(std::ostream& os, const xml_att_type & att, const custom_type_list & custom_types) {
     if (att.local) {
-        auto ct = ict::find_by_name(custom_types, att.type_name);
+        auto ct = xenon::find_by_name(custom_types, att.type_name);
         os << ct.cpp_name << " " << att.member_name;
         if (!att.def.empty())  os << " = " << att.def;
         else if (!ct.def.empty()) os << " = " << ct.def;
@@ -116,7 +116,7 @@ inline std::string to_param_list(const xml_att_list & atts, const custom_type_li
     for (const auto & att : atts) {
         if (att.local) {
             std::ostringstream s;
-            auto ct = ict::find_by_name(custom_types, std::string(att.type_name));
+            auto ct = xenon::find_by_name(custom_types, std::string(att.type_name));
             s << ct.cpp_name << " " << att.member_name;
             params.push_back(s.str());
         }
@@ -201,7 +201,7 @@ class xsp_parser {
     std::vector<std::string> children;
     bool in_group_def = false;
 
-    ict::xml_parser p;
+    xenon::xml_parser p;
 };
 
 // algo

@@ -1,11 +1,11 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <string>
 #include <fstream>
 #include <algorithm>
 #include <vector>
-#include <ict/xddl_code.h>
 #include <ict/command.h>
+#include <xenon/xddl_code.h>
 
 int main(int argc, char **argv)
 {
@@ -19,12 +19,12 @@ int main(int argc, char **argv)
         line.add(ict::Option("replace", 'r', "replace file instead", [&]{ replace = true; }));
         line.parse(argc, argv);
 
-        if (line.targets.empty()) IT_THROW("no xml files specified");
+        if (line.targets.empty()) IT_FATAL("no xml files specified");
 
         for (auto const & f : line.targets)
         {
             filename = f;
-            ict::Xml xml(filename, decl);
+            xenon::Xml xml(filename, decl);
 
             if (replace)
             {
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
             }
         }
 
-    } catch (ict::exception & e)
+    } catch (std::exception & e)
     {
         if (!filename.empty()) std::cerr << "file: " << filename << " ";
         std::cerr << e.what() << std::endl;

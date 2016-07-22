@@ -1,12 +1,13 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
-#include <ict/xddl_code.h>
-#include <ict/command.h>
-
 #include <string>
 #include <fstream>
 #include <algorithm>
 #include <vector>
+
+#include <ict/command.h>
+#include <xenon/xddl_code.h>
+
 
 using std::cout;
 using std::cerr;
@@ -20,7 +21,7 @@ class TextSource
         std::ifstream is(filename.c_str());
         std::string line;
 
-        if (!is.good()) IT_THROW("bad xml filename: \"" << filename << "\"");
+        if (!is.good()) IT_PANIC("bad xml filename: \"" << filename << "\"");
 
         while (!is.eof())
         {
@@ -130,14 +131,14 @@ int main(int argc, char **argv)
         if (line.targets.size() != 1) 
         {
             line.help();
-            IT_THROW("exactly one text file must be specified");
+            IT_PANIC("exactly one text file must be specified");
         }    
 
         TextSource source(line.targets[0]);
 
         cout << (markers ? source.asn_m() : source.asn()) << endl;
 
-    } catch (ict::exception & e)
+    } catch (std::exception & e)
     {
         cerr << e.what() << endl;
         return 1;

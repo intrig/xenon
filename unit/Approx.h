@@ -1,6 +1,6 @@
 #pragma once
-//-- Copyright 2015 Intrig
-//-- see https://github.com/intrig/xenon for license
+//-- Copyright 2016 Intrig
+//-- See https://github.com/intrig/xenon for license.
 // Helper class for comparison of floating point numbers.
 // You can do something like this:       
 // IT_ASSERT_MSG("float value: " << f, f == Approx(40.875));

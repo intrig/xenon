@@ -1,4 +1,4 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <IT/Xenon.h>
 #include <IT/XddlCode.h>

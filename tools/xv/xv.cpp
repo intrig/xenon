@@ -1,7 +1,7 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
-#include <ict/xenon.h>
 #include <ict/command.h>
+#include <xenon/xenon.h>
 
 using std::cout;
 using std::cerr;
@@ -42,14 +42,14 @@ inline std::string filter_path(const std::string & p) {
 
 class XvField {
     public:
-    XvField(ict::message::cursor c) {
-        path = ict::path_string(c);
+    XvField(xenon::message::cursor c) {
+        path = xenon::path_string(c);
         //path = filter_path(path);
         if (c->length() <= 32) value = c->value();
         else value = 0;
         length = c->length();
         sbs = ict::to_string(c->bits);
-        desc = ict::description(c);
+        desc = xenon::description(c);
         ict::normalize(desc);
         file = c->file();
         xddl_line = c->line();
@@ -110,10 +110,10 @@ class XvMessage {
     public:
     XvMessage() {}
 
-    XvMessage(std::string file, ict::message & m) {
+    XvMessage(std::string file, xenon::message & m) {
         xddl_file = file;
-        bs = ict::serialize(m);
-        for (ict::message::linear_cursor n = m.begin(); n!=m.end(); ++n) {
+        bs = xenon::serialize(m);
+        for (xenon::message::linear_cursor n = m.begin(); n!=m.end(); ++n) {
             if (n->is_field()) fields.push_back(XvField(n));
         }
     }
@@ -206,9 +206,9 @@ class XvFile {
 
     int validate() {
         int errors = 0;
-        ict::spec_server doc;
+        xenon::spec_server doc;
         if (!xddl_path.empty()) doc.xddl_path.push_back(xddl_path);
-        ict::message m;
+        xenon::message m;
         std::string xddl_file;
 
         auto i = data.begin();
@@ -221,7 +221,7 @@ class XvFile {
             }
 
             if (verbose) std::cout << "    " << ict::to_string(i->bs) << "\n";
-            m = ict::parse(doc, i->bs);
+            m = xenon::parse(doc, i->bs);
 
             XvMessage xvm(xddl_file, m);
             if (!i->compare(xvm)) ++errors;
@@ -231,9 +231,9 @@ class XvFile {
 
     std::string reprint() {
         std::ostringstream os;
-        ict::spec_server doc;
+        xenon::spec_server doc;
         if (!xddl_path.empty()) doc.xddl_path.push_back(xddl_path);
-        ict::message m;
+        xenon::message m;
         std::string xddl_file;
         auto i = data.begin();
         for (; i!=data.end(); ++i) {
@@ -243,7 +243,7 @@ class XvFile {
                 doc.add_spec(xddl_file);
             }
 
-            m = ict::parse(doc, i->bs);
+            m = xenon::parse(doc, i->bs);
             XvMessage xvm(xddl_file, m);
 
             xvm.to_stream(os);
@@ -271,8 +271,8 @@ void validate_xv_file(const std::string & name, bool name_only, bool force_print
     }
 }
 
-void print_xv_message(ict::spec_server & spec, const std::string xddl_file, const std::string ascii_msg) {
-    auto m = ict::parse(spec, ict::bitstring(ascii_msg.c_str()));
+void print_xv_message(xenon::spec_server & spec, const std::string xddl_file, const std::string ascii_msg) {
+    auto m = xenon::parse(spec, xenon::bitstring(ascii_msg.c_str()));
     XvMessage xm(xddl_file, m);
     xm.to_stream(cout);
     cout << endl;
@@ -307,7 +307,7 @@ int main(int argc, char **argv) {
         ict::timer timer;
         timer.start();
 
-        ict::spec_server spec2;
+        xenon::spec_server spec2;
         if (!xddl_path.empty()) spec2.xddl_path.push_back(xddl_path);
 
         for (auto const & arg : line.targets) {
@@ -329,7 +329,7 @@ int main(int argc, char **argv) {
         timer.stop();
         if (show_time) std::cout << "total time: " << ict::to_string(timer) << "\n";
 
-    } catch (ict::exception & e) {
+    } catch (std::exception & e) {
         cerr << e.what() << endl;
         return 1;
     }

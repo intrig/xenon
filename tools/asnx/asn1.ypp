@@ -11,10 +11,11 @@
 
 using namespace std;
 
-#define UNSUPPORTED() do { \
+#define UNSUPPORTED() \
+do { \
     std::ostringstream os; \
     os << "line " << current_line << ": unsupported action"; \
-    throw ict::exception(os.str().c_str()); \
+    throw ict::create_exception(os.str(), __FILE__, __LINE__); \
 } while (0)
 
 #define TR(msg) do { \
@@ -34,7 +35,7 @@ int yylex();
 int yyerror(const char *p) 
 { 
         //TRACE("DefinedType");
-    IT_THROW("Error: " << p << " at line " << current_line);
+    IT_PANIC("Error: " << p << " at line " << current_line);
     return 0;
 }
 
@@ -969,7 +970,7 @@ int main(int argc, char **argv)
 
         line.parse(argc, argv);
 
-        if (line.targets.empty()) IT_THROW("no asn.1 files given");
+        if (line.targets.empty()) IT_PANIC("no asn.1 files given");
 
         for (auto const & i : line.targets)
         {
@@ -985,14 +986,14 @@ int main(int argc, char **argv)
         {
             modlist->comments = comments;
             TR("writing xddl");
-            ict::Xml xml;
+            xenon::Xml xml;
             xml << modlist->str();
             TR("formatting xddl");
             cout << xml;
         } else {
             cerr << "no modules provided\n";
         }
-    } catch (ict::exception & e)
+    } catch (std::exception & e)
     {
         cerr << filename << ": " << e.what() << endl;
         return 1;

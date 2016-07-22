@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-include(${CMAKE_SOURCE_DIR}/xenonunit.txt)
-add_executable(exception exceptionunit.cpp)
-target_link_libraries(exception xenon)
-enable_testing()
-add_test(exception exception)

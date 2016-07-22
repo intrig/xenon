@@ -1,32 +1,31 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <algorithm>
-#include <ict/xenon.h>
-#include <ict/node.h>
-#include <ict/xddl.h>
 #include <ict/bitstring.h>
-#include <ict/ximsi.h>
-#include <ict/DateTime.h>
+#include <xenon/xenon.h>
+#include <xenon/node.h>
+#include <xenon/xddl.h>
+#include <xenon/ximsi.h>
+#include <xenon/DateTime.h>
 #include <set>
 
 // xddl script
-#include <ict/xddl.h>
-#include <ict/find_functions.h>
-#include <ict/lua.hpp>
+#include <xenon/find_functions.h>
+#include <xenon/lua.hpp>
 
-namespace ict {
+namespace xenon {
 
 const int DateTime::daysmonth[13] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 const int DateTime::daysmonthleap[13] = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 template <typename State>
 inline message::cursor get_cursor(State * L) {
-    ict::lua::lua_getglobal(L, "node");
+    lua::lua_getglobal(L, "node");
     return *static_cast<message::cursor *>(lua_touserdata(L, -1));
 }
 
 // get a timestamp from a .Net encoded date (don't ask)
-static int script_datetime(ict::lua::lua_State *L) {
+static int script_datetime(lua::lua_State *L) {
     auto n = get_cursor(L);
     auto value = ict::to_integer<int64_t>(n->bits);
     // TODO: scripts should just throw exceptions and not return error codes
@@ -35,27 +34,27 @@ static int script_datetime(ict::lua::lua_State *L) {
         std::ostringstream os;
         os << dt;
         auto s = os.str();
-        ict::lua::lua_pushstring(L, s.c_str());
+        lua::lua_pushstring(L, s.c_str());
     } catch (std::exception & e) {
-        ict::lua::lua_pushstring(L, e.what());
+        lua::lua_pushstring(L, e.what());
     }
     return 1;
 }
 
 // get the description of a previous node
-static int script_Description(ict::lua::lua_State *L) {
-    const char * s = ict::lua::luaL_checklstring(L, 1, NULL);
+static int script_Description(lua::lua_State *L) {
+    const char * s = lua::luaL_checklstring(L, 1, NULL);
     auto n = get_cursor(L);
     auto c = rfind(n, s);
-    if (c.is_root()) ict::lua::lua_pushstring(L, "");
-    else ict::lua::lua_pushstring(L, description(c).c_str());
+    if (c.is_root()) lua::lua_pushstring(L, "");
+    else lua::lua_pushstring(L, description(c).c_str());
     return 1;
 }
 
 // get the enum string for this node
-static int script_EnumValue(ict::lua::lua_State *L) {
+static int script_EnumValue(lua::lua_State *L) {
     auto n = get_cursor(L);
-    ict::lua::lua_pushstring(L, n->elem->v->venum_string(n->elem, n).c_str());
+    lua::lua_pushstring(L, n->elem->v->venum_string(n->elem, n).c_str());
     return 1;
 }
 
@@ -64,65 +63,65 @@ static int script_EnumValue(ict::lua::lua_State *L) {
 #endif
 
 // get the value of a previous node
-static int script_Value(ict::lua::lua_State *L) {
-    const char * s = ict::lua::luaL_checklstring(L, 1, NULL);
+static int script_Value(lua::lua_State *L) {
+    const char * s = lua::luaL_checklstring(L, 1, NULL);
     auto n = get_cursor(L);
     auto c = rfind(n, s);
-    if (c.is_root()) ict::lua::lua_pushnumber(L, 0);
-    else ict::lua::lua_pushnumber(L, c->value());
+    if (c.is_root()) lua::lua_pushnumber(L, 0);
+    else lua::lua_pushnumber(L, c->value());
     return 1;
 }
 
-static int script_Slice(ict::lua::lua_State *L) {
-    int index = static_cast<int>(ict::lua::luaL_checknumber(L, 1));
-    int length = static_cast<int>(ict::lua::luaL_checknumber(L, 2));
+static int script_Slice(lua::lua_State *L) {
+    int index = static_cast<int>(lua::luaL_checknumber(L, 1));
+    int length = static_cast<int>(lua::luaL_checknumber(L, 2));
     auto n = get_cursor(L);
     auto subs = n->bits.substr(index, length);
     auto num = ict::to_integer<int64_t>(subs);
-    ict::lua::lua_pushnumber(L, num);
+    lua::lua_pushnumber(L, num);
     return 1;
 }
 
-static int script_TwosComplement(ict::lua::lua_State * L) {
+static int script_TwosComplement(lua::lua_State * L) {
     auto n = get_cursor(L);
     auto value = ict::to_integer<int>(n->bits);
     value <<= (32 - n->bits.bit_size());
     value >>= (32 - n->bits.bit_size());
-    ict::lua::lua_pushnumber(L, value);
+    lua::lua_pushnumber(L, value);
     return 1;
 }
 
-static int script_Ascii(ict::lua::lua_State * L) {
+static int script_Ascii(lua::lua_State * L) {
     auto & bits = get_cursor(L)->bits;
     auto s = std::string(bits.begin(), bits.bit_size() / 8);
     for (auto & c : s) if (!isprint(c)) c = '.';
-    ict::lua::lua_pushstring(L, s.c_str());
+    lua::lua_pushstring(L, s.c_str());
     return 1;
 }
 
-static int script_Imsi_S(ict::lua::lua_State * L) {
+static int script_Imsi_S(lua::lua_State * L) {
     auto & bits = get_cursor(L)->bits;
-    ict::lua::lua_pushstring(L, decode_imsi(bits).c_str());
+    lua::lua_pushstring(L, decode_imsi(bits).c_str());
     return 1;
 }
 
-static int script_Gsm7(ict::lua::lua_State * L) {
+static int script_Gsm7(lua::lua_State * L) {
     int fill = 0;
-    const char * s = ict::lua::luaL_checklstring(L, 1, NULL);
+    const char * s = lua::luaL_checklstring(L, 1, NULL);
     if (s) {
-        auto c = ict::rfind(get_cursor(L), s);
-        if (!c.is_root()) fill = to_integer<int>(c->bits); 
+        auto c = rfind(get_cursor(L), s);
+        if (!c.is_root()) fill = ict::to_integer<int>(c->bits); 
     }
     std::string sms = ict::gsm7(get_cursor(L)->bits, fill);
-    ict::lua::lua_pushstring(L, sms.c_str());
+    lua::lua_pushstring(L, sms.c_str());
     return 1;
 }
 
-static int script_find(ict::lua::lua_State *L) {
+static int script_find(lua::lua_State *L) {
     auto n = ict::get_root(get_cursor(L));
     const char * s = luaL_checkstring(L, 1);
 
-    auto c = ict::find(n, s);
+    auto c = find(n, s);
     if (c == n.end()) {
         lua_pushstring(L, "");
         return 1;
@@ -131,7 +130,7 @@ static int script_find(ict::lua::lua_State *L) {
     return 1;
 }
 
-static int script_Search(ict::lua::lua_State *) {
+static int script_Search(lua::lua_State *) {
     IT_PANIC("search() lua function is no longer supported, use find().");
 }
 
@@ -168,7 +167,7 @@ void xcase::vend_handler(spec::cursor, spec & parser) {
 }
 
 type create_type_struct(ict::url url, spec::cursor parent) {
-    std::shared_ptr<ict::lua::state_wrapper> l = 0;
+    std::shared_ptr<lua::state_wrapper> l = 0;
     std::map<int, type::item_data> items;
     std::map<std::pair<int, int>, type::item_data> ranges;
 
@@ -206,7 +205,7 @@ inline bool has_anon_type(spec::cursor self) {
 
 void field::vend_handler(spec::cursor self, spec &parser) {
     if (has_anon_type(self)) {
-        auto mv = multivector<element>(self); // copy into temp multivector
+        auto mv = ict::multivector<element>(self); // copy into temp multivector
         self.clear();
 
         href= "anon";
@@ -222,13 +221,13 @@ void xdefault::vend_handler(spec::cursor, spec & parser) {
 }
 
 template <typename Op> 
-void reg_func(ict::lua::lua_State * state, Op func, const char * name) {
-    ict::lua::lua_pushcfunction(state, func);
-    ict::lua::lua_setglobal(state, name);
+void reg_func(lua::lua_State * state, Op func, const char * name) {
+    lua::lua_pushcfunction(state, func);
+    lua::lua_setglobal(state, name);
 }
 
 void script::vend_handler(spec::cursor, spec & dom) {
-    auto p = ict::lua::luaL_newstate();
+    auto p = lua::luaL_newstate();
     l = std::make_shared<lua::state_wrapper>(p);
     p = lua::get(l); // should be the same
     lua::luaL_openlibs(p);
@@ -245,20 +244,20 @@ void script::vend_handler(spec::cursor, spec & dom) {
     reg_func(p, script_find, "find");
     reg_func(p, script_Imsi_S, "imsi_s");
 
-    if (ict::lua::luaL_loadstring(p, dom.cdata.c_str())) IT_PANIC(ict::lua::lua_tostring(p, -1));
+    if (lua::luaL_loadstring(p, dom.cdata.c_str())) IT_PANIC(lua::lua_tostring(p, -1));
 
     // pop the compiled script off the stack and set it to the global "f"
-    ict::lua::lua_setglobal(p, "f");
+    lua::lua_setglobal(p, "f");
 }
 
 void type::vend_handler(spec::cursor self, spec &parser) {
-    auto mv = multivector<element>(self); // copy into temp multivector
+    auto mv = ict::multivector<element>(self); // copy into temp multivector
     self.clear();
     self->v = std::make_shared<type>(create_type_struct(id, mv.root()));
 }
 
 template <typename T, typename Cursor, typename Map>
-void create_url_map(Cursor self, Map & m, string64 tag) {
+void create_url_map(Cursor self, Map & m, ict::string64 tag) {
     for (auto i = self.cbegin(); i!= self.cend(); ++i) {
         if (i->tag() == tag) {
             if (auto f = get_ptr<T>(i->v)) {
@@ -379,20 +378,20 @@ inline void add_extra(SpecCursor self,  MessageCursor parent, B & bs) {
     parent.emplace_back(node::extra_node, self, bs.read(bs.remaining()));
 }
 
-inline void parse_children(spec::cursor self, message::cursor parent, ibitstream & bs) {
+inline void parse_children(spec::cursor self, message::cursor parent, ict::ibitstream & bs) {
     if (parent.empty()) parent.reserve(self.size());
-    bitmarker mk{bs};
+    ict::bitmarker mk{bs};
     for (auto c = self.begin(); c != self.end(); ++c) {
         parse(c, parent, bs);
     }
 }
 
 // the default vparse is just to parse the children (<xddl> for example)
-void element::var_type::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void element::var_type::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     parse_children(self, parent, bs);
 }
 
-void xddl::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void xddl::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto st = find(self, "start", tag_of);
     if (st == self.end()) IT_PANIC("no <start> element in " << self->parser->file);
     parse(st, parent, bs);
@@ -400,15 +399,15 @@ void xddl::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) co
 }
 
 template <typename Parser>
-void parse_ref(spec::cursor self, message::cursor parent, ibitstream &bs, spec::cursor & ref,
-    const url& href, Parser parser) {
+void parse_ref(spec::cursor self, message::cursor parent, ict::ibitstream &bs, spec::cursor & ref,
+    const ict::url& href, Parser parser) {
     try {
         if (ref == self.end()) {
             auto url = ict::relative_url(parser->file, href); // create an abs url.
             ref = get_record(*parser->owner, url);
         }
         parse_children(ref, parent, bs);
-    } catch (ict::exception & e) {
+    } catch (std::exception & e) {
         auto n = parent.emplace(node::error_node, self);
         std::ostringstream os;
         os << e.what() << " [" << n->file() << ":" << n->line() << "]";
@@ -417,11 +416,11 @@ void parse_ref(spec::cursor self, message::cursor parent, ibitstream &bs, spec::
     }
 }
 
-void fragment::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
+void fragment::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     parse_ref(self, parent, bs, ref, href, self->parser);
 }
 
-void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
+void jump::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     try { 
         // get the field this jump is based on
         auto c = rfind(leaf(parent), base); // c is a field node
@@ -444,27 +443,27 @@ void jump::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) con
 
         if (!info.href.empty()) parse_ref(f->ref, parent, bs, info.ref, info.href, self->parser);
 
-    } catch (ict::exception & e) {
+    } catch (std::exception & e) {
         IT_WARN(e.what());
     }
 }
 
-void recref::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
+void recref::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     auto rec = parent.emplace(node::record_node, self);
     auto l = length.value(rec);
-    constraint ct(bs, length.value(rec));
+    ict::constraint ct(bs, length.value(rec));
     parse_ref(self, rec, bs, ref, href, self->parser);
     if (!length.empty()) add_extra(self, rec, bs);
 }
 
-void record::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void record::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto rec = parent.emplace(node::record_node, self);
-    constraint ct(bs, length.value(rec));
+    ict::constraint ct(bs, length.value(rec));
     parse_children(self, rec, bs);
     if (!length.empty()) add_extra(self, parent, bs);
 }
 
-void pad::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
+void pad::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     size_t l = mod - ((bs.tellg() - bs.last_mark() - offset) % mod);
     if (l > 0 && l < mod) {
         l = std::min(l, bs.remaining());
@@ -472,13 +471,13 @@ void pad::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) cons
     }
 }
 
-void peek::vparse(spec::cursor self, message::cursor parent, ibitstream &bs) const {
+void peek::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     auto l = length.value(leaf(parent));
     auto bits = bs.peek(l, offset);
     parent.emplace_back(node::prop_node, self, bits);
 }
 
-void prop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
+void prop::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &) const {
     auto v = value.value(leaf(parent));
     auto c = parent.emplace(node::prop_node, self, ict::from_integer(v));
     c->set_visible(visible);
@@ -500,7 +499,7 @@ message::cursor get_prop(message::cursor first, const std::string & name) {
     return r; // just return root
 }
 
-void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) const {
+void setprop::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &) const {
     auto v = value.value(leaf(parent));
     auto c = parent.emplace(node::setprop_node, self, ict::from_integer(v));
     auto i = get_prop(previous(c), "Name");
@@ -511,7 +510,7 @@ void setprop::vparse(spec::cursor self, message::cursor parent, ibitstream &) co
     if (c->elem->flags.test(element::global_flag)) set_global(self, c, self);
 }
 
-void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void field::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     if (size_t l = std::max((int64_t) 0, length.value(leaf(parent)))) {
         auto c = parent.emplace(node::field_node, self, bs.read(l));
         if (c->bits.bit_size() < l) c->set_incomplete();
@@ -519,7 +518,7 @@ void field::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) c
     }
 }
 
-void cstr::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void cstr::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto c = parent.emplace(node::field_node, self, bs.read_to('\0'));
 }
 
@@ -527,22 +526,22 @@ std::string cstr::vdescription(spec::cursor referer, message::const_cursor c) co
     return std::string(c->bits.begin(), c->bits.end()-1);
 }
 
-void xif::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void xif::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     if (expr.value(leaf(parent)) != 0) parse_children(self, parent, bs);
 }
 
-inline message::cursor add_repeat_record(spec::cursor self, message::cursor parent, ibitstream & bs) {
+inline message::cursor add_repeat_record(spec::cursor self, message::cursor parent, ict::ibitstream & bs) {
     auto rec = parent.emplace(node::repeat_record_node, self);
     parse_children(self, rec, bs);
     return rec;
 }
 
-void repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void repeat::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto rec = parent.emplace(node::repeat_node, self);
     while (bs.remaining() > (size_t) minlen) add_repeat_record(self, rec, bs);
 }
 
-void num_repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void num_repeat::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto num_value = num.value(leaf(parent));
     if (num_value > 0) {
         auto rep = parent.emplace(node::repeat_node, self);
@@ -551,7 +550,7 @@ void num_repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & 
     }
 }
 
-void bound_repeat::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void bound_repeat::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto lb = min.value(leaf(parent));
     auto ub = max.value(leaf(parent));
     auto rep = parent.emplace(node::repeat_node, self);
@@ -571,7 +570,7 @@ void bound_repeat::vparse(spec::cursor self, message::cursor parent, ibitstream 
     }
 }
 
-void xswitch::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void xswitch::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto val = expr.value(leaf(parent));
     auto i = cases.find(val);
     if (i != cases.end()) {
@@ -582,7 +581,7 @@ void xswitch::vparse(spec::cursor self, message::cursor parent, ibitstream & bs)
     else if (has_default) parse_children(self.end() - 1, parent, bs);
 }
 
-void xwhile::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) const {
+void xwhile::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto rec = parent.emplace(node::record_node, self);
     auto cont = expr.value(leaf(parent));
     while (cont) {
@@ -593,7 +592,7 @@ void xwhile::vparse(spec::cursor self, message::cursor parent, ibitstream & bs) 
 
 // member functions
 type::~type() {
-    if (l.unique() && lua::get(l)) ict::lua::lua_close(lua::get(l));
+    if (l.unique() && lua::get(l)) lua::lua_close(lua::get(l));
 }
 
 type::item_data const & type::item_info(int64_t key) const {
@@ -631,28 +630,28 @@ std::string type::venum_string(spec::cursor, msg_const_cursor c) const {
 
 std::string type::value(spec::cursor x, message::const_cursor c) const {
     auto p = lua::get(l);
-    ict::lua::lua_pushnumber(p, c->value());
-    ict::lua::lua_setglobal(p, "key"); 
+    lua::lua_pushnumber(p, c->value());
+    lua::lua_setglobal(p, "key"); 
 
     // push the script back on the stack and call it
-    ict::lua::lua_getglobal(p, "f");
+    lua::lua_getglobal(p, "f");
     
     // set the node to a global for function to use
-    ict::lua::lua_pushlightuserdata(p, &c);
-    ict::lua::lua_setglobal(p, "node");
+    lua::lua_pushlightuserdata(p, &c);
+    lua::lua_setglobal(p, "node");
 
-    int s = ict::lua::lua_pcall(p, 0, 0, 0);
+    int s = lua::lua_pcall(p, 0, 0, 0);
     if (s) {
         // print error string and return it
-        IT_WARN("error: " << x->parser->file << ":" << x->line << " " << ict::lua::lua_tostring(p, -1));
-        std::string v = ict::lua::lua_tostring(p, -1);
-        ict::lua::lua_pop(p, 1);
+        IT_WARN("error: " << x->parser->file << ":" << x->line << " " << lua::lua_tostring(p, -1));
+        std::string v = lua::lua_tostring(p, -1);
+        lua::lua_pop(p, 1);
         return v;
     } else {
-        ict::lua::lua_getglobal(p, "description");
-        if (ict::lua::lua_isstring(p, -1)) {
-            std::string v = ict::lua::lua_tostring(p, -1);
-            ict::lua::lua_pop(p, 1);
+        lua::lua_getglobal(p, "description");
+        if (lua::lua_isstring(p, -1)) {
+            std::string v = lua::lua_tostring(p, -1);
+            lua::lua_pop(p, 1);
             return v;
         } else {
             return "<script> must set description to a string";
@@ -677,7 +676,7 @@ std::string get_description(const T * self_ptr, spec::cursor self, message::cons
         try { 
             auto url = ict::relative_url(self->parser->file, self_ptr->href); // create an abs file path.
             self_ptr->ref = get_type(*self->parser->owner, url);
-        } catch (ict::exception & e) {
+        } catch (std::exception & e) {
             return e.what();
         }
     }
@@ -728,16 +727,16 @@ int64_t node::value() const {
     if (type == node::field_node) {
         if (auto f = get_ptr<field>(elem->v)) {
             auto b = f->bias;
-            return to_integer<int64_t>(bits) + b; 
+            return ict::to_integer<int64_t>(bits) + b; 
         }
     }
-    return to_integer<int64_t>(bits); 
+    return ict::to_integer<int64_t>(bits); 
 }
 
 size_t node::line() const {return elem->line; }
 std::string node::file() const { return elem->parser->file; }
 
-spec::cursor get_record(spec_server & spec, const url & href) {
+spec::cursor get_record(spec_server & spec, const ict::url & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);
@@ -745,22 +744,22 @@ spec::cursor get_record(spec_server & spec, const url & href) {
     auto p = root.begin()->parser;
     auto j = p->recdef_map.find(href.anchor);
     if (j != p->recdef_map.end()) return j->second;
-    IT_THROW("cannot locate anchor: " << href);
+    IT_PANIC("cannot locate anchor: " << href);
 }
 
-spec::cursor get_type(spec_server & spec, const url & href) {
+spec::cursor get_type(spec_server & spec, const ict::url & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);
     auto p = root.begin()->parser;
     auto j = p->type_map.find(href.anchor);
     if (j != p->type_map.end()) return j->second;
-    IT_THROW("cannot locate anchor: " << href);
+    IT_PANIC("cannot locate anchor: " << href);
 }
 
 // algos
 std::ostream& operator<<(std::ostream& os, const node & n) {
-    auto v = to_integer<int64_t>(n.bits);
+    auto v = ict::to_integer<int64_t>(n.bits);
     os << n.name() << " " << n.bits.bit_size() << " " << v << " " << std::hex << v << " (" << n.mnemonic() << ")" <<
         std::dec;
     return os;

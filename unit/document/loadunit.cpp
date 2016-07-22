@@ -1,9 +1,9 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include "loadunit.h"
 
-#include <ict/xenon.h>
 #include <boost/filesystem.hpp>
+#include <xenon/xenon.h>
 
 namespace bf = boost::filesystem;
 using std::cout;
@@ -11,7 +11,7 @@ using std::cout;
 void load_unit::sanity() {
 }
 
-void load_all_xddl(const bf::path & dir, ict::spec_server & specs) {
+void load_all_xddl(const bf::path & dir, xenon::spec_server & specs) {
     if (!exists(dir)) return;
     bf::directory_iterator end_itr;
     for (auto i = bf::directory_iterator(dir); i != end_itr; ++i) {
@@ -31,7 +31,7 @@ void load_unit::load_all_specs() {
         load_all_xddl(p, specs);
     } catch (const bf::filesystem_error& ex) {
       IT_FORCE_ASSERT("filesystem error: " << ex.what());
-    } catch (const ict::exception & ex) {
+    } catch (const std::exception & ex) {
       IT_FORCE_ASSERT(ex.what());
     }
 }

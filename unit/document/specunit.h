@@ -1,6 +1,6 @@
 #pragma once
-//-- Copyright 2015 Intrig
-//-- see https://github.com/intrig/xenon for license
+//-- Copyright 2016 Intrig
+//-- See https://github.com/intrig/xenon for license.
 
 #include <ict/unit.h>
 
@@ -23,7 +23,6 @@ class doc_unit
         ut.add(&doc_unit::ip_protocol);
         ut.skip(&doc_unit::search_paths);
 
-        ut.add(&doc_unit::icd);
         ut.add(&doc_unit::fail1);
         ut.add(&doc_unit::fail2);
         ut.add(&doc_unit::fail3);
@@ -32,7 +31,6 @@ class doc_unit
         ut.add(&doc_unit::allTypes);
         ut.skip();
         ut.cont();
-        //ut.add(&doc_unit::endian);
 
     }
 
@@ -45,7 +43,6 @@ class doc_unit
     void index3();
     void ip_protocol();
     void search_paths();
-    void icd();
     void fail1();
     void fail2();
     void fail3();

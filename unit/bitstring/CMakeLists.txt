@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-include(${CMAKE_SOURCE_DIR}/xenonunit.txt)
-add_executable(bitstring bitstringunit.cpp convert.cpp)
-enable_testing()
-add_test(bitstring bitstring)

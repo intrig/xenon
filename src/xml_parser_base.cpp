@@ -1,11 +1,11 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 
-#include <ict/xml_parser_base.h>
+#include <xenon/xml_parser_base.h>
 
 #include <ict/ict.h>
 
-namespace ict {
+namespace xenon {
 // order matters here, index is state()
 const char * state_names[] = {
         "First",
@@ -129,10 +129,18 @@ void xml_parser_base::reset()
 
     _suspended = false;
 }
+
 // See http://www.w3.org/TR/REC-xml/REC-xml-20040204.xml for implementation
 // details.
-void xml_parser_base::parse(const char * s, int len, bool final)
-{
+void xml_parser_base::parse(const char * s, int len, bool final) {
+    try {
+        xparse(s, len, final);
+    } catch (xenon::xml_error & e) {
+        IT_FATAL(e.description << " in [" << e.xml_line << ':' << e.xml_column << ']'); 
+    }
+}
+
+void xml_parser_base::xparse(const char * s, int len, bool final) {
     if (_finished) IT_PANIC("finished parsing");
     if (_suspended) IT_PANIC("parsing suspended");
     if (!len) return;
@@ -484,14 +492,14 @@ void xml_parser_base::parse(const char * s, int len, bool final)
                 switch (*_ch) {
                     case ' ': case '\n': case '\r': case '\t': break;
                     case '<' : set(Epilog1); break;
-                    default : IT_PANIC("junk after doc element", "", line(), column());
+                    default : IT_THROW_XML("junk after doc element");
                 }
                 break;
             case Epilog1:
                 switch (*_ch) {
                     case '!' : set(CommentStart1); break;
                     case '?' : set(PI); break;
-                    default : IT_PANIC("junk after doc element", "", line(), column());
+                    default : IT_THROW_XML("junk after doc element");
                 }
                 break;
         }
@@ -502,5 +510,7 @@ void xml_parser_base::parse(const char * s, int len, bool final)
         
     return;
 }
+
+
 
 }

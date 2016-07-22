@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-include(${CMAKE_SOURCE_DIR}/xenonunit.txt)
-add_executable(string64 string64unit.cpp)
-enable_testing()
-add_test(string64 string64)

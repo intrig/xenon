@@ -1,7 +1,7 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <ict/command.h>
-#include <ict/xddl_code.h>
+#include <xenon/xddl_code.h>
 
 using std::cout;
 using std::cerr;
@@ -14,7 +14,7 @@ class XmlPatch {
         std::ifstream is(filename.c_str());
         std::string line;
 
-        if (!is.good()) IT_THROW("bad patch filename: \"" << filename << "\"");
+        if (!is.good()) IT_PANIC("bad patch filename: \"" << filename << "\"");
 
         while (!is.eof())
         {
@@ -47,7 +47,7 @@ class XmlPatch {
                     }
 
                     default:
-                        IT_THROW("unknown state");    
+                        IT_PANIC("unknown state");    
                 }
             }
         }
@@ -75,7 +75,7 @@ class XmlSource
         std::ifstream is(filename.c_str());
         std::string line;
 
-        if (!is.good()) IT_THROW("bad xml filename: \"" << filename << "\"");
+        if (!is.good()) IT_PANIC("bad xml filename: \"" << filename << "\"");
 
         while (!is.eof())
         {
@@ -106,7 +106,7 @@ class XmlSource
                 }
             } while (!done);
         }
-        ict::Xml xml;
+        xenon::Xml xml;
         xml << ict::join(lines);
         std::ostringstream ss;
         xml.str(ss);
@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
         ict::command line("xml-patch", "Patch up an xml file", "xml-patch [options] xml-file patch-file");
         line.parse(argc, argv);
 
-        if (line.targets.size() != 2) IT_THROW("xml-file and patch-file must be specified");
+        if (line.targets.size() != 2) IT_PANIC("xml-file and patch-file must be specified");
         
         std::string xml_file = line.targets[0];
         std::string xml_patch = line.targets[1];
@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
 
         cout << source.patch(patch);
 
-    } catch (ict::exception & e)
+    } catch (std::exception & e)
     {
         cerr << e.what() << endl;
         return 1;

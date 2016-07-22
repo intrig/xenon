@@ -1,0 +1,3 @@
+[submodule "include/ict"]
+	path = include/ict
+	url = https://github.com/intrig/ict

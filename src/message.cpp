@@ -1,8 +1,8 @@
-//-- Copyright 2015 Intrig
+//-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
-#include <ict/message.h>
-#include <ict/xddl.h>
-#include <ict/spec_server.h>
+#include <xenon/message.h>
+#include <xenon/xddl.h>
+#include <xenon/spec_server.h>
 
 struct attr {
     attr(const char * key, const char * value) : key(key), value(std::string(value)) {}
@@ -20,7 +20,7 @@ std::ostream& operator<<(std::ostream & strm, const attr & att) {
     return strm;
 }
 
-namespace ict {
+namespace xenon {
 
 const node_info_list node_info = {
     { "nil", node_info_type::is_nil },
