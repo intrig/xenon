@@ -166,7 +166,7 @@ void xcase::vend_handler(spec::cursor, spec & parser) {
     xs->cases[value] = i;
 }
 
-type create_type_struct(ict::url url, spec::cursor parent) {
+type create_type_struct(recref url, spec::cursor parent) {
     std::shared_ptr<lua::state_wrapper> l = 0;
     std::map<int, type::item_data> items;
     std::map<std::pair<int, int>, type::item_data> ranges;
@@ -270,7 +270,7 @@ void create_url_map(Cursor self, Map & m, ict::string64 tag) {
 }
 
 template <typename Cursor, typename Map>
-void link_ref(Cursor & self, ict::url & url, Map & m) {
+void link_ref(Cursor & self, recref & url, Map & m) {
     //IT_WARN("linking ref for " << url);
     //IT_WARN("self is " << *self);
     if (url.is_local()) {
@@ -400,18 +400,18 @@ void xddl::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & b
 
 template <typename Parser>
 void parse_ref(spec::cursor self, message::cursor parent, ict::ibitstream &bs, spec::cursor & ref,
-    const ict::url& href, Parser parser) {
+    const recref& href, Parser parser) {
     try {
         if (ref == self.end()) {
-            auto url = ict::relative_url(parser->file, href); // create an abs url.
+            auto url = relative_url(parser->file, href); // create an abs url.
             ref = get_record(*parser->owner, url);
         }
         parse_children(ref, parent, bs);
     } catch (std::exception & e) {
         auto n = parent.emplace(node::error_node, self);
-        std::ostringstream os;
+        ict::osstream os;
         os << e.what() << " [" << n->file() << ":" << n->line() << "]";
-        n->desc = os.str();
+        n->desc = os.take();
         IT_WARN("caught exception: " << n->desc);
     }
 }
@@ -433,7 +433,7 @@ void jump::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs
         if (!f) IT_PANIC(base << " is not a field");
 
         if (f->ref == elem.end()) {
-            auto url = ict::relative_url(elem->parser->file, f->href); // create an abs url.
+            auto url = relative_url(elem->parser->file, f->href); // create an abs url.
             f->ref = get_type(*elem->parser->owner, url);
         }
 
@@ -448,7 +448,7 @@ void jump::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs
     }
 }
 
-void recref::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
+void reclink::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     auto rec = parent.emplace(node::record_node, self);
     auto l = length.value(rec);
     ict::constraint ct(bs, length.value(rec));
@@ -674,7 +674,7 @@ std::string get_description(const T * self_ptr, spec::cursor self, message::cons
     if (self_ptr->href.empty()) return "";
     else if (self_ptr->ref == self.end()) {
         try { 
-            auto url = ict::relative_url(self->parser->file, self_ptr->href); // create an abs file path.
+            auto url = relative_url(self->parser->file, self_ptr->href); // create an abs file path.
             self_ptr->ref = get_type(*self->parser->owner, url);
         } catch (std::exception & e) {
             return e.what();
@@ -736,7 +736,7 @@ int64_t node::value() const {
 size_t node::line() const {return elem->line; }
 std::string node::file() const { return elem->parser->file; }
 
-spec::cursor get_record(spec_server & spec, const ict::url & href) {
+spec::cursor get_record(spec_server & spec, const recref & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);
@@ -747,7 +747,7 @@ spec::cursor get_record(spec_server & spec, const ict::url & href) {
     IT_PANIC("cannot locate anchor: " << href);
 }
 
-spec::cursor get_type(spec_server & spec, const ict::url & href) {
+spec::cursor get_type(spec_server & spec, const recref & href) {
     auto full = href.path + href.file; // get the filename
 
     auto root = spec.add_spec(full);

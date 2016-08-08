@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
         if (line.targets.empty()) IT_FATAL("no arguments given");
 
-        auto u = ict::url(line.targets[0]);
+        auto u = xenon::recref(line.targets[0]);
 
         if (u.file.empty()) IT_FATAL("invalid recref: " << line.targets[0]);
         auto start = ss.add_spec(u.path + u.file);

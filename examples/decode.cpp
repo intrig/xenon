@@ -64,7 +64,8 @@ int main(int, char**) {
         }
         
 
-    } catch (std::exception & e) { cerr << e.what() << '\n';
+    } catch (std::exception & e) { 
+        cerr << e.what() << '\n';
         return 1;
     }
 }

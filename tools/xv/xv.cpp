@@ -5,7 +5,6 @@
 
 using std::cout;
 using std::cerr;
-using std::endl;
 
 // globally used flags
 bool verbose=false;
@@ -13,9 +12,9 @@ std::string xddl_path;
 
 template <typename T>
 std::string location(T t) {
-    std::ostringstream os;
+    ict::osstream os;
     os << " [" << t.xv_file << ":" << t.xv_line << "]";
-    return os.str();
+    return os.take();
 }
 
 class Mask {
@@ -90,7 +89,8 @@ class XvField {
         return !operator==(rhs);
     }
 
-    void to_stream(std::ostream & os) const {
+    template <typename Stream>
+    void to_stream(Stream & os) const {
         os << "f: " << path << ": " << value << ": " << length << ": " << sbs << ": " << desc;
     }
 
@@ -135,8 +135,7 @@ class XvMessage {
         }
 
         if (fields != rhs.fields) {
-            std::ostringstream os;
-            std::cerr << "fields don't match: " << xddl_file << " " << ict::to_hex_string(bs.begin(), bs.end()) << endl;
+            std::cerr << "fields don't match: " << xddl_file << " " << ict::to_hex_string(bs.begin(), bs.end()) << '\n';
             return false;
         }
         return true;
@@ -145,12 +144,13 @@ class XvMessage {
     bool empty() { 
         return xddl_file.empty() && bs.empty() && fields.empty();
     }
-    void to_stream(std::ostream & os) const {
-        os << "m: " << xddl_file << ": " << ict::to_string(bs) << endl;
-        os << "count: " << fields.size() << endl;
+    template <typename Stream>
+    void to_stream(Stream & os) const {
+        os << "m: " << xddl_file << ": " << ict::to_string(bs) << '\n';
+        os << "count: " << fields.size() << '\n';
         for (auto i=fields.begin(); i!= fields.end(); ++i) {
             i->to_stream(os);
-            os << endl;
+            os << '\n';
         }
     }
 
@@ -186,7 +186,7 @@ class XvFile {
                     auto l = ict::split(line, ':');
 
                     msg.xddl_file = ict::normalize(l[1]);
-                    msg.bs = ict::bitstring(ict::normalize(l[2]).c_str());
+                    msg.bs = ict::bitstring(ict::normalize(l[2]));
                     msg.xv_line = line_no;
                     msg.xv_file = filename;
                 }
@@ -230,7 +230,7 @@ class XvFile {
     }
 
     std::string reprint() {
-        std::ostringstream os;
+        ict::osstream os;
         xenon::spec_server doc;
         if (!xddl_path.empty()) doc.xddl_path.push_back(xddl_path);
         xenon::message m;
@@ -247,10 +247,9 @@ class XvFile {
             XvMessage xvm(xddl_file, m);
 
             xvm.to_stream(os);
-            os << endl;
+            os << '\n';
         }
-        std::string s = os.str();
-        return s;
+        return os.take();
     }
 
     std::vector<XvMessage> data;
@@ -259,10 +258,10 @@ class XvFile {
 };
 
 void validate_xv_file(const std::string & name, bool name_only, bool force_print) {
-    XvFile file(name.c_str());
+    XvFile file(name);
     file.name_only = name_only;
 
-    if (force_print) cout << file.reprint() << endl;
+    if (force_print) cout << file.reprint() << '\n';
     else {
         if (auto errors = file.validate()) {
             std::cerr << errors << " errors\n";
@@ -272,10 +271,10 @@ void validate_xv_file(const std::string & name, bool name_only, bool force_print
 }
 
 void print_xv_message(xenon::spec_server & spec, const std::string xddl_file, const std::string ascii_msg) {
-    auto m = xenon::parse(spec, xenon::bitstring(ascii_msg.c_str()));
+    auto m = xenon::parse(spec, xenon::bitstring(ascii_msg));
     XvMessage xm(xddl_file, m);
     xm.to_stream(cout);
-    cout << endl;
+    cout << '\n';
 }
 
 
@@ -314,7 +313,7 @@ int main(int argc, char **argv) {
             if (verbose) std::cout << "processing target " << arg << "\n";
             if (ict::ends_with(arg, ".xddl")) {
                 // load xddl file, set as spec for future operations
-                xddl_file = arg.c_str();
+                xddl_file = arg;
                 spec2.clear();
                 spec2.add_spec(xddl_file);
             }
@@ -330,7 +329,7 @@ int main(int argc, char **argv) {
         if (show_time) std::cout << "total time: " << ict::to_string(timer) << "\n";
 
     } catch (std::exception & e) {
-        cerr << e.what() << endl;
+        cerr << e.what() << '\n';
         return 1;
     }
 }

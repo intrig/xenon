@@ -9,11 +9,17 @@ class itu_unit {
         ut.add(&itu_unit::host);
         ut.add(&itu_unit::bit_lengths);
         ut.add(&itu_unit::splits);
+        ut.add(&itu_unit::sanity);
+        ut.add(&itu_unit::create_url);
+        ut.add(&itu_unit::relative_url);
     }
 
     /* Tests */
     void host();
     void bit_lengths();
     void splits();
+    void sanity();
+    void create_url();
+    void relative_url();
 };
 

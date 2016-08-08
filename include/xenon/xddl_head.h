@@ -8,6 +8,7 @@
 #include <ict/expr.h>
 #include <xenon/att_pair.h>
 #include <xenon/find_functions.h>
+#include <xenon/recref.h>
 
 namespace xenon {
     namespace lua {
@@ -24,15 +25,15 @@ namespace xenon {
 
 // convert attribute strings to custom types
 template <typename Cursor>
-inline ict::url create_url(Cursor, const std::string & x) {
-    if (x.empty()) return ict::url();
-    ict::url a(x);
+inline recref create_url(Cursor, const std::string & x) {
+    if (x.empty()) return recref();
+    recref a(x);
     if (a.empty()) IT_PANIC("invalid url: " << x);
     return a;
 }
 
 template <typename Cursor>
-inline ict::url create_id_url(Cursor parent, std::string x) {
+inline recref create_id_url(Cursor parent, std::string x) {
     x = "#" + x;
     return create_url(parent, x);
 }

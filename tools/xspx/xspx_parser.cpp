@@ -1,6 +1,7 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include "xspx_parser.h"
+#include <xenon/recref.h>
 
 elem_type merge_elems(const elem_type & a, const elem_type & b) {
     elem_type dest = a;
@@ -185,7 +186,7 @@ xsp_parser::xsp_parser() {
             g->name = p.first;
         } else { // href
             in_group_def = false;
-            ict::url url(p.second.c_str());
+            xenon::recref url(p.second.c_str());
             if (url.anchor.empty()) IT_PANIC("invalid href: " << p.second);
             auto i = xenon::find_by_name(groups.begin(), groups.end(), std::string(url.anchor.begin() + 1, 
                 url.anchor.end()));

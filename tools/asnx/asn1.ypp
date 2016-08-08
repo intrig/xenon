@@ -986,10 +986,9 @@ int main(int argc, char **argv)
         {
             modlist->comments = comments;
             TR("writing xddl");
-            xenon::Xml xml;
-            xml << modlist->str();
+            xenon::xml_type xml(modlist->str(), true);
             TR("formatting xddl");
-            cout << xml;
+            cout << xml.str();
         } else {
             cerr << "no modules provided\n";
         }

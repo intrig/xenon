@@ -109,12 +109,12 @@ struct node_info_type {
         is_property    = 1u << 4
     };
 
-    typedef std::function<void(std::ostream&, msg_const_cursor)> start_tag_op;
+    typedef std::function<void(ict::osstream&, msg_const_cursor)> start_tag_op;
     node_info_type(const char * name, flag_type flags) : name(name), flags(flags) {}
     node_info_type(const char * name, flag_type flags, start_tag_op op) : name(name), flags(flags), start_tag(op) {}
     const char * name;
     flag_type flags;
-    start_tag_op start_tag = [&](std::ostream&, msg_const_cursor){};
+    start_tag_op start_tag = [&](ict::osstream&, msg_const_cursor){};
 };
 
 inline std::string node_tag(const node & n) {

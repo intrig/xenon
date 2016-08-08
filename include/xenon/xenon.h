@@ -3,6 +3,7 @@
 //-- See https://github.com/intrig/xenon for license.
 #include <random>
 #include <functional>
+#include <xenon/recref.h>
 #include <xenon/message.h>
 #include <xenon/spec_server.h>
 namespace xenon {
@@ -75,9 +76,9 @@ inline message parse(spec_server & spec, const ict::bitstring & bits) {
     return parse(start, bits);
 }
 
-spec::cursor get_record(spec_server &, const ict::url & href);
+spec::cursor get_record(spec_server &, const recref & href);
 
-spec::cursor get_type(spec_server &, const ict::url & href);
+spec::cursor get_type(spec_server &, const recref & href);
 
 inline std::string to_hex_string(const ict::bitstring & bits) {
     return ict::to_hex_string(bits.begin(), bits.end());

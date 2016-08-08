@@ -99,7 +99,7 @@ inline message::cursor get_variable(const std::string & name, message::cursor co
         try {
             g = create_global(xddl_root, globs, name);
         } catch (std::exception & e) {
-            std::ostringstream os;
+            ict::osstream os;
             os << e.what() << " [" << context->file() << ":" << context->line() << "]";
             IT_FATAL(os.str());
         }
@@ -120,9 +120,9 @@ inline int64_t eval_variable(const std::string &name, spec::cursor context) {
 inline int64_t eval_variable_list(const std::string &first, const std::string &second, spec::cursor context) {
     auto f = get_variable(first, context);
     auto s = find(f, second);
-    if (s == f.end()) { // second not found, it may be in another spec though (f may be a recref)
-        // f is a recref, so get the record it is pointing to.
-        if (auto r = get_ptr<recref>(f->v)) {
+    if (s == f.end()) { // second not found, it may be in another spec though (f may be a reclink)
+        // f is a reclink, so get the record it is pointing to.
+        if (auto r = get_ptr<reclink>(f->v)) {
             auto xddl = rfind(context, "xddl", tag_of);
             auto c = find(xddl, "record", tag_of, [&](const element &e) {
                 if (auto rec = get_ptr<recdef>(e.v)) {

@@ -14,8 +14,8 @@
     <type cpp="ict::expr">expression</type>
     <type cpp="std::string">setprop_name</type>
 
-    <type cpp="ict::url">url</type>
-    <type cpp="ict::url">id_url</type>
+    <type cpp="recref">url</type>
+    <type cpp="recref">id_url</type>
     <type cpp="std::string">jump_name</type>
 
     <!-- code segment at the top of header file. -->
@@ -61,9 +61,9 @@
     <parser>
         <name>spec</name>
         <code id="class">
-            <!-- xddl::cursor open(string64 tag, const ict::url &amp; href); -->
-            std::map&lt;ict::url, spec_cursor&gt; recdef_map;
-            std::map&lt;ict::url, spec_cursor&gt; type_map;
+            <!-- xddl::cursor open(string64 tag, const recref &amp; href); -->
+            std::map&lt;recref, spec_cursor&gt; recdef_map;
+            std::map&lt;recref, spec_cursor&gt; type_map;
             class spec_server * owner = 0;
             int in_oob = 0;
         </code>
@@ -92,7 +92,7 @@
 
 
     <code id="vhref">
-        virtual ict::url vhref() const final { return href; };
+        virtual recref vhref() const final { return href; };
     </code>
 
     <code id="is_visible">
@@ -108,7 +108,7 @@
         virtual std::string venum_string(spec_cursor, msg_const_cursor) const { return ""; };
         virtual void vset_ref(spec_cursor) {};
         virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() { return std::make_pair(false, spec_cursor()); };
-        virtual ict::url vhref() const { return ict::url(); }
+        virtual recref vhref() const { return recref(); }
         virtual bool is_visible() const { return true; }
 
         virtual ~var_type() = default;
@@ -288,7 +288,7 @@
             <att type="string" local="false" def="record">name</att>
             <code href="vparse"/>
         </element>
-        <element name="recref">
+        <element name="reclink">
             <att type="expression">length</att>
             <att type="string" local="false" def="record">name</att>
             <att type="url">href</att>
@@ -371,7 +371,7 @@
         <code href="vto_html"/>
         <public>
         template &lt;typename Items, typename Ranges, typename LuaState&gt;
-        type(ict::url id, LuaState l, Items &amp; items, Ranges &amp; ranges) : id(id), l(l), items(items), ranges(ranges) {}
+        type(recref id, LuaState l, Items &amp; items, Ranges &amp; ranges) : id(id), l(l), items(items), ranges(ranges) {}
         #if 0
         type(type &amp;&amp; x) noexcept {
             id = std::move(x.id);
@@ -383,7 +383,7 @@
         struct item_data {
             std::string value;
             mutable spec_cursor ref;
-            ict::url href;
+            recref href;
         };
         item_data const &amp; item_info(int64_t key) const;
         bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }

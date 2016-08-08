@@ -47,7 +47,7 @@ struct path {
     bool abs = false;
 };
 
-inline std::ostream & operator<<(std::ostream & os, const path & p) {
+inline ict::osstream & operator<<(ict::osstream & os, const path & p) {
     if (p.absolute()) os << "/";
     ict::join(os, p.cbegin(), p.cend(), "/");
     return os;
@@ -201,8 +201,8 @@ inline void path_string(S & ss, C c) {
 // return the path of a cursor
 template <typename T, typename C = typename T::is_cursor> 
 inline std::string path_string(T c) {
-    std::ostringstream ss;
+    ict::osstream ss;
     path_string(ss, c);
-    return ss.str();
+    return ss.take();
 }
 }

@@ -16,7 +16,6 @@ int main(int argc, char **argv)
     try {
         ict::command line("xml-pp", "Pretty print xml to stdout", "xml-pp [options] xmlfile...");
         line.add(ict::Option("nodecl", 'n', "don't print xml declaration", [&]{ decl = false; }));
-        line.add(ict::Option("replace", 'r', "replace file instead", [&]{ replace = true; }));
         line.parse(argc, argv);
 
         if (line.targets.empty()) IT_FATAL("no xml files specified");
@@ -24,18 +23,11 @@ int main(int argc, char **argv)
         for (auto const & f : line.targets)
         {
             filename = f;
-            xenon::Xml xml(filename, decl);
+            auto v = ict::read_file(filename);
+            auto s = std::string(v.begin(), v.end());
+            xenon::xml_type xml(s, decl);
 
-            if (replace)
-            {
-                std::ostringstream oss;
-                xml.str(oss);
-                std::ofstream ofs(filename.c_str());
-                ofs << oss.str();
-
-            } else {
-                xml.str(std::cout);
-            }
+            std::cout << xml.str();
         }
 
     } catch (std::exception & e)

@@ -106,11 +106,14 @@ class XmlSource
                 }
             } while (!done);
         }
-        xenon::Xml xml;
-        xml << ict::join(lines);
+        xenon::xml_type xml(ict::join(lines));
+#if 1
+        return xml.str();
+#else
         std::ostringstream ss;
         xml.str(ss);
         return ss.str();
+#endif
 
     }
 

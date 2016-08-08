@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
         line.parse(argc, argv);
 
         if (line.targets.empty()) IT_FATAL("no file given");
-        auto filename = ict::url(line.targets[0]);
+        auto filename = xenon::recref(line.targets[0]);
 
         if (!filename.file.empty()) {
             processXddlFile(line, flags);
@@ -67,7 +67,7 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
     xenon::spec_server d;
     try { 
         d.clear();
-        auto u = ict::url(*i);
+        auto u = xenon::recref(*i);
         auto r = d.add_spec(u.path + u.file);
         ++i;
         
@@ -97,9 +97,13 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
             inst = xenon::parse(start, bs);
             if (flags.flat_xml) inst_dump << xenon::to_xml(inst, filter) << '\n';
             else if (flags.pretty_xml) {
-                xenon::Xml pretty;
+#if 1
+                xenon::xml_type pretty(xenon::to_xml(inst, filter));
+                inst_dump << pretty.str();
+#else
                 pretty << xenon::to_xml(inst, filter) << "\n";
                 inst_dump << pretty;
+#endif
             }
             else if (flags.debug_print) {
                 inst_dump << xenon::to_debug_text(inst, filter) << '\n';
