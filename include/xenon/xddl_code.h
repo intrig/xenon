@@ -2,7 +2,6 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <xenon/xml_parser_base.h>
-#include <ict/osstream.h>
 
 #include <stack>
 #include <map>
@@ -13,12 +12,11 @@ namespace xenon {
     class XmlText
     {
         public:
-        explicit XmlText(std::string const & s) : content(s) { }
+        XmlText(std::string const & s) : content(s) { }
         std::string content;
     };
 
-    template <typename S>
-    inline S & to_stream(S & os, XmlText const & cd)
+    inline std::ostream & operator<<(std::ostream & os, XmlText const & cd)
     {
         std::string::const_iterator it;
         for (it=cd.content.begin(); it!= cd.content.end(); ++it)
@@ -37,16 +35,6 @@ namespace xenon {
         return os;
     }
 
-    template <typename S>
-    inline S & operator<<(S & os, XmlText const & cd) {
-        return to_stream(os, cd);
-    }
-
-    inline ict::osstream & operator<<(ict::osstream & os, XmlText const & cd) {
-        return to_stream(os, cd);
-    }
-
-
     typedef std::pair<std::string, std::string> attpair;
 
     class XmlAttribute
@@ -57,7 +45,7 @@ namespace xenon {
     };
 
     template <typename S>
-    inline S & to_stream(S & os, XmlAttribute const & cd) {
+    inline S & operator<<(S & os, XmlAttribute const & cd) {
         for (auto it=cd.content.begin(); it!= cd.content.end(); ++it)
         {
             switch (*it)
@@ -72,14 +60,6 @@ namespace xenon {
             }
         }
         return os;
-    }
-    template <typename S>
-    inline S & operator<<(S & os, XmlAttribute const & cd) {
-        return to_stream(os, cd);
-    }
-
-    inline ict::osstream & operator<<(ict::osstream & os, XmlAttribute const & cd) {
-        return to_stream(os, cd);
     }
 
     template <typename Stream>
@@ -171,7 +151,7 @@ namespace xenon {
                 //std::sort(attvec.begin(), attvec.end(), AttCompare());
                 my_sort(attvec);
 
-                ict::osstream os;
+                std::ostringstream os;
 
                 std::vector<attpair>::iterator it;
                 for (it=attvec.begin(); it!=attvec.end(); ++it)
@@ -235,17 +215,10 @@ namespace xenon {
 
         std::string str()
         {
-            ict::osstream ss;
+            std::ostringstream ss;
             str(ss);
             return ss.str();
         }
-
-        template <typename S>
-        void to_stream(S & os) {
-            str(os);
-        }
-
-        
 
         std::string raw()
         {
@@ -390,5 +363,5 @@ public:
         std::stack<std::shared_ptr<XmlElement>> elements;
     };
 
-    using xml_type = Xml<ict::osstream>;
+    using xml_type = Xml<std::ostream>;
 }
