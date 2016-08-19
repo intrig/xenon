@@ -67,7 +67,7 @@ Tests can be run with
 ###<a name="1.3"/>1.3 Updating an existing repo to latest 
 
 
-    git pull
+    git pull --recurse-submodules
     git submodule update
 
 ##<a name="2"/>2 Using Xenon 
