@@ -157,6 +157,13 @@ inline std::ostream& add_children(std::ostream & os, const T & elem) {
 
 elem_type merge_elems(const elem_type & a, const elem_type & b);
 
+namespace st { // source type
+enum type {
+    header_decl,
+    header_impl,
+    source_impl
+};
+}
 
 class xsp_parser {
     public:
@@ -167,9 +174,15 @@ class xsp_parser {
     }
 
     void parser_destructor(std::ostream & os) const;
-    std::string header() const;
+
+    void to_stream(std::ostream & h) const;
+    void to_stream(std::ostream & h, std::ostream & s) const;
+
+    void header(std::ostream &, st::type) const;
     std::string parser_header() const;
-    std::string parser_impl() const;
+    std::string parser_impl(st::type) const;
+    void const_content(std::ostream & os) const;
+    void parser_const(std::ostream & os, st::type t = st::header_impl) const;
 
     std::ostream& to_init(std::ostream& os, const elem_type & elem) const;
     std::ostream& to_decl(std::ostream& os, const elem_type & elem, const std::string & root) const;

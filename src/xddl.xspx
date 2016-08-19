@@ -7,6 +7,7 @@
     <!-- declare types used by attributes. -->
     <type cpp="bool" def="false">bool</type>
     <type cpp="int64_t" def="0">integer</type>
+
     <type cpp="size_t" def="1">pos_integer</type>
     <type cpp="size_t" def="0">size</type>
     <type cpp="std::string">string</type>

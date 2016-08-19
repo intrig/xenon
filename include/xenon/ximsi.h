@@ -28,7 +28,7 @@ namespace util {
 
         auto nvar = ict::netvar<uint16_t>(D);
 
-        auto bs = bitstring((const char *) nvar.data.data(), 16);
+        auto bs = bitstring(bit_iterator(nvar.data.data()), 16);
         bs.remove(0, 6); 
 
         return bs;

@@ -229,7 +229,7 @@ void generate_uid_constants(S & os, T first, T last) {
     });
 }
 
-std::string xsp_parser::header() const  {
+void xsp_parser::header(std::ostream & h, st::type t) const  {
     std::ostringstream os;
     os << "#pragma once //\n";
     os << code_seg(code_refs, "head");
@@ -250,13 +250,30 @@ std::string xsp_parser::header() const  {
 
     os << "}";
     
-    os << parser_impl();
+    os << parser_impl(t);
 
     os << code_seg(code_refs, "tail");
 
     xenon::cpp_code code;
     code.add(os.str());
-    return code.str();
+    h << code.str();
+}
+
+void xsp_parser::to_stream(std::ostream & h) const {
+    header(h, st::header_impl);
+}
+
+void xsp_parser::to_stream(std::ostream & h, std::ostream & s) const {
+    header(h, st::header_decl);
+
+    std::ostringstream os;
+    xenon::cpp_code code;
+    os << "#include <xenon/xenon.h>";
+    os << "namespace xenon {";
+    parser_const(os, st::source_impl);
+    os << "}";
+    code.add(os.str());
+    s << code.str();
 }
 
 std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, const std::string & root) const {
@@ -429,16 +446,8 @@ std::string xsp_parser::parser_header() const {
     return os.str();
 }
 
-std::string xsp_parser::parser_impl() const {
-    std::ostringstream os;
-    os << 
-    "#include <xenon/xml_parser.h>\n" <<
-    head <<
-    "namespace " << name_space << " {"
-    "struct " << class_name  << " {"
-        "public:" <<
-            class_name << "() {";
-
+void xsp_parser::const_content(std::ostream & os) const {
+    os << "{ ";
     os << "parents.push_back(ast.root());";
     os << "p.root_tag(" << qt(root) << ");";
 
@@ -453,7 +462,32 @@ std::string xsp_parser::parser_impl() const {
     for (const auto & choice : choices) to_choice_init(os, choice);
 
     os << "}";
+}
+void xsp_parser::parser_const(std::ostream & os, st::type t) const {
+    switch (t) {
+        case st::header_decl :
+            os << class_name << "();";
+            break;
+        case st::header_impl : 
+            os << class_name << "()";
+            const_content(os);
+            break;
+        case st::source_impl : 
+            os << class_name << "::" << class_name << "()";
+            const_content(os);
+    }
+}
 
+std::string xsp_parser::parser_impl(st::type t) const {
+    std::ostringstream os;
+    os << 
+    "#include <xenon/xml_parser.h>\n" <<
+    head <<
+    "namespace " << name_space << " {"
+    "struct " << class_name  << " {"
+        "public:";
+
+    parser_const(os, t);
     os << class_name << "(const std::string & filename) : " << class_name << "() {"  << 
         "file = filename; p.open(filename); }";
 
