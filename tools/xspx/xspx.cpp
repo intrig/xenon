@@ -3,7 +3,7 @@
 #include <iostream>
 #include <ict/command.h>
 #include "xspx_parser.h"
-#include "to_writedown.h"
+//#include "to_writedown.h"
 
 int main(int argc, char **argv) {
 
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
         p.open(line.targets[0]);
 
         if (wd) {
-            xspx::to_writedown(std::cout, p);
+            // xspx::to_writedown(std::cout, p);
             return 0;
         }
         if (dispatch) xspx::to_dispatch(std::cout, p, dispatch_name);
