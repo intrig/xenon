@@ -11,11 +11,19 @@ namespace xenon {
 using ict::bitstring;
 using message = ict::multivector<node>;
 
-// node info type
-
 // message algorithms
 
+inline message::const_cursor find_first(const message & m, const path & path) {
+    return find_first(m.root(), path);
+}
+
+inline message::cursor find_first(message & m, const path & path) {
+    return find_first(m.root(), path);
+}
+
 std::string to_xml(message::cursor c);
+
+inline std::string description(const message & m) { return ""; }
 
 inline int64_t bit_size(message::cursor parent) {
     int64_t total = 0;
@@ -72,7 +80,7 @@ inline int64_t eval_variable(const std::string &name, message::cursor context) {
 
 inline int64_t eval_variable_list(const std::string &first, const std::string &second, message::cursor context) {
     auto f = get_variable(first, context);
-    auto s = find(f, second);
+    auto s = find_first(f, second);
     if (s == f.end()) IT_PANIC("unmatched second variable: " << second);
     return ict::to_integer<int64_t>(s->bits);
 }

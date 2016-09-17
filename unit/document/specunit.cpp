@@ -16,12 +16,32 @@ void doc_unit::sanity()
 {
     spec_server doc;
     IT_ASSERT(doc.empty());
+
+    IT_ASSERT(!ict::exists("not_exists"));
+    IT_ASSERT(!ict::exists("xddl/not_exists"));
+
+    IT_ASSERT(ict::exists("field01.xddl"));
+    IT_ASSERT(ict::is_file("field01.xddl"));
+    IT_ASSERT(!ict::is_directory("field01.xddl"));
+
+    IT_ASSERT(ict::exists("empty/README"));
+    IT_ASSERT(ict::is_file("empty/README"));
+    IT_ASSERT(!ict::is_directory("empty/README"));
+
+    IT_ASSERT(ict::exists("empty"));
+    IT_ASSERT(ict::is_directory("empty"));
+    IT_ASSERT(!ict::is_file("empty"));
+
+    IT_ASSERT(ict::exists("xddl/a"));
+    IT_ASSERT(ict::is_directory("xddl/a"));
+    IT_ASSERT(!ict::is_file("xddl/a"));
 }
 
-void doc_unit::constructor_file()
-{
+void doc_unit::constructor_file() {
     {
         try {
+            spec_server e("field01.xddl");
+            IT_ASSERT(!e.empty());
             spec_server doc("xddl/index.xddl");
             IT_ASSERT(!doc.empty());
         }
@@ -37,11 +57,8 @@ void doc_unit::constructor_file()
             spec_server doc("empty");
         }
         catch (std::exception & e) {
-            error = e.what();
+            IT_FORCE_ASSERT(e.what());
         }
-
-        IT_ASSERT_MSG("[" << error << "]", 
-            error.find("File extension must be") != std::string::npos);
     } 
 
     // let's try a non-existent directory
@@ -53,7 +70,7 @@ void doc_unit::constructor_file()
             error = e.what();
         }
         IT_ASSERT_MSG("[" << error << "]", 
-            error.find("File extension must be") != std::string::npos);
+            error.find("cannot access") != std::string::npos);
     }
 
     // let's try a non-existent file
@@ -66,7 +83,7 @@ void doc_unit::constructor_file()
         }
 
         IT_ASSERT_MSG("[" << error << "]", 
-            error.find("cannot open \"goo.xddl\"") != std::string::npos);
+            error.find("cannot access") != std::string::npos);
     }
 
     
@@ -222,6 +239,21 @@ void doc_unit::search_paths() {
 
     d.add_spec("other/index.xddl");
     IT_ASSERT(!d.empty());
+}
+
+void doc_unit::get_record() {
+    try {
+        xenon::spec_server s1;
+        auto a1 = xenon::get_record(s1, "field01.xddl");
+        auto a2 = xenon::get_record(s1, "xddl/field01.xddl");
+
+        xenon::spec_server s2("../../xddl");
+        auto r1 = xenon::get_record(s2, "icd.xddl");
+        auto r2 = xenon::get_record(s2, "3GPP/TS-36.331.xddl#DL-DCCH-Message");
+        auto rec = xenon::get_record(s2, "3GPP/TS-36.331/DL-DCCH-Message");
+    } catch (const std::exception & e) {
+        IT_FORCE_ASSERT(e.what());
+    }
 }
 
 int main (int, char **) {

@@ -543,14 +543,5 @@ std::vector<elem_type> unique_elems(const xsp_parser & xspx) {
     return v;
 }
 
-#if 0
-template <typename Cursor, typename Op>
-void dispatch(Cursor c, Op op) {
-    switch (c->uid()) {
-        case ict::xddl_tag : Op(c, std::static_pointer_cast<xddl>(c->v)); break;
-    }
-}
-#endif
-
 } // namespace xspx
 

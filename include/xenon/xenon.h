@@ -35,7 +35,6 @@ namespace util {
     template <typename Stream, typename Cursor, typename Filter>
     void to_debug_text(Stream & os, Cursor parent, Filter filter, int level) {
         for (auto c = parent.begin(); c != parent.end(); ++c) if (filter(c)) {
-            // os << ict::spaces(level * 2) << c->tag() << " " << c->mnemonic() << " " << c->name() << '\n';
             os << ict::spaces(level * 2);
             to_debug(os, *c);
             os << '\n';
@@ -64,14 +63,17 @@ inline message parse(spec::cursor start, const ict::bitstring & bits) {
 }
 
 inline message parse(spec_server & spec, const ict::bitstring & bits) {
-    if (spec.empty()) IT_PANIC("empty spec");
-    auto start = find(spec.base().ast.root(), "xddl", tag_of);
-    return parse(start, bits);
+    return parse(spec.start(), bits);
 }
 
 spec::cursor get_record(spec_server &, const recref & href);
 
 spec::cursor get_type(spec_server &, const recref & href);
+
+inline message parse(spec_server & spec, const recref & rec_id, const ict::bitstring & bits) {
+    auto rec = get_record(spec, rec_id);
+    return parse(rec, bits);
+}
 
 inline std::string to_hex_string(const ict::bitstring & bits) {
     return ict::to_hex_string(bits.begin(), bits.end());

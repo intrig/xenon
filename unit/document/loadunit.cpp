@@ -3,7 +3,7 @@
 #include "loadunit.h"
 
 #include <boost/filesystem.hpp>
-#include <xenon/xenon.h>
+#include <xenon/spec_server.h>
 
 namespace bf = boost::filesystem;
 using std::cout;
@@ -23,10 +23,8 @@ void load_all_xddl(const bf::path & dir, xenon::spec_server & specs) {
 }
 
 void load_unit::load_all_specs() {
-    auto root = ict::get_env_var("XDDLPATH");
-    if (root.empty()) return;
-
-    auto p = bf::path(root);
+    xenon::spec_server specs;
+    auto p = bf::path("../../xddl");
     try {
         load_all_xddl(p, specs);
     } catch (const bf::filesystem_error& ex) {

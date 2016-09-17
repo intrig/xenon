@@ -26,8 +26,8 @@ int main(int argc, char ** argv) {
         // display sib message
         cout << xenon::to_text(msg) << '\n';
 
-        // grab the inner sib. The '//' means it doesn't have to be a direct child of msg.root()
-        auto c = xenon::find(msg.root(), "//SIB-Data-variable");
+        // grab the inner sib. 
+        auto c = xenon::find_first(msg.root(), "SIB-Data-variable");
         if (c==msg.end()) IT_PANIC("can't find SIB-Data-variable");
 
         // display the bits of the inner sib
@@ -35,11 +35,11 @@ int main(int argc, char ** argv) {
 
         // now parse the inner sib as a SysInfoType19
         // We first get the record we are interested from the spec, and then use it to parse.
-        start = xenon::get_record(ss, "3GPP/TS-25.331.xddl#SysInfoType19");
+        start = xenon::get_record(ss, "3GPP/TS-25.331/SysInfoType19");
         auto inner = xenon::parse(start, c->bits);
 
         // display inner sib
-        cout << xenon::to_text(inner, "nlvsFL");
+        cout << xenon::to_text(inner, "nlvs");
     }
 
     catch (std::exception & e) {

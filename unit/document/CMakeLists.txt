@@ -14,5 +14,7 @@ if (Boost_FOUND)
     add_executable(load loadunit.cpp)
     target_link_libraries(load xenon)
     target_link_libraries(load ${Boost_LIBRARIES})
-    add_test(load load)
+    add_test(NAME load
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND load)
 endif()

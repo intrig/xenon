@@ -5,14 +5,14 @@ include_directories(lua-5.1.4/src)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/o) 
 
 add_custom_command(
-    OUTPUT ${CMAKE_SOURCE_DIR}/include/xenon/xddl.h ${CMAKE_SOURCE_DIR}/src/xddl_impl.cpp
-    COMMAND xspx -H t -S xddl_impl.cpp  ${CMAKE_CURRENT_SOURCE_DIR}/xddl.xspx
+    OUTPUT ${CMAKE_SOURCE_DIR}/include/xenon/xddl.h ${CMAKE_SOURCE_DIR}/src/xddl.cpp
+    COMMAND xspx -H t -S xddl.cpp  ${CMAKE_CURRENT_SOURCE_DIR}/xddl.xspx
     COMMAND ${CMAKE_COMMAND} -E copy_if_different t ${CMAKE_SOURCE_DIR}/include/xenon/xddl.h
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different xddl_impl.cpp ${CMAKE_SOURCE_DIR}/src/xddl_impl.cpp
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different xddl.cpp ${CMAKE_SOURCE_DIR}/src/xddl.cpp
     DEPENDS xspx
     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/xddl.xspx
     VERBATIM)
 
-add_library(xenon ${CMAKE_SOURCE_DIR}/include/xenon/xddl.h lua-5.1.4/src/lua_all.cpp xml_parser_base.cpp message.cpp xddl.cpp xddl_impl.cpp)
+add_library(xenon ${CMAKE_SOURCE_DIR}/include/xenon/xddl.h lua-5.1.4/src/lua_all.cpp xml_parser_base.cpp message.cpp xenon.cpp xddl.cpp)
 
 set_target_properties(xenon PROPERTIES POSITION_INDEPENDENT_CODE ON)

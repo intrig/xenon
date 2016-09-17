@@ -2,19 +2,14 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <xenon/xddl.h>
+#include <xenon/recref.h>
 #include <list>
 #include <vector>
+
 namespace xenon {
 
 class spec_server {
 public:
-    /*!!!
-     Constructors
-     */
-
-    /*!
-     Create an empty document.  
-     */
     spec_server() {
         std::string xddlroot = ict::get_env_var("XDDLPATH");
         xddl_path = ict::split(xddlroot, ';');
@@ -26,11 +21,10 @@ public:
     spec_server& operator=(const spec_server & b) = delete;
 
     /*!
-     Create a spec from a xddl file.  
+	 Create a spec and call add_spec() with path parameter.  
      */
-    spec_server(const std::string & filename) 
-        : spec_server() {
-        add_spec(filename);
+    spec_server(const std::string & path) : spec_server() {
+        add_spec(path);
     }
 
     template <typename InputIterator>
@@ -44,7 +38,6 @@ public:
 
     template <typename InputIterator>
     spec::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) {
-        // IT_WARN("adding spec: " << name);
         doms.emplace_back();
         doms.back().owner = this;
         doms.back().open(first, last, name);
@@ -54,17 +47,22 @@ public:
     }
 
     /*!
-     Add another spec.
+	 Add another spec.  If it is a directory, then add it to the xddl_path list of directories to search.  If it is a
+	 file, then load it.  It may be relative to the xddl_path.  Otherwise, throw exception.
      */
-    spec::cursor add_spec(const std::string & filename) {
-        auto x = filename;
-        if (!locate(x)) IT_PANIC("cannot open \"" << filename << "\"");
-        auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ 
-            // IT_WARN(dom.file << " == " << x);
-            return dom.file == x;} );
-        if (i !=doms.end()) return i->ast.root();
-        auto contents = ict::read_file(x);
-        return add_spec(contents.begin(), contents.end(), x);
+    spec::cursor add_spec(const std::string & path) {
+        auto p = path;
+		ict::tilde_expand(p);
+        if (ict::is_directory(p)) xddl_path.insert(xddl_path.begin(), p);
+		else {
+			if (!locate(p)) IT_PANIC("cannot access \"" << path << "\"");
+			auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ 
+				return dom.file == p;} );
+			if (i !=doms.end()) return i->ast.root();
+			auto contents = ict::read_file(p);
+			return add_spec(contents.begin(), contents.end(), p);
+		}
+        return spec::cursor();
     }
 
     /*!
@@ -91,7 +89,9 @@ public:
     spec::cursor start() const {
         if (empty()) IT_PANIC("empty spec list");
         auto root = base().ast.root();
-        auto st = find(root, "xddl/start", tag_of);
+        auto xddl = root.begin(); // the first specs <xddl> element
+        auto st = std::find_if(xddl.begin(), xddl.end(), [&](const element & e) {
+            return e.tag() == "start"; });
         if (st == root.end()) IT_PANIC("no <start> element in " << root->parser->file);
         return st;
     }
@@ -102,14 +102,15 @@ public:
     mutable std::list<spec> doms;
 private:
 
+    // given a file name, locate it relative to the xddl_path.  The filename is then mutated to reflect the 
+    // true path.
     inline bool locate(std::string & fname) {
         auto ext = ict::extension(fname);
-        if (ext != ".xddl") IT_PANIC("File extension must be .xddl: " << fname);
-        if (ict::file_exists(fname)) return true;
+        if (ict::is_file(fname)) return true;
         if (!ict::is_absolute_path(fname)) {
             for (auto const & path : xddl_path) {
                 std::string new_path = path + "/" + fname;
-                if (ict::file_exists(new_path)) {
+                if (ict::is_file(new_path)) {
                     fname = new_path;
                     return true;
                 }

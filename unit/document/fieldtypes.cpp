@@ -22,7 +22,7 @@ void doc_unit::fieldtypes() {
 
     auto m = parse(spec, ict::bitstring("#08"));
 
-    auto n = xenon::find(m.root(), "byte");
+    auto n = xenon::find_first(m.root(), "byte");
     IT_ASSERT(n != m.end());
     IT_ASSERT(n->value() == 0x08);
 }
@@ -54,15 +54,15 @@ void doc_unit::allTypes() {
 
     auto m = xenon::parse(doc, bs);
 
-    auto n = xenon::find(m.root(), "bit");
+    auto n = xenon::find_first(m.root(), "bit");
     IT_ASSERT(n != m.root().end());
     IT_ASSERT(n->length() == 1);
 
-    IT_ASSERT(xenon::find(m.root(), "bit")->value() == 1);
-    IT_ASSERT(xenon::find(m.root(), "uint8")->value() == 8);
-    IT_ASSERT(xenon::find(m.root(), "uint16")->value() == 16);
-    IT_ASSERT(xenon::find(m.root(), "uint32")->value() == 32);
-    IT_ASSERT(xenon::find(m.root(), "uint64")->value() == 64);
+    IT_ASSERT(xenon::find_first(m.root(), "bit")->value() == 1);
+    IT_ASSERT(xenon::find_first(m.root(), "uint8")->value() == 8);
+    IT_ASSERT(xenon::find_first(m.root(), "uint16")->value() == 16);
+    IT_ASSERT(xenon::find_first(m.root(), "uint32")->value() == 32);
+    IT_ASSERT(xenon::find_first(m.root(), "uint64")->value() == 64);
 }
 
 // endian not supported for now in mt

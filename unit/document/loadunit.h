@@ -3,7 +3,6 @@
 //-- See https://github.com/intrig/xenon for license.
 
 #include <ict/unit.h>
-#include <xenon/xenon.h>
 
 class load_unit {
     public:
@@ -19,5 +18,4 @@ class load_unit {
     void sanity();
     void load_all_specs();
 
-    xenon::spec_server specs;
 };

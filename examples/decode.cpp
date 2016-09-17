@@ -52,12 +52,12 @@ int main(int, char**) {
         cout << "done, processed " << fields.size() << " fields\n\n";
 
         cout << "now find a field: DATA/MSG_TYPE\n";
-        auto c = xenon::find(msg.root(), "DATA/MSG_TYPE");
+        auto c = xenon::find_first(msg, "DATA/MSG_TYPE");
 
         if (c != msg.end()) cout << "found it! " << xenon::description(c) << "\n\n";
 
-        cout << "now find using a non-anchored path: //RLP_CAP_INFO_BLOCK/MAX_MS_NAK_ROUNDS_FWD\n";
-        c = xenon::find(msg.root(), "//RLP_CAP_INFO_BLOCK/MAX_MS_NAK_ROUNDS_FWD");
+        cout << "now find another\n";
+        c = xenon::find_first(msg.root(), "RLP_CAP_INFO_BLOCK/MAX_MS_NAK_ROUNDS_FWD");
         if (c != msg.end()) {
             cout << "found it! " << c->value() << "\n";
             cout << "full path is: " << xenon::path_string(c) << "\n\n";

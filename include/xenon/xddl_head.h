@@ -7,7 +7,7 @@
 #include <string>
 #include <ict/expr.h>
 #include <xenon/att_pair.h>
-#include <xenon/find_functions.h>
+#include <xenon/functions.h>
 #include <xenon/recref.h>
 
 namespace xenon {

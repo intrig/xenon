@@ -1,7 +1,9 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 
-/* This doesn't work with gcc 4.8.  Requires 4.9. So its been removed from build.
+/* URL Parser
+ *
+ * This doesn't work with gcc 4.8.  Requires 4.9. So its been removed from build.
  * I think its the std::regex::extended that cuases the issues. */
 
 #include <regex>

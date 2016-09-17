@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- - Copyright 2016 Intrig -->
+<!-- - See https://github.com/intrig/xenon for license. -->
+<xddl>
+  <!-- simple a/b/c -->
+  <record id="A">
+    <record name="a">
+      <record name="b">
+        <bit name="c"/>
+      </record>
+    </record>
+  </record>
+  <!-- same but with 2 c's -->
+  <record id="B">
+    <record name="a">
+      <record name="b">
+        <bit name="c"/>
+        <bit name="c"/>
+      </record>
+    </record>
+  </record>
+  <record name = "a/b/c/a/b/c" id="C">
+    <record name="a">
+      <record name="b">
+        <record name="c" href="#A"/>
+      </record>
+    </record>
+  </record>
+  <record id="D">
+    <record name="A">
+      <record name="B">
+        <record name="C" href="#A"/>
+        <bit name="e"/>
+        <bit name="f"/>
+        <bit name="g"/>
+        <record name="D" href="#A"/>
+      </record>
+    </record>
+  </record>
+</xddl>

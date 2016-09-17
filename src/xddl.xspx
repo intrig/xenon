@@ -344,6 +344,7 @@
 
     <element tag="start">
         <group href="#common"/>
+        <code href="vparse"/>
     </element>
 
     <element tag="switch" name="xswitch" stack="true">

@@ -252,11 +252,9 @@ void to_dispatch(Os & os, const Xsp & xsp, std::string const & name) {
         }
     }
 
-os << R"(
-    } // end switch
+    os << "\n} // end switch";
 }
-)";
-}
+
 } // namespace xspx
 
 

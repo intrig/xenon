@@ -33,7 +33,7 @@ void script_unit::imsi() {
 
     for (auto & t : tests) {
         m = xenon::parse(spec, t.second);
-        auto n = xenon::find(m.root(), xenon::path("/IMSI_S"));
+        auto n = xenon::find_first(m.root(), "/IMSI_S");
         IT_ASSERT(n != m.end());
         IT_ASSERT_MSG(xenon::description(n) << " != " << t.first, xenon::description(n) == t.first);
     }
