@@ -18,7 +18,7 @@ int main(int, char**) {
         auto fields = std::vector<nv_pairs>();
 
         cout << "loading\n";
-        xenon::spec_server doc("icd.xddl");
+        xenon::spec_server doc("~/wythe/xenon/xddl/icd.xddl");
         cout << "assigning\n";
         auto msg = xenon::parse(doc, "0101046B102C000114E03003603800203801C03801E03801F030037030002030"
               "00903000603000E0300120300130380000300110300030380080300200300210"
@@ -31,22 +31,11 @@ int main(int, char**) {
             cout << c->name() << '\n';
         }
 
-        // using a linear cursor, we can iterate through the entire message in a depth first way
         cout << "putting fields and their values into a vector: " << xenon::to_text(msg);
-        for (auto c = ict::to_linear(msg.root()); c != msg.end(); ++c) {
-            // consumes() means it consumes bits from the message, usually a field 
-            if (c->consumes()) fields.emplace_back(c->name(), c->value());
-        }
-        cout << "done, processed " << fields.size() << " fields\n\n";
-        fields.clear();
 
-        // We an also do the same thing using the ict::recurse() algorithm that takes a root node and
-        // a lambda expression.  This is currently more efficient and recommended over the linear_cursor 
-        // method above.
-        cout << "again, using recurse algorithm\n";
-        // The first cursor parameter in the lambda expression is a cursor to the current node, the second
-        // cursor parameter is its parent, which is unused in this case.
-        ict::recurse(msg.root(), [&](xenon::message::cursor c, xenon::message::cursor) {
+        // We can do this using the ict::recurse() algorithm that takes a root node and a lambda expression.  The first
+        // cursor parameter in the lambda expression is a cursor to the current node.
+        ict::recurse(msg.root(), [&](xenon::message::cursor c) {
             if (c->consumes()) fields.emplace_back(c->name(), c->value());
         });
         cout << "done, processed " << fields.size() << " fields\n\n";
@@ -62,7 +51,6 @@ int main(int, char**) {
             cout << "found it! " << c->value() << "\n";
             cout << "full path is: " << xenon::path_string(c) << "\n\n";
         }
-        
 
     } catch (std::exception & e) { 
         cerr << e.what() << '\n';

@@ -122,11 +122,11 @@ static int script_find(lua::lua_State *L) {
 
     auto c = find_first(n, s);
     if (c == n.end()) {
-        IT_WARN(s << " not found");
+        // IT_WARN(s << " not found");
         lua_pushstring(L, "");
         return 1;
     }
-    IT_WARN("found " << s << ": " << *c);
+    // IT_WARN("found " << s << ": " << *c);
     lua_pushstring(L, description(c).c_str());
     return 1;
 }
@@ -305,7 +305,7 @@ void link_type_refs(Cursor & self, Map &recmap) {
 // If the hrefs are local, then validate them and link the ref.
 template <typename Cursor, typename RecMap, typename TypeMap>
 void link_local_refs(Cursor parent, RecMap & rec_map, TypeMap & type_map) {
-    ict::recurse(parent, [&](spec::cursor self, spec::cursor) {
+    ict::recurse(parent, [&](spec::cursor self) {
         auto url = self->v->vhref();
         if (!url.empty()) {
             if (self->tag() == "fragment" || self->tag() == "record") link_ref(self, url, rec_map);
@@ -318,7 +318,7 @@ void link_local_refs(Cursor parent, RecMap & rec_map, TypeMap & type_map) {
 }
 
 void link_anon_types(spec::cursor parent) {
-    ict::recurse(parent, [&](spec::cursor self, spec::cursor) {
+    ict::recurse(parent, [&](spec::cursor self) {
         auto t = self->uid;
         if ((t == field_uid || t == prop_uid) && has_anon_type(self)) self->v->vset_ref(--self.end());
     });
@@ -340,7 +340,7 @@ void link_reflective_properties(spec::cursor doc_root) {
     if (x != doc_root.end()) for (auto & prop : x) globs.insert(prop.name());
     if (globs.empty()) return;
 
-    ict::recurse(doc_root, [&](spec::cursor self, spec::cursor) {
+    ict::recurse(doc_root, [&](spec::cursor self) {
         auto & e = elem_of(self);
         if (e.uid == field_uid || e.tag() == "prop" || e.tag() == "setprop") {
             if (globs.find(e.name()) != globs.end()) e.flags.set(element::global_flag);
@@ -351,7 +351,7 @@ void link_reflective_properties(spec::cursor doc_root) {
 // set a flag of all descendents
 template <typename Cursor, typename T>
 void set_flag(Cursor parent, T flag) {
-    recurse(parent, [&](spec::cursor self, spec::cursor) {
+    recurse(parent, [&](spec::cursor self) {
         self->flags.set(flag);
     });
 }
@@ -798,13 +798,13 @@ std::string to_html(const spec & s) {
     std::ostringstream os;
     os << "<h2>" << s.file << "</h2><ul>";
     ict::recurse(s.ast.root(), 
-        [&](spec::const_cursor self, spec::const_cursor, int level) {
+        [&](spec::const_cursor self, int level) {
             auto space = ict::spaces(level * 2);
             os << space << "<li>";
             to_html(self, os);
             if (!self.empty()) os << "<ul>\n";
         },
-        [&](spec::const_cursor self, spec::const_cursor, int level) {
+        [&](spec::const_cursor self, int level) {
             auto space = ict::spaces(level * 2);
             os << space << "</li>";
             if (!self.empty()) os << "</ul>";

@@ -1,0 +1,66 @@
+:title  Xenon Decoder Engine Tutorial and Reference
+
+## Introduction {
+
+
+The xenon decoder engine is a convenient way to decode and analyze messages in your programs.  It is used by Intrig's
+online message decoder at <http://intrig.com>.  Here is an [example SMS message](http://intrig.com/x82da86).  Scroll
+down to the bottom to see what the SMS message is.
+
+Let's write a program using xenon to print the message.
+
+```c++
+#include <xenon/xenon.h>
+int main () {
+    try {
+        xenon::spec_server s("~/wythe/xenon/xddl");
+        auto rec = xenon::get_record(s, "3GPP/TS-36.331/DL-DCCH-Message");
+        auto m = xenon::parse(rec,
+            "0C01513C9FB9C248283B11084808F0080824810A1FA800A8202C090A1FA800010C0098090808C82E4194DFE830");
+        
+        auto c = xenon::find_first(m, "SM"); // now find the first occurance of the SM field
+        if (c == m.end()) throw std::runtime_error("Cannot find message!\n");
+
+        std::cout << "SMS is " << xenon::description(c) << '\n';
+    } catch (std::exception & e) {
+        std::cerr << e.what() << '\n';
+    }
+}
+```
+
+This short program illustrates the basic usage of xenon.  First, we initialize a `spec_server` with the path to our
+xddl directory.  This is where the protocol definitions are stored.  The `spec_server` object will dynamically load 
+protocol specifications as they are needed to decode messages.  Unlike other decoders, there is no initial startup 
+delay as the protocol definitions are loaded.
+
+Next we get the particular record we want to decode using `get_record()`.  In this case, its the the DL-DCCH-Message
+defined in the 3GPP speciciation TS-36.331:
+
+```c++
+    auto rec = xenon::get_record(s, "3GPP/TS-36.331/DL-DCCH-Message");
+```
+
+Next, we decode the message using the above record and create a `xenon::message` object:
+
+```c++
+    auto m = xenon::parse(rec,
+        "0C01513C9FB9C248283B11084808F0080824810A1FA800A8202C090A1FA800010C0098090808C82E4194DFE830");
+```
+
+This message object is tree of `xenon::node` structures. 
+
+Now we are ready to look up the `SM` field:
+```c++
+    auto c = xenon::find_first(m, "SM"); // now find the first occurance of the SM field
+    if (c == m.end()) throw std::runtime_error("Cannot find message!\n");
+```
+
+We are using the `xenon::find_first()` function.  It will return a cursor to the first occurance of the specified 
+field given a path to the field.  Or `m.end()` if not found.
+
+And finally, we print out the contents of `SM` using the `xenon::description()` function.
+
+```c++
+    std::cout << "SMS is " << xenon::description(c) << '\n';
+```
+}

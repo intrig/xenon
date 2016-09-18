@@ -10,7 +10,7 @@
 namespace xenon {
 inline ict::bitstring serialize(const message & m) {
     ict::obitstream bs;
-    recurse(m.root(), [&](message::const_cursor & self, message::const_cursor &) {
+    recurse(m.root(), [&](message::const_cursor & self) {
         if (self->consumes()) bs << self->bits;
     });
     return bs.bits();
@@ -18,7 +18,7 @@ inline ict::bitstring serialize(const message & m) {
 
 template <typename Message>
 inline void recombobulate(Message & a) {
-    ict::recurse(a.root(), [&](message::cursor c, message::cursor) {
+    ict::recurse(a.root(), [&](message::cursor c) {
         if (c->is_pof()) c->bits = ict::random_bitstring(c->bits.bit_size());
     });
 }

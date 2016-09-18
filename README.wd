@@ -1,0 +1,95 @@
+:title The Intrig Message Decoder
+
+:toc("auto")
+
+# Introduction {
+
+Intrig Xenon provides flexible, powerful and easy to use C++ API for decoding protocol messages.
+
+Originally developed for 3G and 4G programmers and test engineers to decode their complex messages, the xenon decoder
+has evolved into a general purpose open source tool with an ever expanding protocol support base.
+
+And, using XDDL, you can support your own proprietary message formats.
+
+See xenon in action for yourself using the Intrig online decoder: [http://intrig.com/x82da86](intrig.com).
+
+# Quick Start {
+
+    git clone --recursive https://github.com/intrig/xenon.git
+    cd xenon
+    make 
+    make test
+
+## Building on Windows {
+
+Windows requires the following steps:
+
+1. Install [Github Desktop](https://desktop.github.com)
+
+   Clone the xenon repo.
+
+2. Install [cmake](https://cmake.org/runningcmake/)
+
+   Follow the instructions in the above link to have cmake generate the Visual Studio build files.
+
+3. Microsoft Visual Studio 2015 (or later)
+  
+  Load and build the Visual Studio Solution file located at `xenon/build/Program.sln`.
+
+}
+}
+
+# Dependencies {
+
+* cmake
+* C++11 compiler
+* Github desktop (for Windows only)
+
+## Optional Dependencies {
+
+Boost dependencies are not required for xenon, but some tests tests will be skipped if boost cannot be found.
+
+* ubuntu: sudo apt-get install libboost-all-dev
+* mac: brew install boost
+* Windows: dunno, I just skip it
+
+Tests can be run with
+
+    make test
+
+}
+}
+
+# Updating an existing repo to latest {
+
+    git pull --recurse-submodule
+    git submodule update
+
+}
+}
+
+# Using Xenon {
+
+For your application, add the `xenon/include` directory to your include path, and and link with the xenon library found
+in the `xenon/o` directory.
+
+See the `xenon/examples' directory for some common uses of the decoder.
+
+Also, the tools directory contains useful examples, such as `idm` and xv.
+
+# API Reference {
+
+}
+
+# Licensing {
+
+Choose from multiple licensing for Xenon:
+
+* **GPL** for open source and internal tools
+* **Intrig Commercial License** for distributing with your own software.  This version comes with unlimited support.
+  Contact support@intrig.com for more on commercial licensing.
+
+Additionally, [The Intrig C++ Toolkit](https://github.com/intrig/ict), a set of powerful C++ types and function that
+xenon is built upon, is available under the permissive MIT license.  Check it out!
+
+}
