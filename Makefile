@@ -1,6 +1,6 @@
 .PHONY: tags perf
 
-all:
+all: include/ict/ict.h
 	mkdir -p build
 	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && cd .. && make -C build -j12
 
@@ -21,7 +21,7 @@ clean:
 test: all
 	make CTEST_OUTPUT_ON_FAILURE=1 -C build test
 
-perf: 
+perf:
 	build/perf/decodeperf -i 5 --load xddl
 	build/perf/decodeperf -i 10000 xddl
 	build/perf/decodeperf --xml xddl
@@ -33,6 +33,9 @@ tags:
 	/usr/bin/find . -name '*.c' -o -name '*.cpp' -o -name '*.h' | grep -v "moc_" | grep -v "ui_" | grep -v "/o/"> o/flist && \
 	ctags --file-tags=yes --language-force=C++ -L o/flist
 	@echo tags complete.
+
+include/ict/ict.h:
+	git submodule update --init --recursive
 
 update:
 	git submodule foreach git pull origin master
