@@ -956,3 +956,22 @@ count: 1
 f: /z: 1: 8: #01: 
 
 
+m: field01a.xddl: @1
+count: 1
+f: /foo: 1: 1: @1: 
+
+m: record05.xddl: @111100001111
+count: 12
+f: /outer/E: 1: 1: @1: 
+f: /outer/F: 1: 1: @1: 
+f: /outer/G: 1: 1: @1: 
+f: /outer/H: 1: 1: @1: 
+f: /outer/record/A: 0: 1: @0: 
+f: /outer/record/B: 0: 1: @0: 
+f: /outer/record/C: 0: 1: @0: 
+f: /outer/record/D: 0: 1: @0: 
+f: /inner/A: 1: 1: @1: 
+f: /inner/B: 1: 1: @1: 
+f: /inner/C: 1: 1: @1: 
+f: /inner/D: 1: 1: @1: 
+

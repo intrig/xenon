@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Type with XML characters</comment>
+  <!-- Type with XML characters -->
   <type name="XML Char Type" id="xmlchars">
     <item key="0" value="&gt;"/>
     <item key="1" value="&lt;"/>

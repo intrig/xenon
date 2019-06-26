@@ -2,10 +2,10 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
     Empower Decision Systems
     FleetChief Field Terminal Interface 
-  </comment>
+  -->
   <export>
     <prop name="Length" value="0"/>
   </export>

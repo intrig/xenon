@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>If Test</comment>
+  <!-- If Test -->
   <start>
     <field name="foo" length="1"/>
     <if expr="1">

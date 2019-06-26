@@ -11,6 +11,9 @@ target_link_libraries(asn-strip xenon)
 add_executable(idm idm.cpp)
 target_link_libraries(idm xenon)
 
+add_executable(xddl2wd xddl2wd.cpp)
+target_link_libraries(xddl2wd xenon)
+
 add_executable(xml-patch xmlpatch.cpp)
 target_link_libraries(xml-patch xenon)
 

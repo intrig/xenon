@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>variable repeat</comment>
+  <!-- variable repeat -->
   <start>
     <field name="count" length="8"/>
     <repeat name="repeat" num="count">

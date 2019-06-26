@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
   Radio Link Control (RLC)
   
   3GPP TS 25.322 V10.1.0 (2011-06)
@@ -10,7 +10,7 @@
   Technical Specification Group Radio Access Network;
   Radio Link Control (RLC) protocol specification
   (Release 10)
-  </comment>
+  -->
   <export>
     <!-- extern -->
     <prop name="LengthIndicatorSize"/>

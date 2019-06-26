@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>A slightly more complex expression.</comment>
+  <!-- A slightly more complex expression. -->
   <start>
     <field name="a" length="8"/>
     <record name="a1">

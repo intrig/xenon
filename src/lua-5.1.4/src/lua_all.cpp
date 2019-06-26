@@ -6,6 +6,13 @@
 
 #define luaall_c
 
+#include <cmath>
+#include <assert.h>
+#include <stdarg.h>
+#include <string.h>
+#include <stdlib.h>
+
+
 namespace xenon {
     namespace lua {
 // all those deprecated but awesome C functions

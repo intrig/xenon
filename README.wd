@@ -62,7 +62,7 @@ Tests can be run with
 
 # Updating an existing repo to latest {
 
-    git pull --recurse-submodule
+    git pull --recurse-submodules
     git submodule update
 
 }

@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>On-demand global property creation</comment>
+  <!-- On-demand global property creation -->
   <export>
     <prop name="a" value="0"/>
     <prop name="X" value="0"/>

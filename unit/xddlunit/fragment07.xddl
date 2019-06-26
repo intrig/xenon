@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Recursive Fragment</comment>
+  <!-- Recursive Fragment -->
   <record id="recurse">
     <field name="more" length="1"/>
     <field name="data" length="7"/>

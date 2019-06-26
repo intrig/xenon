@@ -1699,7 +1699,7 @@
   <record name="Group Call Information" id="9.1.21a.2">
     <record name="Group Call information">
       <record name="Group Call Reference">
-        <comment>octets 2-5 and bits 5-8 of octet 6 of 24.008/10.5.1.9</comment>
+        <!--octets 2-5 and bits 5-8 of octet 6 of 24.008/10.5.1.9-->
         <field name="BinaryCoding" length="27"/>
         <field name="SF" length="1" type="TS-24.008-9.xddl#10.5.8a"/>
         <field name="AF" length="1" type="TS-24.008-9.xddl#10.5.8b"/>
@@ -2502,7 +2502,7 @@
     <!-- field name="CellSelectionParametersIEI" length="8" default="#00" /-->
     <field name="CELL-RESELECT HYSTERESIS" length="3" type="#10.5.2.4.1a"/>
     <field name="MS-TXPWR-MAX-CCH" length="5">
-      <comment>range 0..31, see "power control level" in TS 05.05/4.1.1</comment>
+      <!--range 0..31, see "power control level" in TS 05.05/4.1.1-->
     </field>
     <switch expr="nas_message_type">
       <case value="@00011011">
@@ -6243,7 +6243,7 @@
       <field name="NR_OF_FDD_CELLS" length="5"/>
       <!-- field name="FDD_CELL_INFORMATION Field" length="p(NR_OF_FDD_CELLS)" -->
       <record name="FDD_CELL_INFORMATION Field">
-        <comment>Range 1024 format, clause 10.5.2.13.3, starting with w1, w2, ...
+        <!--Range 1024 format, clause 10.5.2.13.3, starting with w1, w2, ...
 n p(n)     n p(n)       n p(n)      n p(n)
 
 0 0        5 44        10 81       15 116 
@@ -6251,7 +6251,7 @@ n p(n)     n p(n)       n p(n)      n p(n)
 2 19       7 60        12 95       17-31 0 
 3 28       8 67        13 102                      
 4 36       9 74        14 109                      
-    </comment>
+    -->
         <if expr="NR_OF_FDD_CELLS &lt;= 16">
           <fragment href="#10.5.2.33b-1024"/>
         </if>
@@ -6362,7 +6362,7 @@ n p(n)     n p(n)       n p(n)      n p(n)
       <field name="NR_OF_TDD_CELLS" length="5"/>
       <!-- field name="TDD_CELL_INFORMATION Field" length="q(NR_OF_TDD_CELLS)" -->
       <record name="TDD_CELL_INFORMATION Field">
-        <comment>Range 512 format, clause 10.5.2.13.4, with w0=0, starting with w1, w2, ...
+        <!--Range 512 format, clause 10.5.2.13.4, with w0=0, starting with w1, w2, ...
 m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
 
 0 0      5 39     10 71     15 101     20  126 
@@ -6370,7 +6370,7 @@ m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
 2 17     7 53     12 83     17 111                        
 3 25     8 59     13 89     18 116                        
 4 32     9 65     14 95     19 121                        
-    </comment>
+    -->
         <if expr="NR_OF_TDD_CELLS &lt;= 20">
           <fragment href="#10.5.2.33b-512"/>
         </if>
@@ -6460,12 +6460,12 @@ m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
         <switch expr="(@11010100 &gt;&gt; (EarlyClassmarkSendingControlOffset &amp; 7)) &amp; 1">
           <case value="0">
             <field name="Early Classmark Sending Control" length="1" default="0" type="#10.5.2.34.2c">
-              <comment>{P_USER_EDIT=yes,}</comment>
+              <!--{P_USER_EDIT=yes,}-->
             </field>
           </case>
           <case value="1">
             <field name="Early Classmark Sending Control" length="1" default="1" type="#10.5.2.34.2c-inv">
-              <comment>{P_USER_EDIT=yes,P_USER_REST_INV=yes,}</comment>
+              <!--{P_USER_EDIT=yes,P_USER_REST_INV=yes,}-->
             </field>
           </case>
         </switch>
@@ -6494,12 +6494,12 @@ m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
         <switch expr="(@11010100 &gt;&gt; ({3GEarlyClassmarkSendingRestrictionOffset} &amp; 7)) &amp; 1">
           <case value="0">
             <field name="3G Early Classmark Sending Restriction" length="1" default="0" type="#10.5.2.34.2e">
-              <comment>{P_USER_EDIT=yes,}</comment>
+              <!--{P_USER_EDIT=yes,}-->
             </field>
           </case>
           <case value="1">
             <field name="3G Early Classmark Sending Restriction" length="1" default="1" type="#10.5.2.34.2e-inv">
-              <comment>{P_USER_EDIT=yes,P_USER_REST_INV=yes,}</comment>
+              <!--{P_USER_EDIT=yes,P_USER_REST_INV=yes,}-->
             </field>
           </case>
         </switch>
@@ -7160,7 +7160,7 @@ m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
     </record>
   </record>
   <record name="SI 17 Rest Octets" id="10.5.2.37f">
-    <comment>Same as SI 16</comment>
+    <!--Same as SI 16-->
     <record name="SI 16 Rest Octets" href="#10.5.2.37e"/>
   </record>
   <record name="SI 19 Rest Octets" id="10.5.2.37g">
@@ -7370,7 +7370,7 @@ m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
     <item key="@11111" value="The remaining portion of the SI message instance is used by the associated CONTAINER. The Non-GSM message continues in a subsequent instance of the SI message, in the next CONTAINER with the same Non-GSM Protocol Discriminator value as the current one"/>
   </type>
   <record name="SI 20 Rest Octets" id="10.5.2.37i">
-    <comment>Same as SI 18</comment>
+    <!--Same as SI 18-->
     <record name="SI20 Rest Octets Data" length="20">
       <field name="SI20_CHANGE_MARK" length="2"/>
       <field name="SI20_INDEX" length="3"/>
@@ -7525,11 +7525,11 @@ m q(m)   m q(m)   m q(m)    m q(m)      m q(m)
     <item key="@00000101" value="Mobile terminating CS connection"/>
     <item key="@00000110" value="DTM not supported in the cell"/>
     <range start="@00000111" end="@11111111" value="Emergency call, mobile originating call or call re-establishment"/>
-    <comment>
+    <!--
 Note 1:  As an option, cause value 0000 0011 may be used for an MO Short message service 
 Note 2:  As an option, cause value 0000 0000 may be used for an MO Voice broadcast or group call 
 All other cause values shall be treated as 0000 0000 
-  </comment>
+  -->
   </type>
   <record name="APDU ID" id="10.5.2.48">
     <!-- field name="APDU ID IEI" length="4" default="#00" /-->
@@ -7571,7 +7571,7 @@ All other cause values shall be treated as 0000 0000
     <field name="Length" length="8"/>
     <field name="APDU Information" length="Length*8">
       <!-- TODO Investigate whether the RRLP message needs to be coded -->
-      <comment>RRLP protocol: RRLP message in 3GPP TS 04.31(1)</comment>
+      <!--RRLP protocol: RRLP message in 3GPP TS 04.31(1)-->
     </field>
   </record>
   <record name="Handover To UTRAN Command" id="10.5.2.51">

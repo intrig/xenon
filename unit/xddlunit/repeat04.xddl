@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>indefinite repeat with minimum</comment>
+  <!-- indefinite repeat with minimum -->
   <start>
     <field name="first" length="8"/>
     <repeat name="repeat" min="1">

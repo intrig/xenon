@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>peek over expression -- error</comment>
+  <!-- peek over expression -- error -->
   <start>
     <field name="num" length="8"/>
     <peek name="pd" length="4" offset="8"/>

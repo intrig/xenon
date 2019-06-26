@@ -1195,7 +1195,7 @@ f: /c1/rrcConnectionReconfiguration/criticalExtensions/c1/rrcConnectionReconfigu
 f: /c1/rrcConnectionReconfiguration/criticalExtensions/c1/rrcConnectionReconfiguration-r8/radioResourceConfigDedicated/drb-ToAddModList/repeat/record/logicalChannelConfig/ul-SpecificParameters/logicalChannelGroup: 1: 2: @01: 
 
 m: icd.xddl: #C308CE82BA9C048069000000000007600000
-count: 15
+count: 16
 f: /TimestampIncl: 1: 1: @1: true
 f: /SourceDestIncl: 1: 1: @1: true
 f: /Reserved: 0: 1: @0: zero
@@ -1209,8 +1209,9 @@ f: /Channel: 7: 8: #07: BCCH-BCH
 f: /message/dl-Bandwidth: 3: 3: @011: n50
 f: /message/phich-Config/phich-Duration: 0: 1: @0: normal
 f: /message/phich-Config/phich-Resource: 0: 2: @00: oneSixth
-f: /message/systemFrameNumber: 0: 8: #00: 
-f: /message/spare: 0: 10: @0000000000: 
+f: /message/systemFrameNumber: 0: 8: #00:
+f: /message/schedulingInfoSIB1-BR-r13: 0: 5: @00000:
+f: /message/spare: 0: 5: @00000:
 
 m: icd.xddl: #C308CE82BA9C0488770000000000064040040300010000001C48C110208184B400
 count: 46
@@ -3607,267 +3608,6 @@ f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComple
 f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/NAS Message/optional elements/record/Last visited registered TAI/MNC digit 1: 0: 4: @0000: 
 f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/NAS Message/optional elements/record/Last visited registered TAI/TAC: 1: 16: #0001: 
 
-m: icd.xddl: #C308CFA5A50B12032200000000000222009A0E82E4101220202064A8ED300BC0C1C0C00200200465A0224E1500000400001800001A00B810066207EBC275202206AE31644018C02843D948CEE28512D72B00801000043E0408048008BA0206
-count: 258
-f: /TimestampIncl: 1: 1: @1: true
-f: /SourceDestIncl: 1: 1: @1: true
-f: /Reserved: 0: 1: @0: zero
-f: /Technology: 3: 5: @00011: LTE | RRC
-f: /Timestamp: 0: 64: #08CFA5A50B120322: 12-11-2012 10:54:35.644
-f: /Source: 0: 16: #0000: 
-f: /Destination: 0: 16: #0000: 
-f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
-f: /Sublayer: 0: 7: @0000000: RRC
-f: /Channel: 2: 8: #02: UL-DCCH
-f: /choice: 0: 1: @0: c1
-f: /c1/choice: 4: 4: @0100: rrcConnectionSetupComplete
-f: /c1/rrcConnectionSetupComplete/rrc-TransactionIdentifier: 1: 2: @01: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/choice: 0: 1: @0: c1
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/choice: 0: 2: @00: rrcConnectionSetupComplete-r8
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/option/registeredMME: 0: 1: @0: not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/option/nonCriticalExtension: 0: 1: @0: not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/selectedPLMN-Identity: 1: 3: @000: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/b0: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/length: 77: 7: @1001101: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/Security header type: 0: 4: @0000: Plain NAS Message
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/Protocol discriminator: 7: 4: @0111: EPS mobility management messages
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/Message type: 65: 8: #41: Attach request
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/NAS key set identifier/TSC: 0: 1: @0: native security context
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/NAS key set identifier/NAS key set identifier: 7: 3: @111: no key is available (UE to network); reserved (network to UE)
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS attach type/Spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS attach type/EPSAttachType: 2: 3: @010: combined EPS/IMSI attach
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Length: 8: 8: #08: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Identity digit 1: 0: 4: @0000: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/odd/even indicator: 1: 1: @1: odd number of identity digits
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Type of identity: 1: 3: @001: IMSI
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Identity digits: 0: 56: #10101032547698: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Length: 5: 8: #05: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA0: 1: 1: @1: EPS encryption algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA1: 1: 1: @1: EPS encryption algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA2: 1: 1: @1: EPS encryption algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA3: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA4: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA5: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA6: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA7: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA0: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EIA1: 1: 1: @1: EPS integrity algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EIA2: 1: 1: @1: EPS integrity algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EIA3: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA4: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA5: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA6: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA7: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA0: 1: 1: @1: EPS encryption algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA1: 1: 1: @1: EPS encryption algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA2: 1: 1: @1: EPS encryption algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA3: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA4: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA5: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA6: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA7: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UCS2: 0: 1: @0: UE has a preference for the default alphabet
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA1: 1: 1: @1: EPS integrity algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA2: 1: 1: @1: EPS integrity algorithm supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA3: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA4: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA5: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA6: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA7: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/H.245-ASH: 0: 1: @0: H.245 after SRVCC handover capability not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/ACC-CSFB: 0: 1: @0: eNodeB-based access class control for CSFB not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/LPP: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/LCS: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/1xSR-VCC: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/NF: 1: 1: @1: notification supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/Length: 16: 16: #0010: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/EPS bearer identity: 0: 4: @0000: No EPS bearer identity assigned
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Procedure Transaction Identity: 50: 8: #32: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Message type: 208: 8: #D0: PDN connectivity request
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/PDN type/Spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/PDN type/PDN Type: 1: 3: @001: IPv4
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Request Type/Spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Request Type/Request type: 1: 3: @001: initial request
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/IEI: 39: 8: #27: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Length: 10: 8: #0A: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/ext: 1: 1: @1: Last octet of the group
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/Spare: 0: 4: @0000: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/Configuration protocol: 0: 3: @000: PPP for use with IP PDP type
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 2: 16: #0002: IM CN Subsystem Signaling Flag
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 0: 8: #00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 12: 16: #000C: P-CSCF IPv4 Address Request
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 0: 8: #00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 13: 16: #000D: DNS Server IPv4 Address Request
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 0: 8: #00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 92: 8: #5C: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/SPLIT PG CYCLE CODE: 8: 8: #08: 8
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/CN Specific DRX cycle length coefficient and DRX value for S1 mode: 0: 4: @0000: CN Specific DRX cycle length coefficient or DRX value not specified
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/SPLIT on CCCH: 0: 1: @0: Split pg cycle on CCCH is not supported by the mobile station
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/Non-DRX timer: 3: 3: @011: max. 4 sec non-DRX mode after transfer state
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 49: 8: #31: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Length: 3: 8: #03: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/GEA1: 1: 1: @1: Encryption algorithm GEA/1 available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SM capabilities via dedicated channels: 1: 1: @1: Mobile station supports mobile terminated point-to-point SMS via dedicated packet data channels
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SM capabilities via GPRS channels: 1: 1: @1: Mobile station supports mobile terminated point-to-point SMS via GPRS packet data channels
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/UCS2 support: 1: 1: @1: ME has no preference between use of default alphabet and use of UCS2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SS Screening Indicator: 1: 2: @01: Capability of handling ellipsis notation and phase 2 error handling
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SoLSA Capability: 0: 1: @0: ME does not support SoLSA
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Revision level indicator: 1: 1: @1: MS supports R99 or later version of the protocol
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/PFC feature mode: 1: 1: @1: MS supports BSS packet flow procedures
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_2: 1: 1: @1: Encryption algorithm GEA/2 available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_3: 1: 1: @1: Encryption algorithm GEA/3 available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_4: 0: 1: @0: Encryption algorithm GEA/4 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_5: 0: 1: @0: Encryption algorithm GEA/5 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_6: 0: 1: @0: Encryption algorithm GEA/6 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_7: 0: 1: @0: Encryption algorithm GEA/7 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/LCS VA capability: 1: 1: @1: Location Request Notification Via PS Domain Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/PS inter-RAT HO from GERAN to UTRAN Iu mode capability: 0: 1: @0: PS Inter-RAT HO to UTRAN Iu Mode Not Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/PS inter-RAT HO from GERAN to E-UTRAN S1 mode capability: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/EMM Combined procedures Capability: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/ISR support: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SRVCC to GERAN/UTRAN capability: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/EPC capability: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/NF capability: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/pad: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 9: 4: @1001: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/TMSI status/spare: 0: 3: @000: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/TMSI status/TMSI Flag: 0: 1: @0: no valid TMSI available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 17: 8: #11: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/Length: 3: 8: #03: 3
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/Spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/Revision level: 2: 2: @10: Used by mobile stations supporting R99 or later versions of the protocol
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/ES IND: 1: 1: @1: 'Controlled Early Classmark Sending' option is implemented in the MS
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/A5/1: 0: 1: @0: encryption algorithm A5/1 available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/RF power capability: 7: 3: @111: reserved
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/PS capability: 0: 1: @0: PS capability not present
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/SS Screen Indicator: 1: 2: @01: capability of handling of ellipsis notation and phase 2 error handling
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/SM Capability: 1: 1: @1: Mobile station supports mobile terminated point to point SMS
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/VBS: 0: 1: @0: no VBS capability or no notifications wanted
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/VGCS: 0: 1: @0: no VGCS capability or no notifications wanted
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/FC: 0: 1: @0: MS does not support E-GSM or R-GSM band
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/CM3: 1: 1: @1: The MS supports options that are indicated in classmark 3 IE
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/LCSVA Capability: 1: 1: @1: location request notification via CS domain supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/UCS2: 1: 1: @1: ME has no preference between the use of the default alphabet and the use of UCS2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/SoLSA: 0: 1: @0: ME does not support SoLSA
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/CMSP: 0: 1: @0: 'Network initiated MO CM connection request' not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/A5/3: 1: 1: @1: encryption algorithm A5/3 available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/A5/2: 0: 1: @0: encryption algorithm A5/2 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 32: 8: #20: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/AdditionalMobileStationClassmarkInformationLen: 12: 8: #0C: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/spare: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Multiband supported: 6: 3: @110: Band 2 & Band 3 supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_7: 0: 1: @0: Encryption algorithm A5/7 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_6: 0: 1: @0: Encryption algorithm A5/6 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_5: 0: 1: @0: Encryption algorithm A5/5 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_4: 0: 1: @0: Encryption algorithm A5/4 not available
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Associated Radio Capability 2: 1: 4: @0001: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Associated Radio Capability 1: 4: 4: @0100: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/R Support included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/HSCSD Multi Slot Capability included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UCS2 treatment: 1: 1: @1: ME has no preference between the default alphabet and UCS2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Extended Measurement Capability: 0: 1: @0: MS does not support Extended Measurements
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/MS measurement capability included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/MS Positioning Method Capability included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/ECSD Multi Slot Capability included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/o8 PSK Struct included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/Modulation Capability: 1: 1: @1: 8-PSK supported for uplink transmission and downlink reception
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/o8 PSK RF Power Capability 1 included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/8 PSK RF Power Capability 1: 2: 2: @10: Power class E2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/o8 PSK RF Power Capability 2 included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/8-PSK RF Power Capability 2: 2: 2: @10: Power class E2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 400 Bands Supported included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 850 Associated Radio Capability included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 850 Associated Radio Capability: 4: 4: @0100: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 1900 Associated Radio Capability included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 1900 Associated Radio Capability: 1: 4: @0001: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UMTS FDD Radio Access Technology Capability: 1: 1: @1: UMTS FDD supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UMTS 3.84 Mcps TDD Radio Access Technology Capability: 0: 1: @0: UMTS 3.84 Mcps TDD not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/CDMA 2000 Radio Access Technology Capability: 0: 1: @0: CDMA 2000 not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS Multi Slot Class included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS Multi Slot Class: 3: 2: @11: Reserved, interpreted as: Sub-Class 1
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Single Slot DTM: 0: 1: @0: Dynamic and Fixed Allocation not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS Multi Slot Class included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS Multi Slot Class: 3: 2: @11: Reserved, interpreted as: Sub-Class 1
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Single Band Support included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 750 Associated Radio Capability included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UMTS 1.28 Mcps TDD Radio Access Technology Capability: 0: 1: @0: UMTS 1.28 Mcps TDD not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GERAN Feature Package 1: 1: 1: @1: GERAN feature package 1 supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Extended DTM GPRS Multi Slot Class included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/High Multislot Capability included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/High Multislot Capability: 0: 2: @00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GERAN Iu Mode Capabilities included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GERAN Feature Package 2: 0: 1: @0: GERAN feature package 2 not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GMSK Multislot Power Profile: 2: 2: @10: GMSK Multislot Power Profile 2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/_8-PSK Multislot Power Profile: 2: 2: @10: 8-PSK Multislot Power Profile 2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/T GSM 400 Bands Supported included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/reserved: 0: 1: @0: The value '1' was allocated in an earlier version of the protocol and shall not be used.
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Downlink Advanced Receiver Performance: 2: 2: @10: Unused, shall be interpreted as '01': Downlink Advanced Receiver Performance-phase I supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM Enhancements Capability: 0: 1: @0: The mobile station does not support enhanced DTM CS establishment and enhanced DTM CS release procedures
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS High Multi Slot Class included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS High Multi Slot Class: 3: 3: @011: Multislot class 33 or 38 supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Offset required: 0: 1: @0: The mobile station does not require the offset
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS High Multi Slot Class included: 1: 1: @1: Included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS High Multi Slot Class: 3: 3: @011: Multislot class 33 or 38 supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Repeated ACCH Capability: 1: 1: @1: The mobile station supports Repeated SACCH and Repeated Downlink FACCH
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 710 Associated Radio Capability included: 0: 1: @0: Not included
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Ciphering Mode Setting Capability: 0: 1: @0: The mobile station does not support the Ciphering Mode Setting IE in the DTM ASSIGNMENT COMMAND message
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Additional Positioning Capabilities: 1: 1: @1: The mobile station supports additional positioning capabilities which can be retrieved using RRLP
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/E-UTRA FDD support: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/E-UTRA TDD support: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/E-UTRA Measurement and Reporting support: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Priority-based reselection support: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UTRA CSG Cells Reporting: 1: 1: @1: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/VAMOS Level: 0: 2: @00: VAMOS not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/TIGHTER Capability: 0: 2: @00: TIGHTER not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Selective Ciphering of Downlink SACCH: 0: 1: @0: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/pad: 0: 2: @00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 64: 8: #40: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Length: 8: 8: #08: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/System Identification: 0: 8: #00: SysID for GSM
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Length Of Bitmap: 2: 8: #02: 2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/TDMA EFR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR 2: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/HR AMR: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/FR AMR: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM EFR: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM HR: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM FR: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/reserved: 0: 2: @00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHR AMR-WB: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OFR AMR-WB: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHM AMR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/UMTS AMR-WB: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/FR AMR-WB: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/PDC EFR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/System Identification: 4: 8: #04: SysID for UMTS
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Length Of Bitmap: 2: 8: #02: 2
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/TDMA EFR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR 2: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/HR AMR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/FR AMR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM EFR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM HR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM FR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/reserved: 0: 2: @00: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHR AMR-WB: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OFR AMR-WB: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHM AMR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/UMTS AMR-WB: 1: 1: @1: Supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/FR AMR-WB: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/PDC EFR: 0: 1: @0: Not supported
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 93: 8: #5D: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Length: 1: 8: #01: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Spare: 0: 5: @00000: 
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/UE's usage setting: 0: 1: @0: Voice centric
-f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Voice domain preference for E-UTRAN: 3: 2: @11: IMS PS voice preferred, CS Voice as secondary
-
 m: icd.xddl: #03000540001000000010
 count: 19
 f: /TimestampIncl: 0: 1: @0: false
@@ -5682,4 +5422,265 @@ f: /c1/systemInformation/criticalExtensions/systemInformation-r8/sib-TypeAndInfo
 f: /c1/systemInformation/criticalExtensions/systemInformation-r8/sib-TypeAndInfo/record/extension/sib16-v1130/timeInfo-r11/leapSeconds-r11: 6: 8: #85: 
 f: /c1/systemInformation/criticalExtensions/systemInformation-r8/sib-TypeAndInfo/record/extension/sib16-v1130/timeInfo-r11/localTimeOffset-r11: 6: 7: @1000101: 
 
+
+m: icd.xddl: #C308CFA5A50B12032200000000000222009A0E82E4101220202064A8ED300BC0C1C0C00200200465A0224E1500000400001800001A00B810066207EBC275202206AE31644018C02843D948CEE28512D72B00801000043E0408048008BA0206
+count: 258
+f: /TimestampIncl: 1: 1: @1: true
+f: /SourceDestIncl: 1: 1: @1: true
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 3: 5: @00011: LTE | RRC
+f: /Timestamp: 0: 64: #08CFA5A50B120322: 12-11-2012 10:54:35.644
+f: /Source: 0: 16: #0000: 
+f: /Destination: 0: 16: #0000: 
+f: /Ciphered: 0: 1: @0: Decode NAS even if it is ciphered
+f: /Sublayer: 0: 7: @0000000: RRC
+f: /Channel: 2: 8: #02: UL-DCCH
+f: /choice: 0: 1: @0: c1
+f: /c1/choice: 4: 4: @0100: rrcConnectionSetupComplete
+f: /c1/rrcConnectionSetupComplete/rrc-TransactionIdentifier: 1: 2: @01: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/choice: 0: 1: @0: c1
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/choice: 0: 2: @00: rrcConnectionSetupComplete-r8
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/option/registeredMME: 0: 1: @0: not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/option/nonCriticalExtension: 0: 1: @0: not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/selectedPLMN-Identity: 1: 3: @000: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/b0: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/length: 77: 7: @1001101: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/Security header type: 0: 4: @0000: Plain NAS Message
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/Protocol discriminator: 7: 4: @0111: EPS mobility management messages
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/Message type: 65: 8: #41: Attach request
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/NAS key set identifier/TSC: 0: 1: @0: native security context
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/NAS key set identifier/NAS key set identifier: 7: 3: @111: no key is available (UE to network); reserved (network to UE)
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS attach type/Spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS attach type/EPSAttachType: 2: 3: @010: combined EPS/IMSI attach
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Length: 8: 8: #08: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Identity digit 1: 0: 4: @0000: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/odd/even indicator: 1: 1: @1: odd number of identity digits
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Type of identity: 1: 3: @001: IMSI
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/EPS mobile identity/Identity digits: 0: 56: #10101032547698: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Length: 5: 8: #05: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA0: 1: 1: @1: EPS encryption algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA1: 1: 1: @1: EPS encryption algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA2: 1: 1: @1: EPS encryption algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EEA3: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA4: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA5: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA6: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EEA7: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA0: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EIA1: 1: 1: @1: EPS integrity algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EIA2: 1: 1: @1: EPS integrity algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/128-EIA3: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA4: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA5: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA6: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/EIA7: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA0: 1: 1: @1: EPS encryption algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA1: 1: 1: @1: EPS encryption algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA2: 1: 1: @1: EPS encryption algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA3: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA4: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA5: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA6: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UEA7: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UCS2: 0: 1: @0: UE has a preference for the default alphabet
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA1: 1: 1: @1: EPS integrity algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA2: 1: 1: @1: EPS integrity algorithm supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA3: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA4: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA5: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA6: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/UIA7: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/H.245-ASH: 0: 1: @0: H.245 after SRVCC handover capability not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/ACC-CSFB: 0: 1: @0: eNodeB-based access class control for CSFB not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/LPP: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/LCS: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/1xSR-VCC: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/UE network capability/Contents/NF: 1: 1: @1: notification supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/Length: 16: 16: #0010: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/EPS bearer identity: 0: 4: @0000: No EPS bearer identity assigned
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Protocol discriminator: 2: 4: @0010: EPS session management messages
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Procedure Transaction Identity: 50: 8: #32: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Message type: 208: 8: #D0: PDN connectivity request
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/PDN type/Spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/PDN type/PDN Type: 1: 3: @001: IPv4
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Request Type/Spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/Request Type/Request type: 1: 3: @001: initial request
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/IEI: 39: 8: #27: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Length: 10: 8: #0A: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/ext: 1: 1: @1: Last octet of the group
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/Spare: 0: 4: @0000: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/Configuration protocol: 0: 3: @000: PPP for use with IP PDP type
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 2: 16: #0002: IM CN Subsystem Signaling Flag
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 0: 8: #00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 12: 16: #000C: P-CSCF IPv4 Address Request
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 0: 8: #00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Container ID: 13: 16: #000D: DNS Server IPv4 Address Request
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/ESM Message Container/ESM Message/optional elements/record/Protocol configuration options/Contents/repeat/record/MS to network Protocol configuration options/Length: 0: 8: #00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 92: 8: #5C: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/SPLIT PG CYCLE CODE: 8: 8: #08: 8
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/CN Specific DRX cycle length coefficient and DRX value for S1 mode: 0: 4: @0000: CN Specific DRX cycle length coefficient or DRX value not specified
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/SPLIT on CCCH: 0: 1: @0: Split pg cycle on CCCH is not supported by the mobile station
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/DRX parameter/Non-DRX timer: 3: 3: @011: max. 4 sec non-DRX mode after transfer state
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 49: 8: #31: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Length: 3: 8: #03: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/GEA1: 1: 1: @1: Encryption algorithm GEA/1 available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SM capabilities via dedicated channels: 1: 1: @1: Mobile station supports mobile terminated point-to-point SMS via dedicated packet data channels
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SM capabilities via GPRS channels: 1: 1: @1: Mobile station supports mobile terminated point-to-point SMS via GPRS packet data channels
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/UCS2 support: 1: 1: @1: ME has no preference between use of default alphabet and use of UCS2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SS Screening Indicator: 1: 2: @01: Capability of handling ellipsis notation and phase 2 error handling
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SoLSA Capability: 0: 1: @0: ME does not support SoLSA
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Revision level indicator: 1: 1: @1: MS supports R99 or later version of the protocol
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/PFC feature mode: 1: 1: @1: MS supports BSS packet flow procedures
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_2: 1: 1: @1: Encryption algorithm GEA/2 available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_3: 1: 1: @1: Encryption algorithm GEA/3 available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_4: 0: 1: @0: Encryption algorithm GEA/4 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_5: 0: 1: @0: Encryption algorithm GEA/5 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_6: 0: 1: @0: Encryption algorithm GEA/6 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/Extended GEA bits/GEA_7: 0: 1: @0: Encryption algorithm GEA/7 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/LCS VA capability: 1: 1: @1: Location Request Notification Via PS Domain Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/PS inter-RAT HO from GERAN to UTRAN Iu mode capability: 0: 1: @0: PS Inter-RAT HO to UTRAN Iu Mode Not Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/PS inter-RAT HO from GERAN to E-UTRAN S1 mode capability: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/EMM Combined procedures Capability: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/ISR support: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/SRVCC to GERAN/UTRAN capability: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/EPC capability: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/NF capability: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/MS network capability/pad: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 9: 4: @1001: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/TMSI status/spare: 0: 3: @000: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/TMSI status/TMSI Flag: 0: 1: @0: no valid TMSI available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 17: 8: #11: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/Length: 3: 8: #03: 3
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/Spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/Revision level: 2: 2: @10: Used by mobile stations supporting R99 or later versions of the protocol
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/ES IND: 1: 1: @1: 'Controlled Early Classmark Sending' option is implemented in the MS
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/A5/1: 0: 1: @0: encryption algorithm A5/1 available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/RF power capability: 7: 3: @111: reserved
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/PS capability: 0: 1: @0: PS capability not present
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/SS Screen Indicator: 1: 2: @01: capability of handling of ellipsis notation and phase 2 error handling
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/SM Capability: 1: 1: @1: Mobile station supports mobile terminated point to point SMS
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/VBS: 0: 1: @0: no VBS capability or no notifications wanted
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/VGCS: 0: 1: @0: no VGCS capability or no notifications wanted
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/FC: 0: 1: @0: MS does not support E-GSM or R-GSM band
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/CM3: 1: 1: @1: The MS supports options that are indicated in classmark 3 IE
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/LCSVA Capability: 1: 1: @1: location request notification via CS domain supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/UCS2: 1: 1: @1: ME has no preference between the use of the default alphabet and the use of UCS2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/SoLSA: 0: 1: @0: ME does not support SoLSA
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/CMSP: 0: 1: @0: 'Network initiated MO CM connection request' not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/A5/3: 1: 1: @1: encryption algorithm A5/3 available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 2/A5/2: 0: 1: @0: encryption algorithm A5/2 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 32: 8: #20: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/AdditionalMobileStationClassmarkInformationLen: 12: 8: #0C: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/spare: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Multiband supported: 6: 3: @110: Band 2 & Band 3 supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_7: 0: 1: @0: Encryption algorithm A5/7 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_6: 0: 1: @0: Encryption algorithm A5/6 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_5: 0: 1: @0: Encryption algorithm A5/5 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/A5Bits/A5_4: 0: 1: @0: Encryption algorithm A5/4 not available
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Associated Radio Capability 2: 1: 4: @0001: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Associated Radio Capability 1: 4: 4: @0100: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/R Support included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/HSCSD Multi Slot Capability included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UCS2 treatment: 1: 1: @1: ME has no preference between the default alphabet and UCS2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Extended Measurement Capability: 0: 1: @0: MS does not support Extended Measurements
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/MS measurement capability included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/MS Positioning Method Capability included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/ECSD Multi Slot Capability included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/o8 PSK Struct included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/Modulation Capability: 1: 1: @1: 8-PSK supported for uplink transmission and downlink reception
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/o8 PSK RF Power Capability 1 included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/8 PSK RF Power Capability 1: 2: 2: @10: Power class E2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/o8 PSK RF Power Capability 2 included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/8 PSK Struct/8-PSK RF Power Capability 2: 2: 2: @10: Power class E2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 400 Bands Supported included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 850 Associated Radio Capability included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 850 Associated Radio Capability: 4: 4: @0100: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 1900 Associated Radio Capability included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 1900 Associated Radio Capability: 1: 4: @0001: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UMTS FDD Radio Access Technology Capability: 1: 1: @1: UMTS FDD supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UMTS 3.84 Mcps TDD Radio Access Technology Capability: 0: 1: @0: UMTS 3.84 Mcps TDD not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/CDMA 2000 Radio Access Technology Capability: 0: 1: @0: CDMA 2000 not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS Multi Slot Class included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS Multi Slot Class: 3: 2: @11: Reserved, interpreted as: Sub-Class 1
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Single Slot DTM: 0: 1: @0: Dynamic and Fixed Allocation not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS Multi Slot Class included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS Multi Slot Class: 3: 2: @11: Reserved, interpreted as: Sub-Class 1
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Single Band Support included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 750 Associated Radio Capability included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UMTS 1.28 Mcps TDD Radio Access Technology Capability: 0: 1: @0: UMTS 1.28 Mcps TDD not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GERAN Feature Package 1: 1: 1: @1: GERAN feature package 1 supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Extended DTM GPRS Multi Slot Class included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/High Multislot Capability included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/High Multislot Capability: 0: 2: @00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GERAN Iu Mode Capabilities included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GERAN Feature Package 2: 0: 1: @0: GERAN feature package 2 not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GMSK Multislot Power Profile: 2: 2: @10: GMSK Multislot Power Profile 2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/_8-PSK Multislot Power Profile: 2: 2: @10: 8-PSK Multislot Power Profile 2
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/T GSM 400 Bands Supported included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/reserved: 0: 1: @0: The value '1' was allocated in an earlier version of the protocol and shall not be used.
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Downlink Advanced Receiver Performance: 2: 2: @10: Unused, shall be interpreted as '01': Downlink Advanced Receiver Performance-phase I supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM Enhancements Capability: 0: 1: @0: The mobile station does not support enhanced DTM CS establishment and enhanced DTM CS release procedures
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS High Multi Slot Class included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM GPRS High Multi Slot Class: 3: 3: @011: Multislot class 33 or 38 supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Offset required: 0: 1: @0: The mobile station does not require the offset
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS High Multi Slot Class included: 1: 1: @1: Included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/DTM EGPRS High Multi Slot Class: 3: 3: @011: Multislot class 33 or 38 supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Repeated ACCH Capability: 1: 1: @1: The mobile station supports Repeated SACCH and Repeated Downlink FACCH
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/GSM 710 Associated Radio Capability included: 0: 1: @0: Not included
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Ciphering Mode Setting Capability: 0: 1: @0: The mobile station does not support the Ciphering Mode Setting IE in the DTM ASSIGNMENT COMMAND message
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Additional Positioning Capabilities: 1: 1: @1: The mobile station supports additional positioning capabilities which can be retrieved using RRLP
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/E-UTRA FDD support: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/E-UTRA TDD support: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/E-UTRA Measurement and Reporting support: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Priority-based reselection support: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/UTRA CSG Cells Reporting: 1: 1: @1: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/VAMOS Level: 0: 2: @00: VAMOS not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/TIGHTER Capability: 0: 2: @00: TIGHTER not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/Selective Ciphering of Downlink SACCH: 0: 1: @0: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Mobile station classmark 3/pad: 0: 2: @00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 64: 8: #40: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Length: 8: 8: #08: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/System Identification: 0: 8: #00: SysID for GSM
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Length Of Bitmap: 2: 8: #02: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/TDMA EFR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR 2: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/HR AMR: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/FR AMR: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM EFR: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM HR: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM FR: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/reserved: 0: 2: @00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHR AMR-WB: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OFR AMR-WB: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHM AMR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/UMTS AMR-WB: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/FR AMR-WB: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/PDC EFR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/System Identification: 4: 8: #04: SysID for UMTS
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Length Of Bitmap: 2: 8: #02: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/TDMA EFR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR 2: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/UMTS AMR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/HR AMR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/FR AMR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM EFR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM HR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 1 to 8/GSM FR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/reserved: 0: 2: @00: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHR AMR-WB: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OFR AMR-WB: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/OHM AMR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/UMTS AMR-WB: 1: 1: @1: Supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/FR AMR-WB: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Supported Codecs/Codec List/repeat/record/Codec Bitmap/Codec Bitmap, bits 9 to 16/PDC EFR: 0: 1: @0: Not supported
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/IEI: 93: 8: #5D: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Length: 1: 8: #01: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Spare: 0: 5: @00000: 
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/UE's usage setting: 0: 1: @0: Voice centric
+f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Voice domain preference for E-UTRAN: 3: 2: @11: IMS PS voice preferred, CS Voice as secondary
 

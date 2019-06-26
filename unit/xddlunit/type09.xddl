@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Chained formatting</comment>
+  <!-- Chained formatting -->
   <type id="t2">
     <script>
     description = string.format("number: %d, address: %s",

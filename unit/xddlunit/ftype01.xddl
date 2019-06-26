@@ -2,10 +2,10 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!-- 
     40.8750
     xidm -x ftype01.xddl -f 4223800042238000
-  </comment>
+   -->
   <type id="display">
     <script>
       description = string.format("float: %0.4f, dec int: %d, hex int: #%X",

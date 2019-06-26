@@ -2,8 +2,8 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>This file tests the import attribute of the record element</comment>
-  <comment>NOTICE: This is no longer implemented</comment>
+  <!-- This file tests the import attribute of the record element -->
+  <!-- NOTICE: This is no longer implemented -->
   <start>
     <record name="Header" import="true">
       <field name="Length" length="8"/>

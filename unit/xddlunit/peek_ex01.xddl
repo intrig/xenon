@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>peek beyond the end of a fragment results in error</comment>
+  <!-- peek beyond the end of a fragment results in error -->
   <record id="bad">
     <field name="a" length="4"/>
     <field name="b" length="4"/>

@@ -145,7 +145,7 @@ void element::to_string(std::ostream & os) const {
 }
 
 
-void recdef::vto_string(std::ostream & os) const {
+void record::vto_string(std::ostream & os) const {
     os << id;
 }
 
@@ -258,16 +258,18 @@ void type::vend_handler(spec::cursor self, spec &parser) {
 }
 
 template <typename T, typename Cursor, typename Map>
-void create_url_map(Cursor self, Map & m, ict::string64 tag) {
-    for (auto i = self.cbegin(); i!= self.cend(); ++i) {
+void create_url_map(Cursor parent, Map & m, ict::string64 tag) {
+    auto anon = recref("anon");
+    ict::recurse(parent, [&](spec::cursor & i){
         if (i->tag() == tag) {
             if (auto f = get_ptr<T>(i->v)) {
                 auto c = m.find(f->id);
                 if (c == m.end()) m[f->id] = i;
-                else IT_PANIC("id " << f->id << " already used");
+                else if (f->id != anon && !f->id.empty()) IT_PANIC("id " << f->id << " already used");
             }
         }
-    }
+
+    });
 }
 
 template <typename Cursor, typename Map>
@@ -368,7 +370,7 @@ void enc::vend_handler(spec::cursor self, spec &) {
 }
 
 void xddl::vend_handler(spec::cursor self, spec & parser) {
-    create_url_map<recdef>(self, parser.recdef_map, "record");
+    create_url_map<record>(self, parser.recdef_map, "record");
     create_url_map<type>(self, parser.type_map, "type");
 
     // If there is a start, then it gets its own record reference.
@@ -407,8 +409,8 @@ void element::var_type::vparse(spec::cursor self, message::cursor parent, ict::i
 
 void xddl::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
     auto st = find_child_with_tag(self, "start");
-    if (st == self.end()) IT_PANIC("no <start> element in " << self->parser->file);
-    parse(st, parent, bs);
+    if (st == self.end()) parse_children(self, parent, bs);
+    else parse(st, parent, bs);
 }
 
 void start::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
@@ -468,7 +470,6 @@ void jump::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs
 
 void reclink::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs) const {
     auto rec = parent.emplace(node::record_node, self);
-    auto l = length.value(rec);
     ict::constraint ct(bs, length.value(rec));
     parse_ref(self, rec, bs, ref, href, self->parser);
     if (!length.empty()) add_extra(self, rec, bs);
@@ -493,6 +494,12 @@ void peek::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &bs
     auto l = length.value(leaf(parent));
     auto bits = bs.peek(l, offset);
     parent.emplace_back(node::prop_node, self, bits);
+#if 1
+    auto n = leaf(parent);
+    std::ostringstream os;
+    os << "Ok! " << bs.remaining() << " " << n->bits;
+    n->desc = os.str();
+#endif
 }
 
 void prop::vparse(spec::cursor self, message::cursor parent, ict::ibitstream &) const {
@@ -536,8 +543,20 @@ void field::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & 
     }
 }
 
+// TODO add this to ict::bitstring
+bitstring read_to(ict::ibitstream & bs, char ch) {
+    ict::obitstream dest;
+    auto last = bs.read(8);
+    dest << last;
+    while (*(last.data()) != ch) {
+        last = bs.read(8);
+        dest << last;
+    }
+    return dest.bits();
+}
+
 void cstr::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
-    auto c = parent.emplace(node::field_node, self, bs.read_to('\0'));
+    auto c = parent.emplace(node::field_node, self, read_to(bs, '\0'));
 }
 
 std::string cstr::vdescription(spec::cursor referer, message::const_cursor c) const {

@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>fixed repeat</comment>
+  <!-- fixed repeat -->
   <start>
     <field name="header" length="8"/>
     <repeat name="repeat" num="2">

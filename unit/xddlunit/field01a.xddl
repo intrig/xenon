@@ -2,10 +2,5 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <!-- indefinite repeat -->
-  <start>
-    <repeat name="repeat">
-      <field name="item" length="8"/>
-    </repeat>
-  </start>
+  <field name="foo" length="1" default="1"/>
 </xddl>

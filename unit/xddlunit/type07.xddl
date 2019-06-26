@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>IP Addresses</comment>
+  <!-- IP Addresses -->
   <type id="ip_address">
     <script>
   description = string.format("%d.%d.%d.%d", 

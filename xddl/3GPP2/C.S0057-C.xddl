@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <!--
@@ -9,13 +9,13 @@
    PURPOSE.
 -->
 <xddl>
-  <comment>
+  <!--
 3GPP2 C.S0057-C 
 Version 1.0 
 Date: July 2008   
 Band Class Specification for cdma2000 Spread Spectrum Systems
 Release C
-</comment>
+-->
   <type name="Band Class List" id="1.5-1">
     <item key="0" value="800 MHz cellular band"/>
     <item key="1" value="1.8 to 2.0 GHz PCS band"/>

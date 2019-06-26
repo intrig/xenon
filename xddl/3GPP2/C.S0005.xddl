@@ -2,13 +2,13 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
     3GPP2 C.S0005-E 
     Version 2.0 
     Date: June 2010 
     Upper Layer (Layer 3) Signaling Standard for cdma2000 Spread Spectrum Systems 
     Revision E 
-  </comment>
+  -->
   <export>
     <!-- extern -->
     <prop name="Name"/>
@@ -134,7 +134,7 @@
   </script>
   </type>
   <type id="adjgain">
-    <comment>Format used for f-dsch PCNM type-specific adjustment gain fields.</comment>
+    <!--Format used for f-dsch PCNM type-specific adjustment gain fields.-->
     <script>description = string.format("%d", key)</script>
   </type>
   <type id="1.25ms">
@@ -6705,17 +6705,17 @@
   </record>
   <record name="EACH and RCCH Data Rate and Frame Size" id="3.7.2.3.2.33-3">
     <field name="RATE_SIZE_1" length="1"/>
-    <comment>9600 bps, 20 ms frame size</comment>
+    <!--9600 bps, 20 ms frame size-->
     <field name="RATE_SIZE_2" length="1"/>
-    <comment>19200 bps, 20 ms frame size</comment>
+    <!--19200 bps, 20 ms frame size-->
     <field name="RATE_SIZE_3" length="1"/>
-    <comment>19200 bps, 10 ms frame size</comment>
+    <!--19200 bps, 10 ms frame size-->
     <field name="RATE_SIZE_4" length="1"/>
-    <comment>38400 bps, 20 ms frame size</comment>
+    <!--38400 bps, 20 ms frame size-->
     <field name="RATE_SIZE_5" length="1"/>
-    <comment>38400 bps, 10 ms frame size</comment>
+    <!--38400 bps, 10 ms frame size-->
     <field name="RATE_SIZE_6" length="1"/>
-    <comment>38400 bps, 5 ms frame size</comment>
+    <!--38400 bps, 5 ms frame size-->
     <field name="RESERVED" length="2"/>
   </record>
   <type name="CPCCH Power Control Rate" id="3.7.2.3.2.33-4">
@@ -10568,45 +10568,45 @@
   </record>
   <record name="Ack Mask" id="3.7.3.3.2.51-1">
     <field name="ACK_MASK_0" length="1"/>
-    <comment>Ack allowed in PCG 0</comment>
+    <!--Ack allowed in PCG 0-->
     <field name="ACK_MASK_1" length="1"/>
-    <comment>Ack allowed in PCG 1</comment>
+    <!--Ack allowed in PCG 1-->
     <field name="ACK_MASK_2" length="1"/>
-    <comment>Ack allowed in PCG 2</comment>
+    <!--Ack allowed in PCG 2-->
     <field name="ACK_MASK_3" length="1"/>
-    <comment>Ack allowed in PCG 3</comment>
+    <!--Ack allowed in PCG 3-->
     <field name="ACK_MASK_4" length="1"/>
-    <comment>Ack allowed in PCG 4</comment>
+    <!--Ack allowed in PCG 4-->
     <field name="ACK_MASK_5" length="1"/>
-    <comment>Ack allowed in PCG 5</comment>
+    <!--Ack allowed in PCG 5-->
     <field name="ACK_MASK_6" length="1"/>
-    <comment>Ack allowed in PCG 6</comment>
+    <!--Ack allowed in PCG 6-->
     <field name="ACK_MASK_7" length="1"/>
-    <comment>Ack allowed in PCG 7</comment>
+    <!--Ack allowed in PCG 7-->
     <field name="ACK_MASK_8" length="1"/>
-    <comment>Ack allowed in PCG 8</comment>
+    <!--Ack allowed in PCG 8-->
     <field name="ACK_MASK_9" length="1"/>
-    <comment>Ack allowed in PCG 9</comment>
+    <!--Ack allowed in PCG 9-->
     <field name="ACK_MASK_10" length="1"/>
-    <comment>Ack allowed in PCG 10</comment>
+    <!--Ack allowed in PCG 10-->
     <field name="ACK_MASK_11" length="1"/>
-    <comment>Ack allowed in PCG 11</comment>
+    <!--Ack allowed in PCG 11-->
     <field name="ACK_MASK_12" length="1"/>
-    <comment>Ack allowed in PCG 12</comment>
+    <!--Ack allowed in PCG 12-->
     <field name="ACK_MASK_13" length="1"/>
-    <comment>Ack allowed in PCG 13</comment>
+    <!--Ack allowed in PCG 13-->
     <field name="ACK_MASK_14" length="1"/>
-    <comment>Ack allowed in PCG 14</comment>
+    <!--Ack allowed in PCG 14-->
     <field name="ACK_MASK_15" length="1"/>
-    <comment>Ack allowed in PCG 15</comment>
+    <!--Ack allowed in PCG 15-->
   </record>
   <record name="QOF Set in use" id="3.7.3.3.2.51-2">
     <field name="QOF_SET_1" length="1"/>
-    <comment>QOF SET 1</comment>
+    <!--QOF SET 1-->
     <field name="QOF_SET_2" length="1"/>
-    <comment>QOF SET 2</comment>
+    <!--QOF SET 2-->
     <field name="QOF_SET_3" length="1"/>
-    <comment>QOF SET 3</comment>
+    <!--QOF SET 3-->
   </record>
   <type name="N2m value for Forward Link RC11 and RC12" id="3.7.3.3.2.51-3">
     <item key="@000" value="2 bad frames"/>

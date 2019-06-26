@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>XDDL properties</comment>
+  <!-- XDDL properties -->
   <start>
     <prop name="evdo" value="1"/>
     <if expr="evdo">

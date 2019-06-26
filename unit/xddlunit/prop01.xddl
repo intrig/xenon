@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Basic Global Property</comment>
+  <!-- Basic Global Property -->
   <export>
     <prop name="ORDER" value="8"/>
     <prop name="x" value="8"/>

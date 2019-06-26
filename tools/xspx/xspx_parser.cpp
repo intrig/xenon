@@ -3,21 +3,29 @@
 #include "xspx_parser.h"
 #include <xenon/recref.h>
 
-elem_type merge_elems(const elem_type & a, const elem_type & b) {
-    elem_type dest = a;
+elem_type merge_elems(const elem_type & base, const elem_type & b) {
+    // IT_WARN(b); 
+    elem_type dest = base;
     dest.tag = b.tag;
     dest.isa = b.isa;
 
+    // mark all the dest attributes as hidden so they don't show in docs
     // merge the attributes
     auto dest_atts = b.attributes;
-    dest_atts.insert(dest_atts.end(), a.attributes.begin(), a.attributes.end());
+#if 1
+    for (auto a : base.attributes) {
+        // a.hidden = true;
+        dest_atts.push_back(a);
+    }
+#else
+    dest_atts.insert(dest_atts.end(), base.attributes.begin(), base.attributes.end());
+#endif
     std::stable_sort(dest_atts.begin(), dest_atts.end());
     auto last = std::unique(dest_atts.begin(), dest_atts.end());
     dest_atts.erase(last, dest_atts.end());
     dest.attributes = dest_atts;
 
     // TODO: merge the children vector as well (if ever needed)
-    
     return dest;
 }
 
@@ -28,10 +36,11 @@ xsp_parser::xsp_parser() {
     p.root_tag("xspec");
     p.add_children("xspec", { "nspace", "root", "base", "header", "type", "element", "choice", 
         "group", "code", "parser" });
-    p.add_children("element", { "att", "child", "class", "constr", "start", "end", "public", "group", "code" });
+    p.add_children("element", { "att", "child", "class", "constr", "display", "start", "end", "public", "group", "code" });
     p.add_children("choice", { "element", "group"} );
     p.add_children("group", { "child" });
     p.add_children("parser", { "name", "code" });
+    p.add_children("type", { "name", "desc" });
 
     // handlers
     p.cdata_handler([&](const char * cdata){this->cdata += cdata; });
@@ -70,9 +79,10 @@ xsp_parser::xsp_parser() {
         i->cpp_func = find_att(atts, "func"); 
         });
 
-    p.end_handler("type", [&]{ 
+    p.end_handler("type", [&] { 
         auto & a = custom_types.back();
-        a.name = ict::normalize(cdata);
+        a.name = xspx::pop_last(names);
+        a.desc = xspx::pop_last(desc);
         if (a.cpp_func.empty()) a.cpp_func = "create_" + a.name;
         cdata.clear(); });
 
@@ -130,10 +140,10 @@ xsp_parser::xsp_parser() {
         });
 
     p.end_handler("name", [&]{ names.push_back(cdata); cdata.clear(); });
+    p.end_handler("desc", [&]{ desc.push_back(cdata); cdata.clear(); });
 
     p.end_handler("parser", [&]{ 
-        class_name = ict::normalize(names.back()); 
-        names.pop_back();
+        class_name = xspx::pop_last(names);
     });
 
     p.end_handler("root", [&]{ 
@@ -142,6 +152,7 @@ xsp_parser::xsp_parser() {
 
     p.end_handler("element", [&]{ 
         auto & e = elems.back().back();
+        std::sort(children.begin(), children.end());
         e.children = children;
         e.attributes = atts_;
         e.is_base = (e.name == base);
@@ -155,11 +166,19 @@ xsp_parser::xsp_parser() {
             e = merge_elems(*i, e);
         }
 
+        e.group_hrefs = group_hrefs;
+        group_hrefs.clear();
+
         children.clear();
         atts_.clear(); });
 
     p.end_handler("child", [&]{
         children.push_back(ict::normalize(cdata));
+        cdata.clear(); });
+
+    p.end_handler("display", [&]{
+        auto & e = elems.back().back();
+        e.display = ict::normalize(cdata);
         cdata.clear(); });
 
     p.end_handler("public", [&]{
@@ -188,11 +207,10 @@ xsp_parser::xsp_parser() {
             in_group_def = false;
             xenon::recref url(p.second.c_str());
             if (url.anchor.empty()) IT_PANIC("invalid href: " << p.second);
-            auto i = xenon::find_by_name(groups.begin(), groups.end(), std::string(url.anchor.begin() + 1, 
-                url.anchor.end()));
+            group_hrefs.push_back(std::string(url.anchor.begin() + 1, url.anchor.end()));
+            auto i = xenon::find_by_name(groups.begin(), groups.end(), group_hrefs.back());
             if (i == groups.end()) IT_PANIC("cannot find group with name " << p.second);
             children.insert(children.end(), i->children.begin(), i->children.end());
-            //children = i->children;
         } 
         });
 
@@ -200,6 +218,7 @@ xsp_parser::xsp_parser() {
         if (in_group_def) { 
             if (children.empty()) groups.pop_back();
             else {
+                std::sort(children.begin(), children.end());
                 groups.back().children = children;
                 children.clear();
             }
@@ -529,6 +548,60 @@ std::string xsp_parser::parser_impl(st::type t) const {
 
 
 namespace xspx {
+
+ict::multivector<elem_type> elem_tree(const xsp_parser & xspx) {
+    ict::multivector<elem_type> tree;
+    std::vector<elem_type> elems = xspx.elems[0];
+
+    // add the choices
+    for (auto & choice : xspx.choices) {
+        elem_type ch;
+        ch.tag = choice.tag;
+        elems.push_back(ch);
+    }
+    
+
+    // now sort according to the tag
+    std::sort(elems.begin(), elems.end(), [](elem_type const & a, elem_type const & b) { 
+        return std::string(a.tag.c_str()) < std::string(b.tag.c_str());
+    });
+
+    // now convert to a multivector
+    for (auto & i : elems) {
+        if (!i.is_base) tree.root().emplace_back(i);
+    }    
+
+    // find the choices and add their subchildren
+    for (auto & choice : xspx.choices) {
+        auto c = std::find_if(tree.begin(), tree.end(), [&](auto & e){ return e.tag == choice.tag; });
+        for (auto & i : choice.elems) {
+            c.emplace_back(i);
+        }
+    }
+#if 0    
+    for (auto & i : elems) {
+        for (auto & j : i) {
+            if (!j.is_base) tree.root().emplace_back(j);
+        }
+    }    
+
+    for (auto & choice : xspx.choices) {
+        elem_type ch;
+        ch.tag = choice.tag;
+        auto c = tree.root().emplace(ch);
+        for (auto & i : choice.elems) {
+            c.emplace_back(i);
+        }
+    }
+#endif
+
+#if 0
+    std::sort(tree.begin(), tree.end(), [](elem_type const & a, elem_type const & b) { 
+        return std::string(a.tag.c_str()) < std::string(b.tag.c_str());
+    });
+#endif
+    return tree;
+}
 
 std::vector<elem_type> unique_elems(const xsp_parser & xspx) {
     auto v = std::vector<elem_type>();

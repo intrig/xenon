@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>A fragment references a fragment not yet parsed</comment>
+  <!-- A fragment references a fragment not yet parsed -->
   <record id="a">
     <field name="A" length="8"/>
     <fragment href="recurse02a.xddl#b"/>

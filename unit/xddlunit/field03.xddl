@@ -2,10 +2,10 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!-- 
     Here, the record length is forced to be 60 bits, but only 5 bits are 
     defined.  
-  </comment>
+   -->
   <start>
     <field name="a" length="1"/>
     <record name="b" length="60">

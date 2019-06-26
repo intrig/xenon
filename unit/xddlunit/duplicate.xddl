@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Duplicate Fields in different areas of the DOM</comment>
+  <!-- Duplicate Fields in different areas of the DOM -->
   <start>
     <record name="r1" length="60">
       <field name="a" length="8"/>

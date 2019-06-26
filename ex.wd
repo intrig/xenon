@@ -1,0 +1,54 @@
+# field {
+
+The %field element identifies an integer unit of information
+specific to the message being represented.  
+
+It must have a `name` and `length` attribute.  The `length` is specified in bits, and
+may be any nonnegative integer value.  It does not have to be byte aligned
+within the underlying message.
+
+The optional `bias` attribute is added to the value by a fixed amount when
+displayed in the IDM.  See the `bias` example in the description below.
+
+## Detail {
+
+This is a simple example that defines a field named "foo" and is 4 bits
+long.  The `name` and `length` are required attributes, and typically they
+are the only ones used.  Here is an example describing a simple message
+consisting of one 4 bit field.
+
+// :x simple_field.xddl
+
+Parsing the four bit message "@1111" results in:
+
+// :parse simple_field.xddl @1111
+
+This example references a locally defined %type.  See the %type
+documentation for more information.
+
+// :x hello.xddl
+
+### bias {
+
+The optional `bias` attribute is used to offset the value of field by a
+fixed amount.  Here's an example:
+
+// :x bias.xddl
+
+Each field is just 1 bit long, but we are biasing them by varying amounts.
+The bias is applied after the fields are parsed.  If we parse a message of
+all zeroes, here is what we get:
+
+// :parse bias.xddl @00000000
+
+As you can see, the *Value* column is offset by the `bias`.  The *Hex*
+column still reflects the original bit pattern.
+}
+
+### type {
+
+The optional `type` attribute references a %type element's `id`.  See the %type element
+reference for examples.
+}
+}
+}

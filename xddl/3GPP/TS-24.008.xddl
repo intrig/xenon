@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
     UMTS LTE Layer 3 Core Network Protocols
     
     ETSI TS 124 008 V10.8.0 (2012-09)
@@ -10,7 +10,7 @@
     Univeral Mobile Telecommunications System (UMTS) LTE;
     Mobile radio interfae Layer 3 specification;
     Core network protocols;
-  </comment>
+  -->
   <export>
     <!-- extern -->
     <prop name="Name"/>
@@ -6822,21 +6822,25 @@
   <record name="Void" id="10.5.4.31">
     <!-- formerly ImmediateModificationIndicator -->
   </record>
+
   <record name="Supported codec list" id="10.5.4.32">
-    <field name="Length" length="8"/>
-    <repeat name="Codec List" num="Length/4">
-      <field name="System Identification" length="8" default="#04" type="TS-26.103.xddl#6.1"/>
-      <field name="Length Of Bitmap" length="8" default="2" type="#10.5.4.32b"/>
-      <record name="Codec Bitmap">
-        <if expr="{Length Of Bitmap} &gt; 0">
-          <record name="Codec Bitmap, bits 1 to 8" href="TS-26.103.xddl#6.2a"/>
-          <if expr="{Length Of Bitmap} &gt; 1">
-            <record name="Codec Bitmap, bits 9 to 16" href="TS-26.103.xddl#6.2b"/>
+    <uint8 name="Length"/>
+    <record name="Codec List" length="Length*8">
+      <repeat>
+        <uint8 name="System Identification" default="#04" type="TS-26.103.xddl#6.1"/>
+        <uint8 name="Length Of Bitmap"/>
+        <record name="Codec Bitmap" length="{Length Of Bitmap} * 8">
+          <if expr="{Length Of Bitmap} &gt; 0">
+            <record name="Codec Bitmap, bits 1 to 8" href="TS-26.103.xddl#6.2a"/>
+            <if expr="{Length Of Bitmap} &gt; 1">
+              <record name="Codec Bitmap, bits 9 to 16" href="TS-26.103.xddl#6.2b"/>
+            </if>
           </if>
-        </if>
-      </record>
-    </repeat>
+        </record>
+      </repeat>
+    </record>
   </record>
+
   <type name="Codec Bitmap length range" id="10.5.4.32b">
     <item key="2" value="2"/>
   </type>
@@ -7602,7 +7606,7 @@
     <item key="1" value="ME is Release &apos;99 onwards"/>
   </type>
   <record name="Spare" id="10.5.5.13">
-    <comment>Intentionally left spare.</comment>
+    <!--Intentionally left spare.-->
   </record>
   <record name="GMM cause" id="10.5.5.14">
     <!-- field name="GMMCauseIEI" length="8" default="#00" /-->
@@ -7655,7 +7659,7 @@
     </record>
   </record>
   <record name="Spare" id="10.5.5.16">
-    <comment>Intentionally left spare.</comment>
+    <!--Intentionally left spare.-->
   </record>
   <record name="Update result" id="10.5.5.17">
     <!-- field name="UpdateResultIEI" length="4" default="#8" /-->
@@ -8475,7 +8479,7 @@
     <range start="1" end="2"/>
   </type>
   <record name="Spare" id="10.5.6.8">
-    <comment>Intentionally left spare.</comment>
+    <!--Intentionally left spare.-->
   </record>
   <record name="LLC service access point identifier" id="10.5.6.9">
     <!-- field name="LLCSAPIIEI" length="8" default="#00" /-->

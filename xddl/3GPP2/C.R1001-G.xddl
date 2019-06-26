@@ -2,13 +2,13 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
 3GPP2 C.R1001-G 
 Version 1.0 
 Date: 19 June 2009   
 Administration of Parameter Value Assignments for cdma2000 Spread Spectrum Standards 
 Release G
-</comment>
+-->
   <type name="Standard Service Option Number Assignments" id="3.1.1">
     <item key="1" value="Basic Variable Rate Voice Service (8 kbps)"/>
     <item key="2" value="Mobile Station Loopback (8 kbps)"/>

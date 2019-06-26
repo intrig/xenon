@@ -5,19 +5,44 @@
     <base>element</base>
 
     <!-- declare types used by attributes. -->
-    <type cpp="bool" def="false">bool</type>
-    <type cpp="int64_t" def="0">integer</type>
+    <type cpp="bool" def="false">
+        <desc>*true* or *false*</desc>
+        <name>bool</name>
+    </type>
+    <type cpp="int64_t" def="0">
+        <desc>Any integer will do</desc>
+        <name>integer</name>
+    </type>
 
-    <type cpp="size_t" def="1">pos_integer</type>
-    <type cpp="size_t" def="0">size</type>
-    <type cpp="std::string">string</type>
+    <type cpp="size_t" def="1"><name>pos_integer</name>
+        <desc>Positive integer</desc>
+    </type>
+    <type cpp="size_t" def="0">
+        <name>size</name>
+        <desc>Non-negative integer</desc>
+    </type>
+    <type cpp="std::string"><name>string</name></type>
 
-    <type cpp="ict::expr">expression</type>
-    <type cpp="std::string">setprop_name</type>
+    <type cpp="ict::expr"><name>expression</name>
+        <desc>XDDL expression</desc>
+    </type>
+    <type cpp="std::string">
+        <name>setprop_name</name>
+        <desc>Name of a property that is in scope</desc>
+    </type>
 
-    <type cpp="recref">url</type>
-    <type cpp="recref">id_url</type>
-    <type cpp="std::string">jump_name</type>
+    <type cpp="recref">
+        <name>url</name>
+        <desc>Link to a record</desc>
+    </type>
+    <type cpp="recref">
+        <name>id_url</name>
+        <desc>id used in record definitions</desc>
+    </type>
+    <type cpp="std::string">
+        <name>jump_name</name>
+        <desc>Field name used for jump element</desc>
+    </type>
 
     <!-- code segment at the top of header file. -->
     <code id="head"> 
@@ -36,7 +61,6 @@
     <!-- commonly used group of child elements -->
     <group name="common">
         <child>bit</child>
-        <child>comment</child>
         <child>cstr</child>
         <child>field</child>
         <child>fragment</child>
@@ -133,6 +157,12 @@
         <public>
         void to_string(std::ostream &amp; os) const; 
 
+        void vto_wd(std::ostream &amp; os) const {}
+
+        void to_wd(std::ostream &amp; os) const {
+            vto_wd(os);
+        }
+
         template &lt;typename Cursor&gt;
         friend void draw(Cursor self, const var_type&amp; x, std::ostream &amp; out, size_t position);
 
@@ -152,9 +182,6 @@
         <code href="vend_handler"/>
         <att type="integer" req="true">value</att>
         <group href="#common"/>
-    </element>
-
-    <element tag="comment">
     </element>
 
     <element tag="default" name="xdefault" end_handler="true">
@@ -187,12 +214,12 @@
     </element>
 
     <!-- TODO: make length a "fixed" att, dissallow it being set by user (make it a private?) -->
-    <element tag="bit" isa="field"><att type="expression" def="1">length</att></element>
+    <element tag="bit" isa="field"><att type="expression" fixed="true" def="1">length</att></element>
 
-    <element tag="uint8" isa="field"> <att type="expression" def="8">length</att> </element>
-    <element tag="uint16" isa="field"> <att type="expression" def="16">length</att> </element>
-    <element tag="uint32" isa="field"> <att type="expression" def="32">length</att> </element>
-    <element tag="uint64" isa="field"> <att type="expression" def="64">length</att> </element>
+    <element tag="uint8" isa="field"> <att type="expression" fixed="true" def="8">length</att> </element>
+    <element tag="uint16" isa="field"> <att type="expression" fixed="true" def="16">length</att> </element>
+    <element tag="uint32" isa="field"> <att type="expression" fixed="true" def="32">length</att> </element>
+    <element tag="uint64" isa="field"> <att type="expression" fixed="true" def="64">length</att> </element>
 
     <element tag="cstr">
         <att type="expression" def="1024">max</att>
@@ -204,6 +231,7 @@
     <!-- fragment is an inline record ref.  
     TODO remove this or add inline attribute to record ref? -->
     <element tag="fragment" name="fragment">
+        <display>fragment</display>
         <att type="url" req="true">href</att>
         <code href="vparse"/>
         <code href="mutable_ref"/>
@@ -256,7 +284,6 @@
         <att type="bool">visible</att>
         <att type="url" member="href">type</att>
         <code href="vto_html"/>
-        <child>comment</child>
         <child>item</child>
         <child>range</child>
         <child>script</child>
@@ -285,11 +312,16 @@
     -->
     <choice tag="record">
         <element name="record">
+            <display>Record Definition</display>
             <att type="expression">length</att>
+            <att type="id_url">id</att>
             <att type="string" local="false" def="record">name</att>
+            <code href="vto_string"/>
             <code href="vparse"/>
+            <group href="#common"/>
         </element>
         <element name="reclink">
+            <display>Record Link</display>
             <att type="expression">length</att>
             <att type="string" local="false" def="record">name</att>
             <att type="url">href</att>
@@ -297,31 +329,31 @@
             <code href="vhref"/>
             <code href="mutable_ref"/>
         </element>
-        <element name="recdef">
-            <att type="expression">length</att>
-            <att type="id_url">id</att>
-            <att type="string" local="false" def="record">name</att>
-            <code href="vto_string"/>
-        </element>
         <group href="#common"/>
     </choice>
 
     <choice tag="repeat">
         <element name="repeat">
+            <display>Repeat Indefinitely</display>
             <att type="string" local="false">name</att>
             <att type="size">minlen</att>
+            <group href="#common"/>
             <code href="vparse"/>
         </element>
         <element name="num_repeat">
+            <display>Numbered Repeat</display>
             <att type="string" local="false">name</att>
             <att type="expression" req="true">num</att>
+            <group href="#common"/>
             <code href="vparse"/>
         </element>
         <element name="bound_repeat">
+            <display>Bound Repeat</display>
             <att type="string" local="false">name</att>
             <att type="integer">minlen</att>
             <att type="expression">max</att>
             <att type="expression">min</att>
+            <group href="#common"/>
             <code href="vparse"/>
         </element>
         <group href="#common"/>
@@ -331,7 +363,6 @@
         <att type="expression" req="true">value</att>
         <att type="url" member="href">type</att>
         <att type="setprop_name" local="false" req="true">name</att>
-        <child>comment</child>
         <child>item</child>
         <child>range</child>
         <child>script</child>
@@ -362,7 +393,6 @@
     <element tag="type" name="type" end_handler="true">
         <att type="id_url" req="true">id</att>
         <att type="string" local="false">name</att>
-        <child>comment</child>
         <child>item</child>
         <child>range</child>
         <child>script</child>
@@ -401,7 +431,6 @@
         <att type="integer" req="true">key</att>
         <att type="string" req="true">value</att>
         <att type="url">href</att>
-        <child>comment</child>
     </element>
 
     <element tag="range">
@@ -409,7 +438,6 @@
         <att type="integer" req="true">end</att>
         <att type="string">value</att>
         <att type="url">href</att>
-        <child>comment</child>
     </element>
 
     <element tag="script" has_cdata="true" end_handler="true">

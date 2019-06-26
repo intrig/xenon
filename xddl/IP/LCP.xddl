@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>&lt;b&gt;PPP Link Control Protocol XDDL Protocol Specification&lt;/b&gt;&lt;p&gt;Copyright &amp;copy; 2002 Intrig &lt;a href="www.intrig.com"&gt;www.intrig.com&lt;/a&gt;&lt;/p&gt;</comment>
+  <!--&lt;b&gt;PPP Link Control Protocol XDDL Protocol Specification&lt;/b&gt;&lt;p&gt;Copyright &amp;copy; 2002 Intrig &lt;a href="www.intrig.com"&gt;www.intrig.com&lt;/a&gt;&lt;/p&gt;-->
 
   <type name="TBDEnum" id="TBDEnum">
   </type>

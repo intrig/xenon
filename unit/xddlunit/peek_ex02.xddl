@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>peek over switch element</comment>
+  <!-- peek over switch element -->
   <start>
     <peek name="pd" length="4" offset="8"/>
     <switch expr="pd">

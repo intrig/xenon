@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Shadowing Global Properites</comment>
+  <!-- Shadowing Global Properites -->
   <export>
     <prop name="X" value="0"/>
   </export>

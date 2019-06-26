@@ -3,20 +3,20 @@
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
   <!-- Record Links -->
-  <record id="frag2">
+  <record id="frag1">
     <field name="E" length="1"/>
     <field name="F" length="1"/>
     <field name="G" length="1"/>
     <field name="H" length="1"/>
+    <record id="frag2">
+      <field name="A" length="1"/>
+      <field name="B" length="1"/>
+      <field name="C" length="1"/>
+      <field name="D" length="1"/>
+    </record>
   </record>
   <start>
-    <record name="Record 1" href="#frag1"/>
-    <record name="Record 2" href="#frag2"/>
+    <record name="outer" href="#frag1"/>
+    <record name="inner" href="#frag2"/>
   </start>
-  <record id="frag1">
-    <field name="A" length="1"/>
-    <field name="B" length="1"/>
-    <field name="C" length="1"/>
-    <field name="D" length="1"/>
-  </record>
 </xddl>

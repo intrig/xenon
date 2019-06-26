@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
   GSM/EDGE GPRS RLC/MAC protocol
   
   3GPP TS 44.060 V10.10.1 (2012)
@@ -12,7 +12,7 @@
   Mobile Station (MS) - Base Station System (BSS) interface;
   Radio Link Control/ Medium Access Control (RLC/MAC) protocol
   (Release 10)
-  </comment>
+  -->
   <export>
     <prop name="MA_LENGTH" value="0"/>
   </export>
@@ -98,16 +98,16 @@
   <record name="Global Power Control Parameters" id="12.9">
     <field name="ALPHA" length="4" type="#Alpha"/>
     <field name="T_AVG_W" length="5">
-      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+      <!--2^(k/2) / 6 multiframes, k = 0, 1, ... 25-->
     </field>
     <field name="T_AVG_T" length="5">
-      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+      <!--2^(k/2) / 6 multiframes, k = 0, 1, ... 25-->
     </field>
     <field name="Pb" length="4"/>
     <field name="PC_MEAS_CHAN" length="1" type="#12.9.1a"/>
     <field name="INT_MEAS_CHANNEL_LIST_AVAIL" length="1" type="#12.9.1b"/>
     <field name="N_AVG_I" length="4">
-      <comment>2^(k/2), k = 0, 1, ... 15</comment>
+      <!--2^(k/2), k = 0, 1, ... 15-->
     </field>
   </record>
   <type name="PC Meas Chan parameter" id="12.9.1a">
@@ -121,14 +121,14 @@
   <record name="GPRS Power Control Parameters" id="12.9a">
     <field name="ALPHA" length="4" type="#Alpha"/>
     <field name="T_AVG_W" length="5">
-      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+      <!--2^(k/2) / 6 multiframes, k = 0, 1, ... 25-->
     </field>
     <field name="T_AVG_T" length="5">
-      <comment>2^(k/2) / 6 multiframes, k = 0, 1, ... 25</comment>
+      <!--2^(k/2) / 6 multiframes, k = 0, 1, ... 25-->
     </field>
     <field name="PC_MEAS_CHAN" length="1" type="#12.9.1a"/>
     <field name="N_AVG_I" length="4">
-      <comment>2^(k/2), k = 0, 1, ... 15</comment>
+      <!--2^(k/2), k = 0, 1, ... 15-->
     </field>
   </record>
   <record name="GPRS Mobile Alloation" id="12.10a">

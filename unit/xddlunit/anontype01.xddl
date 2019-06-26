@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Field with anonymous type</comment>
+  <!-- Field with anonymous type -->
   <start>
     <field name="first" length="1">
       <item key="0" value="Oh yeah!"/>

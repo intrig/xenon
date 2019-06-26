@@ -4,7 +4,7 @@
 <xddl>
   <start>
     <field name="first" length="1" type="#bool">
-      <comment>comment elements are dumb</comment>
+      <!-- comment elements are dumb -->
     </field>
     <field name="second" length="1" type="#bool"/>
     <field name="third" length="1" type="#bool"/>

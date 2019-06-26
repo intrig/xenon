@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Properties spanning fragment links</comment>
+  <!-- Properties spanning fragment links -->
   <record id="f1">
     <field name="a" length="8"/>
     <field name="b" length="8"/>

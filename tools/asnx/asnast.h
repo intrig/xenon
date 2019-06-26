@@ -557,6 +557,7 @@ class BooleanType : public BuiltinType
 {
     public:
     virtual std::string declaration(Name *) const;
+    virtual std::string instance() const;
     virtual std::string instance(Name *) const;
 };
 

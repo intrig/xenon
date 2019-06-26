@@ -2,10 +2,10 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
  IDM Multiple RAT ICD 
  Version 1.0
- </comment>
+ -->
   <export>
     <prop name="Name" value="999"/>
     <prop name="Technology" value="0"/>

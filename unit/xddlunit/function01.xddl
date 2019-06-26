@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>padding to 8 bits</comment>
+  <!-- padding to 8 bits -->
   <start>
     <field name="a" length="8"/>
     <field name="b" length="a"/>

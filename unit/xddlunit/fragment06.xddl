@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Empty Fragment</comment>
+  <!-- Empty Fragment -->
   <record id="f1"/>
   <record id="f2">
     <field name="b" length="8"/>

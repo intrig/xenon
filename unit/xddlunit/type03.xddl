@@ -2,13 +2,13 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Type with ranges and items</comment>
+  <!-- Type with ranges and items -->
   <type name="Varied Type" id="varied">
     <item key="0" value="&gt;"/>
     <item key="1" value="&lt;"/>
     <item key="2" value="&quot;"/>
     <range start="#63" end="#6E" value="phosphor"/>
-    <comment>what? A comment here?</comment>
+    <!-- what? A comment here? -->
     <item key="#70" value="imbue"/>
     <item key="#57" value="red"/>
     <range start="4" end="10" value="blue"/>

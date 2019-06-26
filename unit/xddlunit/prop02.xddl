@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Setting Global Properites</comment>
+  <!-- Setting Global Properites -->
   <export>
     <prop name="x" value="8"/>
   </export>

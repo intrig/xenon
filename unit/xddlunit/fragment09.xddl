@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Forward Reference Fragment</comment>
+  <!-- Forward Reference Fragment -->
   <record id="a">
     <field name="A" length="8"/>
     <fragment href="#b"/>

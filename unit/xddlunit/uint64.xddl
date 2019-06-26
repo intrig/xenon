@@ -10,12 +10,12 @@
 -->
 <xddl>
   <type id="CdmaTime">
-    <comment>
+    <!-- 
       TODO: uint64 is not supported. We should make everything 64 bit IMO.
       CDMA time is number of 1.25 ms clock tics since Jan 6, 1980 at
       00:00:00.
       xp -xP uint64.xddl #0A3CB51A2234510C
-    </comment>
+     -->
     <script>
       description = string.format("%LX, %Ld: %02d:%02d:%02d.%03d",
         key,

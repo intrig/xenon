@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>HW Addresses</comment>
+  <!-- HW Addresses -->
   <type id="hw_address">
     <script>
     description = string.format("%02x:%02x:%02x:%02x:%02x:%02x",

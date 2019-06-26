@@ -9,13 +9,13 @@
    PURPOSE.
 -->
 <xddl>
-  <comment>
+  <!--
     3GPP2 C.S0015-B 
     Version 2.0 
     Date: September 30, 2005 
     Short Message Service (SMS) for Wideband Spread Spectrum Systems 
     Release B 
-  </comment>
+  -->
   <export>
     <prop name="Name"/>
   </export>
@@ -110,7 +110,7 @@
             <field name="ERROR_CLASS" length="2" type="#Error Report Class"/>
             <if expr="ERROR_CLASS != @00">
               <field name="CAUSE_CODE" length="8">
-                <comment>type should be TIAEIA-41-D_SMS_CauseCode</comment>
+                <!--type should be TIAEIA-41-D_SMS_CauseCode-->
               </field>
             </if>
           </case>
@@ -150,7 +150,7 @@
                   <case value="@00000100"/>
                   <case value="@00000011">
                     <field name="YEAR" length="8">
-                      <comment>2 Digit BCD</comment>
+                      <!--2 Digit BCD-->
                     </field>
                     <field name="MONTH" length="8"/>
                     <field name="DAY" length="8"/>
@@ -160,12 +160,12 @@
                   </case>
                   <case value="@00000101">
                     <field name="VALIDITY" length="8">
-                      <comment>type should be SMS4.5.6-1</comment>
+                      <!--type should be SMS4.5.6-1-->
                     </field>
                   </case>
                   <case value="@00000110">
                     <field name="YEAR" length="8">
-                      <comment>2 Digit BCD</comment>
+                      <!--2 Digit BCD-->
                     </field>
                     <field name="MONTH" length="8"/>
                     <field name="DAY" length="8"/>
@@ -175,7 +175,7 @@
                   </case>
                   <case value="@00000111">
                     <field name="DELIVERY_TIME" length="8">
-                      <comment>type should be SMS4.5.6-1</comment>
+                      <!--type should be SMS4.5.6-1-->
                     </field>
                   </case>
                   <case value="@00001000">
@@ -276,7 +276,7 @@
     </repeat>
   </record>
   <type name="Parameter Definitions" id="3.4.3-1">
-    <comment>Transport Layer Parameter Definitions</comment>
+    <!--Transport Layer Parameter Definitions-->
     <item key="@00000000" value="Teleservice Identifier"/>
     <item key="@00000001" value="Service Category"/>
     <item key="@00000010" value="Originating Address"/>

@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Formatted enums</comment>
+  <!-- Formatted enums -->
   <type id="BAND_CLASS_0">
     <item key="0" value="800 MHz cellular band is not supported"/>
     <item key="1" value="800 MHz cellular band is supported"/>

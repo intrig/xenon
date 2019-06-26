@@ -5,7 +5,7 @@
   <export>
     <prop name="a" value="0"/>
   </export>
-  <comment>Referencing fields in previous fragments</comment>
+  <!-- Referencing fields in previous fragments -->
   <record id="b">
     <field name="q" length="8"/>
     <field name="B" length="a"/>

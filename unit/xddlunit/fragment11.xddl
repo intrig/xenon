@@ -5,7 +5,7 @@
   <export>
     <prop name="a" value="0"/>
   </export>
-  <comment>Referencing fields in previous fragments using dot notation</comment>
+  <!-- Referencing fields in previous fragments using dot notation -->
   <record name="B" id="B">
     <uint8 name="x"/>
     <uint8 name="y"/>

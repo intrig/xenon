@@ -87,13 +87,17 @@ public:
      Return the default start record or throw exception.
      */
     spec::cursor start() const {
+#if 1
+        return base().ast.root().begin();
+#else
         if (empty()) IT_PANIC("empty spec list");
         auto root = base().ast.root();
         auto xddl = root.begin(); // the first specs <xddl> element
-        auto st = std::find_if(xddl.begin(), xddl.end(), [&](const element & e) {
+        spec::cursor st = std::find_if(xddl.begin(), xddl.end(), [&](const element & e) {
             return e.tag() == "start"; });
-        if (st == root.end()) IT_PANIC("no <start> element in " << root->parser->file);
-        return st;
+        if (st != xddl.end()) return st;
+        return xddl;
+#endif
     }
 
     spec & base() const { return *(doms.begin()); }

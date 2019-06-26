@@ -10,6 +10,7 @@
 
 #include <xenon/xml_parser.h>
 #include <ict/string64.h>
+#include <ict/multivector.h>
 
 #define qt(x) "\"" << x << "\""
 
@@ -21,6 +22,7 @@ struct xml_att_type {
     std::string member_name;
     bool local = true;
     bool required = false;
+    bool hidden = false;  // TODO: hidden from docs from now but could still be used
     std::string def;
     friend bool operator<(const xml_att_type & a, const xml_att_type & b) {
         return a.name < b.name;
@@ -36,10 +38,23 @@ struct xml_att_type {
     }
 };
 
+inline std::ostream & operator<<(std::ostream & os, const xml_att_type & att) {
+    os << "name: " << att.name << '\n';
+    os << "fixed: " << att.fixed << '\n';
+    os << "type_name: " << att.type_name << '\n';
+    os << "member_name: " << att.member_name << '\n';
+    os << "local: " << att.local << '\n';
+    os << "required: " << att.required << '\n';
+    os << "hidden: " << att.hidden << '\n';
+    os << "def: " << att.def << '\n';
+    return os;
+}
+
 typedef std::vector<xml_att_type> xml_att_list;
 
 struct custom_type {
     std::string name;
+    std::string desc;
     std::string cpp_name;
     std::string cpp_func;
     std::string def;
@@ -63,11 +78,13 @@ struct elem_type {
     }
     ict::string64 tag; // the xml tag
     std::string name; // the cpp type, same as tag by defualt
+    std::string display; // the display name for documentation
     bool end_handler;
     bool has_stack;
     bool has_cdata;
     bool is_mod;
     std::vector<std::string> children;
+    std::vector<std::string> group_hrefs;
     xml_att_list attributes;
     std::string isa; // inheritance, defaults to element
     std::string pub_code;
@@ -78,6 +95,18 @@ struct elem_type {
     bool is_base = false;
     int uid = 0;
 };
+
+inline std::ostream & operator<<(std::ostream & os, const elem_type & elem) {
+    os << "tag: " << elem.tag << '\n';
+    os << "name: " << elem.name << '\n';
+    os << "display: " << elem.display << '\n';
+    os << "children: " << ict::join(elem.children) << '\n';
+    os << "attributes:\n"; 
+    for (auto & a : elem.attributes) os << a << '\n';
+    os << "isa: " << elem.isa;
+
+    return os;
+}
 
 typedef std::vector<elem_type> elem_list;
 typedef std::vector<elem_list> elem_stack;
@@ -201,6 +230,7 @@ class xsp_parser {
     std::string class_name;
     std::string head;
     group_list groups;
+    std::vector<std::string> group_hrefs;
     choice_list choices;
     std::map<std::string, std::string> code_refs;
     std::pair<std::string, std::string> curr_code_atts;
@@ -211,6 +241,7 @@ class xsp_parser {
     std::string cdata;
     xml_att_list atts_;
     std::vector<std::string> names;
+    std::vector<std::string> desc;
     std::vector<std::string> children;
     bool in_group_def = false;
 
@@ -233,7 +264,8 @@ void for_each_element(Xsp & xspx, Pred op) {
 }
 
 
-    std::vector<elem_type> unique_elems(const xsp_parser & xspx);
+std::vector<elem_type> unique_elems(const xsp_parser & xspx);
+ict::multivector<elem_type> elem_tree(const xsp_parser & xspx);
 
 template <typename Os, typename Xsp>
 void to_dispatch(Os & os, const Xsp & xsp, std::string const & name) {
@@ -252,9 +284,17 @@ void to_dispatch(Os & os, const Xsp & xsp, std::string const & name) {
         }
     }
 
-    os << "\n} // end switch";
+    os << "\n    } // end switch\n";
+    os << "} // end " << name << '\n';
 }
 
+template <typename Cont>
+std::string pop_last(Cont & cont) {
+    if (cont.empty()) return "";
+    auto n = ict::normalize(cont.back()); 
+    cont.pop_back();
+    return n;
+}
 } // namespace xspx
 
 

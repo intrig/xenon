@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Type with enum and script</comment>
+  <!-- Type with enum and script -->
   <type name="Type with Format" id="ftype">
     <item key="0" value="zero"/>
     <item key="1" value="one"/>

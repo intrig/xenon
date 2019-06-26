@@ -2,12 +2,12 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>
+  <!--
     3GPP2 C.S0024-B v 3.0 
     June 2012 
     cdma2000 High Rate Packet Data Air Interface 
     Specification 
-  </comment>
+  -->
   <export>
     <!-- extern -->
     <prop name="InConfig"/>

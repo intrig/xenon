@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>A simple expression with spaces in it</comment>
+  <!-- A simple expression with spaces in it -->
   <start>
     <field name="a b" length="8"/>
     <field name="b" length="{a b}"/>

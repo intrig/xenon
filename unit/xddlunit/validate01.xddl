@@ -13,10 +13,10 @@
    PURPOSE.
 -->
 <xddl name="One Bit Protocol">
-  <comment>
+  <!-- 
   This start causes a bug with Document::validate_references.  
   The previous of the case should be the switch, not the previous case.
-  </comment>
+   -->
   <start>
     <field name="key" length="8"/>
     <prop name="property" value="100"/>

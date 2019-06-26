@@ -236,6 +236,14 @@ string BooleanType::instance(Name * id) const
     os << "<field name=''" << id->str() << "'' length=''1''/>";
     return os.str();
 }
+
+string BooleanType::instance() const
+{
+    ostringstream os;
+    os << "<field name=''value'' length=''1''/>";
+    return os.str();
+}
+
 string IntegerType::instance() const
 {
     ostringstream os;

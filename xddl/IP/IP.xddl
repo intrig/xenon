@@ -1010,7 +1010,7 @@
           <field name="Destination_IP_Address" length="32" type="#ip_address"/>
           <record name="HeaderOptions" length="(32 * Header_Length) - (20 * 8)">
             <repeat name="NUM_IP_Header_Options">
-              <comment>The rest of the message header is IP Options.</comment>
+              <!--The rest of the message header is IP Options.-->
               <field name="copy" length="1"/>
               <field name="option_class" length="2"/>
               <switch expr="option_class">
@@ -1098,7 +1098,7 @@
                 <case value="12">
                   <field name="ICMP_Message_Data" length="4*8"/>
                   <field name="IP Header" length="20*8">
-                    <comment>This should be an include of the header</comment>
+                    <!--This should be an include of the header-->
                   </field>
                   <field name="Datagram Data" length="8*8"/>
                 </case>
@@ -1141,7 +1141,7 @@
                 <case value="12">
                   <field name="ICMP_Message_Data" length="4*8"/>
                   <field name="IP Header" length="20*8">
-                    <comment>This should be an include of the header</comment>
+                    <!--This should be an include of the header-->
                   </field>
                   <field name="Datagram Data" length="8*8"/>
                 </case>
@@ -1231,7 +1231,7 @@
         </record>
       </case>
       <case value="6">
-        <comment>Not Supported</comment>
+        <!--Not Supported-->
       </case>
     </switch>
   </record>

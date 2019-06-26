@@ -2,7 +2,7 @@
 <!-- - Copyright 2016 Intrig -->
 <!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
-  <comment>Forward type references</comment>
+  <!-- Forward type references -->
   <start>
     <field name="first" length="1" type="#bool"/>
     <field name="second" length="1" type="#bool"/>

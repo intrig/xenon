@@ -293,7 +293,7 @@ int64_t eval_variable_list(const std::string &first, const std::string &second, 
             auto xddl = ict::get_root(context).begin();
             auto c = std::find_if(xddl.begin(), xddl.end(), 
                 [&](const element &e) {
-                    if (auto rec = get_ptr<recdef>(e.v)) {
+                    if (auto rec = get_ptr<record>(e.v)) {
                         if (rec->id == r->href) return true;
                     }
                     return false;

@@ -54,6 +54,7 @@ namespace xenon {
 template <typename Rec>
 void parse_recref(std::string const & ref, Rec & rec) {
     if (ref[0] == '#') {
+        if (ref.size() == 1) return;
         rec.anchor = ref;
     } else if (ref.find(".xddl") != std::string::npos) { // old style
         // path/to/file/file.xddl#anchor
@@ -118,6 +119,14 @@ struct recref {
 
     bool is_local() const { return path.empty() && file.empty() && !anchor.empty(); }
 
+    bool friend operator==(const recref & a, const recref & b) {
+        return (a.path == b.path) && (a.file == b.file) && (a.anchor == b.anchor);
+    }
+
+    bool friend operator!=(const recref& a, const recref& b) {
+        return !(a == b);
+    }
+
     bool friend operator<(const recref& a, const recref& b) {
         return a.str() < b.str();
     }
@@ -126,10 +135,6 @@ struct recref {
     std::string file; // the filename, e.g. "TS-23.040.xddl"
     std::string anchor;  // the anchor, e.g., "#10.5.3.8"
 };
-
-inline bool operator==(const recref & x, const recref & y) {
-    return (x.path == y.path) && (x.file == y.file) && (x.anchor == y.anchor);
-}
 
 inline std::ostream & operator<<(std::ostream &os, const recref & x) {
     os << x.str();
