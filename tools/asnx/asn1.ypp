@@ -5,6 +5,7 @@
 #define YY_NO_UNISTD_H
 
 #include <iostream>
+#include <fstream>
 #include "asnast.h"
 #include <ict/command.h>
 #include <cstdio>
@@ -950,40 +951,52 @@ empty:
 
 %%
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     current_line = 1;
     modlist = 0;
     trace_on = false;
     ignore_warnings = false;
     bool comments = true;
     string filename;
+    string ofile;
 
-    ict::command line("asnx", "Convert asn.1 to xddl", "asnx [options] asn_file ...");
+    ict::command line("asnx", "Convert asn.1 to xddl",
+                      "asnx [options] asn_file ...");
 
     try {
-        line.add(ict::Option("comments", 'c', "Do not print header comment in resulting xddl",
-            [&]{comments = false; }));
-        line.add(ict::Option("wait", 'w', "Wait for user to hit return before starting", [&]{getchar();}));
-        line.add(ict::Option("progress", 't', "Print progress information", [&]{ trace_on = true; }));
-        line.add(ict::Option("ignore", 'i', "Ignore warnings", [&]{ignore_warnings=true;}));
-
+        line.add(ict::Option("comments", 'c',
+                             "Do not print header comment in resulting xddl",
+                             [&] { comments = false; }));
+        line.add(ict::Option("wait", 'w',
+                             "Wait for user to hit return before starting",
+                             [&] { getchar(); }));
+        line.add(ict::Option("progress", 't', "Print progress information",
+                             [&] { trace_on = true; }));
+        line.add(ict::Option("ignore", 'i', "Ignore warnings",
+                             [&] { ignore_warnings = true; }));
+        line.add(ict::Option("output", 'o', "Output file", "asn.xddl",
+                             [&] (auto o){ ofile = o; }));
         line.parse(argc, argv);
 
-        if (line.targets.empty()) IT_PANIC("no asn.1 files given");
+        if (line.targets.empty())
+            IT_PANIC("no asn.1 files given");
 
-        for (auto const & i : line.targets)
-        {
+        for (auto const &i : line.targets) {
             filename = i;
             TR("opening " << filename);
             yyin = fopen(filename.c_str(), "r");
             yyparse();
         }
 
+        ofstream fs;
+        if (!ofile.empty()) {
+            fs.open(ofile);
+            cout.rdbuf(fs.rdbuf());
+        }
+
         TR("parsing complete");
 
-        if (modlist)
-        {
+        if (modlist) {
             modlist->comments = comments;
             TR("writing xddl");
             xenon::xml_type xml(modlist->str(), true);
@@ -992,10 +1005,8 @@ int main(int argc, char **argv)
         } else {
             cerr << "no modules provided\n";
         }
-    } catch (std::exception & e)
-    {
+    } catch (std::exception &e) {
         cerr << filename << ": " << e.what() << endl;
         return 1;
     }
 }
-
