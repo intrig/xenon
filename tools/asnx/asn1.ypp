@@ -963,6 +963,7 @@ int main(int argc, char **argv) {
     ict::command line("asnx", "Convert asn.1 to xddl",
                       "asnx [options] asn_file ...");
 
+    std::streambuf *coutbuf = std::cout.rdbuf();
     try {
         line.add(ict::Option("comments", 'c',
                              "Do not print header comment in resulting xddl",
@@ -1009,4 +1010,5 @@ int main(int argc, char **argv) {
         cerr << filename << ": " << e.what() << endl;
         return 1;
     }
+    std::cout.rdbuf(coutbuf);
 }

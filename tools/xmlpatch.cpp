@@ -107,6 +107,7 @@ class XmlSource {
 };
 
 int main(int argc, char **argv) {
+    std::streambuf *coutbuf = std::cout.rdbuf();
     try {
         std::string ofile;
         ict::command line("xml-patch", "Patch up an xml file",
@@ -138,4 +139,5 @@ int main(int argc, char **argv) {
         cerr << e.what() << endl;
         return 1;
     }
+    std::cout.rdbuf(coutbuf);
 }
