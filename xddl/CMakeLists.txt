@@ -1,2 +1,2 @@
 cmake_minimum_required(VERSION 2.8)
-add_subdirectory(asn 3GPP)
+add_subdirectory(3GPP)
