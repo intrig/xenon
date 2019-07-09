@@ -47,3 +47,7 @@ mtags:
 	/usr/bin/find . -name '*.c' -o -name '*.cpp' -o -name '*.h' | grep -v "moc_" | grep -v "ui_" | grep -v "/o/"> o/flist && \
 	/usr/local/bin/ctags --file-tags=yes --language-force=C++ -L o/flist
 	@echo tags complete.
+
+get-deps:
+	sudo apt-get update
+	sudo apt-get install -y libboost-all-dev meson

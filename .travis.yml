@@ -1,0 +1,11 @@
+language: cpp
+sudo: required
+dist: bionic
+install: make get-deps
+notifications:
+    email: false
+compiler:
+    - gcc
+
+os:
+    -linux
