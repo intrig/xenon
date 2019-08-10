@@ -556,7 +556,7 @@ bitstring read_to(ict::ibitstream & bs, char ch) {
 }
 
 void cstr::vparse(spec::cursor self, message::cursor parent, ict::ibitstream & bs) const {
-    auto c = parent.emplace(node::field_node, self, read_to(bs, '\0'));
+    parent.emplace(node::field_node, self, read_to(bs, '\0'));
 }
 
 std::string cstr::vdescription(spec::cursor referer, message::const_cursor c) const {

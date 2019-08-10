@@ -9,7 +9,6 @@
 
 int main(int argc, char **argv)
 {
-    bool replace = false;
     bool decl = true;
     std::string filename;
 

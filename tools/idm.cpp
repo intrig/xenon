@@ -68,7 +68,7 @@ void processXddlFile(ict::command const & line, command_flags const & flags) {
     try { 
         d.clear();
         auto u = xenon::recref(*i);
-        auto r = d.add_spec(u.path + u.file);
+        d.add_spec(u.path + u.file);
         ++i;
         
         ict::bitstring bs; // the message to parse

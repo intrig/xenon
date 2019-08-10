@@ -51,6 +51,7 @@ class ast
 {
     public:
     ast() : line(current_line) {}
+    virtual ~ast() {}
 
     virtual std::string str() const { return std::string(); }
     virtual std::string name() const { return std::string(typeid(*this).name()); }

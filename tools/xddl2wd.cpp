@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
 
 void convert_to_wd(std::ostream & os, xenon::recref const & rr) {
     xenon::spec_server d;
-    auto r = d.add_spec(rr.path + rr.file);
+    d.add_spec(rr.path + rr.file);
     os << "done!\n";
 }
 

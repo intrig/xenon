@@ -1,4 +1,5 @@
 %option noyywrap
+%option nounput
 
 WHITESPC  [ \t\r]
 
@@ -14,7 +15,7 @@ WHITESPC  [ \t\r]
 #include <iostream>
 #include <string>
 #include "asnast.h"
-#include "parser.hh"
+#include "asn1.tab.hh"
 
 
 using namespace std;

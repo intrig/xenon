@@ -3,7 +3,7 @@
 //-- See https://github.com/intrig/xenon for license.
 // #include <ict/multivector.h>
 #include <ict/bitstring.h>
-#include <xenon/xddl.h>
+#include "xddl.h"
 #include <xenon/node.h>
 
 namespace xenon {

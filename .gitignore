@@ -36,6 +36,3 @@ build
 tags
 
 # xenon specific
-include/ict/xddl.h
-xddl/3GPP/TS-25.331.xddl
-xddl/3GPP/TS-36.331.xddl
