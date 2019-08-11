@@ -11,5 +11,6 @@ if boost_dep.found()
         include_directories : inc,
         dependencies : boost_dep,
         link_with : xenon_lib)
-    test('load', load_exe)
+    test('load', load_exe,
+        workdir : meson.source_root())
 endif

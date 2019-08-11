@@ -23,7 +23,6 @@ xml_pp_exe = executable('xml-pp', 'xmlpp.cpp',
 
 xv_exe = executable('xv', 'xv.cpp', xddl_h,
     include_directories : [inc, xenon_inc],
-    link_args : '-lstdc++fs',
     link_with : xenon_lib)
 
 recombobulator_exe = executable('recombobulator', 'recombobulator.cpp', xddl_h,

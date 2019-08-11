@@ -1,6 +1,5 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
-#include <experimental/filesystem>
 #include <ict/command.h>
 #include <xenon/xenon.h>
 
@@ -174,7 +173,7 @@ class XvFile {
         std::string line;
         XvMessage msg;
         int line_no = 0;
-        if (!std::experimental::filesystem::exists(filename))
+        if (!ict::file_exists(filename))
             IT_PANIC(filename << " doesn't exist");
         std::ifstream file(filename.c_str());
         if (file.is_open()) {

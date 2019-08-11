@@ -1,4 +1,4 @@
-cp_exe =find_program('cp')
+cp_exe =find_program('rsync')
 
 temp_36_331 = custom_target(
     'temp_36_331',
@@ -29,7 +29,7 @@ copy_xddl = custom_target(
     build_by_default : true,
     output : 'nothing',
     depends : [x36_331, x25_331],
-    command : [cp_exe, '-u',
+    command : [cp_exe,
         [meson.current_build_dir() + '/TS-36.331.xddl',
         meson.current_build_dir() + '/TS-25.331.xddl'],
         meson.current_source_dir()])
