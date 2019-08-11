@@ -1,6 +1,5 @@
 cp_exe =find_program('cp')
 
-
 temp_36_331 = custom_target(
     'temp_36_331',
     output : '36.331-temp.xddl',
@@ -31,6 +30,6 @@ copy_xddl = custom_target(
     output : 'nothing',
     depends : [x36_331, x25_331],
     command : [cp_exe, '-u',
-        [meson.current_build_dir() + '/TS-36.331.xddl', meson.current_build_dir() + '/TS-25.331.xddl'],
+        [meson.current_build_dir() + '/TS-36.331.xddl',
+        meson.current_build_dir() + '/TS-25.331.xddl'],
         meson.current_source_dir()])
-

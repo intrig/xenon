@@ -1,4 +1,5 @@
-# Tools with just one source file are in this directory.  Otherwise they are in a subdirectory.
+# Tools with just one source file are in this directory.  Otherwise they are in
+# a subdirectory.
 subdir('asnx')
 asn_strip_exe = executable('asn-strip', 'asnstrip.cpp',
     include_directories : inc,
