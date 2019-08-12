@@ -1,37 +1,30 @@
-.PHONY: tags perf
+.PHONY: all clean realclean check test update get-deps
 
-all: include/ict/ict.h
-	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && cd .. && make -C build -j12
+all: include/ict/ict.h build
+	ninja -C build
 
-debug:
-	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && cd .. && make -C build -j12
-
-serial:
-	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make VERBOSE=1 && cd ..
+build:
+	meson --buildtype release $@
 
 clean:
-	rm -f include/ict/xddl.h
-	rm -rf o
-	test -d build && make -C build clean
-	test -d build && rm -rf build
+	@test -d build && ninja -C build clean || true
+	rm -f xddl/3GPP/TS-25.331.xddl
+	rm -f xddl/3GPP/TS-36.331.xddl
 
-test: all
-	make CTEST_OUTPUT_ON_FAILURE=1 -C build test
+realclean:
+	rm -rf build
 
-perf:
-	build/perf/decodeperf -i 5 --load xddl
-	build/perf/decodeperf -i 10000 xddl
-	build/perf/decodeperf --xml xddl
-	build/perf/decodeperf --pretty xddl
+check: build
+	ninja -C build test
+
+test: check
 
 tags:
-	mkdir -p o
 	@echo Making tags...
-	/usr/bin/find . -name '*.c' -o -name '*.cpp' -o -name '*.h' | grep -v "moc_" | grep -v "ui_" | grep -v "/o/"> o/flist && \
-	ctags --file-tags=yes --language-force=C++ -L o/flist
+	@$(RM) tags; find . -name node_modules -type d -prune -o -name '*.c' -o -name '*.cc' \
+    -o -name '*.cpp' \
+	-o -name '*.h' -o -name '*.py' > flist && \
+	ctags --file-tags=yes --language-force=C++ -L flist && rm flist
 	@echo tags complete.
 
 include/ict/ict.h:
@@ -39,14 +32,6 @@ include/ict/ict.h:
 
 update:
 	git submodule foreach git pull origin master
-
-# tags on mac
-mtags:
-	mkdir -p o
-	@echo Making tags...
-	/usr/bin/find . -name '*.c' -o -name '*.cpp' -o -name '*.h' | grep -v "moc_" | grep -v "ui_" | grep -v "/o/"> o/flist && \
-	/usr/local/bin/ctags --file-tags=yes --language-force=C++ -L o/flist
-	@echo tags complete.
 
 get-deps:
 	sudo apt-get update

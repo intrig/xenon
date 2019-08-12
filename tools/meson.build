@@ -1,4 +1,5 @@
-# Tools with just one source file are in this directory.  Otherwise they are in a subdirectory.
+# Tools with just one source file are in this directory.  Otherwise they are in
+# a subdirectory.
 subdir('asnx')
 asn_strip_exe = executable('asn-strip', 'asnstrip.cpp',
     include_directories : inc,
@@ -22,7 +23,6 @@ xml_pp_exe = executable('xml-pp', 'xmlpp.cpp',
 
 xv_exe = executable('xv', 'xv.cpp', xddl_h,
     include_directories : [inc, xenon_inc],
-    link_args : '-lstdc++fs',
     link_with : xenon_lib)
 
 recombobulator_exe = executable('recombobulator', 'recombobulator.cpp', xddl_h,
