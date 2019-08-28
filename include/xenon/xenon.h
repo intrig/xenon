@@ -1,12 +1,10 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include <random>
 #include <functional>
 #include <xenon/recref.h>
 #include <xenon/message.h>
 #include <xenon/spec_server.h>
-#include <ict/bitstring.h>
+#include "ict/bitstring.h"
 namespace xenon {
 inline ict::bitstring serialize(const message & m) {
     ict::obitstream bs;

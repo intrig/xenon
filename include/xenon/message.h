@@ -1,8 +1,5 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
-// #include <ict/multivector.h>
-#include <ict/bitstring.h>
+#include "ict/bitstring.h"
 #include "xddl.h"
 #include <xenon/node.h>
 

@@ -2,7 +2,7 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <xenon/xml_parser_base.h>
-#include <ict/osstream.h>
+#include <xenon/ict/osstream.h>
 
 #include <stack>
 #include <map>

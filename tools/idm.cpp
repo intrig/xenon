@@ -1,6 +1,6 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
-#include <ict/command.h>
+#include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 #include <xenon/xenon.h>
 

@@ -17,3 +17,8 @@ subdir('xddl')
 subdir('unit')
 subdir('examples')
 subdir('perf')
+
+install_subdir('xddl',
+    exclude_directories : ['logs', 'IP/logs'],
+    exclude_files : ['README.txt', '3GPP/36.331.asn', '3GPP/25.331.asn'],
+    install_dir : get_option('datadir'))

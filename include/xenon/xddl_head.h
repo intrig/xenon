@@ -1,11 +1,9 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
-#include <ict/string64.h>
-#include <ict/ict.h>
-#include <ict/multivector.h>
+#include "ict/ict.h"
+#include "ict/string64.h"
+#include "ict/multivector.h"
 #include <string>
-#include <ict/expr.h>
+#include "ict/expr.h"
 #include <xenon/att_pair.h>
 #include <xenon/functions.h>
 #include <xenon/recref.h>

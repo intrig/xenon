@@ -6,7 +6,7 @@
 
 #include <xenon/xml_parser_base.h>
 
-#include <ict/string64.h>
+#include <xenon/ict/string64.h>
 #include <xenon/att_pair.h>
 
 // TODO: rewrite XmlParserBase to be 

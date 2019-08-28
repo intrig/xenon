@@ -1,7 +1,7 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include <algorithm>
-#include <ict/bitstring.h>
+#include <xenon/ict/bitstring.h>
 #include <xenon/xenon.h>
 #include <xenon/node.h>
 #include <xenon/xddl.h>

@@ -1,10 +1,8 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include <string>
 #include <fstream>
 #include <algorithm>
 #include <vector>
-#include <ict/command.h>
+#include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 
 int main(int argc, char **argv)

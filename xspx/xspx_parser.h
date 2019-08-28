@@ -1,7 +1,4 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
-
 #include <xenon/cpp_code.h>
 
 #include <vector>
@@ -9,8 +6,8 @@
 #include <sstream>
 
 #include <xenon/xml_parser.h>
-#include <ict/string64.h>
-#include <ict/multivector.h>
+#include <xenon/ict/string64.h>
+#include <xenon/ict/multivector.h>
 
 #define qt(x) "\"" << x << "\""
 

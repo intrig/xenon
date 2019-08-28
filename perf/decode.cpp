@@ -4,7 +4,7 @@
 #include <vector>
 #include <xenon/xenon.h>
 #include <xenon/xddl_code.h>
-#include <ict/command.h>
+#include <xenon/ict/command.h>
 #include <boost/filesystem.hpp>
 
 namespace bf = boost::filesystem;

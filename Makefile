@@ -1,4 +1,4 @@
-.PHONY: all clean realclean check test update get-deps
+.PHONY: all clean realclean check test update get-deps install uninstall check-install
 
 all: include/ict/ict.h build
 	ninja -C build
@@ -17,7 +17,17 @@ realclean:
 check: build
 	ninja -C build test
 
-test: check
+install: build
+	ninja -C build install
+
+uninstall:
+	ninja -C build uninstall
+
+check-install: build
+	XDDLPATH=/usr/local/share/xddl xv unit/xddlunit/icd_gold.xv
+	c++ -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -std=c++17 -O3 -o 'build/decode.cpp.o' -c examples/decode.cpp
+	c++ -o build/decode 'build/decode.cpp.o' -lxenon
+	XDDLPATH=/usr/local/share/xddl build/decode
 
 tags:
 	@echo Making tags...

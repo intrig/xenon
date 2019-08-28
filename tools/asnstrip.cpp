@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 
-#include <ict/command.h>
+#include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 
 

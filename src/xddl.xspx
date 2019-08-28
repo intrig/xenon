@@ -49,8 +49,8 @@
         #include &lt;xenon/xddl_head.h&gt;
         #include &lt;memory&gt;
         #include &lt;bitset&gt;
-        #include &lt;ict/multivector.h&gt;
-        #include &lt;ict/expr.h&gt;
+        #include &lt;xenon/ict/multivector.h&gt;
+        #include &lt;xenon/ict/expr.h&gt;
     </code>
 
     <!-- code segment at the bottom of header file. -->

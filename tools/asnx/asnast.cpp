@@ -1,7 +1,7 @@
 //-- Copyright 2016 Intrig
 //-- See https://github.com/intrig/xenon for license.
 #include "asnast.h"
-#include <ict/ict.h>
+#include <xenon/ict/ict.h>
 
 using namespace std;
 

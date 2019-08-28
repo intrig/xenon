@@ -38,7 +38,7 @@
 #include <ctime>
 #include <iomanip>
 
-#include <ict/ict.h>
+#include "ict/ict.h"
 
 #ifdef _WIN32
 #define NOMINMAX

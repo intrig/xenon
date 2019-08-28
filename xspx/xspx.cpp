@@ -1,7 +1,5 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include <iostream>
-#include <ict/command.h>
+#include <xenon/ict/command.h>
 #include "xspx_parser.h"
 #include "to_writedown.h"
 

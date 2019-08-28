@@ -8,4 +8,5 @@ xddl_cpp = custom_target(
 
 xenon_lib = library('xenon', 'lua-5.1.4/src/lua_all.cpp', 'xml_parser_base.cpp', 
     'message.cpp', 'xenon.cpp', xddl_h, xddl_cpp,
-    include_directories : [inc, lua_inc])
+    include_directories : [inc, lua_inc],
+    install : true)

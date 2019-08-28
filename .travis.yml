@@ -6,6 +6,8 @@ notifications:
     email: false
 compiler:
     - gcc
-
 os:
     -linux
+
+script:
+    - ./configure && make && make check && sudo make install && sudo ldconfig && make check-install

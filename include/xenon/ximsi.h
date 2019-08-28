@@ -1,13 +1,10 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
-
 #include <string.h>
 #include <iostream>
-#include <ict/bitstring.h>
-#include <ict/exception.h>
+#include "ict/bitstring.h"
+#include "ict/exception.h"
 #include <cstdint>
-#include <ict/netvar.h>
+#include "ict/netvar.h"
 
 namespace ict {
 namespace util {

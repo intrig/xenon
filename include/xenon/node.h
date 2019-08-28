@@ -1,9 +1,7 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
-#include <ict/bitstring.h>
-#include <ict/multivector.h>
-#include <ict/string64.h>
+#include "ict/bitstring.h"
+#include "ict/multivector.h"
+#include "ict/string64.h"
 #include <memory>
 #include <functional>
 #include <iostream>

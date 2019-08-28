@@ -1,9 +1,5 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
-
 #include <xenon/xml_parser_base.h>
-
-#include <ict/ict.h>
+#include <xenon/ict/ict.h>
 
 namespace xenon {
 // order matters here, index is state()

@@ -7,6 +7,7 @@ asn_strip_exe = executable('asn-strip', 'asnstrip.cpp',
 
 idm_exe = executable('idm', 'idm.cpp', xddl_h,
     include_directories : inc,
+    install : true,
     link_with : xenon_lib)
 
 xddl2wd_exe = executable('xddl2wd', 'xddl2wd.cpp', xddl_h,
@@ -23,6 +24,7 @@ xml_pp_exe = executable('xml-pp', 'xmlpp.cpp',
 
 xv_exe = executable('xv', 'xv.cpp', xddl_h,
     include_directories : [inc, xenon_inc],
+    install : true,
     link_with : xenon_lib)
 
 recombobulator_exe = executable('recombobulator', 'recombobulator.cpp', xddl_h,

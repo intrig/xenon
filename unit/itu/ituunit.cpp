@@ -1,7 +1,5 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include "ituunit.h"
-#include <ict/ict.h>
+#include <xenon/ict/ict.h>
 #include <xenon/recref.h>
 
 using std::string;
