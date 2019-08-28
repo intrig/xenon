@@ -1,26 +1,30 @@
-if boost_dep.found()
-    decodeperf_exe = executable('decodeperf', 'decode.cpp', xddl_h,
-        include_directories : inc,
-        dependencies : boost_dep,
-        link_with : xenon_lib)
+decodeperf_exe = executable('decodeperf', 'decode.cpp', xddl_h,
+    include_directories : inc,
+    link_args : '-lstdc++fs',
+    link_with : xenon_lib)
 
-    benchmark('loading xddl', decodeperf_exe,
-        workdir : meson.source_root(),
-        args : ['-i', '5', '--load', 'xddl']
-        )
+loadperf_exe = executable('loadperf', 'loadperf.cpp', xddl_h,
+    include_directories : inc,
+    link_args : '-lstdc++fs',
+    link_with : xenon_lib)
 
-    benchmark('decoding message', decodeperf_exe,
-        workdir : meson.source_root(),
-        args : ['-i', '10000', 'xddl']
-        )
+benchmark('loading xddl', decodeperf_exe,
+    workdir : meson.source_root(),
+    args : ['-i', '5', '--load', 'xddl'])
 
-    benchmark('flat xml', decodeperf_exe,
-        workdir : meson.source_root(),
-        args : ['--xml', 'xddl']
-        )
+benchmark('decoding message', decodeperf_exe,
+    workdir : meson.source_root(),
+    args : ['-i', '10000', 'xddl'])
 
-    benchmark('pretty xml', decodeperf_exe,
-        workdir : meson.source_root(),
-        args : ['--pretty', 'xddl']
-        )
-endif
+benchmark('flat xml', decodeperf_exe,
+    workdir : meson.source_root(),
+    args : ['--xml', 'xddl'])
+
+benchmark('pretty xml', decodeperf_exe,
+    workdir : meson.source_root(),
+    args : ['--pretty', 'xddl'])
+
+benchmark('load xddl', loadperf_exe,
+    workdir : meson.source_root(),
+    args : 'xddl')
+

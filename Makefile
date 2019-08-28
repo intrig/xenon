@@ -1,4 +1,5 @@
 .PHONY: all clean realclean check test update get-deps install uninstall check-install
+.PHONY: tags
 
 all: include/xenon/ict/ict.h build
 	ninja -C build
@@ -45,4 +46,4 @@ update:
 
 get-deps:
 	sudo apt-get update
-	sudo apt-get install -y libboost-all-dev meson
+	sudo apt-get install -y meson
