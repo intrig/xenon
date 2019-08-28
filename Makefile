@@ -1,6 +1,6 @@
 .PHONY: all clean realclean check test update get-deps install uninstall check-install
 
-all: include/ict/ict.h build
+all: include/xenon/ict/ict.h build
 	ninja -C build
 
 build:
@@ -37,7 +37,7 @@ tags:
 	ctags --file-tags=yes --language-force=C++ -L flist && rm flist
 	@echo tags complete.
 
-include/ict/ict.h:
+include/xenon/ict/ict.h:
 	git submodule update --init --recursive
 
 update:
