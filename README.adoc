@@ -38,17 +38,13 @@ From a terminal, issue the following commands:
 Windows requires the following steps:
 
 1. Install https://desktop.github.com[Github Desktop]
+2. Clone the xenon repo as above.
+3. Install https://mesonbuild.com/Getting-meson.html[meson]
+Follow the instructions in the above link to have meson generate the Visual
+Studio build files.
 
-   Clone the xenon repo.
-
-2. Install https://mesonbuild.com/Getting-meson.html[meson]
-
-   Follow the instructions in the above link to have meson generate the Visual
-   Studio build files.
-
-3. Microsoft Visual Studio 2015 (or later)
-  
-  Load and build with the Visual Studio Solution file.
+4. Microsoft Visual Studio 2015 (or later)
+Load and build with the Visual Studio Solution file.
 
 === Dependencies
 
