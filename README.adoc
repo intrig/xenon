@@ -5,6 +5,8 @@
 
 image:https://travis-ci.org/wythe/multivector.svg?branch=master["Build Status", link="https://travis-ci.org/intrig/xenon"]
 
+toc::[]
+
 == Introduction
 
 Intrig Xenon provides flexible, powerful and easy to use C++ API for decoding protocol
@@ -16,9 +18,8 @@ tool with an ever expanding protocol support base.
 
 And, using XDDL, you can support your own proprietary message formats.
 
-See xenon in action for yourself using the Intrig online decoder: [http://intrig.com/x82da86](intrig.com).
-
-toc::[]
+See xenon in action for yourself using the Intrig online decoder:
+http://intrig.com/x82da86[intrig.com].
 
 === Quick Start
 
@@ -36,11 +37,11 @@ From a terminal, issue the following commands:
 
 Windows requires the following steps:
 
-1. Install [Github Desktop](https://desktop.github.com)
+1. Install https://desktop.github.com[Github Desktop]
 
    Clone the xenon repo.
 
-2. Install [meson](https://mesonbuild.com/Getting-meson.html)
+2. Install https://mesonbuild.com/Getting-meson.html[meson]
 
    Follow the instructions in the above link to have meson generate the Visual
    Studio build files.
@@ -51,20 +52,20 @@ Windows requires the following steps:
 
 === Dependencies
 
-* meson
+* https://mesonbuild.com[meson]
 * C++17 or later compiler
 * Github desktop (for Windows only)
 
 == Using Xenon
 
-Link with the libxenon.so library, found in /usr/local/lib/x86_64-linux-gnu/libxenon.so
+Link with the libxenon.so library, found in `/usr/local/lib/x86_64-linux-gnu/libxenon.so`
 on Ubuntu.
 
-The header files are found in /usr/local/include/xenon.
+The header files are found in `/usr/local/include/xenon`.
 
-The XDDL data files are found in /usr/local/share/xddl.
+The XDDL data files are found in `/usr/local/share/xddl`.
 
 See the `xenon/examples` directory for some common uses of the decoder.
 
 Also, the tools directory contains useful examples, such as `idm` and `xv`.  These
-two programs are installed into /usr/local/bin.
+two programs are installed into `/usr/local/bin`.
