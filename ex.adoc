@@ -1,6 +1,6 @@
-// tag::bit_summary[]
+tag::bit_summary[]
 A %bit is a bit.
-// end::bit_summary[]
+end::bit_summary[]
 
 
 # detail {
