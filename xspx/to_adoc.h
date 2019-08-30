@@ -19,6 +19,7 @@ template <typename Elem> std::string attributes(const Elem &elem) {
             os << "\n";
         }
     }
+    os << "|=============================================================\n";
     return os.str();
 }
 

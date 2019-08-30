@@ -15,6 +15,7 @@ toc::[]
 | | type | url|
 | | bias | integer|
 | | default | expression|
+|=============================================================
 
 
 children: ^comment, ^item, ^range, ^script
@@ -29,6 +30,7 @@ children: ^comment, ^item, ^range, ^script
 |=============================================================
 | attributes | name  | type | required
 | | value | integer| &#10004; 
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
@@ -44,6 +46,7 @@ children: [Common Children](#Common-Children)
 | attributes | name  | type | required
 | | max | expression|
 | | name | string| &#10004; 
+|=============================================================
 
 
 children: none
@@ -101,6 +104,7 @@ children: ^prop
 | | bias | integer|
 | | length | expression| &#10004; 
 | | default | expression|
+|=============================================================
 
 
 children: ^comment, ^item, ^range, ^script
@@ -115,6 +119,7 @@ children: ^comment, ^item, ^range, ^script
 |=============================================================
 | attributes | name  | type | required
 | | href | url| &#10004; 
+|=============================================================
 
 
 children: none
@@ -129,6 +134,7 @@ children: none
 |=============================================================
 | attributes | name  | type | required
 | | expr | expression| &#10004; 
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
@@ -145,6 +151,7 @@ children: [Common Children](#Common-Children)
 | | key | integer| &#10004; 
 | | href | url|
 | | value | string| &#10004; 
+|=============================================================
 
 
 children: none
@@ -159,6 +166,7 @@ children: none
 |=============================================================
 | attributes | name  | type | required
 | | base | jump_name| &#10004; 
+|=============================================================
 
 
 children: none
@@ -188,6 +196,7 @@ children: ^export, ^start, ^type, [Common Children](#Common-Children)
 | | mod | pos_integer|
 | | name | string|
 | | offset | size|
+|=============================================================
 
 
 children: none
@@ -204,6 +213,7 @@ children: none
 | | name | string| &#10004; 
 | | length | expression| &#10004; 
 | | offset | size| &#10004; 
+|=============================================================
 
 
 children: none
@@ -221,6 +231,7 @@ children: none
 | | type | url|
 | | value | expression|
 | | visible | bool|
+|=============================================================
 
 
 children: ^item, ^range, ^script
@@ -238,6 +249,7 @@ children: ^item, ^range, ^script
 | | href | url|
 | | value | string|
 | | start | integer| &#10004; 
+|=============================================================
 
 
 children: none
@@ -257,6 +269,7 @@ children: none
 | | id | id_url|
 | | name | string|
 | | length | expression|
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
@@ -273,6 +286,7 @@ children: [Common Children](#Common-Children)
 | | name | string|
 | | href | url|
 | | length | expression|
+|=============================================================
 
 
 children: none
@@ -294,6 +308,7 @@ children: none
 | attributes | name  | type | required
 | | name | string|
 | | minlen | size|
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
@@ -309,6 +324,7 @@ children: [Common Children](#Common-Children)
 | attributes | name  | type | required
 | | num | expression| &#10004; 
 | | name | string|
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
@@ -326,6 +342,7 @@ children: [Common Children](#Common-Children)
 | | max | expression|
 | | name | string|
 | | minlen | integer|
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
@@ -358,6 +375,7 @@ children: none
 | | name | setprop_name| &#10004; 
 | | type | url|
 | | value | expression| &#10004; 
+|=============================================================
 
 
 children: ^item, ^range, ^script, [Common Children](#Common-Children)
@@ -385,6 +403,7 @@ children: [Common Children](#Common-Children)
 |=============================================================
 | attributes | name  | type | required
 | | expr | expression| &#10004; 
+|=============================================================
 
 
 children: ^case, ^default
@@ -400,6 +419,7 @@ children: ^case, ^default
 | attributes | name  | type | required
 | | id | id_url| &#10004; 
 | | name | string|
+|=============================================================
 
 
 children: ^item, ^range, ^script
@@ -417,6 +437,7 @@ children: ^item, ^range, ^script
 | | type | url|
 | | bias | integer|
 | | default | expression|
+|=============================================================
 
 
 children: ^comment, ^item, ^range, ^script
@@ -434,6 +455,7 @@ children: ^comment, ^item, ^range, ^script
 | | type | url|
 | | bias | integer|
 | | default | expression|
+|=============================================================
 
 
 children: ^comment, ^item, ^range, ^script
@@ -451,6 +473,7 @@ children: ^comment, ^item, ^range, ^script
 | | type | url|
 | | bias | integer|
 | | default | expression|
+|=============================================================
 
 
 children: ^comment, ^item, ^range, ^script
@@ -468,6 +491,7 @@ children: ^comment, ^item, ^range, ^script
 | | type | url|
 | | bias | integer|
 | | default | expression|
+|=============================================================
 
 
 children: ^comment, ^item, ^range, ^script
@@ -483,6 +507,7 @@ children: ^comment, ^item, ^range, ^script
 | attributes | name  | type | required
 | | name | string|
 | | expr | expression| &#10004; 
+|=============================================================
 
 
 children: [Common Children](#Common-Children)
