@@ -8,13 +8,13 @@ toc::[]
 === bit
 
 :include ex.wd#bit/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | bias | integer| | 
- | default | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | bias | integer|
+| | default | expression|
 
 
 children: ^comment, ^item, ^range, ^script
@@ -25,10 +25,10 @@ children: ^comment, ^item, ^range, ^script
 === case
 
 :include ex.wd#case/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | value | integer| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | value | integer| &#10004; 
 
 
 children: [Common Children](#Common-Children)
@@ -39,11 +39,11 @@ children: [Common Children](#Common-Children)
 === cstr
 
 :include ex.wd#cstr/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | max | expression| | 
- | name | string| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | max | expression|
+| | name | string| &#10004; 
 
 
 children: none
@@ -93,14 +93,14 @@ children: ^prop
 === field
 
 :include ex.wd#field/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | bias | integer| | 
- | length | expression| &#10004;  | 
- | default | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | bias | integer|
+| | length | expression| &#10004; 
+| | default | expression|
 
 
 children: ^comment, ^item, ^range, ^script
@@ -111,10 +111,10 @@ children: ^comment, ^item, ^range, ^script
 === fragment
 
 :include ex.wd#fragment/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | href | url| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | href | url| &#10004; 
 
 
 children: none
@@ -125,10 +125,10 @@ children: none
 === if
 
 :include ex.wd#if/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | expr | expression| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | expr | expression| &#10004; 
 
 
 children: [Common Children](#Common-Children)
@@ -139,12 +139,12 @@ children: [Common Children](#Common-Children)
 === item
 
 :include ex.wd#item/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | key | integer| &#10004;  | 
- | href | url| | 
- | value | string| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | key | integer| &#10004; 
+| | href | url|
+| | value | string| &#10004; 
 
 
 children: none
@@ -155,10 +155,10 @@ children: none
 === jump
 
 :include ex.wd#jump/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | base | jump_name| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | base | jump_name| &#10004; 
 
 
 children: none
@@ -182,12 +182,12 @@ children: ^export, ^start, ^type, [Common Children](#Common-Children)
 === pad
 
 :include ex.wd#pad/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | mod | pos_integer| | 
- | name | string| | 
- | offset | size| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | mod | pos_integer|
+| | name | string|
+| | offset | size|
 
 
 children: none
@@ -198,12 +198,12 @@ children: none
 === peek
 
 :include ex.wd#peek/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | length | expression| &#10004;  | 
- | offset | size| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | length | expression| &#10004; 
+| | offset | size| &#10004; 
 
 
 children: none
@@ -214,13 +214,13 @@ children: none
 === prop
 
 :include ex.wd#prop/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | value | expression| | 
- | visible | bool| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | value | expression|
+| | visible | bool|
 
 
 children: ^item, ^range, ^script
@@ -231,13 +231,13 @@ children: ^item, ^range, ^script
 === range
 
 :include ex.wd#range/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | end | integer| &#10004;  | 
- | href | url| | 
- | value | string| | 
- | start | integer| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | end | integer| &#10004; 
+| | href | url|
+| | value | string|
+| | start | integer| &#10004; 
 
 
 children: none
@@ -251,12 +251,12 @@ children: none
 === Record Definition
 
 :include ex.wd#Record-Definition/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | id | id_url| | 
- | name | string| | 
- | length | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | id | id_url|
+| | name | string|
+| | length | expression|
 
 
 children: [Common Children](#Common-Children)
@@ -267,12 +267,12 @@ children: [Common Children](#Common-Children)
 === Record Link
 
 :include ex.wd#Record-Link/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| | 
- | href | url| | 
- | length | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string|
+| | href | url|
+| | length | expression|
 
 
 children: none
@@ -289,11 +289,11 @@ children: none
 === Repeat Indefinitely
 
 :include ex.wd#Repeat-Indefinitely/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| | 
- | minlen | size| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string|
+| | minlen | size|
 
 
 children: [Common Children](#Common-Children)
@@ -304,11 +304,11 @@ children: [Common Children](#Common-Children)
 === Numbered Repeat
 
 :include ex.wd#Numbered-Repeat/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | num | expression| &#10004;  | 
- | name | string| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | num | expression| &#10004; 
+| | name | string|
 
 
 children: [Common Children](#Common-Children)
@@ -319,13 +319,13 @@ children: [Common Children](#Common-Children)
 === Bound Repeat
 
 :include ex.wd#Bound-Repeat/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | min | expression| | 
- | max | expression| | 
- | name | string| | 
- | minlen | integer| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | min | expression|
+| | max | expression|
+| | name | string|
+| | minlen | integer|
 
 
 children: [Common Children](#Common-Children)
@@ -352,12 +352,12 @@ children: none
 === setprop
 
 :include ex.wd#setprop/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | setprop_name| &#10004;  | 
- | type | url| | 
- | value | expression| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | setprop_name| &#10004; 
+| | type | url|
+| | value | expression| &#10004; 
 
 
 children: ^item, ^range, ^script, [Common Children](#Common-Children)
@@ -381,10 +381,10 @@ children: [Common Children](#Common-Children)
 === switch
 
 :include ex.wd#switch/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | expr | expression| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | expr | expression| &#10004; 
 
 
 children: ^case, ^default
@@ -395,11 +395,11 @@ children: ^case, ^default
 === type
 
 :include ex.wd#type/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | id | id_url| &#10004;  | 
- | name | string| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | id | id_url| &#10004; 
+| | name | string|
 
 
 children: ^item, ^range, ^script
@@ -410,13 +410,13 @@ children: ^item, ^range, ^script
 === uint16
 
 :include ex.wd#uint16/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | bias | integer| | 
- | default | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | bias | integer|
+| | default | expression|
 
 
 children: ^comment, ^item, ^range, ^script
@@ -427,13 +427,13 @@ children: ^comment, ^item, ^range, ^script
 === uint32
 
 :include ex.wd#uint32/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | bias | integer| | 
- | default | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | bias | integer|
+| | default | expression|
 
 
 children: ^comment, ^item, ^range, ^script
@@ -444,13 +444,13 @@ children: ^comment, ^item, ^range, ^script
 === uint64
 
 :include ex.wd#uint64/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | bias | integer| | 
- | default | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | bias | integer|
+| | default | expression|
 
 
 children: ^comment, ^item, ^range, ^script
@@ -461,13 +461,13 @@ children: ^comment, ^item, ^range, ^script
 === uint8
 
 :include ex.wd#uint8/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| &#10004;  | 
- | type | url| | 
- | bias | integer| | 
- | default | expression| | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string| &#10004; 
+| | type | url|
+| | bias | integer|
+| | default | expression|
 
 
 children: ^comment, ^item, ^range, ^script
@@ -478,11 +478,11 @@ children: ^comment, ^item, ^range, ^script
 === while
 
 :include ex.wd#while/summary?
-
-attributes | name  | [type](#AttributeTypes) | required
------------|-------|-------------------------|---------
- | name | string| | 
- | expr | expression| &#10004;  | 
+[options="header"]
+|=============================================================
+| attributes | name  | type | required
+| | name | string|
+| | expr | expression| &#10004; 
 
 
 children: [Common Children](#Common-Children)
