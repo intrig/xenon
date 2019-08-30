@@ -1,0 +1,524 @@
+= Intrig Message Decoder
+:sectnums:
+:toc:
+:toc-placement!:
+
+toc::[]
+== Elements
+=== bit
+
+:include ex.wd#bit/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | bias | integer| | 
+ | default | expression| | 
+
+
+children: ^comment, ^item, ^range, ^script
+
+:include ex.wd#bit/detail?
+// bit
+
+=== case
+
+:include ex.wd#case/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | value | integer| &#10004;  | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#case/detail?
+// case
+
+=== cstr
+
+:include ex.wd#cstr/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | max | expression| | 
+ | name | string| &#10004;  | 
+
+
+children: none
+
+:include ex.wd#cstr/detail?
+// cstr
+
+=== default
+
+:include ex.wd#default/summary?
+
+attributes: none
+
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#default/detail?
+// default
+
+=== enc
+
+:include ex.wd#enc/summary?
+
+attributes: none
+
+
+
+children: ^fragment, ^start, ^type, [Common Children](#Common-Children)
+
+:include ex.wd#enc/detail?
+// enc
+
+=== export
+
+:include ex.wd#export/summary?
+
+attributes: none
+
+
+
+children: ^prop
+
+:include ex.wd#export/detail?
+// export
+
+=== field
+
+:include ex.wd#field/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | bias | integer| | 
+ | length | expression| &#10004;  | 
+ | default | expression| | 
+
+
+children: ^comment, ^item, ^range, ^script
+
+:include ex.wd#field/detail?
+// field
+
+=== fragment
+
+:include ex.wd#fragment/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | href | url| &#10004;  | 
+
+
+children: none
+
+:include ex.wd#fragment/detail?
+// fragment
+
+=== if
+
+:include ex.wd#if/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | expr | expression| &#10004;  | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#if/detail?
+// if
+
+=== item
+
+:include ex.wd#item/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | key | integer| &#10004;  | 
+ | href | url| | 
+ | value | string| &#10004;  | 
+
+
+children: none
+
+:include ex.wd#item/detail?
+// item
+
+=== jump
+
+:include ex.wd#jump/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | base | jump_name| &#10004;  | 
+
+
+children: none
+
+:include ex.wd#jump/detail?
+// jump
+
+=== oob
+
+:include ex.wd#oob/summary?
+
+attributes: none
+
+
+
+children: ^export, ^start, ^type, [Common Children](#Common-Children)
+
+:include ex.wd#oob/detail?
+// oob
+
+=== pad
+
+:include ex.wd#pad/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | mod | pos_integer| | 
+ | name | string| | 
+ | offset | size| | 
+
+
+children: none
+
+:include ex.wd#pad/detail?
+// pad
+
+=== peek
+
+:include ex.wd#peek/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | length | expression| &#10004;  | 
+ | offset | size| &#10004;  | 
+
+
+children: none
+
+:include ex.wd#peek/detail?
+// peek
+
+=== prop
+
+:include ex.wd#prop/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | value | expression| | 
+ | visible | bool| | 
+
+
+children: ^item, ^range, ^script
+
+:include ex.wd#prop/detail?
+// prop
+
+=== range
+
+:include ex.wd#range/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | end | integer| &#10004;  | 
+ | href | url| | 
+ | value | string| | 
+ | start | integer| &#10004;  | 
+
+
+children: none
+
+:include ex.wd#range/detail?
+// range
+
+=== record
+
+:include ex.wd#record/summary?
+=== Record Definition
+
+:include ex.wd#Record-Definition/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | id | id_url| | 
+ | name | string| | 
+ | length | expression| | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#Record-Definition/detail?
+// Record Definition
+
+=== Record Link
+
+:include ex.wd#Record-Link/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| | 
+ | href | url| | 
+ | length | expression| | 
+
+
+children: none
+
+:include ex.wd#Record-Link/detail?
+// Record Link
+
+:include ex.wd#record/detail?
+// record
+
+=== repeat
+
+:include ex.wd#repeat/summary?
+=== Repeat Indefinitely
+
+:include ex.wd#Repeat-Indefinitely/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| | 
+ | minlen | size| | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#Repeat-Indefinitely/detail?
+// Repeat Indefinitely
+
+=== Numbered Repeat
+
+:include ex.wd#Numbered-Repeat/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | num | expression| &#10004;  | 
+ | name | string| | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#Numbered-Repeat/detail?
+// Numbered Repeat
+
+=== Bound Repeat
+
+:include ex.wd#Bound-Repeat/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | min | expression| | 
+ | max | expression| | 
+ | name | string| | 
+ | minlen | integer| | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#Bound-Repeat/detail?
+// Bound Repeat
+
+:include ex.wd#repeat/detail?
+// repeat
+
+=== script
+
+:include ex.wd#script/summary?
+
+attributes: none
+
+
+
+children: none
+
+:include ex.wd#script/detail?
+// script
+
+=== setprop
+
+:include ex.wd#setprop/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | setprop_name| &#10004;  | 
+ | type | url| | 
+ | value | expression| &#10004;  | 
+
+
+children: ^item, ^range, ^script, [Common Children](#Common-Children)
+
+:include ex.wd#setprop/detail?
+// setprop
+
+=== start
+
+:include ex.wd#start/summary?
+
+attributes: none
+
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#start/detail?
+// start
+
+=== switch
+
+:include ex.wd#switch/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | expr | expression| &#10004;  | 
+
+
+children: ^case, ^default
+
+:include ex.wd#switch/detail?
+// switch
+
+=== type
+
+:include ex.wd#type/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | id | id_url| &#10004;  | 
+ | name | string| | 
+
+
+children: ^item, ^range, ^script
+
+:include ex.wd#type/detail?
+// type
+
+=== uint16
+
+:include ex.wd#uint16/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | bias | integer| | 
+ | default | expression| | 
+
+
+children: ^comment, ^item, ^range, ^script
+
+:include ex.wd#uint16/detail?
+// uint16
+
+=== uint32
+
+:include ex.wd#uint32/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | bias | integer| | 
+ | default | expression| | 
+
+
+children: ^comment, ^item, ^range, ^script
+
+:include ex.wd#uint32/detail?
+// uint32
+
+=== uint64
+
+:include ex.wd#uint64/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | bias | integer| | 
+ | default | expression| | 
+
+
+children: ^comment, ^item, ^range, ^script
+
+:include ex.wd#uint64/detail?
+// uint64
+
+=== uint8
+
+:include ex.wd#uint8/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| &#10004;  | 
+ | type | url| | 
+ | bias | integer| | 
+ | default | expression| | 
+
+
+children: ^comment, ^item, ^range, ^script
+
+:include ex.wd#uint8/detail?
+// uint8
+
+=== while
+
+:include ex.wd#while/summary?
+
+attributes | name  | [type](#AttributeTypes) | required
+-----------|-------|-------------------------|---------
+ | name | string| | 
+ | expr | expression| &#10004;  | 
+
+
+children: [Common Children](#Common-Children)
+
+:include ex.wd#while/detail?
+// while
+
+=== xddl
+
+:include ex.wd#xddl/summary?
+
+attributes: none
+
+
+
+children: ^export, ^start, ^type, [Common Children](#Common-Children)
+
+:include ex.wd#xddl/detail?
+// xddl
+
+// Elements
+== Attribute Types
+
+Type | Default | Description
+-----|---------|------------
+bool | false | *true* or *false*
+integer | 0 | Any integer will do
+pos_integer | 1 | Positive integer
+size | 0 | Non-negative integer
+string |  | 
+expression |  | XDDL expression
+setprop_name |  | Name of a property that is in scope
+url |  | Link to a record
+id_url |  | id used in record definitions
+jump_name |  | Field name used for jump element
+// Attribute Types
+== Common Children
+^bit, ^cstr, ^enc, ^field, ^fragment, ^if, ^jump, ^oob, ^pad, ^peek, ^prop, ^record, ^repeat, ^setprop, ^switch, ^uint16, ^uint32, ^uint64, ^uint8, ^while
+// Common Children

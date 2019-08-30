@@ -74,7 +74,7 @@ inline std::string anchor(const std::string &x) {
 template <typename OS, typename Cursor>
 void disp_element(OS &os, xsp_parser const &parser, Cursor c) {
     std::string n = (c->display.empty()) ? c->tag.c_str() : c->display;
-    os << "# " << n << " {\n\n";
+    os << "=== " << n << "\n\n";
 
     os << ":include ex.wd#" << anchor(n) << "/summary?\n";
 
@@ -90,7 +90,7 @@ void disp_element(OS &os, xsp_parser const &parser, Cursor c) {
 
     os << ":include ex.wd#" << anchor(n) << "/detail?\n";
 
-    os << "}\n\n";
+    os << "// " << n << "\n\n";
 }
 
 namespace ict {
@@ -103,23 +103,26 @@ void for_each_cursor(Cursor &parent, Pred op) {
 } // namespace ict
 
 void to_adoc(std::ostream &os, const xsp_parser &xspx) {
-    os << ":title XDDL Element Reference\n\n";
-    os << ":toc(\"auto\")\n\n";
+    os << "= Intrig Message Decoder\n"
+          ":sectnums:\n"
+          ":toc:\n"
+          ":toc-placement!:\n\n"
+          "toc::[]\n";
 
     auto tree = xspx::elem_tree(xspx);
-    os << "# Elements {\n";
+    os << "== Elements\n";
     for (auto c = tree.begin(); c != tree.end(); ++c) {
         disp_element(os, xspx, c);
     }
-    os << "} // Elements\n";
+    os << "// Elements\n";
 
-    os << "# Attribute Types {\n";
+    os << "== Attribute Types\n";
     os << attribute_types(xspx.custom_types);
-    os << "} // Attributes\n";
+    os << "// Attribute Types\n";
 
-    os << "# Common Children {\n";
+    os << "== Common Children\n";
     os << child_elements(xspx.groups) << '\n';
-    os << "}\n";
+    os << "// Common Children\n";
 }
 
 } // namespace xspx
