@@ -1,5 +1,7 @@
 tag::bit_summary[]
+
 A %bit is a bit.
+
 end::bit_summary[]
 
 
