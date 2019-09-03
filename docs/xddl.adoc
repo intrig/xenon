@@ -7,7 +7,7 @@ toc::[]
 == Elements
 === bit
 
-:include ex.wd#bit/summary?
+:insert bit-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -20,12 +20,12 @@ toc::[]
 
 children: ^comment, ^item, ^range, ^script
 
-:include ex.wd#bit/detail?
+:insert bit-det
 // bit
 
 === case
 
-:include ex.wd#case/summary?
+:insert case-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -35,12 +35,12 @@ children: ^comment, ^item, ^range, ^script
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#case/detail?
+:insert case-det
 // case
 
 === cstr
 
-:include ex.wd#cstr/summary?
+:insert cstr-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -51,12 +51,12 @@ children: [Common Children](#Common-Children)
 
 children: none
 
-:include ex.wd#cstr/detail?
+:insert cstr-det
 // cstr
 
 === default
 
-:include ex.wd#default/summary?
+:insert default-sum
 
 attributes: none
 
@@ -64,12 +64,12 @@ attributes: none
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#default/detail?
+:insert default-det
 // default
 
 === enc
 
-:include ex.wd#enc/summary?
+:insert enc-sum
 
 attributes: none
 
@@ -77,12 +77,12 @@ attributes: none
 
 children: ^fragment, ^start, ^type, [Common Children](#Common-Children)
 
-:include ex.wd#enc/detail?
+:insert enc-det
 // enc
 
 === export
 
-:include ex.wd#export/summary?
+:insert export-sum
 
 attributes: none
 
@@ -90,12 +90,12 @@ attributes: none
 
 children: ^prop
 
-:include ex.wd#export/detail?
+:insert export-det
 // export
 
 === field
 
-:include ex.wd#field/summary?
+:insert field-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -109,12 +109,12 @@ children: ^prop
 
 children: ^comment, ^item, ^range, ^script
 
-:include ex.wd#field/detail?
+:insert field-det
 // field
 
 === fragment
 
-:include ex.wd#fragment/summary?
+:insert fragment-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -124,12 +124,12 @@ children: ^comment, ^item, ^range, ^script
 
 children: none
 
-:include ex.wd#fragment/detail?
+:insert fragment-det
 // fragment
 
 === if
 
-:include ex.wd#if/summary?
+:insert if-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -139,12 +139,12 @@ children: none
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#if/detail?
+:insert if-det
 // if
 
 === item
 
-:include ex.wd#item/summary?
+:insert item-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -156,12 +156,12 @@ children: [Common Children](#Common-Children)
 
 children: none
 
-:include ex.wd#item/detail?
+:insert item-det
 // item
 
 === jump
 
-:include ex.wd#jump/summary?
+:insert jump-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -171,12 +171,12 @@ children: none
 
 children: none
 
-:include ex.wd#jump/detail?
+:insert jump-det
 // jump
 
 === oob
 
-:include ex.wd#oob/summary?
+:insert oob-sum
 
 attributes: none
 
@@ -184,12 +184,12 @@ attributes: none
 
 children: ^export, ^start, ^type, [Common Children](#Common-Children)
 
-:include ex.wd#oob/detail?
+:insert oob-det
 // oob
 
 === pad
 
-:include ex.wd#pad/summary?
+:insert pad-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -201,12 +201,12 @@ children: ^export, ^start, ^type, [Common Children](#Common-Children)
 
 children: none
 
-:include ex.wd#pad/detail?
+:insert pad-det
 // pad
 
 === peek
 
-:include ex.wd#peek/summary?
+:insert peek-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -218,12 +218,12 @@ children: none
 
 children: none
 
-:include ex.wd#peek/detail?
+:insert peek-det
 // peek
 
 === prop
 
-:include ex.wd#prop/summary?
+:insert prop-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -236,12 +236,12 @@ children: none
 
 children: ^item, ^range, ^script
 
-:include ex.wd#prop/detail?
+:insert prop-det
 // prop
 
 === range
 
-:include ex.wd#range/summary?
+:insert range-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -254,15 +254,15 @@ children: ^item, ^range, ^script
 
 children: none
 
-:include ex.wd#range/detail?
+:insert range-det
 // range
 
 === record
 
-:include ex.wd#record/summary?
+:insert record-sum
 === Record Definition
 
-:include ex.wd#Record-Definition/summary?
+:insert Record-Definition-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -274,12 +274,12 @@ children: none
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#Record-Definition/detail?
+:insert Record-Definition-det
 // Record Definition
 
 === Record Link
 
-:include ex.wd#Record-Link/summary?
+:insert Record-Link-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -291,18 +291,18 @@ children: [Common Children](#Common-Children)
 
 children: none
 
-:include ex.wd#Record-Link/detail?
+:insert Record-Link-det
 // Record Link
 
-:include ex.wd#record/detail?
+:insert record-det
 // record
 
 === repeat
 
-:include ex.wd#repeat/summary?
+:insert repeat-sum
 === Repeat Indefinitely
 
-:include ex.wd#Repeat-Indefinitely/summary?
+:insert Repeat-Indefinitely-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -313,12 +313,12 @@ children: none
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#Repeat-Indefinitely/detail?
+:insert Repeat-Indefinitely-det
 // Repeat Indefinitely
 
 === Numbered Repeat
 
-:include ex.wd#Numbered-Repeat/summary?
+:insert Numbered-Repeat-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -329,12 +329,12 @@ children: [Common Children](#Common-Children)
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#Numbered-Repeat/detail?
+:insert Numbered-Repeat-det
 // Numbered Repeat
 
 === Bound Repeat
 
-:include ex.wd#Bound-Repeat/summary?
+:insert Bound-Repeat-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -347,15 +347,15 @@ children: [Common Children](#Common-Children)
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#Bound-Repeat/detail?
+:insert Bound-Repeat-det
 // Bound Repeat
 
-:include ex.wd#repeat/detail?
+:insert repeat-det
 // repeat
 
 === script
 
-:include ex.wd#script/summary?
+:insert script-sum
 
 attributes: none
 
@@ -363,12 +363,12 @@ attributes: none
 
 children: none
 
-:include ex.wd#script/detail?
+:insert script-det
 // script
 
 === setprop
 
-:include ex.wd#setprop/summary?
+:insert setprop-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -380,12 +380,12 @@ children: none
 
 children: ^item, ^range, ^script, [Common Children](#Common-Children)
 
-:include ex.wd#setprop/detail?
+:insert setprop-det
 // setprop
 
 === start
 
-:include ex.wd#start/summary?
+:insert start-sum
 
 attributes: none
 
@@ -393,12 +393,12 @@ attributes: none
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#start/detail?
+:insert start-det
 // start
 
 === switch
 
-:include ex.wd#switch/summary?
+:insert switch-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -408,12 +408,12 @@ children: [Common Children](#Common-Children)
 
 children: ^case, ^default
 
-:include ex.wd#switch/detail?
+:insert switch-det
 // switch
 
 === type
 
-:include ex.wd#type/summary?
+:insert type-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -424,12 +424,12 @@ children: ^case, ^default
 
 children: ^item, ^range, ^script
 
-:include ex.wd#type/detail?
+:insert type-det
 // type
 
 === uint16
 
-:include ex.wd#uint16/summary?
+:insert uint16-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -442,12 +442,12 @@ children: ^item, ^range, ^script
 
 children: ^comment, ^item, ^range, ^script
 
-:include ex.wd#uint16/detail?
+:insert uint16-det
 // uint16
 
 === uint32
 
-:include ex.wd#uint32/summary?
+:insert uint32-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -460,12 +460,12 @@ children: ^comment, ^item, ^range, ^script
 
 children: ^comment, ^item, ^range, ^script
 
-:include ex.wd#uint32/detail?
+:insert uint32-det
 // uint32
 
 === uint64
 
-:include ex.wd#uint64/summary?
+:insert uint64-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -478,12 +478,12 @@ children: ^comment, ^item, ^range, ^script
 
 children: ^comment, ^item, ^range, ^script
 
-:include ex.wd#uint64/detail?
+:insert uint64-det
 // uint64
 
 === uint8
 
-:include ex.wd#uint8/summary?
+:insert uint8-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -496,12 +496,12 @@ children: ^comment, ^item, ^range, ^script
 
 children: ^comment, ^item, ^range, ^script
 
-:include ex.wd#uint8/detail?
+:insert uint8-det
 // uint8
 
 === while
 
-:include ex.wd#while/summary?
+:insert while-sum
 [options="header"]
 |=============================================================
 | attributes | name  | type | required
@@ -512,12 +512,12 @@ children: ^comment, ^item, ^range, ^script
 
 children: [Common Children](#Common-Children)
 
-:include ex.wd#while/detail?
+:insert while-det
 // while
 
 === xddl
 
-:include ex.wd#xddl/summary?
+:insert xddl-sum
 
 attributes: none
 
@@ -525,7 +525,7 @@ attributes: none
 
 children: ^export, ^start, ^type, [Common Children](#Common-Children)
 
-:include ex.wd#xddl/detail?
+:insert xddl-det
 // xddl
 
 // Elements

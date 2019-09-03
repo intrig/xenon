@@ -1,0 +1,16 @@
+<xddl>
+  <export>
+    <prop name="size" value="8"/>
+  </export>
+  <record id="A">
+    <field name="b" length="size"/>
+  </record>
+  <record id="B">
+    <prop name="size" value="16"/>
+    <field name="b" length="size"/>
+  </record>
+  <start>
+    <record name="A" href="#A"/>
+    <record name="B" href="#B"/>
+  </start>
+</xddl>

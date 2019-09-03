@@ -77,7 +77,7 @@ void disp_element(OS &os, xsp_parser const &parser, Cursor c) {
     std::string n = (c->display.empty()) ? c->tag.c_str() : c->display;
     os << "=== " << n << "\n\n";
 
-    os << ":include ex.wd#" << anchor(n) << "/summary?\n";
+    os << ":insert " << anchor(n) << "-sum\n";
 
     if (!c.empty()) {
         for (auto choice = c.begin(); choice != c.end(); ++choice) {
@@ -88,8 +88,7 @@ void disp_element(OS &os, xsp_parser const &parser, Cursor c) {
 
         os << "children: " << children(parser, *c) << "\n\n";
     }
-
-    os << ":include ex.wd#" << anchor(n) << "/detail?\n";
+    os << ":insert " << anchor(n) << "-det\n";
 
     os << "// " << n << "\n\n";
 }

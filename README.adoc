@@ -9,8 +9,6 @@ toc::[]
 
 == Introduction
 
-include::ex.adoc[tags=bit_summary]
-
 Intrig Xenon provides flexible, powerful and easy to use C++ API for decoding protocol
 messages.
 

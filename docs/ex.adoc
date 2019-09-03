@@ -1,0 +1,514 @@
+// :tag bit-sum
+A %bit is a bit.
+
+// :tag bit-det
+The following example is a one bit message:
+
+:read obp.xddl
+
+And decoding a bit with ^idm:
+
+:run idm obp.xddl @1
+
+// :tag case-sum
+The %case element only appears as a child of the %switch element.  It is similar to
+the *case* keyword in *C++*.
+
+// :tag case-det
+See the %switch element for example usage.
+
+// :tag cstr-sum
+The %cstr element represents a null-terminated C string.
+
+// :tag cstr-det
+Example:
+
+:read cstr.xddl
+
+Decoding the ASCII hex for "Hello" yields:
+
+:run idm cstr.xddl 48656C6C6F00
+
+// :tag enc-sum
+The %enc element is used to encapsulate encoding fields. Encoding fields are by default
+not displayed in the ^idm. 
+
+// :tag enc-det
+Here is an example that reads a `size` field and then a field of that length.  
+In this case, we consider `size` to be an encoding field, and not an important part of
+the message for display purposes.  We surround it with %enc to indicate so.
+
+:read enc.xddl
+
+And decoding `080F` with the ^idm skips over the `length` field:
+
+:run idm enc.xddl 080F
+
+But running ^idm with the `--encoding` flag will display it:
+
+:run idm --encoding enc.xddl 080F
+
+However, records inserted within an encoding range are themselves not considered to be
+encoding.
+
+// :tag default-sum
+The %default element only appears as a child of the %switch element.  It is similar
+to the *default* keyword in *C/C++*.
+
+// :tag default-det
+
+See the %switch element for example usage.
+
+// :tag export-sum
+%export provides a way to create global properties in a message.  These properties
+%can be used and set by different records as a message is being parsed.  
+
+// :tag export-det
+The following file creates a global property, *size*.  The *A* record references this
+size and creates a field based on its length.  The *B* record also creates a field
+based on the value of *size*, but since there is a local *size* property defined in
+its scope (with the value of 16), it is used instead.
+
+:read export.xddl
+
+Decoding three bytes yields:
+
+:run idm export.xddl 010203
+
+These properties are also visible to records that are included from different files.
+There are no "file local" properties.
+
+// :tag field-sum
+The %field element identifies an integer unit of information specific to the message
+being represented.  
+
+It must have a `name` and `length` attribute.  The `length` is specified in bits, and
+may be any nonnegative integer value.  It does not have to be byte aligned within the
+record it appears.
+
+The optional `bias` attribute is added to the value by a fixed amount when displayed
+in the ^idm.  See the `bias` example in the description below.
+
+// :tag field-det
+This is a simple example that defines a field named "foo" and is 4 bits long.  The
+`name` and `length` are required attributes, and typically they are the only ones
+used.  Here is an example describing a simple message consisting of one 4 bit field.
+
+:read simple_field.xddl
+
+Parsing the four bit message "@1111" results in:
+
+:run idm simple_field.xddl @1111
+
+==== bias Attribute
+
+The optional `bias` attribute is used to offset the value of field by a
+fixed amount.  Here's an example:
+
+:read bias.xddl
+
+Each field is just 1 bit long, but we are biasing them by varying amounts.
+The bias is applied after the fields are parsed.  If we parse a message of
+all zeroes, here is what we get:
+
+:run idm bias.xddl @00000000
+
+As you can see, the *Value* column is offset by the `bias`.  The *Hex*
+column still reflects the original bit pattern.
+
+==== type Attribute
+
+The optional `type` attribute references a %type element's `id`.  See the %type element
+reference for examples.
+
+This example references a locally defined %type.
+
+:read hello.xddl
+
+And decoding the bits `10` yields:
+
+:run idm hello.xddl @10
+
+// :tag fragment-sum
+The %fragment element is similar to a record link, except the contents of the
+referenced record are inserted "inline" in the resulting message.
+
+// :tag fragment-det
+The following example parses the same record twice, once as a fragment, and then once
+as a record.
+
+:read fragment.xddl
+
+The result:
+
+:run idm fragment.xddl 0102
+
+Fragments are useful sometimes when many messages contain the same handfull of fields.
+
+// :tag if-sum
+The %if element provides a way to conditionally include other elements based on an
+*expression*.
+
+}
+
+// :tag if-det
+
+The following example illustrates the conditional inclususion of a field:
+
+:read if.xddl
+
+Now we parse two messages with the above file.  The first one will
+include the `More` field and the second one will not:
+
+:run idm if.xddl 0105 00
+
+The `expr` attribute may be any XDDL expression.  As long as it does not
+evaluate to zero, the conditional elements will be included.
+
+// :tag item-sum
+The %item element only appears as a child of the %type element.  It is
+used to specify an item of an enumerated list.
+
+// :tag item-det
+The option *href* attribute can be specified and is used in conjuntion with the %jump
+element.
+
+See %type for example usage.
+
+// :tag jump-sum
+A %jump element provides an easy way to choose a record to parse based on a value.
+
+// :tag jump-det
+A common pattern among parsing messages is to choose one of many records to parse
+based on a single field's value, a message type, for example.  This can easy enough
+be done with a %switch element:
+
+    <uint8 name="msg-id"/>
+    <switch expr="msg-id">
+        <case value="1">
+            <record href="#A"/>
+        </case>
+        <case value="2">
+            <record href="#B"/>
+        </case>
+        <case value="3">
+            <record href="#C"/>
+        </case>
+          .
+          .
+          .
+    </switch>
+
+Using %jump along with %type can greatly simplify this trivial case:
+
+    <uint8 name="msg-id" type="#msg-id"/>
+    <type id="msg-type">
+      <item key="1" value="A" href="#A"/>
+      <item key="2" value="B" href="#B"/>
+      <item key="3" value="C" href="#C"/>
+         .
+         .
+         .
+    </type>
+    <jump base="msg-id"/>
+
+The above two listings are functionally equivalent.
+
+// :tag oob-sum
+%oob is used to indicate out-of-band data.  It is functionally equivalent to %enc.
+
+// :tag pad-sum
+
+The %pad element is used to align a record to a boundary.  Typically, this
+will be a byte boundary, but can be changed by using the attributes.
+
+It's length is not determined by a fixed value or expression, rather it is
+determined by the current bit number of the message or record it appears in.
+
+// :tag pad-det
+Without attributes specified, the %pad element will consume bits of the
+record until the record is byte aligned.  For example, the %pad element in following
+document will consume 3 bits in order to make the message byte aligned.
+
+:read pad.xddl
+
+And parsing:
+
+:run idm pad.xddl A014
+
+As we can see, the length of the pad is 3.
+
+If we change the length of the *A* field to 2, we get a pad of 6.
+
+:read pad1.xddl
+
+:run idm pad1.xddl A014
+
+==== mod
+
+The *mod* attribute defaults to 8, but can be modified.  For example, it may be
+desireable to pad to the nearest 2-byte boundary, in which case we would specify a
+*mod* of 16.  
+
+// :tag peek-sum
+The %peek element provides access to data ahead in the message.  This information can
+then be referenced in expressions.
+
+// :tag peek-det
+In some protocols a field cannot be decoded correctly until a subsequent field is
+known.  The %peek element provides a solution for this situation.
+
+:read peek.xddl
+
+The above example illustrates a typical use of the %peek element. Notice the %peek
+"looks ahead" to the "protocol discriminator" in each of the %case elements to
+determine what its value should be.  Then the %switch can be properly evaluated.
+
+// :tag prop-sum
+The %prop element declares and initializes a property.  Properties can be referenced
+in expressions just like fields.
+
+// :tag prop-det
+Properties provide a way to create a data member in the current scope.  This property
+can later be referenced in expressions.  It is similar to a field, but does not
+consume data from the message, and it can later be changed using the %setprop
+element. 
+
+Also similar to fields, a property can reference a %type using the type attribute.
+This too can later be changed with the %setprop element.
+
+// :tag range-sum
+The %range element is used to specify a range of values for a %type.
+
+// :tag range-det
+%range elements can exist along side %item elements. The %item values are
+evaluated first, and the %range second.  This means a %range can overlap existing
+items.  Using these two mechanics, we can use a %range as a default if no items match
+a particular value.
+
+The following example illustrates this.  The first part of the enumerated type lists
+several colors with their RGB Hex Triplet.  The %range at the bottom will be used if
+no %item matches.
+
+:read range.xddl
+
+Parsing a message with this file yields:
+
+:run idm range.xddl E3263600FFFF0000FFF0FFFF66FF00ACE1AF4B5320FF9966F19CBB
+
+See the %type element reference for more usage of types.
+
+// :tag record-sum
+A %record is a way to group elements together, including other records.  If given an
+*id*, records can then be referenced from other places in the document, or from a
+different document, using URL notation.
+
+Hence, %record can be used in two different ways:
+
+// :tag Record-Definition-sum
+Define a %record.
+
+// :tag Record-Definition-det
+
+Example:
+
+    <record id="ack">
+        <uint8 name="sequence number"/>
+        <uint8 name="error"/>
+    </record>
+
+// :tag Record-Link-sum
+Link to a record defined someplace else.
+
+// :tag Record-Link-det
+The record definition in the example above can be referenced with:
+
+    <record href="#ack"/>
+
+// :tag repeat-sum
+
+The %repeat element repeats its child elements a certain number of times, creating a
+record for each iteration.  There are three different ways to use %repeat, based on
+the attribute signature, described below.
+
+// :tag Repeat-Indefinitely-sum
+This form will repeat until all the available bits are consumed.  
+
+// :tag Repeat-Indefinitely-det
+A common pattern for this usage is to combine it with a fixed size record, for example:
+
+:read repeat1.xddl
+
+Example decode:
+
+:run idm repeat1.xddl A3FF
+
+// :tag Numbered-Repeat-sum
+This version repeats based on an *expression*.
+
+// :tag Bound-Repeat-sum
+This version will repeat its contents at least *min* times and no more than *max*.
+
+// :tag script-sum
+The %script element contains XddlScript.  It appears as a child of the %type element
+and is used to specify or refine a field's description.
+
+// :tag script-det
+The language is [Lua](http://www.lua.org) based.  Documentation on Lua can be found at
+[www.lua.org](http://www.lua.org).
+
+==== The description Variable {
+
+The purpose of the %script element is to set a field's (or
+property's) description.  This is done by setting a variable named
+*description* to a string.  Here's a simple example that uses a %script to
+treat a value as an ASCII string.
+
+    <type id="string">
+      <script>
+        description = string.format("%s", ascii());
+      </script>
+    </type>
+
+The *ascii()* function is an XddlScript function that interprets the current
+value as an ASCII string.  
+
+==== XddlScript Functions
+
+The following table lists all the currently supported XddlScript functions
+and is subject to change.  The function availability when used used by %field or %prop 
+elements is also noted.  
+
+[options="header"]
+|=============================================================
+|Function              | fields | props | Description
+|ascii                 | &#10004;    |       | Return the current value as an ASCII string
+|ascii7                | &#10004;    |       | Return the current value as a 7 bit ASCII string
+|Description(name)     | &#10004;    | &#10004;   | Return the description of a previous field
+|EnumValue             | &#10004;    | &#10004;   | Return the &lt;enum&gt; description of the current value if it has one
+|Value(name)           | &#10004;    | &#10004;   | Return the value of another field
+|slice(offset, length) | &#10004;    |       | Slice a field into pieces, see description below
+|TwosComplement        | &#10004;    |       | Return the current value as a two's complement integer
+|search(name)          | &#10004;    | &#10004;   | Return the description of a node in the message by name
+|=============================================================
+
+The *ascii()* string does not have to be null terminated.  However, if 
+it is null terminated, the characters after the termination character will
+be ignored.  Any non-printable characters will be printed as periods.  
+
+The *Description()* function will return the description of a node that is in scope.
+The *search()* function will do a depth-first search for a field from the 
+top of the message.
+
+The *slice()* function can take the current value and return a value of just a
+bit range, a subset of the entire bitstring that makes up the value.  A
+good example is taking a 32-bit IP address type and representing it in the
+familiar dot notation:
+
+:read ipscript.xddl
+
+And parsing some data:
+
+:run idm ipscript.xddl AF38B1E6
+
+// :tag setprop-sum
+The %setprop element provides a way to change the value or type of a property.
+
+// :tag setprop-det
+The *name* is the name of a property that was previously created using the %prop
+element.  It must exist and be in scope.  The *type* will set a new %type reference
+of the property.  This must be specified even if the type hasn't changed, otherwise
+the type will be removed.  The *value* is the new value of the property.
+
+// :tag start-sum
+The %start element is optional and specifies the starting record of a document.  If
+the %start is not specified, then parsing will begin at the beginning of the
+document. 
+
+// :tag start-det
+A typical XDDL specification contains many records, one for each message type to be
+parsed.  It is convenient to have an explicit starting point for parsing, and that is
+what %start is for.  It is analogous to the *main()* function in C/C++.
+
+// :tag switch-sum
+The %switch element is similar in function to the *switch* statement in popular
+general purpose programming languages.  Based on the evaluation of the *expr*
+attribute, a particular %case element's contents will be parsed.
+
+// :tag switch-det
+In order for it to be parsed, the %switch element's *expr* attribute must evaluate to
+the %case element's *value* attribute.
+
+The *value* of each %case child must be unique.
+
+There is no need for a corresponding *break*.  Execution will only "fall-through" if
+the %case being executed is empty.
+
+If no matches are found, and a %default element exists as a child of the
+%switch, then its contents will be parsed.  There can be at most one default child.
+
+Otherwise, nothing will be parsed.
+
+The following example illustrates the use of a %switch.  It describes a message of
+three octets.  The first octet is used for the *expr* in the %switch element.  The
+second octet is read by the corresponding %case contents, and the final octet is read
+into the *check* field.
+
+:read choice.xddl
+
+We can parse the file with different messages to see the different paths
+are followed:
+
+Here we follow the first case:
+
+:run idm choice.xddl 0104FF
+
+The "fall-through" case:
+
+:run idm choice.xddl 031AFF 041AFF
+
+Both of the above messages follow the `value="4"` case.
+
+And finally the %default case can be followed if we specify a *choice* that
+does not match any other %case:
+
+:run idm choice.xddl AAFEFF
+
+// :tag type-sum
+The %type tag is used to specify valid values for %field elements.
+It is also used to specify a field's description.
+
+// :tag type-det
+The [field example](#type-Attribute) above shows a typical usage of %type.
+
+==== Anonymous Types
+
+Often it is easier to specify a field's valid values by placing them as children of
+the %field.  The following example illustrates this.
+
+:read anon.xddl
+
+And running:
+
+:run idm anon.xddl @1 @0
+
+Note, since an anonymous type has no *id*, it cannot be referenced from any other
+field.
+
+// :tag uint16-sum
+This is equivalent to a %field with length 16.
+
+// :tag uint32-sum
+This is equivalent to a %field with length 32.
+
+// :tag uint64-sum
+This is equivalent to a %field with length 64.
+
+// :tag uint8-sum
+This is equivalent to a %field with length 8.
+
+// :tag while-sum
+Repeat the contents of the %while as long as *expr* is true.
+
+// :tag xddl-sum
+The root element.

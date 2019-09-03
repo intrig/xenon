@@ -1,0 +1,5 @@
+<xddl>
+  <start>
+    <field name="sequence" length="4"/>
+  </start>
+</xddl>

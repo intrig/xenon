@@ -1,0 +1,8 @@
+<xddl>
+ <type id="HelloType">
+    <item key="0" value="Goodbye World!"/>
+    <item key="1" value="Hello World!"/>
+ </type>
+ <bit name="A" type="#HelloType"/>
+ <bit name="B" type="#HelloType"/>
+</xddl>

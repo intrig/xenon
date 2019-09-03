@@ -1,0 +1,10 @@
+<xddl>
+  <field name="a" length="1" bias="-10"/>
+  <field name="b" length="1" bias="-9"/>
+  <field name="c" length="1" bias="-8"/>
+  <field name="d" length="1" bias="-7"/>
+  <field name="e" length="1" bias="1"/>
+  <field name="f" length="1" bias="2"/>
+  <field name="g" length="1" bias="3"/>
+  <field name="h" length="1" bias="4"/>
+</xddl>

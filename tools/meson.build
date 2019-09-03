@@ -6,7 +6,7 @@ asn_strip_exe = executable('asn-strip', 'asnstrip.cpp',
     link_with : xenon_lib)
 
 idm_exe = executable('idm', 'idm.cpp', xddl_h,
-    include_directories : inc,
+    include_directories : [inc, xenon_inc],
     install : true,
     link_with : xenon_lib)
 
@@ -30,3 +30,9 @@ xv_exe = executable('xv', 'xv.cpp', xddl_h,
 recombobulator_exe = executable('recombobulator', 'recombobulator.cpp', xddl_h,
     include_directories : [inc, xenon_inc],
     link_with : xenon_lib)
+
+procadoc_exe = executable('procadoc', 'procadoc.cpp', xddl_h,
+    include_directories : inc,
+    link_args : '-lstdc++fs',
+    link_with : xenon_lib)
+
