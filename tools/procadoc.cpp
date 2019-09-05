@@ -102,22 +102,31 @@ bool parse_read(auto &os, auto &sects, auto &line) {
     auto m = match_one(line, read_ex);
     if (m.empty())
         return false;
-    std::cout << "pwd: " << exec_command("pwd");
-    auto file = ict::read_file(m);
-    os << "----\n" << ict::read_file(m) << "----\n";
+    os << "[source,xml]\n"
+          "----\n" << ict::read_file(m) << "----\n";
     return true;
 }
 
 void parse_line(std::ostream &os, const section_list &sects,
                 const std::string &line) {
+    // %bit -> <bit>
+    const std::regex xddl_tag("\%([[:alnum:]]+)");
+
+    // ^bit -> <bit>
+    const std::regex tag_link("\\^([[:alnum:]]+)");
+
     if (parse_insert(os, sects, line))
         return;
     if (parse_run(os, sects, line))
         return;
     if (parse_read(os, sects, line))
         return;
-    //std::cout << "no dice\n";
-    os << line << '\n';
+    // just a regular line
+    
+    auto sub = line;
+    sub = regex_replace(sub, xddl_tag, "link:#_$1[<$1>]");
+    sub = regex_replace(sub, tag_link, "link:#_$1[<$1>]");
+    os << sub << '\n';
 }
 
 auto parse_section_file(auto & file) {

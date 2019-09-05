@@ -61,5 +61,11 @@ The XDDL data files are found in `/usr/local/share/xddl`.
 
 See the `xenon/examples` directory for some common uses of the decoder.
 
+If you want to parse your own custom protocols, then the
+https://github.com/intrig/xenon/docs/xddl.adoc[XDDL Reference] is a complete
+reference containing useful examples.
+
 Also, the tools directory contains useful examples, such as `idm` and `xv`.  These
 two programs are installed into `/usr/local/bin`.
+
+Enjoy!

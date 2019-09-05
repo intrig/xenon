@@ -6,7 +6,7 @@ The following example is a one bit message:
 
 :read obp.xddl
 
-And decoding a bit with ^idm:
+And decoding a bit with idm:
 
 :run idm obp.xddl @1
 
@@ -31,7 +31,7 @@ Decoding the ASCII hex for "Hello" yields:
 
 // :tag enc-sum
 The %enc element is used to encapsulate encoding fields. Encoding fields are by default
-not displayed in the ^idm. 
+not displayed in the idm. 
 
 // :tag enc-det
 Here is an example that reads a `size` field and then a field of that length.  
@@ -40,11 +40,11 @@ the message for display purposes.  We surround it with %enc to indicate so.
 
 :read enc.xddl
 
-And decoding `080F` with the ^idm skips over the `length` field:
+And decoding `080F` with the idm skips over the `length` field:
 
 :run idm enc.xddl 080F
 
-But running ^idm with the `--encoding` flag will display it:
+But running idm with the `--encoding` flag will display it:
 
 :run idm --encoding enc.xddl 080F
 
@@ -87,7 +87,7 @@ may be any nonnegative integer value.  It does not have to be byte aligned withi
 record it appears.
 
 The optional `bias` attribute is added to the value by a fixed amount when displayed
-in the ^idm.  See the `bias` example in the description below.
+in the idm.  See the `bias` example in the description below.
 
 // :tag field-det
 This is a simple example that defines a field named "foo" and is 4 bits long.  The
@@ -149,10 +149,7 @@ Fragments are useful sometimes when many messages contain the same handfull of f
 The %if element provides a way to conditionally include other elements based on an
 *expression*.
 
-}
-
 // :tag if-det
-
 The following example illustrates the conditional inclususion of a field:
 
 :read if.xddl
@@ -281,7 +278,7 @@ This too can later be changed with the %setprop element.
 The %range element is used to specify a range of values for a %type.
 
 // :tag range-det
-%range elements can exist along side %item elements. The %item values are
+The %range elements can exist along side %item elements. The %item values are
 evaluated first, and the %range second.  This means a %range can overlap existing
 items.  Using these two mechanics, we can use a %range as a default if no items match
 a particular value.
@@ -357,7 +354,7 @@ and is used to specify or refine a field's description.
 The language is [Lua](http://www.lua.org) based.  Documentation on Lua can be found at
 [www.lua.org](http://www.lua.org).
 
-==== The description Variable {
+==== The description Variable
 
 The purpose of the %script element is to set a field's (or
 property's) description.  This is done by setting a variable named

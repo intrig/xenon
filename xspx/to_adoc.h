@@ -10,10 +10,10 @@ template <typename Elem> std::string attributes(const Elem &elem) {
     }
     os << "[options=\"header\"]\n"
     "|=============================================================\n"
-    "| attributes | name  | type | required\n";
+    "| attribute name  | type | required\n";
     for (auto &a : elem.attributes) {
         if (a.fixed.empty()) {
-            os << "| | " << a.name << " | " << a.type_name << "|";
+            os << "| " << a.name << " | " << a.type_name << "|";
             if (a.required)
                 os << " &#10004; ";
             os << "\n";
@@ -25,11 +25,13 @@ template <typename Elem> std::string attributes(const Elem &elem) {
 
 std::string attribute_types(const custom_type_list &types) {
     std::ostringstream os;
-    os << "\nType | Default | Description\n";
-    os << "-----|---------|------------\n";
+    os << "[options=\"header\"]\n"
+    "|=============================================================\n"
+    "|Type | Default | Description\n";
     for (auto &t : types) {
-        os << t.name << " | " << t.def << " | " << t.desc << "\n";
+        os <<'|' << t.name << " | " << t.def << " | " << t.desc << "\n";
     }
+    os << "|=============================================================\n";
     return os.str();
 }
 
@@ -61,7 +63,7 @@ std::string children(xsp_parser const &parser, const Elem &elem) {
         s.insert(0, "^");
     }
     if (!elem.group_hrefs.empty()) {
-        dest.push_back("[Common Children](#Common-Children)");
+        dest.push_back("link:#_common_children[Common Children]");
     }
     return dest.empty() ? "none" : ict::join(dest, ", ");
 }
@@ -73,15 +75,17 @@ inline std::string anchor(const std::string &x) {
 }
 
 template <typename OS, typename Cursor>
-void disp_element(OS &os, xsp_parser const &parser, Cursor c) {
+void disp_element(OS &os, xsp_parser const &parser, Cursor c, size_t depth = 3) {
     std::string n = (c->display.empty()) ? c->tag.c_str() : c->display;
-    os << "=== " << n << "\n\n";
+    for (size_t i = 0; i < depth; ++i)
+        os << "=";
+    os << " " << n << "\n\n";
 
     os << ":insert " << anchor(n) << "-sum\n";
 
     if (!c.empty()) {
         for (auto choice = c.begin(); choice != c.end(); ++choice) {
-            disp_element(os, parser, choice);
+            disp_element(os, parser, choice, depth + 1);
         }
     } else {
         os << attributes(*c) << "\n\n";
@@ -103,9 +107,10 @@ void for_each_cursor(Cursor &parent, Pred op) {
 } // namespace ict
 
 void to_adoc(std::ostream &os, const xsp_parser &xspx) {
-    os << "= Intrig Message Decoder\n"
+    os << "= XDDL Reference\n"
           ":sectnums:\n"
-          ":toc:\n"
+          ":toc: left\n"
+          ":toclevels: 3\n"
           ":toc-placement!:\n\n"
           "toc::[]\n";
 
@@ -118,7 +123,7 @@ void to_adoc(std::ostream &os, const xsp_parser &xspx) {
 
     os << "== Attribute Types\n";
     os << attribute_types(xspx.custom_types);
-    os << "// Attribute Types\n";
+    os << "// Attribute Types\n\n";
 
     os << "== Common Children\n";
     os << child_elements(xspx.groups) << '\n';
