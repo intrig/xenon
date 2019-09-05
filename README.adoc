@@ -3,7 +3,7 @@
 :toc:
 :toc-placement!:
 
-image:https://travis-ci.com/intrig/xenon.svg?branch=master
+image:https://travis-ci.com/intrig/xenon.svg?branch=master["Build Status", link="https://travis-ci.com/intrig/xenon"]
 
 toc::[]
 
