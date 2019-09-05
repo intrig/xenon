@@ -63,7 +63,7 @@ std::string children(xsp_parser const &parser, const Elem &elem) {
         s.insert(0, "^");
     }
     if (!elem.group_hrefs.empty()) {
-        dest.push_back("link:#_common_children[Common Children]");
+        dest.push_back("link:#common_children[Common Children]");
     }
     return dest.empty() ? "none" : ict::join(dest, ", ");
 }
@@ -77,6 +77,8 @@ inline std::string anchor(const std::string &x) {
 template <typename OS, typename Cursor>
 void disp_element(OS &os, xsp_parser const &parser, Cursor c, size_t depth = 3) {
     std::string n = (c->display.empty()) ? c->tag.c_str() : c->display;
+
+    os << "[[" << n << "]]\n";
     for (size_t i = 0; i < depth; ++i)
         os << "=";
     os << " " << n << "\n\n";
@@ -125,6 +127,7 @@ void to_adoc(std::ostream &os, const xsp_parser &xspx) {
     os << attribute_types(xspx.custom_types);
     os << "// Attribute Types\n\n";
 
+    os << "[[common_children]]\n";
     os << "== Common Children\n";
     os << child_elements(xspx.groups) << '\n';
     os << "// Common Children\n";

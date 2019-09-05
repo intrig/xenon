@@ -6,10 +6,11 @@
 
 toc::[]
 == Elements
+[[bit]]
 === bit
 
 // :tag bit-sum
-A link:#_bit[<bit>] is a bit.
+A link:#bit[<bit>] is a bit.
 
 [options="header"]
 |=============================================================
@@ -21,7 +22,7 @@ A link:#_bit[<bit>] is a bit.
 |=============================================================
 
 
-children: link:#_comment[<comment>], link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 
 The following example is a one bit message:
@@ -44,10 +45,11 @@ x     1       1      @1
 
 // bit
 
+[[case]]
 === case
 
 
-The link:#_case[<case>] element only appears as a child of the link:#_switch[<switch>] element.  It is similar to
+The link:#case[<case>] element only appears as a child of the link:#switch[<switch>] element.  It is similar to
 the *case* keyword in *C++*.
 
 [options="header"]
@@ -57,17 +59,18 @@ the *case* keyword in *C++*.
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 
-See the link:#_switch[<switch>] element for example usage.
+See the link:#switch[<switch>] element for example usage.
 
 // case
 
+[[cstr]]
 === cstr
 
 
-The link:#_cstr[<cstr>] element represents a null-terminated C string.
+The link:#cstr[<cstr>] element represents a null-terminated C string.
 
 [options="header"]
 |=============================================================
@@ -100,10 +103,11 @@ greeting 48      79600447942400 #48656C6C6F00 Hello
 
 // cstr
 
+[[default]]
 === default
 
 
-The link:#_default[<default>] element only appears as a child of the link:#_switch[<switch>] element.  It is similar
+The link:#default[<default>] element only appears as a child of the link:#switch[<switch>] element.  It is similar
 to the *default* keyword in *C/C++*.
 
 
@@ -111,18 +115,19 @@ attributes: none
 
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 
 
-See the link:#_switch[<switch>] element for example usage.
+See the link:#switch[<switch>] element for example usage.
 
 // default
 
+[[enc]]
 === enc
 
 
-The link:#_enc[<enc>] element is used to encapsulate encoding fields. Encoding fields are by default
+The link:#enc[<enc>] element is used to encapsulate encoding fields. Encoding fields are by default
 not displayed in the idm. 
 
 
@@ -130,12 +135,12 @@ attributes: none
 
 
 
-children: link:#_fragment[<fragment>], link:#_start[<start>], link:#_type[<type>], link:#_common_children[Common Children]
+children: link:#fragment[<fragment>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
 
 
 Here is an example that reads a `size` field and then a field of that length.  
 In this case, we consider `size` to be an encoding field, and not an important part of
-the message for display purposes.  We surround it with link:#_enc[<enc>] to indicate so.
+the message for display purposes.  We surround it with link:#enc[<enc>] to indicate so.
 
 [source,xml]
 ----
@@ -171,18 +176,19 @@ encoding.
 
 // enc
 
+[[export]]
 === export
 
 
-link:#_export[<export>] provides a way to create global properties in a message.  These properties
-link:#_can[<can>] be used and set by different records as a message is being parsed.  
+link:#export[<export>] provides a way to create global properties in a message.  These properties
+link:#can[<can>] be used and set by different records as a message is being parsed.  
 
 
 attributes: none
 
 
 
-children: link:#_prop[<prop>]
+children: link:#prop[<prop>]
 
 
 The following file creates a global property, *size*.  The *A* record references this
@@ -227,10 +233,11 @@ There are no "file local" properties.
 
 // export
 
+[[field]]
 === field
 
 
-The link:#_field[<field>] element identifies an integer unit of information specific to the message
+The link:#field[<field>] element identifies an integer unit of information specific to the message
 being represented.  
 
 It must have a `name` and `length` attribute.  The `length` is specified in bits, and
@@ -251,7 +258,7 @@ in the idm.  See the `bias` example in the description below.
 |=============================================================
 
 
-children: link:#_comment[<comment>], link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 
 This is a simple example that defines a field named "foo" and is 4 bits long.  The
@@ -318,10 +325,10 @@ column still reflects the original bit pattern.
 
 ==== type Attribute
 
-The optional `type` attribute references a link:#_type[<type>] element's `id`.  See the link:#_type[<type>] element
+The optional `type` attribute references a link:#type[<type>] element's `id`.  See the link:#type[<type>] element
 reference for examples.
 
-This example references a locally defined link:#_type[<type>].
+This example references a locally defined link:#type[<type>].
 
 [source,xml]
 ----
@@ -347,10 +354,11 @@ B     1       0      @0   Goodbye World!
 
 // field
 
+[[fragment]]
 === fragment
 
 
-The link:#_fragment[<fragment>] element is similar to a record link, except the contents of the
+The link:#fragment[<fragment>] element is similar to a record link, except the contents of the
 referenced record are inserted "inline" in the resulting message.
 
 [options="header"]
@@ -394,10 +402,11 @@ Fragments are useful sometimes when many messages contain the same handfull of f
 
 // fragment
 
+[[if]]
 === if
 
 
-The link:#_if[<if>] element provides a way to conditionally include other elements based on an
+The link:#if[<if>] element provides a way to conditionally include other elements based on an
 *expression*.
 
 [options="header"]
@@ -407,7 +416,7 @@ The link:#_if[<if>] element provides a way to conditionally include other elemen
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 
 The following example illustrates the conditional inclususion of a field:
@@ -442,10 +451,11 @@ evaluate to zero, the conditional elements will be included.
 
 // if
 
+[[item]]
 === item
 
 
-The link:#_item[<item>] element only appears as a child of the link:#_type[<type>] element.  It is
+The link:#item[<item>] element only appears as a child of the link:#type[<type>] element.  It is
 used to specify an item of an enumerated list.
 
 [options="header"]
@@ -460,17 +470,18 @@ used to specify an item of an enumerated list.
 children: none
 
 
-The option *href* attribute can be specified and is used in conjuntion with the link:#_jump[<jump>]
+The option *href* attribute can be specified and is used in conjuntion with the link:#jump[<jump>]
 element.
 
-See link:#_type[<type>] for example usage.
+See link:#type[<type>] for example usage.
 
 // item
 
+[[jump]]
 === jump
 
 
-A link:#_jump[<jump>] element provides an easy way to choose a record to parse based on a value.
+A link:#jump[<jump>] element provides an easy way to choose a record to parse based on a value.
 
 [options="header"]
 |=============================================================
@@ -484,7 +495,7 @@ children: none
 
 A common pattern among parsing messages is to choose one of many records to parse
 based on a single field's value, a message type, for example.  This can easy enough
-be done with a link:#_switch[<switch>] element:
+be done with a link:#switch[<switch>] element:
 
     <uint8 name="msg-id"/>
     <switch expr="msg-id">
@@ -502,7 +513,7 @@ be done with a link:#_switch[<switch>] element:
           .
     </switch>
 
-Using link:#_jump[<jump>] along with link:#_type[<type>] can greatly simplify this trivial case:
+Using link:#jump[<jump>] along with link:#type[<type>] can greatly simplify this trivial case:
 
     <uint8 name="msg-id" type="#msg-id"/>
     <type id="msg-type">
@@ -519,25 +530,27 @@ The above two listings are functionally equivalent.
 
 // jump
 
+[[oob]]
 === oob
 
 
-link:#_oob[<oob>] is used to indicate out-of-band data.  It is functionally equivalent to link:#_enc[<enc>].
+link:#oob[<oob>] is used to indicate out-of-band data.  It is functionally equivalent to link:#enc[<enc>].
 
 
 attributes: none
 
 
 
-children: link:#_export[<export>], link:#_start[<start>], link:#_type[<type>], link:#_common_children[Common Children]
+children: link:#export[<export>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
 
 // oob
 
+[[pad]]
 === pad
 
 
 
-The link:#_pad[<pad>] element is used to align a record to a boundary.  Typically, this
+The link:#pad[<pad>] element is used to align a record to a boundary.  Typically, this
 will be a byte boundary, but can be changed by using the attributes.
 
 It's length is not determined by a fixed value or expression, rather it is
@@ -555,8 +568,8 @@ determined by the current bit number of the message or record it appears in.
 children: none
 
 
-Without attributes specified, the link:#_pad[<pad>] element will consume bits of the
-record until the record is byte aligned.  For example, the link:#_pad[<pad>] element in following
+Without attributes specified, the link:#pad[<pad>] element will consume bits of the
+record until the record is byte aligned.  For example, the link:#pad[<pad>] element in following
 document will consume 3 bits in order to make the message byte aligned.
 
 [source,xml]
@@ -609,10 +622,11 @@ desireable to pad to the nearest 2-byte boundary, in which case we would specify
 
 // pad
 
+[[peek]]
 === peek
 
 
-The link:#_peek[<peek>] element provides access to data ahead in the message.  This information can
+The link:#peek[<peek>] element provides access to data ahead in the message.  This information can
 then be referenced in expressions.
 
 [options="header"]
@@ -628,7 +642,7 @@ children: none
 
 
 In some protocols a field cannot be decoded correctly until a subsequent field is
-known.  The link:#_peek[<peek>] element provides a solution for this situation.
+known.  The link:#peek[<peek>] element provides a solution for this situation.
 
 [source,xml]
 ----
@@ -647,16 +661,17 @@ known.  The link:#_peek[<peek>] element provides a solution for this situation.
 </xddl>
 ----
 
-The above example illustrates a typical use of the link:#_peek[<peek>] element. Notice the link:#_peek[<peek>]
-"looks ahead" to the "protocol discriminator" in each of the link:#_case[<case>] elements to
-determine what its value should be.  Then the link:#_switch[<switch>] can be properly evaluated.
+The above example illustrates a typical use of the link:#peek[<peek>] element. Notice the link:#peek[<peek>]
+"looks ahead" to the "protocol discriminator" in each of the link:#case[<case>] elements to
+determine what its value should be.  Then the link:#switch[<switch>] can be properly evaluated.
 
 // peek
 
+[[prop]]
 === prop
 
 
-The link:#_prop[<prop>] element declares and initializes a property.  Properties can be referenced
+The link:#prop[<prop>] element declares and initializes a property.  Properties can be referenced
 in expressions just like fields.
 
 [options="header"]
@@ -669,23 +684,24 @@ in expressions just like fields.
 |=============================================================
 
 
-children: link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 
 Properties provide a way to create a data member in the current scope.  This property
 can later be referenced in expressions.  It is similar to a field, but does not
-consume data from the message, and it can later be changed using the link:#_setprop[<setprop>]
+consume data from the message, and it can later be changed using the link:#setprop[<setprop>]
 element. 
 
-Also similar to fields, a property can reference a link:#_type[<type>] using the type attribute.
-This too can later be changed with the link:#_setprop[<setprop>] element.
+Also similar to fields, a property can reference a link:#type[<type>] using the type attribute.
+This too can later be changed with the link:#setprop[<setprop>] element.
 
 // prop
 
+[[range]]
 === range
 
 
-The link:#_range[<range>] element is used to specify a range of values for a link:#_type[<type>].
+The link:#range[<range>] element is used to specify a range of values for a link:#type[<type>].
 
 [options="header"]
 |=============================================================
@@ -700,14 +716,14 @@ The link:#_range[<range>] element is used to specify a range of values for a lin
 children: none
 
 
-The link:#_range[<range>] elements can exist along side link:#_item[<item>] elements. The link:#_item[<item>] values are
-evaluated first, and the link:#_range[<range>] second.  This means a link:#_range[<range>] can overlap existing
-items.  Using these two mechanics, we can use a link:#_range[<range>] as a default if no items match
+The link:#range[<range>] elements can exist along side link:#item[<item>] elements. The link:#item[<item>] values are
+evaluated first, and the link:#range[<range>] second.  This means a link:#range[<range>] can overlap existing
+items.  Using these two mechanics, we can use a link:#range[<range>] as a default if no items match
 a particular value.
 
 The following example illustrates this.  The first part of the enumerated type lists
-several colors with their RGB Hex Triplet.  The link:#_range[<range>] at the bottom will be used if
-no link:#_item[<item>] matches.
+several colors with their RGB Hex Triplet.  The link:#range[<range>] at the bottom will be used if
+no link:#item[<item>] matches.
 
 [source,xml]
 ----
@@ -761,23 +777,25 @@ eighth  24      16750950 #FF9966 Atomic tangerine
 ninth   24      15834299 #F19CBB Unknown Color
 ----
 
-See the link:#_type[<type>] element reference for more usage of types.
+See the link:#type[<type>] element reference for more usage of types.
 
 // range
 
+[[record]]
 === record
 
 
-A link:#_record[<record>] is a way to group elements together, including other records.  If given an
+A link:#record[<record>] is a way to group elements together, including other records.  If given an
 *id*, records can then be referenced from other places in the document, or from a
 different document, using URL notation.
 
-Hence, link:#_record[<record>] can be used in two different ways:
+Hence, link:#record[<record>] can be used in two different ways:
 
+[[Record Definition]]
 ==== Record Definition
 
 
-Define a link:#_record[<record>].
+Define a link:#record[<record>].
 
 [options="header"]
 |=============================================================
@@ -788,7 +806,7 @@ Define a link:#_record[<record>].
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 
 
@@ -801,6 +819,7 @@ Example:
 
 // Record Definition
 
+[[Record Link]]
 ==== Record Link
 
 
@@ -826,14 +845,16 @@ The record definition in the example above can be referenced with:
 
 // record
 
+[[repeat]]
 === repeat
 
 
 
-The link:#_repeat[<repeat>] element repeats its child elements a certain number of times, creating a
-record for each iteration.  There are three different ways to use link:#_repeat[<repeat>], based on
+The link:#repeat[<repeat>] element repeats its child elements a certain number of times, creating a
+record for each iteration.  There are three different ways to use link:#repeat[<repeat>], based on
 the attribute signature, described below.
 
+[[Repeat Indefinitely]]
 ==== Repeat Indefinitely
 
 
@@ -847,7 +868,7 @@ This form will repeat until all the available bits are consumed.
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 
 A common pattern for this usage is to combine it with a fixed size record, for example:
@@ -890,6 +911,7 @@ record
 
 // Repeat Indefinitely
 
+[[Numbered Repeat]]
 ==== Numbered Repeat
 
 
@@ -903,10 +925,11 @@ This version repeats based on an *expression*.
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 // Numbered Repeat
 
+[[Bound Repeat]]
 ==== Bound Repeat
 
 
@@ -922,16 +945,17 @@ This version will repeat its contents at least *min* times and no more than *max
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 // Bound Repeat
 
 // repeat
 
+[[script]]
 === script
 
 
-The link:#_script[<script>] element contains XddlScript.  It appears as a child of the link:#_type[<type>] element
+The link:#script[<script>] element contains XddlScript.  It appears as a child of the link:#type[<type>] element
 and is used to specify or refine a field's description.
 
 
@@ -947,14 +971,14 @@ The language is [Lua](http://www.lua.org) based.  Documentation on Lua can be fo
 
 ==== The description Variable
 
-The purpose of the link:#_script[<script>] element is to set a field's (or
+The purpose of the link:#script[<script>] element is to set a field's (or
 property's) description.  This is done by setting a variable named
-*description* to a string.  Here's a simple example that uses a link:#_script[<script>] to
+*description* to a string.  Here's a simple example that uses a link:#script[<script>] to
 treat a value as an ASCII string.
 
     <type id="string">
       <script>
-        description = string.format("link:#_s[<s>]", ascii());
+        description = string.format("link:#s[<s>]", ascii());
       </script>
     </type>
 
@@ -964,7 +988,7 @@ value as an ASCII string.
 ==== XddlScript Functions
 
 The following table lists all the currently supported XddlScript functions
-and is subject to change.  The function availability when used used by link:#_field[<field>] or link:#_prop[<prop>] 
+and is subject to change.  The function availability when used used by link:#field[<field>] or link:#prop[<prop>] 
 elements is also noted.  
 
 [options="header"]
@@ -1018,10 +1042,11 @@ address 32      2939728358 #AF38B1E6 175.56.177.230
 
 // script
 
+[[setprop]]
 === setprop
 
 
-The link:#_setprop[<setprop>] element provides a way to change the value or type of a property.
+The link:#setprop[<setprop>] element provides a way to change the value or type of a property.
 
 [options="header"]
 |=============================================================
@@ -1032,21 +1057,22 @@ The link:#_setprop[<setprop>] element provides a way to change the value or type
 |=============================================================
 
 
-children: link:#_item[<item>], link:#_range[<range>], link:#_script[<script>], link:#_common_children[Common Children]
+children: link:#item[<item>], link:#range[<range>], link:#script[<script>], link:#common_children[Common Children]
 
 
-The *name* is the name of a property that was previously created using the link:#_prop[<prop>]
-element.  It must exist and be in scope.  The *type* will set a new link:#_type[<type>] reference
+The *name* is the name of a property that was previously created using the link:#prop[<prop>]
+element.  It must exist and be in scope.  The *type* will set a new link:#type[<type>] reference
 of the property.  This must be specified even if the type hasn't changed, otherwise
 the type will be removed.  The *value* is the new value of the property.
 
 // setprop
 
+[[start]]
 === start
 
 
-The link:#_start[<start>] element is optional and specifies the starting record of a document.  If
-the link:#_start[<start>] is not specified, then parsing will begin at the beginning of the
+The link:#start[<start>] element is optional and specifies the starting record of a document.  If
+the link:#start[<start>] is not specified, then parsing will begin at the beginning of the
 document. 
 
 
@@ -1054,21 +1080,22 @@ attributes: none
 
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 
 A typical XDDL specification contains many records, one for each message type to be
 parsed.  It is convenient to have an explicit starting point for parsing, and that is
-what link:#_start[<start>] is for.  It is analogous to the *main()* function in C/C++.
+what link:#start[<start>] is for.  It is analogous to the *main()* function in C/C++.
 
 // start
 
+[[switch]]
 === switch
 
 
-The link:#_switch[<switch>] element is similar in function to the *switch* statement in popular
+The link:#switch[<switch>] element is similar in function to the *switch* statement in popular
 general purpose programming languages.  Based on the evaluation of the *expr*
-attribute, a particular link:#_case[<case>] element's contents will be parsed.
+attribute, a particular link:#case[<case>] element's contents will be parsed.
 
 [options="header"]
 |=============================================================
@@ -1077,25 +1104,25 @@ attribute, a particular link:#_case[<case>] element's contents will be parsed.
 |=============================================================
 
 
-children: link:#_case[<case>], link:#_default[<default>]
+children: link:#case[<case>], link:#default[<default>]
 
 
-In order for it to be parsed, the link:#_switch[<switch>] element's *expr* attribute must evaluate to
-the link:#_case[<case>] element's *value* attribute.
+In order for it to be parsed, the link:#switch[<switch>] element's *expr* attribute must evaluate to
+the link:#case[<case>] element's *value* attribute.
 
-The *value* of each link:#_case[<case>] child must be unique.
+The *value* of each link:#case[<case>] child must be unique.
 
 There is no need for a corresponding *break*.  Execution will only "fall-through" if
-the link:#_case[<case>] being executed is empty.
+the link:#case[<case>] being executed is empty.
 
-If no matches are found, and a link:#_default[<default>] element exists as a child of the
-link:#_switch[<switch>], then its contents will be parsed.  There can be at most one default child.
+If no matches are found, and a link:#default[<default>] element exists as a child of the
+link:#switch[<switch>], then its contents will be parsed.  There can be at most one default child.
 
 Otherwise, nothing will be parsed.
 
-The following example illustrates the use of a link:#_switch[<switch>].  It describes a message of
-three octets.  The first octet is used for the *expr* in the link:#_switch[<switch>] element.  The
-second octet is read by the corresponding link:#_case[<case>] contents, and the final octet is read
+The following example illustrates the use of a link:#switch[<switch>].  It describes a message of
+three octets.  The first octet is used for the *expr* in the link:#switch[<switch>] element.  The
+second octet is read by the corresponding link:#case[<case>] contents, and the final octet is read
 into the *check* field.
 
 [source,xml]
@@ -1162,8 +1189,8 @@ check  8       255    #FF
 
 Both of the above messages follow the `value="4"` case.
 
-And finally the link:#_default[<default>] case can be followed if we specify a *choice* that
-does not match any other link:#_case[<case>]:
+And finally the link:#default[<default>] case can be followed if we specify a *choice* that
+does not match any other link:#case[<case>]:
 
 ----
 # idm choice.xddl AAFEFF
@@ -1177,10 +1204,11 @@ check  8       255    #FF
 
 // switch
 
+[[type]]
 === type
 
 
-The link:#_type[<type>] tag is used to specify valid values for link:#_field[<field>] elements.
+The link:#type[<type>] tag is used to specify valid values for link:#field[<field>] elements.
 It is also used to specify a field's description.
 
 [options="header"]
@@ -1191,15 +1219,15 @@ It is also used to specify a field's description.
 |=============================================================
 
 
-children: link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 
-The [field example](#type-Attribute) above shows a typical usage of link:#_type[<type>].
+The [field example](#type-Attribute) above shows a typical usage of link:#type[<type>].
 
 ==== Anonymous Types
 
 Often it is easier to specify a field's valid values by placing them as children of
-the link:#_field[<field>].  The following example illustrates this.
+the link:#field[<field>].  The following example illustrates this.
 
 [source,xml]
 ----
@@ -1227,10 +1255,11 @@ field.
 
 // type
 
+[[uint16]]
 === uint16
 
 
-This is equivalent to a link:#_field[<field>] with length 16.
+This is equivalent to a link:#field[<field>] with length 16.
 
 [options="header"]
 |=============================================================
@@ -1242,14 +1271,15 @@ This is equivalent to a link:#_field[<field>] with length 16.
 |=============================================================
 
 
-children: link:#_comment[<comment>], link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 // uint16
 
+[[uint32]]
 === uint32
 
 
-This is equivalent to a link:#_field[<field>] with length 32.
+This is equivalent to a link:#field[<field>] with length 32.
 
 [options="header"]
 |=============================================================
@@ -1261,14 +1291,15 @@ This is equivalent to a link:#_field[<field>] with length 32.
 |=============================================================
 
 
-children: link:#_comment[<comment>], link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 // uint32
 
+[[uint64]]
 === uint64
 
 
-This is equivalent to a link:#_field[<field>] with length 64.
+This is equivalent to a link:#field[<field>] with length 64.
 
 [options="header"]
 |=============================================================
@@ -1280,14 +1311,15 @@ This is equivalent to a link:#_field[<field>] with length 64.
 |=============================================================
 
 
-children: link:#_comment[<comment>], link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 // uint64
 
+[[uint8]]
 === uint8
 
 
-This is equivalent to a link:#_field[<field>] with length 8.
+This is equivalent to a link:#field[<field>] with length 8.
 
 [options="header"]
 |=============================================================
@@ -1299,14 +1331,15 @@ This is equivalent to a link:#_field[<field>] with length 8.
 |=============================================================
 
 
-children: link:#_comment[<comment>], link:#_item[<item>], link:#_range[<range>], link:#_script[<script>]
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
 
 // uint8
 
+[[while]]
 === while
 
 
-Repeat the contents of the link:#_while[<while>] as long as *expr* is true.
+Repeat the contents of the link:#while[<while>] as long as *expr* is true.
 
 [options="header"]
 |=============================================================
@@ -1316,10 +1349,11 @@ Repeat the contents of the link:#_while[<while>] as long as *expr* is true.
 |=============================================================
 
 
-children: link:#_common_children[Common Children]
+children: link:#common_children[Common Children]
 
 // while
 
+[[xddl]]
 === xddl
 
 
@@ -1329,7 +1363,7 @@ attributes: none
 
 
 
-children: link:#_export[<export>], link:#_start[<start>], link:#_type[<type>], link:#_common_children[Common Children]
+children: link:#export[<export>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
 
 // xddl
 
@@ -1351,6 +1385,7 @@ children: link:#_export[<export>], link:#_start[<start>], link:#_type[<type>], l
 |=============================================================
 // Attribute Types
 
+[[common_children]]
 == Common Children
-link:#_bit[<bit>], link:#_cstr[<cstr>], link:#_enc[<enc>], link:#_field[<field>], link:#_fragment[<fragment>], link:#_if[<if>], link:#_jump[<jump>], link:#_oob[<oob>], link:#_pad[<pad>], link:#_peek[<peek>], link:#_prop[<prop>], link:#_record[<record>], link:#_repeat[<repeat>], link:#_setprop[<setprop>], link:#_switch[<switch>], link:#_uint16[<uint16>], link:#_uint32[<uint32>], link:#_uint64[<uint64>], link:#_uint8[<uint8>], link:#_while[<while>]
+link:#bit[<bit>], link:#cstr[<cstr>], link:#enc[<enc>], link:#field[<field>], link:#fragment[<fragment>], link:#if[<if>], link:#jump[<jump>], link:#oob[<oob>], link:#pad[<pad>], link:#peek[<peek>], link:#prop[<prop>], link:#record[<record>], link:#repeat[<repeat>], link:#setprop[<setprop>], link:#switch[<switch>], link:#uint16[<uint16>], link:#uint32[<uint32>], link:#uint64[<uint64>], link:#uint8[<uint8>], link:#while[<while>]
 // Common Children
