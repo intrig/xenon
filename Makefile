@@ -51,5 +51,3 @@ get-deps:
 xddl.adoc: all ex.adoc
 	$(RM) xddl.adoc
 	build/xspx/xspx --adoc src/xddl.xspx | build/tools/procadoc | build/tools/procadoc > xddl.adoc
-
-include docs/Makefile

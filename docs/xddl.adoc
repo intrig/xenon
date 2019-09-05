@@ -15,7 +15,7 @@ A link:#bit[<bit>] is a bit.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | bias | integer|
 | default | expression|
@@ -55,7 +55,7 @@ the *case* keyword in *C++*.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| value | integer| &#10004; 
+| value | integer| &#10004;
 |=============================================================
 
 
@@ -76,7 +76,7 @@ The link:#cstr[<cstr>] element represents a null-terminated C string.
 |=============================================================
 | attribute name  | type | required
 | max | expression|
-| name | string| &#10004; 
+| name | string| &#10004;
 |=============================================================
 
 
@@ -128,7 +128,7 @@ See the link:#switch[<switch>] element for example usage.
 
 
 The link:#enc[<enc>] element is used to encapsulate encoding fields. Encoding fields are by default
-not displayed in the idm. 
+not displayed in the idm.
 
 
 attributes: none
@@ -138,7 +138,7 @@ attributes: none
 children: link:#fragment[<fragment>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
 
 
-Here is an example that reads a `size` field and then a field of that length.  
+Here is an example that reads a `size` field and then a field of that length.
 In this case, we consider `size` to be an encoding field, and not an important part of
 the message for display purposes.  We surround it with link:#enc[<enc>] to indicate so.
 
@@ -181,7 +181,7 @@ encoding.
 
 
 link:#export[<export>] provides a way to create global properties in a message.  These properties
-link:#can[<can>] be used and set by different records as a message is being parsed.  
+link:#can[<can>] be used and set by different records as a message is being parsed.
 
 
 attributes: none
@@ -238,7 +238,7 @@ There are no "file local" properties.
 
 
 The link:#field[<field>] element identifies an integer unit of information specific to the message
-being represented.  
+being represented.
 
 It must have a `name` and `length` attribute.  The `length` is specified in bits, and
 may be any nonnegative integer value.  It does not have to be byte aligned within the
@@ -250,10 +250,10 @@ in the idm.  See the `bias` example in the description below.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | bias | integer|
-| length | expression| &#10004; 
+| length | expression| &#10004;
 | default | expression|
 |=============================================================
 
@@ -364,7 +364,7 @@ referenced record are inserted "inline" in the resulting message.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| href | url| &#10004; 
+| href | url| &#10004;
 |=============================================================
 
 
@@ -412,7 +412,7 @@ The link:#if[<if>] element provides a way to conditionally include other element
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| expr | expression| &#10004; 
+| expr | expression| &#10004;
 |=============================================================
 
 
@@ -461,9 +461,9 @@ used to specify an item of an enumerated list.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| key | integer| &#10004; 
+| key | integer| &#10004;
 | href | url|
-| value | string| &#10004; 
+| value | string| &#10004;
 |=============================================================
 
 
@@ -486,7 +486,7 @@ A link:#jump[<jump>] element provides an easy way to choose a record to parse ba
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| base | jump_name| &#10004; 
+| base | jump_name| &#10004;
 |=============================================================
 
 
@@ -618,7 +618,7 @@ B     8       20     #14
 
 The *mod* attribute defaults to 8, but can be modified.  For example, it may be
 desireable to pad to the nearest 2-byte boundary, in which case we would specify a
-*mod* of 16.  
+*mod* of 16.
 
 // pad
 
@@ -632,9 +632,9 @@ then be referenced in expressions.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
-| length | expression| &#10004; 
-| offset | size| &#10004; 
+| name | string| &#10004;
+| length | expression| &#10004;
+| offset | size| &#10004;
 |=============================================================
 
 
@@ -677,7 +677,7 @@ in expressions just like fields.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | value | expression|
 | visible | bool|
@@ -690,7 +690,7 @@ children: link:#item[<item>], link:#range[<range>], link:#script[<script>]
 Properties provide a way to create a data member in the current scope.  This property
 can later be referenced in expressions.  It is similar to a field, but does not
 consume data from the message, and it can later be changed using the link:#setprop[<setprop>]
-element. 
+element.
 
 Also similar to fields, a property can reference a link:#type[<type>] using the type attribute.
 This too can later be changed with the link:#setprop[<setprop>] element.
@@ -706,10 +706,10 @@ The link:#range[<range>] element is used to specify a range of values for a link
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| end | integer| &#10004; 
+| end | integer| &#10004;
 | href | url|
 | value | string|
-| start | integer| &#10004; 
+| start | integer| &#10004;
 |=============================================================
 
 
@@ -858,7 +858,7 @@ the attribute signature, described below.
 ==== Repeat Indefinitely
 
 
-This form will repeat until all the available bits are consumed.  
+This form will repeat until all the available bits are consumed.
 
 [options="header"]
 |=============================================================
@@ -920,7 +920,7 @@ This version repeats based on an *expression*.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| num | expression| &#10004; 
+| num | expression| &#10004;
 | name | string|
 |=============================================================
 
@@ -983,13 +983,13 @@ treat a value as an ASCII string.
     </type>
 
 The *ascii()* function is an XddlScript function that interprets the current
-value as an ASCII string.  
+value as an ASCII string.
 
 ==== XddlScript Functions
 
 The following table lists all the currently supported XddlScript functions
-and is subject to change.  The function availability when used used by link:#field[<field>] or link:#prop[<prop>] 
-elements is also noted.  
+and is subject to change.  The function availability when used used by link:#field[<field>] or link:#prop[<prop>]
+elements is also noted.
 
 [options="header"]
 |=============================================================
@@ -1004,12 +1004,12 @@ elements is also noted.
 |search(name)          | &#10004;    | &#10004;   | Return the description of a node in the message by name
 |=============================================================
 
-The *ascii()* string does not have to be null terminated.  However, if 
+The *ascii()* string does not have to be null terminated.  However, if
 it is null terminated, the characters after the termination character will
-be ignored.  Any non-printable characters will be printed as periods.  
+be ignored.  Any non-printable characters will be printed as periods.
 
 The *Description()* function will return the description of a node that is in scope.
-The *search()* function will do a depth-first search for a field from the 
+The *search()* function will do a depth-first search for a field from the
 top of the message.
 
 The *slice()* function can take the current value and return a value of just a
@@ -1051,9 +1051,9 @@ The link:#setprop[<setprop>] element provides a way to change the value or type 
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | setprop_name| &#10004; 
+| name | setprop_name| &#10004;
 | type | url|
-| value | expression| &#10004; 
+| value | expression| &#10004;
 |=============================================================
 
 
@@ -1073,7 +1073,7 @@ the type will be removed.  The *value* is the new value of the property.
 
 The link:#start[<start>] element is optional and specifies the starting record of a document.  If
 the link:#start[<start>] is not specified, then parsing will begin at the beginning of the
-document. 
+document.
 
 
 attributes: none
@@ -1100,7 +1100,7 @@ attribute, a particular link:#case[<case>] element's contents will be parsed.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| expr | expression| &#10004; 
+| expr | expression| &#10004;
 |=============================================================
 
 
@@ -1214,7 +1214,7 @@ It is also used to specify a field's description.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| id | id_url| &#10004; 
+| id | id_url| &#10004;
 | name | string|
 |=============================================================
 
@@ -1264,7 +1264,7 @@ This is equivalent to a link:#field[<field>] with length 16.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | bias | integer|
 | default | expression|
@@ -1284,7 +1284,7 @@ This is equivalent to a link:#field[<field>] with length 32.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | bias | integer|
 | default | expression|
@@ -1304,7 +1304,7 @@ This is equivalent to a link:#field[<field>] with length 64.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | bias | integer|
 | default | expression|
@@ -1324,7 +1324,7 @@ This is equivalent to a link:#field[<field>] with length 8.
 [options="header"]
 |=============================================================
 | attribute name  | type | required
-| name | string| &#10004; 
+| name | string| &#10004;
 | type | url|
 | bias | integer|
 | default | expression|
@@ -1345,7 +1345,7 @@ Repeat the contents of the link:#while[<while>] as long as *expr* is true.
 |=============================================================
 | attribute name  | type | required
 | name | string|
-| expr | expression| &#10004; 
+| expr | expression| &#10004;
 |=============================================================
 
 

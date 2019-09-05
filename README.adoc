@@ -29,7 +29,7 @@ From a terminal, issue the following commands:
 
     git clone --recursive https://github.com/intrig/xenon.git
     cd xenon
-    make 
+    make
     make test
     sudo make install
 

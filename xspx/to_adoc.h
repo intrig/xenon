@@ -15,7 +15,7 @@ template <typename Elem> std::string attributes(const Elem &elem) {
         if (a.fixed.empty()) {
             os << "| " << a.name << " | " << a.type_name << "|";
             if (a.required)
-                os << " &#10004; ";
+                os << " &#10004;";
             os << "\n";
         }
     }

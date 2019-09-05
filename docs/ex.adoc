@@ -31,10 +31,10 @@ Decoding the ASCII hex for "Hello" yields:
 
 // :tag enc-sum
 The %enc element is used to encapsulate encoding fields. Encoding fields are by default
-not displayed in the idm. 
+not displayed in the idm.
 
 // :tag enc-det
-Here is an example that reads a `size` field and then a field of that length.  
+Here is an example that reads a `size` field and then a field of that length.
 In this case, we consider `size` to be an encoding field, and not an important part of
 the message for display purposes.  We surround it with %enc to indicate so.
 
@@ -61,7 +61,7 @@ See the %switch element for example usage.
 
 // :tag export-sum
 %export provides a way to create global properties in a message.  These properties
-%can be used and set by different records as a message is being parsed.  
+%can be used and set by different records as a message is being parsed.
 
 // :tag export-det
 The following file creates a global property, *size*.  The *A* record references this
@@ -80,7 +80,7 @@ There are no "file local" properties.
 
 // :tag field-sum
 The %field element identifies an integer unit of information specific to the message
-being represented.  
+being represented.
 
 It must have a `name` and `length` attribute.  The `length` is specified in bits, and
 may be any nonnegative integer value.  It does not have to be byte aligned within the
@@ -245,7 +245,7 @@ If we change the length of the *A* field to 2, we get a pad of 6.
 
 The *mod* attribute defaults to 8, but can be modified.  For example, it may be
 desireable to pad to the nearest 2-byte boundary, in which case we would specify a
-*mod* of 16.  
+*mod* of 16.
 
 // :tag peek-sum
 The %peek element provides access to data ahead in the message.  This information can
@@ -269,7 +269,7 @@ in expressions just like fields.
 Properties provide a way to create a data member in the current scope.  This property
 can later be referenced in expressions.  It is similar to a field, but does not
 consume data from the message, and it can later be changed using the %setprop
-element. 
+element.
 
 Also similar to fields, a property can reference a %type using the type attribute.
 This too can later be changed with the %setprop element.
@@ -329,7 +329,7 @@ record for each iteration.  There are three different ways to use %repeat, based
 the attribute signature, described below.
 
 // :tag Repeat-Indefinitely-sum
-This form will repeat until all the available bits are consumed.  
+This form will repeat until all the available bits are consumed.
 
 // :tag Repeat-Indefinitely-det
 A common pattern for this usage is to combine it with a fixed size record, for example:
@@ -368,13 +368,13 @@ treat a value as an ASCII string.
     </type>
 
 The *ascii()* function is an XddlScript function that interprets the current
-value as an ASCII string.  
+value as an ASCII string.
 
 ==== XddlScript Functions
 
 The following table lists all the currently supported XddlScript functions
-and is subject to change.  The function availability when used used by %field or %prop 
-elements is also noted.  
+and is subject to change.  The function availability when used used by %field or %prop
+elements is also noted.
 
 [options="header"]
 |=============================================================
@@ -389,12 +389,12 @@ elements is also noted.
 |search(name)          | &#10004;    | &#10004;   | Return the description of a node in the message by name
 |=============================================================
 
-The *ascii()* string does not have to be null terminated.  However, if 
+The *ascii()* string does not have to be null terminated.  However, if
 it is null terminated, the characters after the termination character will
-be ignored.  Any non-printable characters will be printed as periods.  
+be ignored.  Any non-printable characters will be printed as periods.
 
 The *Description()* function will return the description of a node that is in scope.
-The *search()* function will do a depth-first search for a field from the 
+The *search()* function will do a depth-first search for a field from the
 top of the message.
 
 The *slice()* function can take the current value and return a value of just a
@@ -420,7 +420,7 @@ the type will be removed.  The *value* is the new value of the property.
 // :tag start-sum
 The %start element is optional and specifies the starting record of a document.  If
 the %start is not specified, then parsing will begin at the beginning of the
-document. 
+document.
 
 // :tag start-det
 A typical XDDL specification contains many records, one for each message type to be

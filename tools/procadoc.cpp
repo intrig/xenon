@@ -121,8 +121,8 @@ void parse_line(std::ostream &os, const section_list &sects,
         return;
     if (parse_read(os, sects, line))
         return;
+
     // just a regular line
-    
     auto sub = line;
     sub = regex_replace(sub, xddl_tag, "link:#$1[<$1>]");
     sub = regex_replace(sub, tag_link, "link:#$1[<$1>]");

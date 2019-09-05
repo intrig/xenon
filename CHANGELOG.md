@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Build: Use meson instead of cmake now
+- Doc: Updated README
+- Doc: Generated XDDL documentation updated
 
 ### Fixed
 

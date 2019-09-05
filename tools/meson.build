@@ -31,8 +31,9 @@ recombobulator_exe = executable('recombobulator', 'recombobulator.cpp', xddl_h,
     include_directories : [inc, xenon_inc],
     link_with : xenon_lib)
 
-procadoc_exe = executable('procadoc', 'procadoc.cpp', xddl_h,
-    include_directories : inc,
-    link_args : '-lstdc++fs',
-    link_with : xenon_lib)
-
+if build_machine.system() == 'linux'
+    procadoc_exe = executable('procadoc', 'procadoc.cpp', xddl_h,
+        include_directories : inc,
+        link_args : '-lstdc++fs',
+        link_with : xenon_lib)
+endif
