@@ -47,3 +47,7 @@ update:
 get-deps:
 	sudo apt-get update
 	sudo apt-get install -y meson
+
+xddl.adoc: all ex.adoc
+	$(RM) xddl.adoc
+	build/xspx/xspx --adoc src/xddl.xspx | build/tools/procadoc | build/tools/procadoc > xddl.adoc

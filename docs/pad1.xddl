@@ -1,0 +1,5 @@
+<xddl>
+  <field name="A" length="2"/>
+  <pad/>
+  <field name="B" length="8"/>
+</xddl>

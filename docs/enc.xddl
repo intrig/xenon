@@ -1,0 +1,6 @@
+<xddl>
+  <enc>
+    <uint8 name="size"/>
+  </enc>
+  <field name="value" length="size"/>
+</xddl>

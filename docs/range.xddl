@@ -1,0 +1,31 @@
+<xddl>
+ <type id="colors">
+    <item key="#F0F8FF" value="Alice blue"/>
+    <item key="#E32636" value="Alizarin"/>
+    <item key="#E52B50" value="Amaranth"/>
+    <item key="#FFBF00" value="Amber"/>
+    <item key="#9966CC" value="Amethyst"/>
+    <item key="#FBCEB1" value="Apricot"/>
+    <item key="#00FFFF" value="Aqua"/>
+    <item key="#7FFFD4" value="Aquamarine"/>
+    <item key="#4B5320" value="Army green"/>
+    <item key="#7BA05B" value="Asparagus"/>
+    <item key="#FF9966" value="Atomic tangerine"/>
+    <item key="#6D351A" value="Auburn"/>
+    <item key="#007FFF" value="Azure (color wheel)"/>
+    <item key="#F0FFFF" value="Azure (web)"/>
+
+    <range start="0" end="#FFFFFF" value="Unknown Color"/>
+ </type>
+  <start>
+    <field length="24" name="first" type="#colors"/>
+    <field length="24" name="second" type="#colors"/>
+    <field length="24" name="third" type="#colors"/>
+    <field length="24" name="fourth" type="#colors"/>
+    <field length="24" name="fifth" type="#colors"/>
+    <field length="24" name="sixth" type="#colors"/>
+    <field length="24" name="seventh" type="#colors"/>
+    <field length="24" name="eighth" type="#colors"/>
+    <field length="24" name="ninth" type="#colors"/>
+  </start>
+</xddl>

@@ -1,0 +1,13 @@
+<xddl>
+  <peek name="pd" offset="4" length="4"/>
+  <switch expr="pd">
+    <case value="0">
+      <field length="4" name="security header"/>
+      <field length="4" name="protocol descriminator"/>
+    </case>
+    <case value="1">
+      <field length="4" name="bearer identity"/>
+      <field length="4" name="protocol descriminator"/>
+    </case>
+   </switch>
+</xddl>

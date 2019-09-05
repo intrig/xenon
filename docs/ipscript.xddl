@@ -1,0 +1,10 @@
+<xddl>
+<type id="ip_address">
+  <script>
+    description = string.format("%d.%d.%d.%d", slice(0, 8), slice(8, 8), slice(16, 8), slice(24, 8))
+  </script>
+</type>
+  <start>
+    <uint32 name="address" type="#ip_address"/>
+  </start>
+</xddl>

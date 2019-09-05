@@ -1,0 +1,26 @@
+<xddl>
+  <start>
+	 <field name="choice" length="8"/>
+	 <switch expr="choice">
+	  <case value="1">
+	   <field name="a" length="4"/>
+	   <field name="b" length="4"/>
+	  </case>
+	  <case value="2">
+	   <field name="c" length="1"/>
+	   <field name="d" length="7"/>
+	  </case>
+	  <case value="3"/> <!-- "fall through" -->
+	  <case value="4">
+	   <field name="e" length="2"/>
+	   <field name="f" length="6"/>
+	  </case>
+	  <default>
+	   <field name="g" length="2"/>
+	   <field name="h" length="6"/>
+	  </default>
+	 </switch>
+	 <field name="check" length="8"/>
+  </start>
+</xddl>
+

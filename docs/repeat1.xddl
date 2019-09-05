@@ -1,0 +1,9 @@
+<xddl>
+  <record length="8">
+    <repeat>
+      <bit name="a"/>
+      <bit name="b"/>
+    </repeat>
+    <uint8 name="crc"/>
+  </record>
+</xddl>

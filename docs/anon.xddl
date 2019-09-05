@@ -1,0 +1,6 @@
+<xddl>
+ <bit name="A">
+    <item key="0" value="Goodbye World!"/>
+    <item key="1" value="Hello World!"/>
+ </bit>
+</xddl>

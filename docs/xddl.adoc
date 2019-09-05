@@ -1,0 +1,1391 @@
+= XDDL Reference
+:sectnums:
+:toc: left
+:toclevels: 3
+:toc-placement!:
+
+toc::[]
+== Elements
+[[bit]]
+=== bit
+
+// :tag bit-sum
+A link:#bit[<bit>] is a bit.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| bias | integer|
+| default | expression|
+|=============================================================
+
+
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+
+The following example is a one bit message:
+
+[source,xml]
+----
+<xddl>
+  <bit name="x"/>
+</xddl>
+----
+
+And decoding a bit with idm:
+
+----
+# idm obp.xddl @1
+
+Name  Length  Value  Hex  Description
+x     1       1      @1   
+----
+
+// bit
+
+[[case]]
+=== case
+
+
+The link:#case[<case>] element only appears as a child of the link:#switch[<switch>] element.  It is similar to
+the *case* keyword in *C++*.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| value | integer| &#10004;
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+
+See the link:#switch[<switch>] element for example usage.
+
+// case
+
+[[cstr]]
+=== cstr
+
+
+The link:#cstr[<cstr>] element represents a null-terminated C string.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| max | expression|
+| name | string| &#10004;
+|=============================================================
+
+
+children: none
+
+
+Example:
+
+[source,xml]
+----
+<xddl>
+  <cstr name="greeting"/>
+</xddl>
+----
+
+Decoding the ASCII hex for "Hello" yields:
+
+----
+# idm cstr.xddl 48656C6C6F00
+
+Name     Length  Value          Hex           Description
+greeting 48      79600447942400 #48656C6C6F00 Hello
+----
+
+// cstr
+
+[[default]]
+=== default
+
+
+The link:#default[<default>] element only appears as a child of the link:#switch[<switch>] element.  It is similar
+to the *default* keyword in *C/C++*.
+
+
+attributes: none
+
+
+
+children: link:#common_children[Common Children]
+
+
+
+See the link:#switch[<switch>] element for example usage.
+
+// default
+
+[[enc]]
+=== enc
+
+
+The link:#enc[<enc>] element is used to encapsulate encoding fields. Encoding fields are by default
+not displayed in the idm.
+
+
+attributes: none
+
+
+
+children: link:#fragment[<fragment>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
+
+
+Here is an example that reads a `size` field and then a field of that length.
+In this case, we consider `size` to be an encoding field, and not an important part of
+the message for display purposes.  We surround it with link:#enc[<enc>] to indicate so.
+
+[source,xml]
+----
+<xddl>
+  <enc>
+    <uint8 name="size"/>
+  </enc>
+  <field name="value" length="size"/>
+</xddl>
+----
+
+And decoding `080F` with the idm skips over the `length` field:
+
+----
+# idm enc.xddl 080F
+
+Name  Length  Value  Hex  Description
+value 8       15     #0F  
+----
+
+But running idm with the `--encoding` flag will display it:
+
+----
+# idm --encoding enc.xddl 080F
+
+Name  Length  Value  Hex  Description
+size  8       8      #08  
+value 8       15     #0F  
+----
+
+However, records inserted within an encoding range are themselves not considered to be
+encoding.
+
+// enc
+
+[[export]]
+=== export
+
+
+link:#export[<export>] provides a way to create global properties in a message.  These properties
+link:#can[<can>] be used and set by different records as a message is being parsed.
+
+
+attributes: none
+
+
+
+children: link:#prop[<prop>]
+
+
+The following file creates a global property, *size*.  The *A* record references this
+size and creates a field based on its length.  The *B* record also creates a field
+based on the value of *size*, but since there is a local *size* property defined in
+its scope (with the value of 16), it is used instead.
+
+[source,xml]
+----
+<xddl>
+  <export>
+    <prop name="size" value="8"/>
+  </export>
+  <record id="A">
+    <field name="b" length="size"/>
+  </record>
+  <record id="B">
+    <prop name="size" value="16"/>
+    <field name="b" length="size"/>
+  </record>
+  <start>
+    <record name="A" href="#A"/>
+    <record name="B" href="#B"/>
+  </start>
+</xddl>
+----
+
+Decoding three bytes yields:
+
+----
+# idm export.xddl 010203
+
+Name  Length  Value  Hex   Description
+A                          
+  b   8       1      #01   
+B                          
+  b   16      515    #0203 
+----
+
+These properties are also visible to records that are included from different files.
+There are no "file local" properties.
+
+// export
+
+[[field]]
+=== field
+
+
+The link:#field[<field>] element identifies an integer unit of information specific to the message
+being represented.
+
+It must have a `name` and `length` attribute.  The `length` is specified in bits, and
+may be any nonnegative integer value.  It does not have to be byte aligned within the
+record it appears.
+
+The optional `bias` attribute is added to the value by a fixed amount when displayed
+in the idm.  See the `bias` example in the description below.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| bias | integer|
+| length | expression| &#10004;
+| default | expression|
+|=============================================================
+
+
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+
+This is a simple example that defines a field named "foo" and is 4 bits long.  The
+`name` and `length` are required attributes, and typically they are the only ones
+used.  Here is an example describing a simple message consisting of one 4 bit field.
+
+[source,xml]
+----
+<xddl>
+  <start>
+    <field name="sequence" length="4"/>
+  </start>
+</xddl>
+----
+
+Parsing the four bit message "@1111" results in:
+
+----
+# idm simple_field.xddl @1111
+
+Name     Length  Value  Hex   Description
+sequence 4       15     @1111 
+----
+
+==== bias Attribute
+
+The optional `bias` attribute is used to offset the value of field by a
+fixed amount.  Here's an example:
+
+[source,xml]
+----
+<xddl>
+  <field name="a" length="1" bias="-10"/>
+  <field name="b" length="1" bias="-9"/>
+  <field name="c" length="1" bias="-8"/>
+  <field name="d" length="1" bias="-7"/>
+  <field name="e" length="1" bias="1"/>
+  <field name="f" length="1" bias="2"/>
+  <field name="g" length="1" bias="3"/>
+  <field name="h" length="1" bias="4"/>
+</xddl>
+----
+
+Each field is just 1 bit long, but we are biasing them by varying amounts.
+The bias is applied after the fields are parsed.  If we parse a message of
+all zeroes, here is what we get:
+
+----
+# idm bias.xddl @00000000
+
+Name  Length  Value  Hex  Description
+a     1       -10    @0   
+b     1       -9     @0   
+c     1       -8     @0   
+d     1       -7     @0   
+e     1       1      @0   
+f     1       2      @0   
+g     1       3      @0   
+h     1       4      @0   
+----
+
+As you can see, the *Value* column is offset by the `bias`.  The *Hex*
+column still reflects the original bit pattern.
+
+==== type Attribute
+
+The optional `type` attribute references a link:#type[<type>] element's `id`.  See the link:#type[<type>] element
+reference for examples.
+
+This example references a locally defined link:#type[<type>].
+
+[source,xml]
+----
+<xddl>
+ <type id="HelloType">
+    <item key="0" value="Goodbye World!"/>
+    <item key="1" value="Hello World!"/>
+ </type>
+ <bit name="A" type="#HelloType"/>
+ <bit name="B" type="#HelloType"/>
+</xddl>
+----
+
+And decoding the bits `10` yields:
+
+----
+# idm hello.xddl @10
+
+Name  Length  Value  Hex  Description
+A     1       1      @1   Hello World!
+B     1       0      @0   Goodbye World!
+----
+
+// field
+
+[[fragment]]
+=== fragment
+
+
+The link:#fragment[<fragment>] element is similar to a record link, except the contents of the
+referenced record are inserted "inline" in the resulting message.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| href | url| &#10004;
+|=============================================================
+
+
+children: none
+
+
+The following example parses the same record twice, once as a fragment, and then once
+as a record.
+
+[source,xml]
+----
+<xddl>
+  <record id="A">
+    <field name="b" length="8"/>
+  </record>
+  <start>
+    <fragment href="#A"/>
+    <record name="A" href="#A"/>
+  </start>
+</xddl>
+----
+
+The result:
+
+----
+# idm fragment.xddl 0102
+
+Name  Length  Value  Hex  Description
+b     8       1      #01  
+A                         
+  b   8       2      #02  
+----
+
+Fragments are useful sometimes when many messages contain the same handfull of fields.
+
+// fragment
+
+[[if]]
+=== if
+
+
+The link:#if[<if>] element provides a way to conditionally include other elements based on an
+*expression*.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| expr | expression| &#10004;
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+
+The following example illustrates the conditional inclususion of a field:
+
+[source,xml]
+----
+<xddl>
+  <start>
+    <field name="Included" length="8"/>
+    <if expr="Included">
+     <field name="More" length="8"/>
+    </if>
+  </start>
+</xddl>
+----
+
+Now we parse two messages with the above file.  The first one will
+include the `More` field and the second one will not:
+
+----
+# idm if.xddl 0105 00
+
+Name     Length  Value  Hex  Description
+Included 8       1      #01  
+More     8       5      #05  
+Name     Length  Value  Hex  Description
+Included 8       0      #00  
+----
+
+The `expr` attribute may be any XDDL expression.  As long as it does not
+evaluate to zero, the conditional elements will be included.
+
+// if
+
+[[item]]
+=== item
+
+
+The link:#item[<item>] element only appears as a child of the link:#type[<type>] element.  It is
+used to specify an item of an enumerated list.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| key | integer| &#10004;
+| href | url|
+| value | string| &#10004;
+|=============================================================
+
+
+children: none
+
+
+The option *href* attribute can be specified and is used in conjuntion with the link:#jump[<jump>]
+element.
+
+See link:#type[<type>] for example usage.
+
+// item
+
+[[jump]]
+=== jump
+
+
+A link:#jump[<jump>] element provides an easy way to choose a record to parse based on a value.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| base | jump_name| &#10004;
+|=============================================================
+
+
+children: none
+
+
+A common pattern among parsing messages is to choose one of many records to parse
+based on a single field's value, a message type, for example.  This can easy enough
+be done with a link:#switch[<switch>] element:
+
+    <uint8 name="msg-id"/>
+    <switch expr="msg-id">
+        <case value="1">
+            <record href="#A"/>
+        </case>
+        <case value="2">
+            <record href="#B"/>
+        </case>
+        <case value="3">
+            <record href="#C"/>
+        </case>
+          .
+          .
+          .
+    </switch>
+
+Using link:#jump[<jump>] along with link:#type[<type>] can greatly simplify this trivial case:
+
+    <uint8 name="msg-id" type="#msg-id"/>
+    <type id="msg-type">
+      <item key="1" value="A" href="#A"/>
+      <item key="2" value="B" href="#B"/>
+      <item key="3" value="C" href="#C"/>
+         .
+         .
+         .
+    </type>
+    <jump base="msg-id"/>
+
+The above two listings are functionally equivalent.
+
+// jump
+
+[[oob]]
+=== oob
+
+
+link:#oob[<oob>] is used to indicate out-of-band data.  It is functionally equivalent to link:#enc[<enc>].
+
+
+attributes: none
+
+
+
+children: link:#export[<export>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
+
+// oob
+
+[[pad]]
+=== pad
+
+
+
+The link:#pad[<pad>] element is used to align a record to a boundary.  Typically, this
+will be a byte boundary, but can be changed by using the attributes.
+
+It's length is not determined by a fixed value or expression, rather it is
+determined by the current bit number of the message or record it appears in.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| mod | pos_integer|
+| name | string|
+| offset | size|
+|=============================================================
+
+
+children: none
+
+
+Without attributes specified, the link:#pad[<pad>] element will consume bits of the
+record until the record is byte aligned.  For example, the link:#pad[<pad>] element in following
+document will consume 3 bits in order to make the message byte aligned.
+
+[source,xml]
+----
+<xddl>
+  <field name="A" length="5"/>
+  <pad/>
+  <field name="B" length="8"/>
+</xddl>
+----
+
+And parsing:
+
+----
+# idm pad.xddl A014
+
+Name  Length  Value  Hex    Description
+A     5       20     @10100 
+pad   3       0      @000   
+B     8       20     #14    
+----
+
+As we can see, the length of the pad is 3.
+
+If we change the length of the *A* field to 2, we get a pad of 6.
+
+[source,xml]
+----
+<xddl>
+  <field name="A" length="2"/>
+  <pad/>
+  <field name="B" length="8"/>
+</xddl>
+----
+
+----
+# idm pad1.xddl A014
+
+Name  Length  Value  Hex     Description
+A     2       2      @10     
+pad   6       32     @100000 
+B     8       20     #14     
+----
+
+==== mod
+
+The *mod* attribute defaults to 8, but can be modified.  For example, it may be
+desireable to pad to the nearest 2-byte boundary, in which case we would specify a
+*mod* of 16.
+
+// pad
+
+[[peek]]
+=== peek
+
+
+The link:#peek[<peek>] element provides access to data ahead in the message.  This information can
+then be referenced in expressions.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| length | expression| &#10004;
+| offset | size| &#10004;
+|=============================================================
+
+
+children: none
+
+
+In some protocols a field cannot be decoded correctly until a subsequent field is
+known.  The link:#peek[<peek>] element provides a solution for this situation.
+
+[source,xml]
+----
+<xddl>
+  <peek name="pd" offset="4" length="4"/>
+  <switch expr="pd">
+    <case value="0">
+      <field length="4" name="security header"/>
+      <field length="4" name="protocol descriminator"/>
+    </case>
+    <case value="1">
+      <field length="4" name="bearer identity"/>
+      <field length="4" name="protocol descriminator"/>
+    </case>
+   </switch>
+</xddl>
+----
+
+The above example illustrates a typical use of the link:#peek[<peek>] element. Notice the link:#peek[<peek>]
+"looks ahead" to the "protocol discriminator" in each of the link:#case[<case>] elements to
+determine what its value should be.  Then the link:#switch[<switch>] can be properly evaluated.
+
+// peek
+
+[[prop]]
+=== prop
+
+
+The link:#prop[<prop>] element declares and initializes a property.  Properties can be referenced
+in expressions just like fields.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| value | expression|
+| visible | bool|
+|=============================================================
+
+
+children: link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+
+Properties provide a way to create a data member in the current scope.  This property
+can later be referenced in expressions.  It is similar to a field, but does not
+consume data from the message, and it can later be changed using the link:#setprop[<setprop>]
+element.
+
+Also similar to fields, a property can reference a link:#type[<type>] using the type attribute.
+This too can later be changed with the link:#setprop[<setprop>] element.
+
+// prop
+
+[[range]]
+=== range
+
+
+The link:#range[<range>] element is used to specify a range of values for a link:#type[<type>].
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| end | integer| &#10004;
+| href | url|
+| value | string|
+| start | integer| &#10004;
+|=============================================================
+
+
+children: none
+
+
+The link:#range[<range>] elements can exist along side link:#item[<item>] elements. The link:#item[<item>] values are
+evaluated first, and the link:#range[<range>] second.  This means a link:#range[<range>] can overlap existing
+items.  Using these two mechanics, we can use a link:#range[<range>] as a default if no items match
+a particular value.
+
+The following example illustrates this.  The first part of the enumerated type lists
+several colors with their RGB Hex Triplet.  The link:#range[<range>] at the bottom will be used if
+no link:#item[<item>] matches.
+
+[source,xml]
+----
+<xddl>
+ <type id="colors">
+    <item key="#F0F8FF" value="Alice blue"/>
+    <item key="#E32636" value="Alizarin"/>
+    <item key="#E52B50" value="Amaranth"/>
+    <item key="#FFBF00" value="Amber"/>
+    <item key="#9966CC" value="Amethyst"/>
+    <item key="#FBCEB1" value="Apricot"/>
+    <item key="#00FFFF" value="Aqua"/>
+    <item key="#7FFFD4" value="Aquamarine"/>
+    <item key="#4B5320" value="Army green"/>
+    <item key="#7BA05B" value="Asparagus"/>
+    <item key="#FF9966" value="Atomic tangerine"/>
+    <item key="#6D351A" value="Auburn"/>
+    <item key="#007FFF" value="Azure (color wheel)"/>
+    <item key="#F0FFFF" value="Azure (web)"/>
+
+    <range start="0" end="#FFFFFF" value="Unknown Color"/>
+ </type>
+  <start>
+    <field length="24" name="first" type="#colors"/>
+    <field length="24" name="second" type="#colors"/>
+    <field length="24" name="third" type="#colors"/>
+    <field length="24" name="fourth" type="#colors"/>
+    <field length="24" name="fifth" type="#colors"/>
+    <field length="24" name="sixth" type="#colors"/>
+    <field length="24" name="seventh" type="#colors"/>
+    <field length="24" name="eighth" type="#colors"/>
+    <field length="24" name="ninth" type="#colors"/>
+  </start>
+</xddl>
+----
+
+Parsing a message with this file yields:
+
+----
+# idm range.xddl E3263600FFFF0000FFF0FFFF66FF00ACE1AF4B5320FF9966F19CBB
+
+Name    Length  Value    Hex     Description
+first   24      14886454 #E32636 Alizarin
+second  24      65535    #00FFFF Aqua
+third   24      255      #0000FF Unknown Color
+fourth  24      15794175 #F0FFFF Azure (web)
+fifth   24      6749952  #66FF00 Unknown Color
+sixth   24      11329967 #ACE1AF Unknown Color
+seventh 24      4936480  #4B5320 Army green
+eighth  24      16750950 #FF9966 Atomic tangerine
+ninth   24      15834299 #F19CBB Unknown Color
+----
+
+See the link:#type[<type>] element reference for more usage of types.
+
+// range
+
+[[record]]
+=== record
+
+
+A link:#record[<record>] is a way to group elements together, including other records.  If given an
+*id*, records can then be referenced from other places in the document, or from a
+different document, using URL notation.
+
+Hence, link:#record[<record>] can be used in two different ways:
+
+[[Record Definition]]
+==== Record Definition
+
+
+Define a link:#record[<record>].
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| id | id_url|
+| name | string|
+| length | expression|
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+
+
+Example:
+
+    <record id="ack">
+        <uint8 name="sequence number"/>
+        <uint8 name="error"/>
+    </record>
+
+// Record Definition
+
+[[Record Link]]
+==== Record Link
+
+
+Link to a record defined someplace else.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string|
+| href | url|
+| length | expression|
+|=============================================================
+
+
+children: none
+
+
+The record definition in the example above can be referenced with:
+
+    <record href="#ack"/>
+
+// Record Link
+
+// record
+
+[[repeat]]
+=== repeat
+
+
+
+The link:#repeat[<repeat>] element repeats its child elements a certain number of times, creating a
+record for each iteration.  There are three different ways to use link:#repeat[<repeat>], based on
+the attribute signature, described below.
+
+[[Repeat Indefinitely]]
+==== Repeat Indefinitely
+
+
+This form will repeat until all the available bits are consumed.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string|
+| minlen | size|
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+
+A common pattern for this usage is to combine it with a fixed size record, for example:
+
+[source,xml]
+----
+<xddl>
+  <record length="8">
+    <repeat>
+      <bit name="a"/>
+      <bit name="b"/>
+    </repeat>
+    <uint8 name="crc"/>
+  </record>
+</xddl>
+----
+
+Example decode:
+
+----
+# idm repeat1.xddl A3FF
+
+Name       Length  Value  Hex  Description
+record                         
+  repeat                       
+    record                     
+      a    1       1      @1   
+      b    1       0      @0   
+    record                     
+      a    1       1      @1   
+      b    1       0      @0   
+    record                     
+      a    1       0      @0   
+      b    1       0      @0   
+    record                     
+      a    1       1      @1   
+      b    1       1      @1   
+  crc      0       0           
+----
+
+// Repeat Indefinitely
+
+[[Numbered Repeat]]
+==== Numbered Repeat
+
+
+This version repeats based on an *expression*.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| num | expression| &#10004;
+| name | string|
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+// Numbered Repeat
+
+[[Bound Repeat]]
+==== Bound Repeat
+
+
+This version will repeat its contents at least *min* times and no more than *max*.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| min | expression|
+| max | expression|
+| name | string|
+| minlen | integer|
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+// Bound Repeat
+
+// repeat
+
+[[script]]
+=== script
+
+
+The link:#script[<script>] element contains XddlScript.  It appears as a child of the link:#type[<type>] element
+and is used to specify or refine a field's description.
+
+
+attributes: none
+
+
+
+children: none
+
+
+The language is [Lua](http://www.lua.org) based.  Documentation on Lua can be found at
+[www.lua.org](http://www.lua.org).
+
+==== The description Variable
+
+The purpose of the link:#script[<script>] element is to set a field's (or
+property's) description.  This is done by setting a variable named
+*description* to a string.  Here's a simple example that uses a link:#script[<script>] to
+treat a value as an ASCII string.
+
+    <type id="string">
+      <script>
+        description = string.format("link:#s[<s>]", ascii());
+      </script>
+    </type>
+
+The *ascii()* function is an XddlScript function that interprets the current
+value as an ASCII string.
+
+==== XddlScript Functions
+
+The following table lists all the currently supported XddlScript functions
+and is subject to change.  The function availability when used used by link:#field[<field>] or link:#prop[<prop>]
+elements is also noted.
+
+[options="header"]
+|=============================================================
+|Function              | fields | props | Description
+|ascii                 | &#10004;    |       | Return the current value as an ASCII string
+|ascii7                | &#10004;    |       | Return the current value as a 7 bit ASCII string
+|Description(name)     | &#10004;    | &#10004;   | Return the description of a previous field
+|EnumValue             | &#10004;    | &#10004;   | Return the &lt;enum&gt; description of the current value if it has one
+|Value(name)           | &#10004;    | &#10004;   | Return the value of another field
+|slice(offset, length) | &#10004;    |       | Slice a field into pieces, see description below
+|TwosComplement        | &#10004;    |       | Return the current value as a two's complement integer
+|search(name)          | &#10004;    | &#10004;   | Return the description of a node in the message by name
+|=============================================================
+
+The *ascii()* string does not have to be null terminated.  However, if
+it is null terminated, the characters after the termination character will
+be ignored.  Any non-printable characters will be printed as periods.
+
+The *Description()* function will return the description of a node that is in scope.
+The *search()* function will do a depth-first search for a field from the
+top of the message.
+
+The *slice()* function can take the current value and return a value of just a
+bit range, a subset of the entire bitstring that makes up the value.  A
+good example is taking a 32-bit IP address type and representing it in the
+familiar dot notation:
+
+[source,xml]
+----
+<xddl>
+<type id="ip_address">
+  <script>
+    description = string.format("%d.%d.%d.%d", slice(0, 8), slice(8, 8), slice(16, 8), slice(24, 8))
+  </script>
+</type>
+  <start>
+    <uint32 name="address" type="#ip_address"/>
+  </start>
+</xddl>
+----
+
+And parsing some data:
+
+----
+# idm ipscript.xddl AF38B1E6
+
+Name    Length  Value      Hex       Description
+address 32      2939728358 #AF38B1E6 175.56.177.230
+----
+
+// script
+
+[[setprop]]
+=== setprop
+
+
+The link:#setprop[<setprop>] element provides a way to change the value or type of a property.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | setprop_name| &#10004;
+| type | url|
+| value | expression| &#10004;
+|=============================================================
+
+
+children: link:#item[<item>], link:#range[<range>], link:#script[<script>], link:#common_children[Common Children]
+
+
+The *name* is the name of a property that was previously created using the link:#prop[<prop>]
+element.  It must exist and be in scope.  The *type* will set a new link:#type[<type>] reference
+of the property.  This must be specified even if the type hasn't changed, otherwise
+the type will be removed.  The *value* is the new value of the property.
+
+// setprop
+
+[[start]]
+=== start
+
+
+The link:#start[<start>] element is optional and specifies the starting record of a document.  If
+the link:#start[<start>] is not specified, then parsing will begin at the beginning of the
+document.
+
+
+attributes: none
+
+
+
+children: link:#common_children[Common Children]
+
+
+A typical XDDL specification contains many records, one for each message type to be
+parsed.  It is convenient to have an explicit starting point for parsing, and that is
+what link:#start[<start>] is for.  It is analogous to the *main()* function in C/C++.
+
+// start
+
+[[switch]]
+=== switch
+
+
+The link:#switch[<switch>] element is similar in function to the *switch* statement in popular
+general purpose programming languages.  Based on the evaluation of the *expr*
+attribute, a particular link:#case[<case>] element's contents will be parsed.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| expr | expression| &#10004;
+|=============================================================
+
+
+children: link:#case[<case>], link:#default[<default>]
+
+
+In order for it to be parsed, the link:#switch[<switch>] element's *expr* attribute must evaluate to
+the link:#case[<case>] element's *value* attribute.
+
+The *value* of each link:#case[<case>] child must be unique.
+
+There is no need for a corresponding *break*.  Execution will only "fall-through" if
+the link:#case[<case>] being executed is empty.
+
+If no matches are found, and a link:#default[<default>] element exists as a child of the
+link:#switch[<switch>], then its contents will be parsed.  There can be at most one default child.
+
+Otherwise, nothing will be parsed.
+
+The following example illustrates the use of a link:#switch[<switch>].  It describes a message of
+three octets.  The first octet is used for the *expr* in the link:#switch[<switch>] element.  The
+second octet is read by the corresponding link:#case[<case>] contents, and the final octet is read
+into the *check* field.
+
+[source,xml]
+----
+<xddl>
+  <start>
+	 <field name="choice" length="8"/>
+	 <switch expr="choice">
+	  <case value="1">
+	   <field name="a" length="4"/>
+	   <field name="b" length="4"/>
+	  </case>
+	  <case value="2">
+	   <field name="c" length="1"/>
+	   <field name="d" length="7"/>
+	  </case>
+	  <case value="3"/> <!-- "fall through" -->
+	  <case value="4">
+	   <field name="e" length="2"/>
+	   <field name="f" length="6"/>
+	  </case>
+	  <default>
+	   <field name="g" length="2"/>
+	   <field name="h" length="6"/>
+	  </default>
+	 </switch>
+	 <field name="check" length="8"/>
+  </start>
+</xddl>
+
+----
+
+We can parse the file with different messages to see the different paths
+are followed:
+
+Here we follow the first case:
+
+----
+# idm choice.xddl 0104FF
+
+Name   Length  Value  Hex   Description
+choice 8       1      #01   
+a      4       0      @0000 
+b      4       4      @0100 
+check  8       255    #FF   
+----
+
+The "fall-through" case:
+
+----
+# idm choice.xddl 031AFF 041AFF
+
+Name   Length  Value  Hex     Description
+choice 8       3      #03     
+e      2       0      @00     
+f      6       26     @011010 
+check  8       255    #FF     
+Name   Length  Value  Hex     Description
+choice 8       4      #04     
+e      2       0      @00     
+f      6       26     @011010 
+check  8       255    #FF     
+----
+
+Both of the above messages follow the `value="4"` case.
+
+And finally the link:#default[<default>] case can be followed if we specify a *choice* that
+does not match any other link:#case[<case>]:
+
+----
+# idm choice.xddl AAFEFF
+
+Name   Length  Value  Hex     Description
+choice 8       170    #AA     
+g      2       3      @11     
+h      6       62     @111110 
+check  8       255    #FF     
+----
+
+// switch
+
+[[type]]
+=== type
+
+
+The link:#type[<type>] tag is used to specify valid values for link:#field[<field>] elements.
+It is also used to specify a field's description.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| id | id_url| &#10004;
+| name | string|
+|=============================================================
+
+
+children: link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+
+The [field example](#type-Attribute) above shows a typical usage of link:#type[<type>].
+
+==== Anonymous Types
+
+Often it is easier to specify a field's valid values by placing them as children of
+the link:#field[<field>].  The following example illustrates this.
+
+[source,xml]
+----
+<xddl>
+ <bit name="A">
+    <item key="0" value="Goodbye World!"/>
+    <item key="1" value="Hello World!"/>
+ </bit>
+</xddl>
+----
+
+And running:
+
+----
+# idm anon.xddl @1 @0
+
+Name  Length  Value  Hex  Description
+A     1       1      @1   Hello World!
+Name  Length  Value  Hex  Description
+A     1       0      @0   Goodbye World!
+----
+
+Note, since an anonymous type has no *id*, it cannot be referenced from any other
+field.
+
+// type
+
+[[uint16]]
+=== uint16
+
+
+This is equivalent to a link:#field[<field>] with length 16.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| bias | integer|
+| default | expression|
+|=============================================================
+
+
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+// uint16
+
+[[uint32]]
+=== uint32
+
+
+This is equivalent to a link:#field[<field>] with length 32.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| bias | integer|
+| default | expression|
+|=============================================================
+
+
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+// uint32
+
+[[uint64]]
+=== uint64
+
+
+This is equivalent to a link:#field[<field>] with length 64.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| bias | integer|
+| default | expression|
+|=============================================================
+
+
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+// uint64
+
+[[uint8]]
+=== uint8
+
+
+This is equivalent to a link:#field[<field>] with length 8.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string| &#10004;
+| type | url|
+| bias | integer|
+| default | expression|
+|=============================================================
+
+
+children: link:#comment[<comment>], link:#item[<item>], link:#range[<range>], link:#script[<script>]
+
+// uint8
+
+[[while]]
+=== while
+
+
+Repeat the contents of the link:#while[<while>] as long as *expr* is true.
+
+[options="header"]
+|=============================================================
+| attribute name  | type | required
+| name | string|
+| expr | expression| &#10004;
+|=============================================================
+
+
+children: link:#common_children[Common Children]
+
+// while
+
+[[xddl]]
+=== xddl
+
+
+The root element.
+
+attributes: none
+
+
+
+children: link:#export[<export>], link:#start[<start>], link:#type[<type>], link:#common_children[Common Children]
+
+// xddl
+
+// Elements
+== Attribute Types
+[options="header"]
+|=============================================================
+|Type | Default | Description
+|bool | false | *true* or *false*
+|integer | 0 | Any integer will do
+|pos_integer | 1 | Positive integer
+|size | 0 | Non-negative integer
+|string |  | 
+|expression |  | XDDL expression
+|setprop_name |  | Name of a property that is in scope
+|url |  | Link to a record
+|id_url |  | id used in record definitions
+|jump_name |  | Field name used for jump element
+|=============================================================
+// Attribute Types
+
+[[common_children]]
+== Common Children
+link:#bit[<bit>], link:#cstr[<cstr>], link:#enc[<enc>], link:#field[<field>], link:#fragment[<fragment>], link:#if[<if>], link:#jump[<jump>], link:#oob[<oob>], link:#pad[<pad>], link:#peek[<peek>], link:#prop[<prop>], link:#record[<record>], link:#repeat[<repeat>], link:#setprop[<setprop>], link:#switch[<switch>], link:#uint16[<uint16>], link:#uint32[<uint32>], link:#uint64[<uint64>], link:#uint8[<uint8>], link:#while[<while>]
+// Common Children

@@ -1,0 +1,9 @@
+<xddl>
+  <record id="A">
+    <field name="b" length="8"/>
+  </record>
+  <start>
+    <fragment href="#A"/>
+    <record name="A" href="#A"/>
+  </start>
+</xddl>
