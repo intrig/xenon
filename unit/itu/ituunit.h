@@ -1,11 +1,9 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include <xenon/ict/unit.h>
 
 class itu_unit {
-    public:
-    void register_tests(ict::unit_test<itu_unit> & ut) {
+  public:
+    void register_tests(ict::unit_test<itu_unit> &ut) {
         ut.add(&itu_unit::host);
         ut.add(&itu_unit::bit_lengths);
         ut.add(&itu_unit::splits);
@@ -18,4 +16,3 @@ class itu_unit {
     void splits();
     void sanity();
 };
-

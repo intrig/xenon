@@ -153,10 +153,8 @@ auto parse_section_file(auto & file) {
             s.lines.push_back(line);
     }
 
-    if (!s.name.empty()) {
-        //std::cout << "adding " << s << '\n';
+    if (!s.name.empty())
         sects.push_back(s);
-    }
 
     return sects;
 }
@@ -183,11 +181,11 @@ int main(int argc, char **argv) {
             case 'q':
                 quiet = true;
                 break;
-            case 'h':
             case 's':
                 sect_file = optarg;
                 break;
 
+            case 'h':
             default:
                 usage();
                 exit(EXIT_FAILURE);

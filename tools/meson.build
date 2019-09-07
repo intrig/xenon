@@ -10,10 +10,6 @@ idm_exe = executable('idm', 'idm.cpp', xddl_h,
     install : true,
     link_with : xenon_lib)
 
-xddl2wd_exe = executable('xddl2wd', 'xddl2wd.cpp', xddl_h,
-    include_directories : [inc, xenon_inc],
-    link_with : xenon_lib)
-
 xml_patch_exe = executable('xml-patch', 'xmlpatch.cpp',
     include_directories : inc,
     link_with : xenon_lib)
@@ -34,6 +30,5 @@ recombobulator_exe = executable('recombobulator', 'recombobulator.cpp', xddl_h,
 if build_machine.system() == 'linux'
     procadoc_exe = executable('procadoc', 'procadoc.cpp', xddl_h,
         include_directories : inc,
-        link_args : '-lstdc++fs',
-        link_with : xenon_lib)
+        link_args : '-lstdc++fs')
 endif

@@ -1,5 +1,3 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include <xenon/ict/command.h>
 #include <xenon/xenon.h>
 
@@ -16,16 +14,16 @@ template <typename T> std::string location(T t) {
     return os.take();
 }
 
-class Mask {
+class xv_mask {
   public:
-    Mask() : path(true), length(true), value(true), show_desc(true) {}
+    xv_mask() : path(true), length(true), value(true), show_desc(true) {}
     bool path;
     bool length;
     bool value;
     bool show_desc;
 };
 
-Mask mask;
+xv_mask mask;
 
 inline std::string filter_path(const std::string &p) {
     int v;
@@ -39,11 +37,10 @@ inline std::string filter_path(const std::string &p) {
     return new_p;
 }
 
-class XvField {
+class xv_field {
   public:
-    XvField(xenon::message::cursor c) {
+    xv_field(xenon::message::cursor c) {
         path = xenon::path_string(c);
-        // path = filter_path(path);
         if (c->length() <= 32)
             value = c->value();
         else
@@ -56,11 +53,10 @@ class XvField {
         xddl_line = c->line();
     }
 
-    XvField(std::string const &str) {
+    xv_field(std::string const &str) {
         std::vector<std::string> v = ict::split(str, ':');
         path = v[1];
         ict::normalize(path);
-        // path = filter_path(path);
         std::stringstream is(v[2]);
         is >> value;
         std::stringstream ls(v[3]);
@@ -78,7 +74,7 @@ class XvField {
         ict::normalize(desc);
     }
 
-    bool operator==(XvField const &rhs) const {
+    bool operator==(xv_field const &rhs) const {
         if (mask.path && path != rhs.path)
             return false;
         if (mask.value && value != rhs.value)
@@ -92,7 +88,7 @@ class XvField {
         return true;
     }
 
-    bool operator!=(XvField const &rhs) const { return !operator==(rhs); }
+    bool operator!=(xv_field const &rhs) const { return !operator==(rhs); }
 
     template <typename Stream> void to_stream(Stream &os) const {
         os << "f: " << path << ": " << value << ": " << length << ": " << sbs
@@ -111,27 +107,27 @@ class XvField {
     std::string xv_file;
 };
 
-class XvMessage {
+class xv_message {
   public:
-    XvMessage() {}
+    xv_message() {}
 
-    XvMessage(std::string file, xenon::message &m) {
+    xv_message(std::string file, xenon::message &m) {
         xddl_file = file;
         bs = xenon::serialize(m);
         for (xenon::message::linear_cursor n = m.begin(); n != m.end(); ++n) {
             if (n->is_field())
-                fields.push_back(XvField(n));
+                fields.push_back(xv_field(n));
         }
     }
 
-    bool operator==(XvMessage const &rhs) const {
+    bool operator==(xv_message const &rhs) const {
         return ((xddl_file == rhs.xddl_file) && (bs == rhs.bs) &&
                 (fields == rhs.fields));
     }
 
-    bool operator!=(XvMessage const &rhs) const { return !operator==(rhs); }
+    bool operator!=(xv_message const &rhs) const { return !operator==(rhs); }
 
-    bool compare(XvMessage const &rhs) const {
+    bool compare(xv_message const &rhs) const {
         if (xddl_file != rhs.xddl_file)
             IT_PANIC("xddl_file doesn't match");
 
@@ -164,14 +160,14 @@ class XvMessage {
     std::string xv_file;
     std::string xddl_file;
     ict::bitstring bs;
-    std::vector<XvField> fields;
+    std::vector<xv_field> fields;
 };
 
-class XvFile {
+class xv_file {
   public:
-    XvFile(std::string const &filename) : name_only(false) {
+    xv_file(std::string const &filename) : name_only(false) {
         std::string line;
-        XvMessage msg;
+        xv_message msg;
         int line_no = 0;
         if (!ict::file_exists(filename))
             IT_PANIC(filename << " doesn't exist");
@@ -198,7 +194,7 @@ class XvFile {
                     msg.xv_line = line_no;
                     msg.xv_file = filename;
                 } else if (line.find("f:") == 0) {
-                    XvField f(line);
+                    xv_field f(line);
                     f.xv_file = filename;
                     f.xv_line = line_no;
                     msg.fields.push_back(f);
@@ -233,7 +229,7 @@ class XvFile {
                 std::cout << "    " << ict::to_string(i->bs) << "\n";
             m = xenon::parse(doc, i->bs);
 
-            XvMessage xvm(xddl_file, m);
+            xv_message xvm(xddl_file, m);
             if (!i->compare(xvm))
                 ++errors;
         }
@@ -256,7 +252,7 @@ class XvFile {
             }
 
             m = xenon::parse(doc, i->bs);
-            XvMessage xvm(xddl_file, m);
+            xv_message xvm(xddl_file, m);
 
             xvm.to_stream(os);
             os << '\n';
@@ -264,13 +260,13 @@ class XvFile {
         return os.take();
     }
 
-    std::vector<XvMessage> data;
+    std::vector<xv_message> data;
     bool name_only;
 };
 
 void validate_xv_file(const std::string &name, bool name_only,
                       bool force_print) {
-    XvFile file(name);
+    xv_file file(name);
     file.name_only = name_only;
 
     if (force_print)
@@ -286,7 +282,7 @@ void validate_xv_file(const std::string &name, bool name_only,
 void print_xv_message(xenon::spec_server &spec, const std::string xddl_file,
                       const std::string ascii_msg) {
     auto m = xenon::parse(spec, xenon::bitstring(ascii_msg));
-    XvMessage xm(xddl_file, m);
+    xv_message xm(xddl_file, m);
     xm.to_stream(cout);
     cout << '\n';
 }

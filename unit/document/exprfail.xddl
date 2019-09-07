@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" ?>
-<!-- - Copyright 2016 Intrig -->
-<!-- - See https://github.com/intrig/xenon for license. -->
-<xddl version="2.0000">
-
-<start>
-  <field name="A" length="A"/>
-</start>
-
+<?xml version="1.0" encoding="UTF-8" ?>
+<xddl>
+  <start>
+    <field name="A" length="A"/>
+  </start>
 </xddl>

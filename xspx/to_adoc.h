@@ -9,8 +9,8 @@ template <typename Elem> std::string attributes(const Elem &elem) {
         return "\nattributes: none\n\n";
     }
     os << "[options=\"header\"]\n"
-    "|=============================================================\n"
-    "| attribute name  | type | required\n";
+          "|=============================================================\n"
+          "| attribute name  | type | required\n";
     for (auto &a : elem.attributes) {
         if (a.fixed.empty()) {
             os << "| " << a.name << " | " << a.type_name << "|";
@@ -26,10 +26,10 @@ template <typename Elem> std::string attributes(const Elem &elem) {
 std::string attribute_types(const custom_type_list &types) {
     std::ostringstream os;
     os << "[options=\"header\"]\n"
-    "|=============================================================\n"
-    "|Type | Default | Description\n";
+          "|=============================================================\n"
+          "|Type | Default | Description\n";
     for (auto &t : types) {
-        os <<'|' << t.name << " | " << t.def << " | " << t.desc << "\n";
+        os << '|' << t.name << " | " << t.def << " | " << t.desc << "\n";
     }
     os << "|=============================================================\n";
     return os.str();
@@ -75,7 +75,8 @@ inline std::string anchor(const std::string &x) {
 }
 
 template <typename OS, typename Cursor>
-void disp_element(OS &os, xsp_parser const &parser, Cursor c, size_t depth = 3) {
+void disp_element(OS &os, xsp_parser const &parser, Cursor c,
+                  size_t depth = 3) {
     std::string n = (c->display.empty()) ? c->tag.c_str() : c->display;
 
     os << "[[" << n << "]]\n";
@@ -132,5 +133,4 @@ void to_adoc(std::ostream &os, const xsp_parser &xspx) {
     os << child_elements(xspx.groups) << '\n';
     os << "// Common Children\n";
 }
-
 } // namespace xspx

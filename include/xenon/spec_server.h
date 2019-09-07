@@ -1,15 +1,13 @@
 #pragma once
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
+#include "recref.h"
 #include "xddl.h"
-#include <xenon/recref.h>
 #include <list>
 #include <vector>
 
 namespace xenon {
 
 class spec_server {
-public:
+  public:
     spec_server() {
         std::string xddlroot = ict::get_env_var("XDDLPATH");
         xddl_path = ict::split(xddlroot, ';');
@@ -17,101 +15,92 @@ public:
     }
 
     // TODO get these to work, possibly making doms a shared ptr
-    spec_server(const spec_server & b) = delete;
-    spec_server& operator=(const spec_server & b) = delete;
+    spec_server(const spec_server &b) = delete;
+    spec_server &operator=(const spec_server &b) = delete;
 
     /*!
-	 Create a spec and call add_spec() with path parameter.  
+         Create a spec and call add_spec() with path parameter.
      */
-    spec_server(const std::string & path) : spec_server() {
-        add_spec(path);
-    }
+    spec_server(const std::string &path) : spec_server() { add_spec(path); }
 
     template <typename InputIterator>
     /*!
-     Create a spec from input iterators.  
+     Create a spec from input iterators.
      */
-    spec_server(InputIterator first, InputIterator last) 
-        : spec_server() {
+    spec_server(InputIterator first, InputIterator last) : spec_server() {
         add_spec(first, last, "<buffer>");
     }
 
     template <typename InputIterator>
-    spec::cursor add_spec(InputIterator first, InputIterator last, const std::string & name) {
+    spec::cursor add_spec(InputIterator first, InputIterator last,
+                          const std::string &name) {
         doms.emplace_back();
         doms.back().owner = this;
         doms.back().open(first, last, name);
         auto root = doms.back().ast.root();
-        if (root.empty()) IT_PANIC("invalid root node in " << name);
+        if (root.empty())
+            IT_PANIC("invalid root node in " << name);
         return root.begin();
     }
 
     /*!
-	 Add another spec.  If it is a directory, then add it to the xddl_path list of directories to search.  If it is a
-	 file, then load it.  It may be relative to the xddl_path.  Otherwise, throw exception.
+         Add another spec.  If it is a directory, then add it to the xddl_path
+       list of directories to search.  If it is a file, then load it.  It may be
+       relative to the xddl_path.  Otherwise, throw exception.
      */
-    spec::cursor add_spec(const std::string & path) {
+    spec::cursor add_spec(const std::string &path) {
         auto p = path;
-		ict::tilde_expand(p);
-        if (ict::is_directory(p)) xddl_path.insert(xddl_path.begin(), p);
-		else {
-			if (!locate(p)) IT_PANIC("cannot access \"" << path << "\"");
-			auto i = std::find_if(doms.begin(), doms.end(), [&](const spec & dom){ 
-				return dom.file == p;} );
-			if (i !=doms.end()) return i->ast.root();
-			auto contents = ict::read_file(p);
-			return add_spec(contents.begin(), contents.end(), p);
-		}
+        ict::tilde_expand(p);
+        if (ict::is_directory(p))
+            xddl_path.insert(xddl_path.begin(), p);
+        else {
+            if (!locate(p))
+                IT_PANIC("cannot access \"" << path << "\"");
+            auto i =
+                std::find_if(doms.begin(), doms.end(),
+                             [&](const spec &dom) { return dom.file == p; });
+            if (i != doms.end())
+                return i->ast.root();
+            auto contents = ict::read_file(p);
+            return add_spec(contents.begin(), contents.end(), p);
+        }
         return spec::cursor();
     }
 
     /*!
      Clear all specs.
      */
-    void clear() 
-    { doms.resize(0); }
+    void clear() { doms.resize(0); }
 
     /*!
      Check for empty.
      */
-    bool empty() const 
-    { return doms.empty(); }
+    bool empty() const { return doms.empty(); }
 
-    
-    friend std::ostream& operator<<(std::ostream &os, const spec_server & s) {
-        for (const auto & d : s.doms) os << ict::to_text(d.ast);
+    friend std::ostream &operator<<(std::ostream &os, const spec_server &s) {
+        for (const auto &d : s.doms)
+            os << ict::to_text(d.ast);
         return os;
     }
 
     /*!
      Return the default start record or throw exception.
      */
-    spec::cursor start() const {
-#if 1
-        return base().ast.root().begin();
-#else
-        if (empty()) IT_PANIC("empty spec list");
-        auto root = base().ast.root();
-        auto xddl = root.begin(); // the first specs <xddl> element
-        spec::cursor st = std::find_if(xddl.begin(), xddl.end(), [&](const element & e) {
-            return e.tag() == "start"; });
-        if (st != xddl.end()) return st;
-        return xddl;
-#endif
-    }
+    spec::cursor start() const { return base().ast.root().begin(); }
 
-    spec & base() const { return *(doms.begin()); }
+    spec &base() const { return *(doms.begin()); }
     std::vector<std::string> xddl_path;
 
     mutable std::list<spec> doms;
-private:
 
-    // given a file name, locate it relative to the xddl_path.  The filename is then mutated to reflect the 
-    // true path.
-    inline bool locate(std::string & fname) {
-        if (ict::is_file(fname)) return true;
+  private:
+    // given a file name, locate it relative to the xddl_path.  The filename is
+    // then mutated to reflect the true path.
+    inline bool locate(std::string &fname) {
+        if (ict::is_file(fname))
+            return true;
         if (!ict::is_absolute_path(fname)) {
-            for (auto const & path : xddl_path) {
+            for (auto const &path : xddl_path) {
                 std::string new_path = path + "/" + fname;
                 if (ict::is_file(new_path)) {
                     fname = new_path;
@@ -122,5 +111,4 @@ private:
         return false;
     }
 };
-
-} // namespace
+} // namespace xenon

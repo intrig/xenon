@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- - Copyright 2016 Intrig -->
-<!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
   <!-- 
   This document tests the situation where an unrestriced repeat is followed
   by a pad.
--->
+  -->
   <start>
     <repeat name="rep" minlen="9">
       <field name="info" length="12"/>

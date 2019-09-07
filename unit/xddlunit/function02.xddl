@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- - Copyright 2016 Intrig -->
-<!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
   <type id="t2">
     <script>
@@ -12,4 +10,3 @@
     <field name="b" length="8" type="#t2"/>
   </start>
 </xddl>
-<!-- copyright 2015 Intrig (intrig.com) -->

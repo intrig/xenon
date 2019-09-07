@@ -1,12 +1,11 @@
 #pragma once
 #include <xenon/ict/unit.h>
 
-class doc_unit
-{
-    public:
+class doc_unit {
+  public:
     doc_unit();
 
-    void register_tests(ict::unit_test<doc_unit> & ut) {
+    void register_tests(ict::unit_test<doc_unit> &ut) {
         ut.skip();
         ut.cont();
         ut.add(&doc_unit::sanity);
@@ -14,8 +13,6 @@ class doc_unit
         ut.add(&doc_unit::parse_file);
 
         ut.skip(&doc_unit::absolute);
-        ut.add(&doc_unit::index2);
-        ut.add(&doc_unit::index3);
 
         ut.add(&doc_unit::ip_protocol);
         ut.skip(&doc_unit::search_paths);
@@ -29,7 +26,6 @@ class doc_unit
         ut.add(&doc_unit::get_record);
         ut.skip();
         ut.cont();
-
     }
 
     /* Tests */

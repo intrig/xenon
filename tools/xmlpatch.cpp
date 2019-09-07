@@ -1,5 +1,3 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 
@@ -113,7 +111,7 @@ int main(int argc, char **argv) {
         ict::command line("xml-patch", "Patch up an xml file",
                           "xml-patch [options] xml-file patch-file");
         line.add(ict::Option("output", 'o', "Output file", "asn.xddl",
-                             [&] (auto o){ ofile = o; }));
+                             [&](auto o) { ofile = o; }));
         line.parse(argc, argv);
 
         if (line.targets.size() != 2)

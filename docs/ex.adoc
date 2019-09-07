@@ -180,34 +180,40 @@ A common pattern among parsing messages is to choose one of many records to pars
 based on a single field's value, a message type, for example.  This can easy enough
 be done with a %switch element:
 
-    <uint8 name="msg-id"/>
-    <switch expr="msg-id">
-        <case value="1">
-            <record href="#A"/>
-        </case>
-        <case value="2">
-            <record href="#B"/>
-        </case>
-        <case value="3">
-            <record href="#C"/>
-        </case>
-          .
-          .
-          .
-    </switch>
+[source,xml]
+----
+<uint8 name="msg-id"/>
+<switch expr="msg-id">
+  <case value="1">
+    <record href="#A"/>
+  </case>
+  <case value="2">
+    <record href="#B"/>
+  </case>
+  <case value="3">
+    <record href="#C"/>
+  </case>
+      .
+      .
+      .
+</switch>
+----
 
 Using %jump along with %type can greatly simplify this trivial case:
 
-    <uint8 name="msg-id" type="#msg-id"/>
-    <type id="msg-type">
-      <item key="1" value="A" href="#A"/>
-      <item key="2" value="B" href="#B"/>
-      <item key="3" value="C" href="#C"/>
-         .
-         .
-         .
-    </type>
-    <jump base="msg-id"/>
+[source,xml]
+----
+<uint8 name="msg-id" type="#msg-id"/>
+<type id="msg-type">
+  <item key="1" value="A" href="#A"/>
+  <item key="2" value="B" href="#B"/>
+  <item key="3" value="C" href="#C"/>
+     .
+     .
+     .
+</type>
+<jump base="msg-id"/>
+----
 
 The above two listings are functionally equivalent.
 
@@ -309,10 +315,13 @@ Define a %record.
 
 Example:
 
-    <record id="ack">
-        <uint8 name="sequence number"/>
-        <uint8 name="error"/>
-    </record>
+[source,xml]
+----
+<record id="ack">
+  <uint8 name="sequence number"/>
+  <uint8 name="error"/>
+</record>
+----
 
 // :tag Record-Link-sum
 Link to a record defined someplace else.
@@ -320,7 +329,10 @@ Link to a record defined someplace else.
 // :tag Record-Link-det
 The record definition in the example above can be referenced with:
 
-    <record href="#ack"/>
+[source,xml]
+----
+<record href="#ack"/>
+----
 
 // :tag repeat-sum
 
@@ -361,11 +373,14 @@ property's) description.  This is done by setting a variable named
 *description* to a string.  Here's a simple example that uses a %script to
 treat a value as an ASCII string.
 
-    <type id="string">
-      <script>
-        description = string.format("%s", ascii());
-      </script>
-    </type>
+[source,xml]
+----
+<type id="string">
+  <script>
+    description = string.format("%s", ascii());
+  </script>
+</type>
+----
 
 The *ascii()* function is an XddlScript function that interprets the current
 value as an ASCII string.

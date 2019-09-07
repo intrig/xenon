@@ -1,19 +1,13 @@
-//-- Copyright 2016 Intrig
-//-- See https://github.com/intrig/xenon for license.
 #include "specunit.h"
-
+#include <string>
+#include <vector>
 #include <xenon/xenon.h>
 
-#include <vector>
-#include <string>
 using namespace xenon;
 
-doc_unit::doc_unit()
-{
-}
+doc_unit::doc_unit() {}
 
-void doc_unit::sanity()
-{
+void doc_unit::sanity() {
     spec_server doc;
     IT_ASSERT(doc.empty());
 
@@ -32,9 +26,9 @@ void doc_unit::sanity()
     IT_ASSERT(ict::is_directory("empty"));
     IT_ASSERT(!ict::is_file("empty"));
 
-    IT_ASSERT(ict::exists("xddl/a"));
-    IT_ASSERT(ict::is_directory("xddl/a"));
-    IT_ASSERT(!ict::is_file("xddl/a"));
+    IT_ASSERT(ict::exists("xddl"));
+    IT_ASSERT(ict::is_directory("xddl"));
+    IT_ASSERT(!ict::is_file("xddl"));
 }
 
 void doc_unit::constructor_file() {
@@ -44,8 +38,7 @@ void doc_unit::constructor_file() {
             IT_ASSERT(!e.empty());
             spec_server doc("xddl/index.xddl");
             IT_ASSERT(!doc.empty());
-        }
-        catch (std::exception & e) {
+        } catch (std::exception &e) {
             IT_FORCE_ASSERT(e.what());
         }
     }
@@ -55,22 +48,21 @@ void doc_unit::constructor_file() {
         std::string error;
         try {
             spec_server doc("empty");
-        }
-        catch (std::exception & e) {
+        } catch (std::exception &e) {
             IT_FORCE_ASSERT(e.what());
         }
-    } 
+    }
 
     // let's try a non-existent directory
     {
         std::string error;
         try {
             spec_server doc("foo");
-        } catch (std::exception & e) {
+        } catch (std::exception &e) {
             error = e.what();
         }
-        IT_ASSERT_MSG("[" << error << "]", 
-            error.find("cannot access") != std::string::npos);
+        IT_ASSERT_MSG("[" << error << "]",
+                      error.find("cannot access") != std::string::npos);
     }
 
     // let's try a non-existent file
@@ -78,21 +70,20 @@ void doc_unit::constructor_file() {
         std::string error;
         try {
             spec_server doc("goo.xddl");
-        } catch (std::exception & e) {
+        } catch (std::exception &e) {
             error = e.what();
         }
 
-        IT_ASSERT_MSG("[" << error << "]", 
-            error.find("cannot access") != std::string::npos);
+        IT_ASSERT_MSG("[" << error << "]",
+                      error.find("cannot access") != std::string::npos);
     }
 
-    
     // parse a file that is just a string of characters
-    { 
+    {
         std::string error;
         try {
             spec_server doc("garbage.xddl");
-        } catch (std::exception & e) {
+        } catch (std::exception &e) {
             error = e.what();
         }
         IT_ASSERT(!error.empty());
@@ -104,7 +95,7 @@ void doc_unit::constructor_file() {
             IT_ASSERT(doc.empty());
 
             doc.add_spec("garbage.xddl");
-        } catch (std::exception & e) {
+        } catch (std::exception &e) {
             error = e.what();
         }
         IT_ASSERT(!error.empty());
@@ -114,32 +105,29 @@ void doc_unit::constructor_file() {
     {
         std::string error;
         try {
-        // The dos way */
+            // The dos way */
             spec_server doc(".\\xddl\\index.xddl");
-        } catch (std::exception & e) {
+        } catch (std::exception &e) {
             error = e.what();
         }
         IT_ASSERT(error.empty());
     }
 #endif
-
 }
 
-void doc_unit::parse_file()
-{
+void doc_unit::parse_file() {
     spec_server doc;
     std::string error;
     try {
         IT_ASSERT(doc.empty() == true);
         doc.add_spec("nonexexistentfile.xddl");
-    } catch (std::exception & e) {
+    } catch (std::exception &e) {
         error = e.what();
     }
     IT_ASSERT(!error.empty());
 }
 
-void doc_unit::absolute()
-{
+void doc_unit::absolute() {
     std::ostringstream abspath;
     abspath << ict::get_env_var("XDDLABS") << "/icd.xddl";
 
@@ -147,19 +135,10 @@ void doc_unit::absolute()
     IT_ASSERT(!doc.empty());
 }
 
-void doc_unit::index2() {
-    spec_server doc("xddl/index2.xddl");
-    IT_ASSERT(!doc.empty());
-}
-
-void doc_unit::index3() {
-    spec_server doc("xddl/index3.xddl");
-    IT_ASSERT(!doc.empty());
-}
-
 void doc_unit::ip_protocol() {
     std::string xddlroot = ict::get_env_var("XDDLPATH");
-    if (xddlroot.empty()) return;
+    if (xddlroot.empty())
+        return;
     std::string ip = xddlroot;
     ip += "/IP/index.xddl";
     spec_server doc(ip.c_str());
@@ -171,8 +150,7 @@ void doc_unit::fail1() {
     spec_server doc;
     try {
         spec_server doc3("exprfail.xddl");
-    } catch (std::exception & e)
-    {
+    } catch (std::exception &e) {
         error = e.what();
     }
     IT_ASSERT(!error.empty());
@@ -183,19 +161,17 @@ void doc_unit::fail2() {
     IT_ASSERT(!doc3.empty());
 }
 
-
 void doc_unit::fail3() {
     try {
-        std::string xddl =
-            "<xddl>"
-              "<start>"
-                "<field name=''A'' length=''8''>"
-                  "<field name=''doh'' length=''8''/>"
-                "</field>"
-                "<field name=''B'' length=''8''/>"
-                "<field name=''C'' length=''8''/>"
-              "</start>"
-            "</xddl>";
+        std::string xddl = "<xddl>"
+                           "<start>"
+                           "<field name=''A'' length=''8''>"
+                           "<field name=''doh'' length=''8''/>"
+                           "</field>"
+                           "<field name=''B'' length=''8''/>"
+                           "<field name=''C'' length=''8''/>"
+                           "</start>"
+                           "</xddl>";
 
         spec_server doc(xddl.begin(), xddl.end());
 
@@ -204,21 +180,20 @@ void doc_unit::fail3() {
     }
 }
 
-
 // path should override environment
 void doc_unit::search_paths() {
     std::string xddlroot = ict::get_env_var("XDDLROOT");
     spec_server d;
 
     auto paths = d.xddl_path;
-    
+
     // verify search path is correct
     IT_ASSERT_MSG(paths.size(), paths.size() == 3);
     IT_ASSERT(paths[0] == "xddl");
     IT_ASSERT(paths[1] == xddlroot);
     IT_ASSERT(paths[2] == ".");
 
-    // add one and verify 
+    // add one and verify
     d.xddl_path.push_back("another/path");
     paths = d.xddl_path;
     IT_ASSERT(paths.size() == 4);
@@ -256,12 +231,12 @@ void doc_unit::get_record() {
         IT_ASSERT(!r2.is_root());
         auto rec = xenon::get_record(s2, "3GPP/TS-24.008/9.4.1");
         IT_ASSERT(!rec.is_root());
-    } catch (const std::exception & e) {
+    } catch (const std::exception &e) {
         IT_FORCE_ASSERT(e.what());
     }
 }
 
-int main (int, char **) {
+int main(int, char **) {
     doc_unit test2;
     ict::unit_test<doc_unit> ut_modern(&test2);
     return ut_modern.run();

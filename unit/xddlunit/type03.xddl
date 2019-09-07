@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" ?>
-<!-- - Copyright 2016 Intrig -->
-<!-- - See https://github.com/intrig/xenon for license. -->
+<?xml version="1.0" encoding="UTF-8" ?>
 <xddl>
   <!-- Type with ranges and items -->
   <type name="Varied Type" id="varied">

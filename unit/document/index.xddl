@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- - Copyright 2016 Intrig -->
-<!-- - See https://github.com/intrig/xenon for license. -->
 <xddl name="Unit Test">
- <start>
-  <fragment href="xddl/index.xddl#a"/>
- </start>
+  <start>
+    <fragment href="xddl/index.xddl#a"/>
+  </start>
 </xddl>

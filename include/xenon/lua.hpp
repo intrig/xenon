@@ -7,11 +7,9 @@
 #define _CRT_SECURE_NO_WARNINGS // Added by MAB for winblows
 
 namespace xenon {
-    namespace lua {
-#include <lua.h>
-#include "lualib.h"
+namespace lua {
 #include "lauxlib.h"
-
-    }
-
-}
+#include "lualib.h"
+#include <lua.h>
+} // namespace lua
+} // namespace xenon

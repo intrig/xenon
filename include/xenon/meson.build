@@ -9,7 +9,6 @@ xddl_h = custom_target(
 install_headers(
     'DateTime.h',
     'att_pair.h',
-    'cloned_ptr.h',
     'cpp_code.h',
     'functions.h',
     'message.h',
@@ -18,7 +17,6 @@ install_headers(
     'spec_server.h',
     'xddl_code.h',
     'xddl_head.h',
-    'xddl_parser.h',
     'xddl_tail.h',
     'xenon.h',
     'ximsi.h',

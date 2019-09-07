@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- - Copyright 2016 Intrig -->
-<!-- - See https://github.com/intrig/xenon for license. -->
 <xddl>
- <start>
-  <field length="1" name="foo"/>
- </start>
+  <start>
+    <field length="1" name="foo"/>
+  </start>
 </xddl>

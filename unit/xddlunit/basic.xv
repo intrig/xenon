@@ -182,6 +182,11 @@ f: /b/c/d/e/f/f1: 1: 1: @1:
 f: /b/c/d/e/f/g/g1: 1: 1: @1: 
 f: /b/c/d/e/f/g/h/h1: 0: 1: @0: 
 
+m: subfields05.xddl: #00FF
+count: 2
+f: /Non-NormativeData/TIME_STAMP_INCL: 0: 8: #00: 
+f: /f1: 255: 8: #FF: 
+
 m: subfields07.xddl: #01010203
 count: 4
 f: /MessageID: 1: 8: #01: 
@@ -296,6 +301,15 @@ f: /doo: 3: 8: #03:
 f: /e: 0: 2: @00: 
 f: /f: 0: 6: @000000: 
 
+m: switch03.xddl: #0020
+count: 2
+f: /doo: 0: 8: #00: 
+f: /zero: 32: 8: #20: 
+
+m: switch04.xddl: #00
+count: 1
+f: /doo: 0: 8: #00: 
+
 m: repeat01.xddl: #FF
 count: 1
 f: /header: 255: 8: #FF: 
@@ -381,89 +395,6 @@ f: /first: 1: 8: #01:
 f: /repeat/record/item: 2: 8: #02: 
 f: /repeat/record/item: 3: 8: #03: 
 
-m: insert01.xddl: #010203040506
-count: 6
-f: /first: 1: 8: #01: 
-f: /a: 2: 8: #02: 
-f: /b: 3: 8: #03: 
-f: /c: 4: 8: #04: 
-f: /d: 5: 8: #05: 
-f: /last: 6: 8: #06: 
-
-m: variable01.xddl: #00
-count: 1
-f: /EVDO is set: 0: 8: #00: 
-
-m: variable02.xddl: #0001
-count: 2
-f: /top: 0: 8: #00: 
-f: /EVDO not set: 1: 8: #01: 
-
-m: variable02.xddl: #0101
-count: 2
-f: /top: 1: 8: #01: 
-f: /EVDO is set: 1: 8: #01: 
-
-m: function01.xddl: #0100
-count: 3
-f: /a: 1: 8: #01: 
-f: /b: 0: 1: @0: 
-f: /c: 0: 7: @0000000: 
-
-m: function01.xddl: #0200
-count: 3
-f: /a: 2: 8: #02: 
-f: /b: 0: 2: @00: 
-f: /c: 0: 6: @000000: 
-
-m: function01.xddl: #0300
-count: 3
-f: /a: 3: 8: #03: 
-f: /b: 0: 3: @000: 
-f: /c: 0: 5: @00000: 
-
-m: function01.xddl: #0000
-count: 1
-f: /a: 0: 8: #00: 
-
-m: function01.xddl: #0801
-count: 2
-f: /a: 8: 8: #08: 
-f: /b: 1: 8: #01: 
-
-m: function01.xddl: #080100
-count: 2
-f: /a: 8: 8: #08: 
-f: /b: 1: 8: #01: 
-
-m: variable03.xddl: #0102
-count: 2
-f: /a: 1: 8: #01: 
-f: /RPC Array/record/ForwardTrafficValid: 2: 8: #02: 
-
-m: subfields05.xddl: #00FF
-count: 2
-f: /Non-NormativeData/TIME_STAMP_INCL: 0: 8: #00: 
-f: /f1: 255: 8: #FF: 
-
-m: test01.xddl: #010201
-count: 3
-f: /DataType: 1: 8: #01: 
-f: /EvdoMsgType: 2: 8: #02: 
-f: /EvdoDataLength: 1: 8: #01: 
-
-m: repeat07.xddl: #1230
-count: 2
-f: /rep/record/info: 291: 12: @000100100011: 
-f: /pdu_padding: 0: 4: @0000: 
-
-m: comment01.xddl: #01020304
-count: 4
-f: /a: 1: 8: #01: 
-f: /b: 2: 8: #02: 
-f: /c: 3: 8: #03: 
-f: /d: 4: 8: #04: 
-
 m: repeat05.xddl: #01040401020304
 count: 7
 f: /length_in_bytes: 1: 8: #01: 
@@ -500,6 +431,107 @@ f: /length: 9: 8: #09:
 f: /count: 2: 8: #02: 
 f: /data/repeat/record/item: 1: 8: #01: 
 
+m: repeat07.xddl: #1230
+count: 2
+f: /rep/record/info: 291: 12: @000100100011: 
+f: /pdu_padding: 0: 4: @0000: 
+
+m: insert01.xddl: #010203040506
+count: 6
+f: /first: 1: 8: #01: 
+f: /a: 2: 8: #02: 
+f: /b: 3: 8: #03: 
+f: /c: 4: 8: #04: 
+f: /d: 5: 8: #05: 
+f: /last: 6: 8: #06: 
+
+m: variable01.xddl: #00
+count: 1
+f: /EVDO is set: 0: 8: #00: 
+
+m: variable02.xddl: #0001
+count: 2
+f: /top: 0: 8: #00: 
+f: /EVDO not set: 1: 8: #01: 
+
+m: variable02.xddl: #0101
+count: 2
+f: /top: 1: 8: #01: 
+f: /EVDO is set: 1: 8: #01: 
+
+m: variable03.xddl: #0102
+count: 2
+f: /a: 1: 8: #01: 
+f: /RPC Array/record/ForwardTrafficValid: 2: 8: #02: 
+
+m: variable05.xddl: #0102
+count: 2
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+
+m: variable06.xddl: #010203
+count: 3
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /record/c: 3: 8: #03: 
+
+m: variable06.xddl: #FF0203
+count: 3
+f: /a: 255: 8: #FF: 
+f: /b: 2: 8: #02: 
+f: /record/c: 3: 8: #03: 
+
+m: variable08.xddl: #01
+count: 1
+f: /a: 1: 8: #01: Hello World!
+
+m: variable09.xddl: #0101
+count: 2
+f: /msg: 1: 8: #01: SessionClose
+f: /layer: 1: 8: #01: (CCMP)
+
+m: bias01.xddl: #00
+count: 1
+f: /foo: -1: 1: @0: 
+
+m: function01.xddl: #0100
+count: 3
+f: /a: 1: 8: #01: 
+f: /b: 0: 1: @0: 
+f: /c: 0: 7: @0000000: 
+
+m: function01.xddl: #0200
+count: 3
+f: /a: 2: 8: #02: 
+f: /b: 0: 2: @00: 
+f: /c: 0: 6: @000000: 
+
+m: function01.xddl: #0300
+count: 3
+f: /a: 3: 8: #03: 
+f: /b: 0: 3: @000: 
+f: /c: 0: 5: @00000: 
+
+m: function01.xddl: #0000
+count: 1
+f: /a: 0: 8: #00: 
+
+m: function01.xddl: #0801
+count: 2
+f: /a: 8: 8: #08: 
+f: /b: 1: 8: #01: 
+
+m: function01.xddl: #080100
+count: 2
+f: /a: 8: 8: #08: 
+f: /b: 1: 8: #01: 
+
+m: test01.xddl: #010201
+count: 3
+f: /DataType: 1: 8: #01: 
+f: /EvdoMsgType: 2: 8: #02: 
+f: /EvdoDataLength: 1: 8: #01: 
+
 m: test02.xddl: #01054142434445
 count: 7
 f: /RECORD_TYPE: 1: 8: #01: 
@@ -528,14 +560,6 @@ f: /b/f/record/y/z1: 2: 8: #02:
 f: /b/f/record/x: 3: 8: #03: 
 f: /crc: 255: 8: #FF: 
 
-m: pad02.xddl: #1020FF
-count: 5
-f: /type: 1: 4: @0001: 
-f: /data/a: 0: 5: @00000: 
-f: /data/reserved: 8: 5: @01000: 
-f: /a: 63: 8: #3F: 
-f: /reserved: 3: 2: @11: 
-
 m: pad01.xddl: #1020FF
 count: 5
 f: /type: 1: 4: @0001: 
@@ -544,11 +568,22 @@ f: /data/reserved: 2: 3: @010:
 f: /a: 15: 8: #0F: 
 f: /reserved: 15: 4: @1111: 
 
+m: pad02.xddl: #1020FF
+count: 5
+f: /type: 1: 4: @0001: 
+f: /data/a: 0: 5: @00000: 
+f: /data/reserved: 8: 5: @01000: 
+f: /a: 63: 8: #3F: 
+f: /reserved: 3: 2: @11: 
+
 m: pad03.xddl: #0A0B
 count: 3
 f: /A: 1: 5: @00001: 
 f: /pad: 2: 3: @010: 
 f: /B: 11: 8: #0B: 
+
+m: pad04.xddl: #FFFF
+count: 0
 
 m: insert03.xddl: #0102030405
 count: 5
@@ -557,23 +592,6 @@ f: /a: 2: 8: #02:
 f: /b: 3: 8: #03: 
 f: /c: 4: 8: #04: 
 f: /d: 5: 8: #05: 
-
-m: variable05.xddl: #0102
-count: 2
-f: /a: 1: 8: #01: 
-f: /b: 2: 8: #02: 
-
-m: variable06.xddl: #010203
-count: 3
-f: /a: 1: 8: #01: 
-f: /b: 2: 8: #02: 
-f: /record/c: 3: 8: #03: 
-
-m: variable06.xddl: #FF0203
-count: 3
-f: /a: 255: 8: #FF: 
-f: /b: 2: 8: #02: 
-f: /record/c: 3: 8: #03: 
 
 m: type01.xddl: #3E
 count: 8
@@ -604,20 +622,6 @@ f: /sixth: 100: 8: #64: phosphor
 f: /seventh: 112: 8: #70: imbue
 f: /eighth: 87: 8: #57: red
 f: /ninth: 255: 8: #FF: invalid value
-
-m: format01.xddl: #1F
-count: 2
-f: /first: 1: 4: @0001: 1 : 0.125 ms
-f: /second: 15: 4: @1111: 15 : 1.875 ms
-
-m: format01.xddl: #FA
-count: 2
-f: /first: 15: 4: @1111: 15 : 1.875 ms
-f: /second: 10: 4: @1010: 10 : 1.250 ms
-
-m: format02.xddl: #01
-count: 1
-f: /second: 1: 8: #01: 0.10 secs
 
 m: type04.xddl: #000402
 count: 3
@@ -668,6 +672,31 @@ count: 2
 f: /addr1: 16909060: 32: #01020304: 1.2.3.4
 f: /goo: 5: 8: #05: number: 5, address: 1.2.3.4
 
+m: type10.xddl: #A0
+count: 8
+f: /first: 1: 1: @1: Hello World!
+f: /second: 0: 1: @0: Goodbye World!
+f: /third: 1: 1: @1: Hello World!
+f: /fourth: 0: 1: @0: Goodbye World!
+f: /fifth: 0: 1: @0: Goodbye World!
+f: /sixth: 0: 1: @0: Goodbye World!
+f: /seventh: 0: 1: @0: Goodbye World!
+f: /eigth: 0: 1: @0: Goodbye World!
+
+m: format01.xddl: #1F
+count: 2
+f: /first: 1: 4: @0001: 1 : 0.125 ms
+f: /second: 15: 4: @1111: 15 : 1.875 ms
+
+m: format01.xddl: #FA
+count: 2
+f: /first: 15: 4: @1111: 15 : 1.875 ms
+f: /second: 10: 4: @1010: 10 : 1.250 ms
+
+m: format02.xddl: #01
+count: 1
+f: /second: 1: 8: #01: 0.10 secs
+
 m: function02.xddl: #01020304050607
 count: 2
 f: /a: 0: 48: #010203040506: 01:02:03:04:05:06
@@ -681,6 +710,30 @@ f: /b: 1: 8: #01:
 m: fragment06.xddl: #01
 count: 1
 f: /b: 1: 8: #01: 
+
+m: fragment09.xddl: #0102
+count: 2
+f: /A: 1: 8: #01: 
+f: /B: 2: 8: #02: 
+
+m: fragment10.xddl: #08BBCC
+count: 3
+f: /A: 8: 8: #08: 
+f: /q: 187: 8: #BB: 
+f: /B: 204: 8: #CC: 
+
+m: fragment11.xddl: #000203
+count: 3
+f: /a/x: 0: 8: #00: 
+f: /a/y: 2: 8: #02: 
+f: /z: 3: 8: #03: 
+
+m: fragment12.xddl: #01010809
+count: 4
+f: /A/first: 1: 8: #01: 
+f: /A/second: 1: 8: #01: 
+f: /x: 8: 8: #08: 
+f: /y: 9: 8: #09: 
 
 m: prop01.xddl: #01020304
 count: 4
@@ -696,23 +749,28 @@ f: /b: 2: 8: #02:
 f: /c: 0: 4: @0000: 
 f: /d: 3: 4: @0011: 
 
-m: variable08.xddl: #01
+m: prop03.xddl: #0102030405
+count: 5
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 3: 8: #03: 
+f: /d: 4: 8: #04: 
+f: /coup: 5: 8: #05: 
+
+m: prop04.xddl: #FF
 count: 1
-f: /a: 1: 8: #01: Hello World!
+f: /a: 255: 8: #FF: 
 
-m: variable09.xddl: #0101
-count: 2
-f: /msg: 1: 8: #01: SessionClose
-f: /layer: 1: 8: #01: (CCMP)
+m: prop05.xddl: #010203
+count: 4
+f: /a: 1: 8: #01: 
+f: /b: 2: 8: #02: 
+f: /c: 0: 4: @0000: 
+f: /d: 3: 4: @0011: 
 
-m: switch03.xddl: #0020
-count: 2
-f: /doo: 0: 8: #00: 
-f: /zero: 32: 8: #20: 
-
-m: bias01.xddl: #00
+m: prop06.xddl: #01
 count: 1
-f: /foo: -1: 1: @0: 
+f: /z: 1: 8: #01: 
 
 m: bias02.xddl: #FFFFFF
 count: 22
@@ -750,10 +808,6 @@ f: /Continue: 1: 1: @1:
 f: /Data: 0: 7: @0000000: 
 f: /Continue: 0: 1: @0: 
 
-m: switch04.xddl: #00
-count: 1
-f: /doo: 0: 8: #00: 
-
 m: setprop.xddl: #0102
 count: 2
 f: /A: 1: 8: #01: SessionClose
@@ -765,11 +819,6 @@ f: /A: 1: 8: #01:
 f: /B: 2: 8: #02: 
 f: /A: 3: 8: #03: 
 f: /B: 0: 8: #00: 
-
-m: fragment09.xddl: #0102
-count: 2
-f: /A: 1: 8: #01: 
-f: /B: 2: 8: #02: 
 
 m: peek01.xddl: #10
 count: 2
@@ -811,17 +860,6 @@ count: 2
 f: /first: 10: 4: @1010: 10: 0,1,2,8,16,17
 f: /second: 11: 4: @1011: no: 11 4 16 16 1
 
-m: type10.xddl: #A0
-count: 8
-f: /first: 1: 1: @1: Hello World!
-f: /second: 0: 1: @0: Goodbye World!
-f: /third: 1: 1: @1: Hello World!
-f: /fourth: 0: 1: @0: Goodbye World!
-f: /fifth: 0: 1: @0: Goodbye World!
-f: /sixth: 0: 1: @0: Goodbye World!
-f: /seventh: 0: 1: @0: Goodbye World!
-f: /eigth: 0: 1: @0: Goodbye World!
-
 m: expression05.xddl: #0802
 count: 2
 f: /a b: 8: 8: #08: 
@@ -834,11 +872,31 @@ m: record02.xddl: #AABB
 count: 1
 f: /record/foo: 10: 4: @1010: 
 
-m: fragment10.xddl: #08BBCC
-count: 3
-f: /A: 8: 8: #08: 
-f: /q: 187: 8: #BB: 
-f: /B: 204: 8: #CC: 
+m: record04.xddl: #FF
+count: 8
+f: /Record 1/A: 1: 1: @1: 
+f: /Record 1/B: 1: 1: @1: 
+f: /Record 1/C: 1: 1: @1: 
+f: /Record 1/D: 1: 1: @1: 
+f: /Record 2/E: 1: 1: @1: 
+f: /Record 2/F: 1: 1: @1: 
+f: /Record 2/G: 1: 1: @1: 
+f: /Record 2/H: 1: 1: @1: 
+
+m: record05.xddl: @111100001111
+count: 12
+f: /outer/E: 1: 1: @1: 
+f: /outer/F: 1: 1: @1: 
+f: /outer/G: 1: 1: @1: 
+f: /outer/H: 1: 1: @1: 
+f: /outer/record/A: 0: 1: @0: 
+f: /outer/record/B: 0: 1: @0: 
+f: /outer/record/C: 0: 1: @0: 
+f: /outer/record/D: 0: 1: @0: 
+f: /inner/A: 1: 1: @1: 
+f: /inner/B: 1: 1: @1: 
+f: /inner/C: 1: 1: @1: 
+f: /inner/D: 1: 1: @1: 
 
 m: globals01.xddl: #0801
 count: 2
@@ -851,17 +909,6 @@ f: /X: 0: 8: #00:
 f: /X: 8: 8: #08: 
 f: /Y: 1: 8: #01: 
 
-m: pad04.xddl: #FFFF
-count: 0
-
-m: prop03.xddl: #0102030405
-count: 5
-f: /a: 1: 8: #01: 
-f: /b: 2: 8: #02: 
-f: /c: 3: 8: #03: 
-f: /d: 4: 8: #04: 
-f: /coup: 5: 8: #05: 
-
 m: globals03.xddl: #FF
 count: 1
 f: /A: 255: 8: #FF: 
@@ -869,10 +916,6 @@ f: /A: 255: 8: #FF:
 m: globals04.xddl: #FF
 count: 1
 f: /A: 255: 8: #FF: 
-
-m: prop04.xddl: #FF
-count: 1
-f: /a: 255: 8: #FF: 
 
 m: while01.xddl: #A1B1C1D1E1F100
 count: 28
@@ -905,24 +948,6 @@ f: /record/record/Y: 0: 2: @00:
 f: /record/record/Z: 0: 3: @000: 
 f: /record/record/continue: 0: 1: @0: 
 
-m: record04.xddl: #FF
-count: 8
-f: /Record 1/A: 1: 1: @1: 
-f: /Record 1/B: 1: 1: @1: 
-f: /Record 1/C: 1: 1: @1: 
-f: /Record 1/D: 1: 1: @1: 
-f: /Record 2/E: 1: 1: @1: 
-f: /Record 2/F: 1: 1: @1: 
-f: /Record 2/G: 1: 1: @1: 
-f: /Record 2/H: 1: 1: @1: 
-
-m: prop05.xddl: #010203
-count: 4
-f: /a: 1: 8: #01: 
-f: /b: 2: 8: #02: 
-f: /c: 0: 4: @0000: 
-f: /d: 3: 4: @0011: 
-
 m: field04.xddl: #010203
 count: 3
 f: /boo: 1: 8: #01: 
@@ -934,44 +959,11 @@ count: 2
 f: /first: 1: 1: @1: No way!
 f: /rest: 127: 7: @1111111: 
 
-m: fragment12.xddl: #01010809
-count: 4
-f: /A/first: 1: 8: #01: 
-f: /A/second: 1: 8: #01: 
-f: /x: 8: 8: #08: 
-f: /y: 9: 8: #09: 
-
-m: fragment11.xddl: #000203
-count: 3
-f: /a/x: 0: 8: #00: 
-f: /a/y: 2: 8: #02: 
-f: /z: 3: 8: #03: 
-
 m: per.xddl: @1
 count: 1
 f: /foo: 1: 1: @1: 
-
-m: prop06.xddl: #01
-count: 1
-f: /z: 1: 8: #01: 
 
 
 m: field01a.xddl: @1
 count: 1
 f: /foo: 1: 1: @1: 
-
-m: record05.xddl: @111100001111
-count: 12
-f: /outer/E: 1: 1: @1: 
-f: /outer/F: 1: 1: @1: 
-f: /outer/G: 1: 1: @1: 
-f: /outer/H: 1: 1: @1: 
-f: /outer/record/A: 0: 1: @0: 
-f: /outer/record/B: 0: 1: @0: 
-f: /outer/record/C: 0: 1: @0: 
-f: /outer/record/D: 0: 1: @0: 
-f: /inner/A: 1: 1: @1: 
-f: /inner/B: 1: 1: @1: 
-f: /inner/C: 1: 1: @1: 
-f: /inner/D: 1: 1: @1: 
-
