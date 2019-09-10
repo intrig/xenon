@@ -6,8 +6,15 @@ notifications:
     email: false
 compiler:
     - gcc
+    - clang
 os:
-    -linux
+    - linux
+    - osx
 
 script:
-    - ./configure && make && make check && sudo make install && sudo ldconfig && make check-install
+    - ./configure
+    - make
+    - make check
+    - sudo make install
+    - make check-install
+    - sudo make uninstall

@@ -61,33 +61,31 @@ inline std::string exec_command(const char *cmd) {
     return result.str();
 }
 
-std::string match_one(const std::string &line, const std::regex & ex) {
+std::string match_one(const std::string &line, const std::regex &ex) {
     std::smatch matches;
     if (std::regex_search(line, matches, ex))
         return matches[1].str();
     return std::string();
 }
 
-bool parse_insert(std::ostream &os, auto &sects, auto &line) {
-    //std::cout << "checking insert: " << line << '\n';
+bool parse_insert(std::ostream &os, const section_list &sects,
+                  const std::string &line) {
+    // std::cout << "checking insert: " << line << '\n';
     const std::regex insert(":insert[[:space:]]+([[:alnum:]-]+)");
     auto m = match_one(line, insert);
     if (m.empty())
         return false;
-    //std::cout << "insert found: " << m << '\n';
     auto i = std::find_if(sects.begin(), sects.end(),
                           [&](auto &s) { return s.name == m; });
     if (i == sects.end())
         return true;
-        //IT_PANIC("section not found for insert " << m);
-    for (auto &l : i->lines) {
-        //std::cout << "inserting: " << l << '\n';
+    for (auto &l : i->lines)
         parse_line(os, sects, l);
-    }
+
     return true;
 }
 
-bool parse_run(auto &os, auto &sects, auto &line) {
+bool parse_run(std::ostream &os, section_list sects, const std::string &line) {
     const std::regex run_ex(":run[[:space:]]+([[:print:]]+)");
     auto m = match_one(line, run_ex);
     if (m.empty())
@@ -97,13 +95,14 @@ bool parse_run(auto &os, auto &sects, auto &line) {
     return true;
 }
 
-bool parse_read(auto &os, auto &sects, auto &line) {
+bool parse_read(std::ostream &os, section_list sects, const std::string &line) {
     const std::regex read_ex(":read[[:space:]]+([[:print:]]+)");
     auto m = match_one(line, read_ex);
     if (m.empty())
         return false;
     os << "[source,xml]\n"
-          "----\n" << ict::read_file(m) << "----\n";
+          "----\n"
+       << ict::read_file(m) << "----\n";
     return true;
 }
 
@@ -129,7 +128,7 @@ void parse_line(std::ostream &os, const section_list &sects,
     os << sub << '\n';
 }
 
-auto parse_section_file(auto & file) {
+section_list parse_section_file(const std::string &file) {
     auto f = ict::read_file(file);
     auto lines = ict::line_split(f.begin(), f.end());
     auto sects = section_list();
@@ -137,11 +136,11 @@ auto parse_section_file(auto & file) {
 
     std::regex tag(":tag ([[:alnum:]-]+)");
 
-    for (auto &line: lines) {
+    for (auto &line : lines) {
         auto t = match_one(line, tag);
         if (!t.empty()) {
             if (!s.name.empty()) {
-                //std::cout << "adding " << s << '\n';
+                // std::cout << "adding " << s << '\n';
                 sects.push_back(s);
                 s.name.clear();
                 s.lines.clear();

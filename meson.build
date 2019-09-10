@@ -10,7 +10,10 @@ subdir('tools')
 subdir('xddl')
 subdir('unit')
 subdir('examples')
-subdir('perf')
+
+if build_machine.system() == 'linux'
+    subdir('perf')
+endif
 
 install_subdir('xddl',
     exclude_directories : ['logs', 'IP/logs'],

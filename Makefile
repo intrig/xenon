@@ -25,10 +25,11 @@ uninstall:
 	ninja -C build uninstall
 
 check-install: build
-	XDDLPATH=/usr/local/share/xddl xv unit/xddlunit/icd_gold.xv
-	c++ -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -std=c++17 -O3 -o 'build/decode.cpp.o' -c examples/decode.cpp
-	c++ -o build/decode 'build/decode.cpp.o' -lxenon
-	XDDLPATH=/usr/local/share/xddl build/decode
+ifeq ($(TRAVIS_OS_NAME),linux)
+	sudo ldconfig
+endif
+	cd instacheck && meson build
+	ninja -C instacheck/build test
 
 tags:
 	@echo Making tags...
@@ -45,8 +46,14 @@ update:
 	git submodule foreach git pull origin master
 
 get-deps:
+ifeq ($(TRAVIS_OS_NAME),linux)
 	sudo apt-get update
 	sudo apt-get install -y meson
+endif
+ifeq ($(TRAVIS_OS_NAME),osx)
+	sudo cp deps/osx/ninja /usr/local/bin
+	sudo pip3 install meson
+endif
 
 xddl.adoc: all ex.adoc
 	$(RM) xddl.adoc
