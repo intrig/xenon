@@ -68,4 +68,19 @@ reference containing useful examples.
 Also, the tools directory contains useful examples, such as `idm` and `xv`.  These
 two programs are installed into `/usr/local/bin`.
 
+=== Converting 3GPP asn.1 to XDDL
+
+`asnx` converts asn.1 PER files to xddl.  It handles a subset of the asn.1 spec.
+If there any problems please submit an issue.
+
+For 3GPP specs, e.g. 36.331:
+
+1. Download the latest spec.
+2. Save it to file, e.g. 36.331.txt.
+3. Run: asn-strip -m 36.331.txt > 36.331.asn
+4. Edit 36.331.asn by hand.  Some of the lines may have been broken at '-'
+   characters.  Just run the following step repeatedly until you fixed the errors.
+5. Run asnx -o TS-36.331.xddl -t 36.331.asn.
+6. Add resulting xddl file to git.
+
 Enjoy!

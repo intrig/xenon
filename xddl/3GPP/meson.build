@@ -1,4 +1,6 @@
-cp_exe =find_program('rsync')
+# asn.1 to xddl is no longer automated, keeping this around for reference
+
+# cp_exe =find_program('rsync')
 
 temp_36_331 = custom_target(
     'temp_36_331',
@@ -24,12 +26,11 @@ x25_331 = custom_target(
     input : [temp_25_331, '25.331-sub.txt'],
     command : [xml_patch_exe, '-o', '@OUTPUT@', '@INPUT0@', '@INPUT1@'])
 
-copy_xddl = custom_target(
-    'cp_xddl',
-    build_by_default : true,
-    output : 'nothing',
-    depends : [x36_331, x25_331],
-    command : [cp_exe,
-        [meson.current_build_dir() + '/TS-36.331.xddl',
-        meson.current_build_dir() + '/TS-25.331.xddl'],
-        meson.current_source_dir()])
+#   copy_xddl = custom_target(
+#       'cp_xddl',
+#       output : 'nothing',
+#       depends : [x36_331, x25_331],
+#       command : [cp_exe,
+#           [meson.current_build_dir() + '/TS-36.331.xddl',
+#           meson.current_build_dir() + '/TS-25.331.xddl'],
+#           meson.current_source_dir()])
