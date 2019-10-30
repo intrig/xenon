@@ -5422,7 +5422,6 @@ f: /c1/systemInformation/criticalExtensions/systemInformation-r8/sib-TypeAndInfo
 f: /c1/systemInformation/criticalExtensions/systemInformation-r8/sib-TypeAndInfo/record/extension/sib16-v1130/timeInfo-r11/leapSeconds-r11: 6: 8: #85: 
 f: /c1/systemInformation/criticalExtensions/systemInformation-r8/sib-TypeAndInfo/record/extension/sib16-v1130/timeInfo-r11/localTimeOffset-r11: 6: 7: @1000101: 
 
-
 m: icd.xddl: #C308CFA5A50B12032200000000000222009A0E82E4101220202064A8ED300BC0C1C0C00200200465A0224E1500000400001800001A00B810066207EBC275202206AE31644018C02843D948CEE28512D72B00801000043E0408048008BA0206
 count: 258
 f: /TimestampIncl: 1: 1: @1: true
@@ -5683,4 +5682,35 @@ f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComple
 f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Spare: 0: 5: @00000: 
 f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/UE's usage setting: 0: 1: @0: Voice centric
 f: /c1/rrcConnectionSetupComplete/criticalExtensions/c1/rrcConnectionSetupComplete-r8/dedicatedInfoNAS/optional elements/record/Voice domain preference and UE's usage setting/Voice domain preference for E-UTRAN: 3: 2: @11: IMS PS voice preferred, CS Voice as secondary
+
+m: icd.xddl: #0101011107952901A3DE0A800982511EFFFFFFFF
+count: 28
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 1: 5: @00001: cdma2000 | 1xRTT L2 SAR
+f: /Sublayer: 1: 8: #01: 1xRTT L2 SAR
+f: /Channel: 1: 8: #01: f-csch forward common signaling logical channel (F-SYNC, F-PCH)
+f: /MSG_LENGTH: 17: 8: #11: 
+f: /DATA/PD: 0: 2: @00: 
+f: /DATA/MSG_TYPE: 7: 6: @000111: Order Message
+f: /DATA/repeat/record/ACK_SEQ: 4: 3: @100: 
+f: /DATA/repeat/record/MSG_SEQ: 5: 3: @101: 
+f: /DATA/repeat/record/ACK_REQ: 0: 1: @0: 
+f: /DATA/repeat/record/VALID_ACK: 1: 1: @1: 
+f: /DATA/repeat/record/ADDR_TYPE: 1: 3: @001: ESN
+f: /DATA/repeat/record/ADDR_LEN: 4: 4: @0100: 
+f: /DATA/repeat/record/ESN: 2161241861: 32: #80D1EF05: 
+f: /DATA/repeat/record/ORDER: 16: 6: @010000: Base Station Acknowledgment Order
+f: /DATA/repeat/record/ADD_RECORD_LEN: 0: 3: @000: 
+f: /DATA/repeat/record/ACK_SEQ: 0: 3: @000: 
+f: /DATA/repeat/record/MSG_SEQ: 2: 3: @010: 
+f: /DATA/repeat/record/ACK_REQ: 0: 1: @0: 
+f: /DATA/repeat/record/VALID_ACK: 1: 1: @1: 
+f: /DATA/repeat/record/ADDR_TYPE: 4: 3: @100: Reserved
+f: /DATA/repeat/record/ADDR_LEN: 1: 4: @0001: 
+f: /DATA/repeat/record/ADDRESS: 40: 8: #28: 
+f: /DATA/repeat/record/ORDER: 35: 6: @100011: BCMC Order
+f: /DATA/repeat/record/ADD_RECORD_LEN: 6: 3: @110: 
+f: /CRC: 1073741823: 30: @111111111111111111111111111111: #3FFFFFFF
 

@@ -288,10 +288,7 @@ message::cursor create_global(spec::cursor xddl_root, message::cursor globs,
     static auto prop_path = path("export/prop");
     auto root = xddl_root;
     auto c = find_prop(root.parent(), name);
-    if (c == root.end())
-        IT_PANIC("internal panic looking for " << name << " in "
-                                               << xddl_root->parser->file);
-    if (bits.empty()) {
+    if (c != root.parent().end() && bits.empty()) {
         if (auto prop_elem = get_ptr<prop>(c->v)) {
             if (!prop_elem)
                 IT_PANIC("internal panic");
