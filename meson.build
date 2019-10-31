@@ -1,5 +1,5 @@
 project('xenon', 'cpp',
-    default_options : ['cpp_std=c++17', 'default_library=shared'])
+    default_options : ['cpp_std=c++17', 'default_library=shared', 'warninglevel=3'])
 
 inc = include_directories(['include'])
 xenon_inc = include_directories(['src'])
