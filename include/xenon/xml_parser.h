@@ -130,7 +130,7 @@ class xml_parser : public xml_parser_base {
         ict::string64 name(n);
         if (parents.empty()) {
             if (root != name)
-                IT_PANIC(name << " is an invalid root node, expecting "
+                IT_THROW_XML(name << " is an invalid root node, expecting "
                               << root);
             parents.push_back(root);
         } else {
@@ -140,11 +140,11 @@ class xml_parser : public xml_parser_base {
                 [&](const std::pair<ict::string64, std::vector<ict::string64>>
                         &p) { return p.first == parents.back(); });
             if (i == child_table.end())
-                IT_PANIC(name << " is not a valid element name");
+                IT_THROW_XML(name << " is not a valid element name");
             else {
                 auto j = find(i->second.begin(), i->second.end(), name);
                 if (j == i->second.end())
-                    IT_PANIC(name << " is not a valid child of "
+                    IT_THROW_XML(name << " is not a valid child of "
                                   << parents.back());
             }
 

@@ -311,6 +311,7 @@ message::cursor set_global(spec::cursor self, message::cursor value) {
     return g;
 }
 
+// load time
 spec::cursor get_variable(const std::string &name, spec::cursor context) {
     static auto prop_path = path("xddl/export/prop");
     // look for name previously defined in spec
