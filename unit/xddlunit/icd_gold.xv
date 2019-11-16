@@ -1195,7 +1195,7 @@ f: /c1/rrcConnectionReconfiguration/criticalExtensions/c1/rrcConnectionReconfigu
 f: /c1/rrcConnectionReconfiguration/criticalExtensions/c1/rrcConnectionReconfiguration-r8/radioResourceConfigDedicated/drb-ToAddModList/repeat/record/logicalChannelConfig/ul-SpecificParameters/logicalChannelGroup: 1: 2: @01: 
 
 m: icd.xddl: #C308CE82BA9C048069000000000007600000
-count: 16
+count: 17
 f: /TimestampIncl: 1: 1: @1: true
 f: /SourceDestIncl: 1: 1: @1: true
 f: /Reserved: 0: 1: @0: zero
@@ -1209,9 +1209,10 @@ f: /Channel: 7: 8: #07: BCCH-BCH
 f: /message/dl-Bandwidth: 3: 3: @011: n50
 f: /message/phich-Config/phich-Duration: 0: 1: @0: normal
 f: /message/phich-Config/phich-Resource: 0: 2: @00: oneSixth
-f: /message/systemFrameNumber: 0: 8: #00:
-f: /message/schedulingInfoSIB1-BR-r13: 0: 5: @00000:
-f: /message/spare: 0: 5: @00000:
+f: /message/systemFrameNumber: 0: 8: #00: 
+f: /message/schedulingInfoSIB1-BR-r13: 0: 5: @00000: 
+f: /message/systemInfoUnchanged-BR-r15: 0: 1: @0: 
+f: /message/spare: 0: 4: @0000: 
 
 m: icd.xddl: #C308CE82BA9C0488770000000000064040040300010000001C48C110208184B400
 count: 46
@@ -2329,6 +2330,7 @@ f: /c1/rrcConnectionSetup/criticalExtensions/c1/rrcConnectionSetup-r8/radioResou
 f: /c1/rrcConnectionSetup/criticalExtensions/c1/rrcConnectionSetup-r8/radioResourceConfigDedicated/physicalConfigDedicated/schedulingRequestConfig/setup/sr-ConfigIndex: 0: 8: #00: 
 f: /c1/rrcConnectionSetup/criticalExtensions/c1/rrcConnectionSetup-r8/radioResourceConfigDedicated/physicalConfigDedicated/schedulingRequestConfig/setup/dsr-TransMax: 0: 3: @000: n4
 
+
 m: icd.xddl: #C308CE82BAA35057BB0000000000023C0100F811E00030040827F07EC60020800A00
 count: 64
 f: /TimestampIncl: 1: 1: @1: true
@@ -2359,15 +2361,15 @@ f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/ue-Category: 3: 3: @010: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/ext: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/option/maxNumberROHC-ContextSessions: 0: 1: @0: not included
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0001: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0002: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0003: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0004: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0006: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0101: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0102: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0103: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0104: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0001-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0002-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0003-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0004-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0006-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0101-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0102-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0103-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0104-r15: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/phyLayerParameters/ue-TxAntennaSelectionSupported: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/phyLayerParameters/ue-SpecificRefSigsSupported: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/rf-Parameters/supportedBandListEUTRA/count: 1: 6: @000000: 
@@ -2480,6 +2482,7 @@ f: /c1/rrcConnectionSetup/criticalExtensions/c1/rrcConnectionSetup-r8/radioResou
 f: /c1/rrcConnectionSetup/criticalExtensions/c1/rrcConnectionSetup-r8/radioResourceConfigDedicated/physicalConfigDedicated/schedulingRequestConfig/setup/sr-ConfigIndex: 0: 8: #00: 
 f: /c1/rrcConnectionSetup/criticalExtensions/c1/rrcConnectionSetup-r8/radioResourceConfigDedicated/physicalConfigDedicated/schedulingRequestConfig/setup/dsr-TransMax: 0: 3: @000: n4
 
+
 m: icd.xddl: #C308CE82BAD7E2763E0000000000023C0100F811E00030040827F07EC60020800A00
 count: 64
 f: /TimestampIncl: 1: 1: @1: true
@@ -2510,15 +2513,15 @@ f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/ue-Category: 3: 3: @010: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/ext: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/option/maxNumberROHC-ContextSessions: 0: 1: @0: not included
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0001: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0002: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0003: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0004: 1: 1: @1: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0006: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0101: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0102: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0103: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0104: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0001-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0002-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0003-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0004-r15: 1: 1: @1: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0006-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0101-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0102-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0103-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0104-r15: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/phyLayerParameters/ue-TxAntennaSelectionSupported: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/phyLayerParameters/ue-SpecificRefSigsSupported: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/rf-Parameters/supportedBandListEUTRA/count: 1: 6: @000000: 
@@ -2874,15 +2877,15 @@ f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/ue-Category: 3: 3: @010: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/ext: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/option/maxNumberROHC-ContextSessions: 0: 1: @0: not included
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0001: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0002: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0003: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0004: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0006: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0101: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0102: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0103: 0: 1: @0: 
-f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0104: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0001-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0002-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0003-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0004-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0006-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0101-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0102-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0103-r15: 0: 1: @0: 
+f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/pdcp-Parameters/supportedROHC-Profiles/profile0x0104-r15: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/phyLayerParameters/ue-TxAntennaSelectionSupported: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/phyLayerParameters/ue-SpecificRefSigsSupported: 0: 1: @0: 
 f: /c1/ueCapabilityInformation/criticalExtensions/c1/ueCapabilityInformation-r8/ue-CapabilityRAT-ContainerList/repeat/record/ueCapabilityRAT-Container/rf-Parameters/supportedBandListEUTRA/count: 2: 6: @000001: 

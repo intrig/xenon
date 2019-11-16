@@ -75,12 +75,22 @@ If there any problems please submit an issue.
 
 For 3GPP specs, e.g. 36.331:
 
-1. Download the latest spec.
-2. Save it to file, e.g. 36.331.txt.
+1. Download the latest pdf spec.
+2. Save it to text file, e.g. 36.331.txt.
+   
+Ubuntu the pdftotext command can be used, for example:
+
+```
+pdftotext -nopgbrk -layout ts_136331v150700p.pdf 36.331.txt
+```
+
 3. Run: asn-strip -m 36.331.txt > 36.331.asn
-4. Edit 36.331.asn by hand.  Some of the lines may have been broken at '-'
-   characters.  Just run the following step repeatedly until you fixed the errors.
-5. Run asnx -o TS-36.331.xddl -t 36.331.asn.
+
+4. Run: asnx -o TS-36.331.xddl -t 36.331.asn
+
+Edit 36.331.asn by hand.  Some of the lines may have been broken at '-'
+characters.  Fix the errors by hand and run the above step repeatedly until you fixed the errors.
+
 6. Add resulting xddl file to git.
 
 Enjoy!
