@@ -85,7 +85,7 @@ bool parse_insert(std::ostream &os, const section_list &sects,
     return true;
 }
 
-bool parse_run(std::ostream &os, section_list sects, const std::string &line) {
+bool parse_run(std::ostream &os, section_list /* sects */, const std::string &line) {
     const std::regex run_ex(":run[[:space:]]+([[:print:]]+)");
     auto m = match_one(line, run_ex);
     if (m.empty())
@@ -95,7 +95,7 @@ bool parse_run(std::ostream &os, section_list sects, const std::string &line) {
     return true;
 }
 
-bool parse_read(std::ostream &os, section_list sects, const std::string &line) {
+bool parse_read(std::ostream &os, section_list /* sects */, const std::string &line) {
     const std::regex read_ex(":read[[:space:]]+([[:print:]]+)");
     auto m = match_one(line, read_ex);
     if (m.empty())

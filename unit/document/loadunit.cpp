@@ -29,6 +29,7 @@ void load_unit::load_all_specs() {
     } catch (const std::exception &ex) {
         IT_FORCE_ASSERT(ex.what());
     }
+    IT_ASSERT(!specs.empty());
 }
 
 int main(int, char **) {

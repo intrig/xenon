@@ -1,6 +1,6 @@
 #pragma once
 #include "recref.h"
-#include "xddl.h"
+#include <xenon/xddl.h>
 #include <list>
 #include <vector>
 

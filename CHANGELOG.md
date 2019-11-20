@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Upgrade 36.331 to r13
+- Upgrade 36.331 to r15
 - Build: CI testing with Travis now
 - Build: Using c++17 and no longer require boost for tests
 - Build: make install and make uninstall supported
+- Preliminary cmake support but still using meson for CI
+- Preliminary Windows suport for build and test
 
 ### Changed
 

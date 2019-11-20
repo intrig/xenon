@@ -15,4 +15,5 @@ pfiles = pgen.process('asn1.ypp')
 
 asnx_exe = executable('asnx', 'asnast.cpp', lfiles, pfiles,
     include_directories : [inc, xenon_inc],
+    cpp_args : '-DUSING_MESON',
     link_with : xenon_lib)

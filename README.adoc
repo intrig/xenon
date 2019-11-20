@@ -37,12 +37,17 @@ From a terminal, issue the following commands:
 
 Windows requires the following steps:
 
-1. Install https://desktop.github.com[Github Desktop]
-2. Clone the xenon repo as above.
-3. Install https://mesonbuild.com/Getting-meson.html[meson]
+1. Clone the xenon repo as above.
+2. Using a recent version of Visual Studio, select menu item "File/Open/Folder..." and
+   select the top level xenon directory.
+3. Select menu item "Build/Build All"
+4. Select menu item "Test/Run CTests" for xenon
 
-Follow the instructions in the above link to have meson generate the Visual
-Studio build files.
+This currently builds a static libary and there is no installation ability yet.
+
+For building against the xenon library, you will have to add the xenon/include
+directory to your path, as well as the xenon/out/build/x64-Debug/include directory.
+The latter is needed to pick up the code generated xddl.h file.
 
 === Dependencies
 

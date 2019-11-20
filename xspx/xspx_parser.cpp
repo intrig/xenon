@@ -279,12 +279,10 @@ void xsp_parser::header(std::ostream & h, st::type t) const  {
 }
 
 void xsp_parser::to_stream(std::ostream & h) const {
-    header(h, st::header_impl);
+    header(h, st::header_decl);
 }
 
-void xsp_parser::to_stream(std::ostream & h, std::ostream & s) const {
-    header(h, st::header_decl);
-
+void xsp_parser::src_to_stream(std::ostream & s) const {
     std::ostringstream os;
     xenon::cpp_code code;
     os << "#include <xenon/xenon.h>";
@@ -295,7 +293,7 @@ void xsp_parser::to_stream(std::ostream & h, std::ostream & s) const {
     s << code.str();
 }
 
-std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, const std::string & root) const {
+std::ostream& xsp_parser::to_decl(std::ostream& os, const elem_type & elem, const std::string & /* root */) const {
     if (!elem.isa.empty()) return os;
 
     os << "struct " << elem.name;

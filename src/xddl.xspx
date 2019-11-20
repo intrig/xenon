@@ -157,12 +157,6 @@
         <public>
         void to_string(std::ostream &amp; os) const; 
 
-        void vto_wd(std::ostream &amp; os) const {}
-
-        void to_wd(std::ostream &amp; os) const {
-            vto_wd(os);
-        }
-
         template &lt;typename Cursor&gt;
         friend void draw(Cursor self, const var_type&amp; x, std::ostream &amp; out, size_t position);
 

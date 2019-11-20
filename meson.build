@@ -7,7 +7,6 @@ subdir('xspx')
 subdir('include')
 subdir('src')
 subdir('tools')
-subdir('xddl')
 subdir('unit')
 subdir('examples')
 

@@ -1,0 +1,3 @@
+#define xenon_VERSION_MAJOR @xenon_VERSION_MAJOR@
+#define xenon_VERSION_MINOR @xenon_VERSION_MINOR@
+#define xenon_VERSION_PATCH @xenon_VERSION_PATCH@

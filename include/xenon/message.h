@@ -1,5 +1,5 @@
 #pragma once
-#include "xddl.h"
+#include <xenon/xddl.h>
 
 namespace xenon {
 

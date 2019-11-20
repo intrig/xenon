@@ -8,7 +8,7 @@ namespace xn = xenon;
 // Call for_each_path and return the number of matches.
 int count_test(xn::message const &m, std::string const &path) {
     int found = 0;
-    xn::for_each_path(m, path, [&](xn::message::const_cursor c) { found++; });
+    xn::for_each_path(m, path, [&](xn::message::const_cursor) { found++; });
     return found;
 }
 

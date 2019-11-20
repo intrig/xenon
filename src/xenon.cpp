@@ -263,7 +263,7 @@ void script::vend_handler(spec::cursor, spec &dom) {
     lua::lua_setglobal(p, "f");
 }
 
-void type::vend_handler(spec::cursor self, spec &parser) {
+void type::vend_handler(spec::cursor self, spec & /* parser */) {
     auto mv = ict::multivector<element>(self); // copy into temp multivector
     self.clear();
     self->v = std::make_shared<type>(create_type_struct(id, mv.root()));
@@ -612,7 +612,7 @@ void cstr::vparse(spec::cursor self, message::cursor parent,
     parent.emplace(node::field_node, self, read_to(bs, '\0'));
 }
 
-std::string cstr::vdescription(spec::cursor referer,
+std::string cstr::vdescription(spec::cursor /* referer */,
                                message::const_cursor c) const {
     return std::string(c->bits.begin(), c->bits.end() - 1);
 }
@@ -931,7 +931,7 @@ std::string to_html(const spec &s) {
     return os.str();
 }
 
-void xexport::vto_html(spec::const_cursor self, std::ostream &os) const {
+void xexport::vto_html(spec::const_cursor /* self */, std::ostream &os) const {
     os << "global properties";
 }
 

@@ -42,7 +42,7 @@ std::string child_elements(const group_list &groups) {
     for (auto &s : dest) {
         s.insert(0, "^");
     }
-    return ict::join(dest, ", ");
+    return ::ict::join(dest, ", ");
 }
 
 template <typename Elem>
@@ -65,7 +65,7 @@ std::string children(xsp_parser const &parser, const Elem &elem) {
     if (!elem.group_hrefs.empty()) {
         dest.push_back("link:#common_children[Common Children]");
     }
-    return dest.empty() ? "none" : ict::join(dest, ", ");
+    return dest.empty() ? "none" : ::ict::join(dest, ", ");
 }
 
 inline std::string anchor(const std::string &x) {

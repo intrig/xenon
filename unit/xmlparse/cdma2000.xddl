@@ -12,10 +12,7 @@
    WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
    PURPOSE.
 -->
-<xddl xmlns="http://www.intrig.com/2007/XDDLSchema" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://www.intrig.com/2007/XDDLSchema http://www.intrig.com/2007/XDDLSchema.xsd"
->
+<xddl>
  <comment>&lt;b&gt;CDMA 2000 XDDL Protocol Specification&lt;/b&gt;&lt;p&gt;Copyright &amp;copy; 2001 Intrig &lt;a href="www.intrig.com"&gt;www.intrig.com&lt;/a&gt;&lt;/p&gt;</comment>
 
  <!-- Type Section -->

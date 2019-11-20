@@ -15,7 +15,11 @@ WHITESPC  [ \t\r]
 #include <iostream>
 #include <string>
 #include "asnast.h"
+#if defined(USING_MESON)
 #include "asn1.tab.hh"
+#else
+#include "parser.hpp"
+#endif
 
 
 using namespace std;

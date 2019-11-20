@@ -204,7 +204,7 @@ class xsp_parser {
     void parser_destructor(std::ostream &os) const;
 
     void to_stream(std::ostream &h) const;
-    void to_stream(std::ostream &h, std::ostream &s) const;
+    void src_to_stream(std::ostream & s) const;
 
     void header(std::ostream &, st::type) const;
     std::string parser_header() const;
@@ -268,7 +268,7 @@ void for_each_element(Xsp &xspx, Pred op) {
 }
 
 std::vector<elem_type> unique_elems(const xsp_parser &xspx);
-ict::multivector<elem_type> elem_tree(const xsp_parser &xspx);
+::ict::multivector<elem_type> elem_tree(const xsp_parser &xspx);
 
 template <typename Os, typename Xsp>
 void to_dispatch(Os &os, const Xsp &xsp, std::string const &name) {

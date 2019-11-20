@@ -9,8 +9,6 @@ build:
 
 clean:
 	@test -d build && ninja -C build clean || true
-	rm -f xddl/3GPP/TS-25.331.xddl
-	rm -f xddl/3GPP/TS-36.331.xddl
 
 realclean:
 	rm -rf build
