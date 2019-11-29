@@ -1,6 +1,16 @@
 #include "to_adoc.h"
 #include "xspx_parser.h"
 #include <iostream>
+// FIXME Remove this once we move to cmake
+#if !defined(MESON)
+#include <xenon/config.h>
+#else
+namespace xenon {
+    inline auto version() {
+        return "";
+    }
+}
+#endif
 #include <xenon/ict/command.h>
 
 int main(int argc, char **argv) {
@@ -11,7 +21,8 @@ int main(int argc, char **argv) {
         xsp_parser p;
 
         ict::command line("xspx", "Xspec Processor",
-                          "xspx [options] xspec-file");
+                          "xspx [options] xspec-file",
+                          xenon::version());
         line.add(ict::option("header file", 'H', "Output header file", "",
                              [&](std::string s) { hfile = s; }));
         line.add(ict::option("source file", 'S', "Output cpp file", "",

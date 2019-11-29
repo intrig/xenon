@@ -295,7 +295,8 @@ int main(int argc, char **argv) {
         bool show_time = false;
 
         ict::command line("xv", "Validate messages",
-                          "xv [options] [xddl-file | xv-file | message]...");
+                          "xv [options] [xddl-file | xv-file | message]...",
+                          xenon::version());
         line.add(ict::option("force-xv", 'f', "force printing in xv format",
                              [&] { force_print = true; }));
         line.add(ict::option("no-paths", 'p', "don't check paths",

@@ -1,3 +1,4 @@
+#include <xenon/config.h>
 #include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 
@@ -109,7 +110,8 @@ int main(int argc, char **argv) {
     try {
         std::string ofile;
         ict::command line("xml-patch", "Patch up an xml file",
-                          "xml-patch [options] xml-file patch-file");
+                          "xml-patch [options] xml-file patch-file",
+                          xenon::version());
         line.add(ict::Option("output", 'o', "Output file", "asn.xddl",
                              [&](auto o) { ofile = o; }));
         line.parse(argc, argv);

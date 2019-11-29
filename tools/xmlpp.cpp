@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <xenon/config.h>
 #include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 
@@ -11,7 +12,7 @@ int main(int argc, char **argv) {
 
     try {
         ict::command line("xml-pp", "Pretty print xml to stdout",
-                          "xml-pp [options] xmlfile...");
+                          "xml-pp [options] xmlfile...", xenon::version());
         line.add(ict::Option("nodecl", 'n', "don't print xml declaration",
                              [&] { decl = false; }));
         line.parse(argc, argv);
@@ -31,7 +32,7 @@ int main(int argc, char **argv) {
     } catch (std::exception &e) {
         if (!filename.empty())
             std::cerr << "file: " << filename << " ";
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << '\n';
         return 1;
     }
 }

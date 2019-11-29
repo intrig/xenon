@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.11)
 
 set (SRC ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -11,8 +11,6 @@ add_custom_command(
     COMMENT generating xddl.cpp
     DEPENDS xspx xddl.xspx
 )
-
-include_directories(lua-5.1.4/src)
 
 if (MSVC)
 add_library(xenon STATIC
@@ -31,3 +29,18 @@ add_library(xenon SHARED
     xddl.cpp
 	)
 endif()
+
+if (NOT MSVC)
+    target_compile_options(xenon
+        PUBLIC -Wall -Wextra -Werror -fdiagnostics-color=always
+            -Wno-unneeded-internal-declaration -Wno-implicit-fallthrough)
+endif ()
+
+target_include_directories(xenon
+    PUBLIC ${CMAKE_SOURCE_DIR}/include
+           ${CMAKE_BINARY_DIR}/include
+    PRIVATE lua-5.1.4/src
+)
+
+install(TARGETS xenon
+    DESTINATION lib)

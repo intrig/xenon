@@ -1,11 +1,11 @@
-.PHONY: all clean realclean check test update get-deps install uninstall check-install
-.PHONY: tags
+.PHONY: all clean realclean check test update get-deps install uninstall
+.PHONY: check-install tags
 
 all: include/xenon/ict/ict.h build
 	ninja -C build
 
 build:
-	meson --buildtype release $@
+	mkdir $@ && cd $@ && cmake -GNinja ..
 
 clean:
 	@test -d build && ninja -C build clean || true
@@ -20,13 +20,14 @@ install: build
 	ninja -C build install
 
 uninstall:
-	ninja -C build uninstall
 
 check-install: build
 ifeq ($(TRAVIS_OS_NAME),linux)
 	sudo ldconfig
 endif
-	cd instacheck && meson build
+	rm -rf instacheck/build
+	cd instacheck && mkdir build && cd build && cmake -GNinja ..
+	ninja -C instacheck/build
 	ninja -C instacheck/build test
 
 tags:
@@ -46,13 +47,13 @@ update:
 get-deps:
 ifeq ($(TRAVIS_OS_NAME),linux)
 	sudo apt-get update
-	sudo apt-get install -y meson
+	sudo apt-get install -y ninja-build
 endif
 ifeq ($(TRAVIS_OS_NAME),osx)
 	sudo cp deps/osx/ninja /usr/local/bin
-	sudo pip3 install meson
 endif
 
 xddl.adoc: all ex.adoc
 	$(RM) xddl.adoc
-	build/xspx/xspx --adoc src/xddl.xspx | build/tools/procadoc | build/tools/procadoc > xddl.adoc
+	build/xspx/xspx --adoc src/xddl.xspx | build/tools/procadoc | \
+    build/tools/procadoc > xddl.adoc

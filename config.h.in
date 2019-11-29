@@ -1,3 +1,6 @@
-#define xenon_VERSION_MAJOR @xenon_VERSION_MAJOR@
-#define xenon_VERSION_MINOR @xenon_VERSION_MINOR@
-#define xenon_VERSION_PATCH @xenon_VERSION_PATCH@
+#pragma once
+namespace xenon {
+    inline auto version() {
+        return "@xenon_VERSION_MAJOR@.@xenon_VERSION_MINOR@.@xenon_VERSION_PATCH@";
+    }
+}

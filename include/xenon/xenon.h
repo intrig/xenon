@@ -1,4 +1,5 @@
 #pragma once
+#include <xenon/config.h>
 #include "ict/bitstring.h"
 #include "message.h"
 #include "recref.h"

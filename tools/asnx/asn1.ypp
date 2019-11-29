@@ -4,47 +4,53 @@
 #define YYDEBUG 0
 #define YY_NO_UNISTD_H
 
-#include <iostream>
-#include <fstream>
 #include "asnast.h"
-#include <xenon/ict/command.h>
 #include <cstdio>
+#include <fstream>
+#include <iostream>
+#include <xenon/config.h>
+#include <xenon/ict/command.h>
 
 using namespace std;
 
-#define UNSUPPORTED() \
-do { \
-    std::ostringstream os; \
-    os << "line " << current_line << ": unsupported action"; \
-    throw ict::create_exception(os.str(), __FILE__, __LINE__); \
-} while (0)
+#define UNSUPPORTED()                                                          \
+    do {                                                                       \
+        std::ostringstream os;                                                 \
+        os << "line " << current_line << ": unsupported action";               \
+        throw ict::create_exception(os.str(), __FILE__, __LINE__);             \
+    } while (0)
 
-#define TR(msg) do { \
-    if (trace_on) cerr << msg << endl; \
-} while (0)
+#define TR(msg)                                                                \
+    do {                                                                       \
+        if (trace_on)                                                          \
+            cerr << msg << endl;                                               \
+    } while (0)
 
 extern std::string current_string;
 extern int current_line;
 extern FILE *yyin;
 
-ModuleList * modlist;
+ModuleList *modlist;
 bool trace_on;
 bool ignore_warnings;
 
 int yylex();
 
-int yyerror(const char *p) 
-{ 
-        //TRACE("DefinedType");
+int yyerror(const char *p) {
+    // TRACE("DefinedType");
     IT_PANIC("Error: " << p << " at line " << current_line);
     return 0;
 }
 
-template <typename T> T * create() { return new T(); }
-template <typename T, typename A1> T * create(A1 a1) { return new T(a1); }
-template <typename T, typename A1, typename A2> T * create(A1 a1, A2 a2) { return new T(a1, a2); }
-template <typename T, typename A1, typename A2, typename A3> T * create(A1 a1, A2 a2, A3 a3) 
-    { return new T(a1, a2, a3); }
+template <typename T> T *create() { return new T(); }
+template <typename T, typename A1> T *create(A1 a1) { return new T(a1); }
+template <typename T, typename A1, typename A2> T *create(A1 a1, A2 a2) {
+    return new T(a1, a2);
+}
+template <typename T, typename A1, typename A2, typename A3>
+T *create(A1 a1, A2 a2, A3 a3) {
+    return new T(a1, a2, a3);
+}
 %}
 
 
@@ -961,7 +967,7 @@ int main(int argc, char **argv) {
     string ofile;
 
     ict::command line("asnx", "Convert asn.1 to xddl",
-                      "asnx [options] asn_file ...");
+                      "asnx [options] asn_file ...", xenon::version());
 
     std::streambuf *coutbuf = std::cout.rdbuf();
     try {

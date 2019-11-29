@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
         ict::command line(
             "recombobulator",
             "Transform a message into one of the same type with random values.",
-            "recombobulator [options] recref message...");
+            "recombobulator [options] recref message...", xenon::version());
         line.add(ict::option("verbose", 'V', "show progress",
                              [&] { verbose = true; }));
         line.add(ict::option(

@@ -1,6 +1,7 @@
 project('xenon', 'cpp',
     default_options : ['cpp_std=c++17', 'default_library=shared', 'warninglevel=3'])
 
+add_global_arguments('-DMESON', language : 'cpp')
 inc = include_directories(['include'])
 xenon_inc = include_directories(['src'])
 subdir('xspx')

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <xenon/config.h>
 #include <xenon/ict/command.h>
 #include <xenon/xddl_code.h>
 
@@ -54,7 +55,7 @@ int main(int argc, char **argv) {
     std::string xml_patch;
     try {
         ict::command line("asn-strip", "Strip ASN out of text file",
-                          "asn-strip textfile");
+                          "asn-strip textfile", xenon::version());
         line.parse(argc, argv);
 
         if (line.targets.size() != 1) {

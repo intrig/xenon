@@ -4,7 +4,6 @@
 
 using std::cerr;
 using std::cout;
-using std::endl;
 
 struct command_flags {
     bool flat_xml = false;
@@ -45,9 +44,9 @@ void process_xddl(ict::command const &line, command_flags const &flags) {
             bs = ict::bitstring(i->c_str());
 
             if (bs.empty()) {
-                cout << endl
+                cout << '\n'
                      << "  " << *i
-                     << " is not a valid hex or binary message string." << endl;
+                     << " is not a valid hex or binary message string.\n";
                 line.help();
                 exit(0);
             }
@@ -90,7 +89,8 @@ int main(int argc, char **argv) {
         command_flags flags;
 
         command line("idm", "A cli message decoder.",
-                     "idm [options] xddl_file [message]...\n");
+                     "idm [options] xddl_file [message]...\n",
+                     xenon::version());
 
         line.add(option("encoding", 'e', "Display encoding fields",
                         [&] { flags.encoding = true; }));
@@ -110,7 +110,6 @@ int main(int argc, char **argv) {
                         [&] { flags.debug_print = true; }));
         line.add(option("extra", 'E', "Display extra bits",
                         [&] { flags.show_extra = true; }));
-
         line.add_note("message : an ASCII hex or binary message string: e.g., "
                       "A10304 or @11011011");
 
@@ -128,7 +127,7 @@ int main(int argc, char **argv) {
             IT_FATAL("unrecognized file: " << filename);
 
     } catch (std::exception &e) {
-        cout << e.what() << endl;
+        cout << e.what() << '\n';
         return 1;
     }
 }
