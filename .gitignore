@@ -29,10 +29,8 @@
 *.out
 *.app
 
-# Intrig additional 
+# additional 
 *.swp
-o
 build
+debug
 tags
-
-# xenon specific

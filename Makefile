@@ -1,11 +1,14 @@
 .PHONY: all clean realclean check test update get-deps install uninstall
 .PHONY: check-install tags
 
-all: include/xenon/ict/ict.h build
+all: include/xenon/ict/ict.h build debug
 	ninja -C build
 
 build:
-	mkdir $@ && cd $@ && cmake -GNinja ..
+	mkdir $@ && cd $@ && cmake -GNinja -DCMAKE_BUILD_TYPE=Release ..
+
+debug:
+	mkdir $@ && cd $@ && cmake -GNinja -DCMAKE_BUILD_TYPE=Debug ..
 
 clean:
 	@test -d build && ninja -C build clean || true
@@ -32,10 +35,9 @@ endif
 
 tags:
 	@echo Making tags...
-	@$(RM) tags; find . -name node_modules -type d -prune -o -name '*.c' -o -name '*.cc' \
-    -o -name '*.cpp' \
-	-o -name '*.h' -o -name '*.py' > flist && \
-	ctags --file-tags=yes --language-force=C++ -L flist && rm flist
+	@$(RM) tags; find . -name '*.cpp' \
+	-o -name '*.h' > flist && \
+	ctags --file-tags=yes -L flist --totals && rm flist
 	@echo tags complete.
 
 include/xenon/ict/ict.h:
