@@ -967,3 +967,7 @@ f: /foo: 1: 1: @1:
 m: field01a.xddl: @1
 count: 1
 f: /foo: 1: 1: @1: 
+m: switch04.xddl: #03
+count: 1
+f: /doo: 3: 8: #03: 
+
