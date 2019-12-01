@@ -5717,3 +5717,25 @@ f: /DATA/repeat/record/ORDER: 35: 6: @100011: BCMC Order
 f: /DATA/repeat/record/ADD_RECORD_LEN: 6: 3: @110: 
 f: /CRC: 1073741823: 30: @111111111111111111111111111111: #3FFFFFFF
 
+m: icd.xddl: #020000C93EFE11894800372080
+count: 19
+f: /TimestampIncl: 0: 1: @0: false
+f: /SourceDestIncl: 0: 1: @0: false
+f: /Reserved: 0: 1: @0: zero
+f: /Technology: 2: 5: @00010: UTRA | RRC
+f: /Sublayer: 0: 8: #00: RRC
+f: /Channel: 0: 8: #00: Downlink Dedicated Control Channel (DL-DCCH)
+f: /option/integrityCheckInfo: 1: 1: @1: included
+f: /integrityCheckInfo/messageAuthenticationCode/MessageAuthenticationCode: 2457730083: 32: #927DFC23: 
+f: /integrityCheckInfo/rrc-MessageSequenceNumber: 1: 4: @0001: 
+f: /message/choice: 5: 5: @00101: downlinkDirectTransfer
+f: /message/downlinkDirectTransfer/choice: 0: 1: @0: r3
+f: /message/downlinkDirectTransfer/r3/option/laterNonCriticalExtensions: 0: 1: @0: not included
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/rrc-TransactionIdentifier: 2: 2: @10: 
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/cn-DomainIdentity: 0: 1: @0: cs-domain
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/count: 2: 12: @000000000001: 
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/nas-Message/NAS_Header/TI/TI flag: 1: 1: @1: Message sent to the side that originated the TI
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/nas-Message/NAS_Header/TI/TIO: 3: 3: @011: 
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/nas-Message/NAS_Header/PD: 9: 4: @1001: SMS messages
+f: /message/downlinkDirectTransfer/r3/downlinkDirectTransfer-r3/nas-Message/NAS_Header/NAS_MessageType: 4: 8: #04: CP-ACK
+

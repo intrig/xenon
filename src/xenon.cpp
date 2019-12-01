@@ -676,7 +676,7 @@ void xswitch::vparse(spec::cursor self, message::cursor parent,
     auto i = cases.find(val);
     if (i != cases.end()) {
         auto case_rec = self.begin() + i->second;
-        while (case_rec.empty())
+        while (case_rec != self.end() && case_rec.empty())
             ++case_rec; // fall-through of empty cases
         if (case_rec != self.end())
             parse_children(case_rec, parent, bs);
