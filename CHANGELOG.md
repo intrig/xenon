@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add Make rule to build for xcode: make xcode
 - Add version number to tools, such as idm -v, derived from xenon/config.h
 - Upgrade 36.331 to r15
 - Build: CI testing with Travis now
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- xddl: fixed bug with switch elements that had an empty last case
 - 3GPP/24.008: Fixed Code List decode length bug.
 
 ## Older versions

@@ -16,12 +16,18 @@ Originally developed for 3G and 4G programmers and test engineers to decode thei
 complex messages, the xenon decoder has evolved into a general purpose open source
 tool with an ever expanding protocol support base.
 
+Support for 5G is underway.
+See progress at https://github.com/intrig/xenon/issues/44
+
 And, using XDDL, you can support your own proprietary message formats.
 
 See xenon in action for yourself using the Intrig online decoder:
-http://intrig.com/x82da86[intrig.com].
+https://intrig.com/decode/3GPP/TS-36.331/DL-DCCH-Message/0C01513C9FB9C248283B11084808F0080824810A1FA800A8202C090A1FA800010C0098090808C82E4194DFE830[SMS Message]
 
 === Quick Start
+
+Xenon is a CMake based project. It builds on Linux, MacOS, and Windows.
+A Makefile is provided for convenience to drive the build system.
 
 ==== Building on Mac and Linux
 
@@ -33,13 +39,16 @@ From a terminal, issue the following commands:
     make test
     sudo make install
 
+For Macos, you can also run `make xcode` to make an xcode project in the `xcode`
+directory.
+
 ==== Building on Windows
 
 Windows requires the following steps:
 
 1. Clone the xenon repo as above.
-2. Using a recent version of Visual Studio, select menu item "File/Open/Folder..." and
-   select the top level xenon directory.
+2. Using a recent version of Visual Studio, select menu item "File/Open/Folder..."
+   and select the top level xenon directory.
 3. Select menu item "Build/Build All"
 4. Select menu item "Test/Run CTests" for xenon
 
@@ -51,14 +60,14 @@ The latter is needed to pick up the code generated xddl.h file.
 
 === Dependencies
 
-* https://mesonbuild.com[meson]
 * C++17 or later compiler
 * Github desktop (for Windows only)
 
 == Using Xenon
 
-Link with the libxenon.so library, found in `/usr/local/lib/x86_64-linux-gnu/libxenon.so`
-on Ubuntu.
+Link with the libxenon.so library, found in
+`/usr/local/lib/x86_64-linux-gnu/libxenon.so` on Linux,
+`/usr/local/lib/libxenon.dylib` on mac.
 
 The header files are found in `/usr/local/include/xenon`.
 
@@ -67,8 +76,8 @@ The XDDL data files are found in `/usr/local/share/xddl`.
 See the `xenon/examples` directory for some common uses of the decoder.
 
 If you want to parse your own custom protocols, then the
-https://github.com/intrig/xenon/blob/master/docs/xddl.adoc[XDDL Reference] is a complete
-reference containing useful examples.
+https://github.com/intrig/xenon/blob/master/docs/xddl.adoc[XDDL Reference]
+is a complete reference containing useful examples.
 
 Also, the tools directory contains useful examples, such as `idm` and `xv`.  These
 two programs are installed into `/usr/local/bin`.
@@ -82,20 +91,19 @@ For 3GPP specs, e.g. 36.331:
 
 1. Download the latest pdf spec.
 2. Save it to text file, e.g. 36.331.txt.
-   
++
 Ubuntu the pdftotext command can be used, for example:
-
-```
-pdftotext -nopgbrk -layout ts_136331v150700p.pdf 36.331.txt
-```
++
+`pdftotext -nopgbrk -layout ts_136331v150700p.pdf 36.331.txt`
 
 3. Run: asn-strip -m 36.331.txt > 36.331.asn
 
 4. Run: asnx -o TS-36.331.xddl -t 36.331.asn
-
++
 Edit 36.331.asn by hand.  Some of the lines may have been broken at '-'
-characters.  Fix the errors by hand and run the above step repeatedly until you fixed the errors.
+characters.  Fix the errors by hand and run the above step repeatedly until you
+fixed the errors.
 
-6. Add resulting xddl file to git.
+5. Add resulting xddl file to git.
 
 Enjoy!

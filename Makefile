@@ -10,6 +10,9 @@ build:
 debug:
 	mkdir $@ && cd $@ && cmake -GNinja -DCMAKE_BUILD_TYPE=Debug ..
 
+xcode:
+	mkdir $@ && cd $@ && cmake -GXcode -DCMAKE_BUILD_TYPE=Debug ..
+
 clean:
 	@test -d build && ninja -C build clean || true
 
