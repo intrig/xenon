@@ -67,6 +67,14 @@ void unit::find_first_test() {
     }
 }
 
+void unit::find_first_again() {
+    xenon::spec_server d("../xddl/icd.xddl");
+    auto decoded_msg =
+        xenon::parse(d, "0101011107952901a3de0a800982511effffffff");
+    auto c = xenon::find_first(decoded_msg, "DATA/MSG_TYPE");
+    IT_ASSERT(c != decoded_msg.end());
+}
+
 void unit::for_each_path_test() {
     xn::spec_server s("xddlunit");
     auto rec = xn::get_record(s, "field01/start");
