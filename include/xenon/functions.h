@@ -98,6 +98,9 @@ template <typename Cursor, typename ForwardIterator>
 inline Cursor find_first(Cursor parent, ForwardIterator first,
                          ForwardIterator last, ForwardIterator curr) {
     for (auto child = parent.begin(); child != parent.end(); ++child) {
+        IT_WARN(*curr);
+        IT_WARN(child->name());
+        IT_WARN("checking " << *curr << " == " << child->name());
         if (*curr == child->name()) {
             if ((curr + 1) == last) {
                 return child;
@@ -135,6 +138,7 @@ inline Cursor find_first_abs(Cursor parent, ForwardIterator first,
 
 template <typename Cursor>
 inline Cursor find_first(Cursor parent, const path &path) {
+    IT_WARN("\nfind_first " << path);
     return path.absolute()
                ? find_first_abs(parent, path.begin(), path.end(), path.begin())
                : find_first(parent, path.begin(), path.end(), path.begin());
