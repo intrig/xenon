@@ -20,7 +20,7 @@ realclean:
 	rm -rf build
 
 check: build
-	ninja -C build test
+	CTEST_OUTPUT_ON_FAILURE=1 ninja -C build test
 
 install: build
 	ninja -C build install

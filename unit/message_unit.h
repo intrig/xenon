@@ -5,7 +5,7 @@ class unit {
   public:
     void register_tests(ict::unit_test<unit> &ut) {
         ut.add(&unit::find_first_test);
-        ut.iso(&unit::find_first_again);
+        ut.add(&unit::find_first_again);
         ut.add(&unit::for_each_path_test);
         ut.skip();
         ut.cont();
