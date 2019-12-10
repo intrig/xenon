@@ -285,7 +285,6 @@ std::string to_text(const message &m, const std::string &format,
 
 message::cursor create_global(spec::cursor xddl_root, message::cursor globs,
                               const std::string &name, bitstring bits) {
-    static auto prop_path = path("export/prop");
     auto root = xddl_root;
     auto c = find_prop(root.parent(), name);
     if (c != root.parent().end() && bits.empty()) {
@@ -313,7 +312,6 @@ message::cursor set_global(spec::cursor self, message::cursor value) {
 
 // load time
 spec::cursor get_variable(const std::string &name, spec::cursor context) {
-    static auto prop_path = path("xddl/export/prop");
     // look for name previously defined in spec
     auto first = rfind_first(context, name);
     if (!first.is_root())

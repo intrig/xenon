@@ -123,11 +123,9 @@ static int script_find(lua::lua_State *L) {
 
     auto c = find_first(n, s);
     if (c == n.end()) {
-        // IT_WARN(s << " not found");
         lua_pushstring(L, "");
         return 1;
     }
-    // IT_WARN("found " << s << ": " << *c);
     lua_pushstring(L, description(c).c_str());
     return 1;
 }
@@ -147,6 +145,8 @@ void element::to_string(std::ostream &os) const {
         v->vto_string(os);
     else
         os << "(nullptr)";
+
+    os << " [" << parser->file << ":" << line << "]";
 }
 
 void record::vto_string(std::ostream &os) const { os << id; }
@@ -287,8 +287,6 @@ void create_url_map(Cursor parent, Map &m, ict::string64 tag) {
 
 template <typename Cursor, typename Map>
 void link_ref(Cursor &self, recref &url, Map &m) {
-    // IT_WARN("linking ref for " << url);
-    // IT_WARN("self is " << *self);
     if (url.is_local()) {
         auto i = m.find(url);
         if (i == m.end())
@@ -593,6 +591,10 @@ void field::vparse(spec::cursor self, message::cursor parent,
         if (c->elem->flags.test(element::global_flag))
             set_global(self, c, self);
     }
+#if 0
+    xenon::util::to_debug_text(std::cerr, ict::get_root(parent),
+                               [&](auto) { return true; }, 0);
+#endif
 }
 
 // TODO add this to ict::bitstring
@@ -717,7 +719,6 @@ type::item_data const &type::item_info(int64_t key) const {
 }
 
 std::string type::venum_string(spec::cursor, msg_const_cursor c) const {
-    // IT_WARN("type::venum_string");
     auto key = c->value();
     if (!items.empty()) {
         auto i = items.find(key);

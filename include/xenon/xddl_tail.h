@@ -70,7 +70,6 @@ inline SpecCursor find_prop(SpecCursor start, const std::string &prop_name) {
 
 template <typename Cursor>
 inline std::string create_jump_name(Cursor start, const std::string &value) {
-    static auto prop_path = path("xddl/export/prop");
     auto c = rfind_first(start, value);
     if (c.is_root()) {
         auto root = spec::cursor(c);
