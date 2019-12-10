@@ -10953,7 +10953,7 @@
         <field name="BCMC_PROGRAM_ID_LEN" length="5"/>
         <field name="BCMC_PROGRAM_ID" length="BCMC_PROGRAM_ID_LEN+1"/>
         <field name="BCMC_FLOW_DISCRIMINATOR_LEN" length="3"/>
-        <if expr="!BCMC_FLOW_DISCRIMINATOR_LEN">
+        <if expr="BCMC_FLOW_DISCRIMINATOR_LEN != 0">
           <field name="NUM_FLOW_DISCRIMINATOR" length="BCMC_FLOW_DISCRIMINATOR_LEN"/>
           <repeat num="NUM_FLOW_DISCRIMINATOR + 1">
             <field name="BCMC_FLOW_DISCRIMINATOR" length="BCMC_FLOW_DISCRIMINATOR_LEN"/>
