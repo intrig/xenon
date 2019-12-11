@@ -79,8 +79,9 @@ If you want to parse your own custom protocols, then the
 https://github.com/intrig/xenon/blob/master/docs/xddl.adoc[XDDL Reference]
 is a complete reference containing useful examples.
 
-Also, the tools directory contains useful examples, such as `idm` and `xv`.  These
-two programs are installed into `/usr/local/bin`.
+Also, the tools directory contains useful examples, such as `xenon-dm` and
+`xenon-xv`.
+These two programs are installed into `/usr/local/bin`.
 
 === Converting 3GPP asn.1 to XDDL
 

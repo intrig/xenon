@@ -21,6 +21,7 @@ struct command_flags {
 void process_xddl(ict::command const &line, command_flags const &flags) {
     auto i = line.targets.begin();
     xenon::spec_server d;
+    d.add_spec(xenon::xddl_dir());
     try {
         d.clear();
         auto u = xenon::recref(*i);
@@ -88,8 +89,8 @@ int main(int argc, char **argv) {
     try {
         command_flags flags;
 
-        command line("idm", "A cli message decoder.",
-                     "idm [options] xddl_file [message]...\n",
+        command line("xenon-dm", "A cli message decoder.",
+                     "xenon-dm [options] xddl_file [message]...\n",
                      xenon::version());
 
         line.add(option("encoding", 'e', "Display encoding fields",

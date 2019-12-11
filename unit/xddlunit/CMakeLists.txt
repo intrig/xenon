@@ -3,19 +3,19 @@ enable_testing()
 
 add_test(
     NAME basic
-    COMMAND xv --xddl_path="${CMAKE_SOURCE_DIR}/xddl" basic.xv
+    COMMAND xenon-xv --xddl_path="${CMAKE_SOURCE_DIR}/xddl" basic.xv
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_test(
     NAME brass
-    COMMAND xv --xddl_path="${CMAKE_SOURCE_DIR}/xddl" icd_brass.xv
+    COMMAND xenon-xv --xddl_path="${CMAKE_SOURCE_DIR}/xddl" icd_brass.xv
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_test(
     NAME gold
-    COMMAND xv --xddl_path="${CMAKE_SOURCE_DIR}/xddl" icd_gold.xv
+    COMMAND xenon-xv --xddl_path="${CMAKE_SOURCE_DIR}/xddl" icd_gold.xv
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

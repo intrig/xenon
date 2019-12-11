@@ -14,4 +14,4 @@ add_executable(decode decode.cpp)
 target_link_libraries(decode -lxenon) 
 
 add_test(NAME decode COMMAND decode
-    WORKING_DIRECTORY /usr/local/share/xddl)
+    WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/share/xddl)

@@ -8,19 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add Make rule to build for xcode: make xcode
-- Add version number to tools, such as idm -v, derived from xenon/config.h
+- Add version number to tools, such as xenon-dm -v, derived from xenon/config.h
 - Upgrade 36.331 to r15
 - Build: CI testing with Travis now
 - Build: Using c++17 and no longer require boost for tests
-- Build: make install and make uninstall supported
-- Preliminary cmake support but still using meson for CI
-- Preliminary Windows suport for build and test
-
+- Build: make install supported under MacOS/Linux
+- Build: Preliminary Windows support for build and test, static library only
+- Build: New make rule to build for xcode: make xcode
+ 
 ### Changed
 
 - Doc: Updated README
 - Doc: Generated XDDL documentation updated
+- Tools: Renamed idm to xenon-dm and xv to xenon-xv
+- Tools: xenon-dm now looks in the default data dir for xddl files by default
 
 ### Fixed
 
