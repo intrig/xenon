@@ -971,3 +971,13 @@ m: switch04.xddl: #03
 count: 1
 f: /doo: 3: 8: #03: 
 
+m: expression06.xddl: #000000
+count: 1
+f: /len: 0: 8: #00: 
+
+m: expression06.xddl: #0808FA
+count: 3
+f: /len: 8: 8: #08: 
+f: /a: 8: 8: #08: 
+f: /b: 250: 8: #FA: 
+

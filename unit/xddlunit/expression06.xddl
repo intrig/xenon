@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xddl>
+  <!--
+  This caused a std::bad_alloc exception because by convention fields of length
+  0 are not created. So 'a' doesn't get created.  But then 'b' tries to use 'a'.
+  Levity ensues.
+
+  ../../debug/tools/xenon-dm -epL expression06.xddl 00
+
+  Now 'b' just gets a set to 0
+  -->
+  <start>
+    <field name="len" length="8"/>
+    <field name="a" length="len"/>
+    <field name="b" length="a"/>
+  </start>
+</xddl>

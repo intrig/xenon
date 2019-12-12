@@ -1,6 +1,7 @@
 #include <xenon/message.h>
 #include <xenon/spec_server.h>
 #include <xenon/xddl.h>
+#include <xenon/xenon.h>
 
 struct attr {
     attr(const char *key, const char *value)
@@ -283,11 +284,21 @@ std::string to_text(const message &m, const std::string &format,
     return os.take();
 }
 
-message::cursor create_global(spec::cursor xddl_root, message::cursor globs,
+message::cursor create_global(spec::cursor self, message::cursor globs,
                               const std::string &name, bitstring bits) {
-    auto root = xddl_root;
-    auto c = find_prop(root.parent(), name);
-    if (c != root.parent().end() && bits.empty()) {
+    auto c = find_prop(self, name);
+    if (c == self.end()) {
+        // There is no field in the message, and there is no export property
+        // defined.  This is due to bad xddl.  See the expression06.xddl unit
+        // test. We just set c to the corresponding spec element.
+        c = rfind_first(self, name);
+        if (!c.is_root())
+            IT_PANIC("internal panic: cannot create property " << name);
+
+    } else if (bits.empty()) {
+        // found the property export, but the bitstring is empty,
+        // so go get the default value from the corresponsing spec element
+        // and use that for the bits.
         if (auto prop_elem = get_ptr<prop>(c->v)) {
             if (!prop_elem)
                 IT_PANIC("internal panic");
@@ -295,7 +306,6 @@ message::cursor create_global(spec::cursor xddl_root, message::cursor globs,
             bits = ict::from_integer(v);
         }
     }
-
     return globs.emplace(node::prop_node, c, bits);
 }
 
@@ -303,8 +313,7 @@ message::cursor set_global(spec::cursor self, message::cursor value) {
     auto globs = ict::get_root(value).begin();
     auto g = find_first(globs, value->name());
     if (g == globs.end())
-        g = create_global(get_root(self).begin(), globs, value->name(),
-                          value->bits);
+        g = create_global(self, globs, value->name(), value->bits);
     else
         g->bits = value->bits;
     return g;
@@ -336,16 +345,17 @@ message::cursor get_variable(const std::string &name, message::cursor context) {
     auto g = std::find_if(globs.begin(), globs.end(),
                           [&](const node &n) { return n.name() == name; });
     if (g == globs.end()) {
-        auto xddl_root = ict::get_root(context->elem).begin();
         try {
-            g = create_global(xddl_root, globs, name);
+            g = create_global(context->elem, globs, name);
         } catch (std::exception &e) {
-            ict::osstream os;
-            os << e.what() << " [" << context->file() << ":" << context->line()
-               << "]";
-            IT_PANIC(os.str());
+            IT_PANIC(e.what() << " [" << context->file() << ":" << context->line()
+               << "]");
         }
     }
+#if 0
+    xenon::util::to_debug_text(std::cerr, ict::get_root(context),
+                               [&](auto) { return true; }, 0);
+#endif
     return g;
 }
 

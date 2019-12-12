@@ -32,7 +32,7 @@ inline int64_t bit_size(message::cursor parent) {
 
 // Create a global prop and set it equal to the given bitstring, or the default
 // given by the spec. Precondition: The global does not yet exist.
-message::cursor create_global(spec::cursor xddl_root, message::cursor globs,
+message::cursor create_global(spec::cursor self, message::cursor globs,
                               const std::string &name,
                               bitstring bits = bitstring());
 
