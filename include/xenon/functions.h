@@ -16,17 +16,17 @@ struct path {
     path(const std::string &path_string) {
         auto ps = path_string;
         if (ps.size() == 0)
-            std::runtime_error("invalid empty path");
+            IT_PANIC("invalid empty path");
         if (ps[0] == '/') {
             abs = true;
             ps.erase(0, 1);
             if (ps.size() == 0)
-                std::runtime_error("a lone '/' is an invalid path");
+                IT_PANIC("a lone '/' is an invalid path");
             if (ps[0] == '/') {
                 abs = false;
                 ps.erase(0, 1);
                 if (ps.size() == 0)
-                    std::runtime_error("a lone '//' is an invalid path");
+                    IT_PANIC("a lone '//' is an invalid path");
             }
         }
         p = ict::escape_split(ps, '/');
