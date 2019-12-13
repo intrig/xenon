@@ -6,7 +6,7 @@ enable_testing()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-if (APPLE)
+if (UNIX)
     include_directories(SYSTEM "/usr/local/include")
 endif ()
 

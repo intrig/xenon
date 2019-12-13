@@ -28,13 +28,16 @@ install: build
 uninstall:
 
 check-install: build
+ifeq ($(TRAVIS_OS_NAME),ubuntu-latest)
+	sudo ldconfig
+endif
 ifeq ($(TRAVIS_OS_NAME),linux)
 	sudo ldconfig
 endif
 	rm -rf instacheck/build
 	cd instacheck && mkdir build && cd build && cmake -GNinja ..
 	ninja -C instacheck/build
-	ninja -C instacheck/build test
+	CTEST_OUTPUT_ON_FAILURE=1 ninja -C instacheck/build test
 
 tags:
 	@echo Making tags...
@@ -50,6 +53,14 @@ update:
 	git submodule foreach git pull origin master
 
 get-deps:
+	@echo OS is $(TRAVIS_OS_NAME)
+ifeq ($(TRAVIS_OS_NAME),ubuntu-latest)
+	sudo apt-get update
+	sudo apt-get install -y ninja-build
+endif
+ifeq ($(TRAVIS_OS_NAME),macos-latest)
+	sudo cp deps/osx/ninja /usr/local/bin
+endif
 ifeq ($(TRAVIS_OS_NAME),linux)
 	sudo apt-get update
 	sudo apt-get install -y ninja-build

@@ -44,7 +44,7 @@ add_library(xenon ${lib-type}
 
 if (NOT MSVC)
     target_compile_options(xenon
-        PUBLIC -Wall -Wextra -Werror -fdiagnostics-color=always
+        PUBLIC -Wall -Wextra -fdiagnostics-color=always
             -Wno-unneeded-internal-declaration -Wno-implicit-fallthrough)
 endif ()
 
