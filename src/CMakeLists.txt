@@ -1,48 +1,46 @@
 cmake_minimum_required(VERSION 3.11)
 
-set (SRC ${CMAKE_CURRENT_SOURCE_DIR})
+set (xddl_h ${CMAKE_BINARY_DIR}/include/xenon/xddl.h)
+set (xddl_cpp ${CMAKE_CURRENT_BINARY_DIR}/xddl.cpp)
+set (xddl_xspx ${CMAKE_CURRENT_SOURCE_DIR}/xddl.xspx)
 
 find_program(
-    CLANG_FORMAT_EXE
-    NAMES "clang-format"
-    )
+    clang-format
+    NAMES "clang-format")
 
-# This is the lynchpin rule to the entire system.  To build the library below,
-# we must first generate the xddl.cpp and xddl.h files, which depend on the xspx
-# program and the xddl.xspx file.
-if(NOT CLANG_FORMAT_EXE)
-    message(STATUS "clang-format not found")
-add_custom_command(
-    OUTPUT xddl.cpp ../include/xenon/xddl.h
-    COMMAND xspx -H ../include/xenon/xddl.h -S xddl.cpp ${SRC}/xddl.xspx
-    )
-
+if (clang-format)
+    message(STATUS "clang-format found: ${clang-format}")
+    set (format-command ${clang-format} -i ${xddl_h} ${xddl_cpp} ${xddl_xspx})
 else()
-    message(STATUS "clang-format found: ${CLANG_FORMAT_EXE}")
-add_custom_command(
-    OUTPUT xddl.cpp ../include/xenon/xddl.h
-    COMMAND xspx -H ../include/xenon/xddl.h -S xddl.cpp ${SRC}/xddl.xspx
-    COMMAND ${CLANG_FORMAT_EXE} -i ../include/xenon/xddl.h xddl.cpp ${SRC}/xddl.xspx
-    )
+    message(STATUS "clang-format NOT found")
+    set (format-command "")
 endif()
 
+# This is the lynchpin to the entire system.  To build the library below,
+# we must first generate the xddl.cpp and xddl.h files, which depend on the xspx
+# program and the xddl.xspx file.
+
+add_custom_command(
+    OUTPUT ${xddl_cpp} ${xddl_h}
+    COMMAND xspx -H ${xddl_h} -S ${xddl_cpp} ${xddl_xspx}
+    COMMAND ${format-command}
+    DEPENDS xspx ${xddl_xspx}
+    )
+
 if (MSVC)
-add_library(xenon STATIC
+    set (lib-type STATIC)
+else()
+    set (lib-type SHARED)
+endif()
+
+add_library(xenon ${lib-type}
     lua-5.1.4/src/lua_all.cpp
     xml_parser_base.cpp 
     message.cpp
     xenon.cpp
     xddl.cpp
+    ${xddl_h}
 )
-else()
-add_library(xenon SHARED
-    lua-5.1.4/src/lua_all.cpp
-    xml_parser_base.cpp
-    message.cpp
-    xenon.cpp
-    xddl.cpp
-	)
-endif()
 
 if (NOT MSVC)
     target_compile_options(xenon
