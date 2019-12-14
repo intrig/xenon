@@ -1,5 +1,5 @@
 .PHONY: all clean realclean check test update get-deps install uninstall
-.PHONY: check-install tags
+.PHONY: check-install tags check-install2
 
 all: include/xenon/ict/ict.h build debug
 	ninja -C build
@@ -54,13 +54,6 @@ update:
 
 get-deps:
 	@echo OS is $(TRAVIS_OS_NAME)
-ifeq ($(TRAVIS_OS_NAME),ubuntu-latest)
-	sudo apt-get update
-	sudo apt-get install -y ninja-build
-endif
-ifeq ($(TRAVIS_OS_NAME),macos-latest)
-	sudo cp deps/osx/ninja /usr/local/bin
-endif
 ifeq ($(TRAVIS_OS_NAME),linux)
 	sudo apt-get update
 	sudo apt-get install -y ninja-build
@@ -68,6 +61,12 @@ endif
 ifeq ($(TRAVIS_OS_NAME),osx)
 	sudo cp deps/osx/ninja /usr/local/bin
 endif
+
+check-install2:
+	cmake -E remove_directory instacheck/build
+	cmake -B instacheck/build -S instacheck -GNinja -DCMAKE_BUILD_TYPE=Release
+	cmake --build instacheck/build
+	cd instacheck/build && ctest
 
 xddl.adoc: all ex.adoc
 	$(RM) xddl.adoc

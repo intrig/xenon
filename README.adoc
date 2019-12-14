@@ -27,20 +27,19 @@ https://intrig.com/decode/3GPP/TS-36.331/DL-DCCH-Message/0C01513C9FB9C248283B110
 === Quick Start
 
 Xenon is a CMake based project. It builds on Linux, MacOS, and Windows.
-A Makefile is provided for convenience to drive the build system.
+
+A Makefile is provided for convenience only and can be used on MacOS and Linux.
 
 ==== Building on Mac and Linux
 
-From a terminal, issue the following commands:
-
-    git clone --recursive https://github.com/intrig/xenon.git
+    git clone --recurse-submodules http://github.com/intrig/xenon.git
     cd xenon
-    make
-    make test
-    sudo make install
+    cmake -B build -S . -GNinja -DCMAKE_BUILD_TYPE=Release
+    cmake --build build
+    cmake --install build -v
 
-For Macos, you can also run `make xcode` to make an xcode project in the `xcode`
-directory.
+For MacOS you can also use `-Gxcode` in the above cmake command to make an xcode
+project in the `xcode` subdirectory.
 
 ==== Building on Windows
 
@@ -52,26 +51,34 @@ Windows requires the following steps:
 3. Select menu item "Build/Build All"
 4. Select menu item "Test/Run CTests" for xenon
 
-This currently builds a static libary and there is no installation ability yet.
-
-For building against the xenon library, you will have to add the xenon/include
-directory to your path, as well as the xenon/out/build/x64-Debug/include directory.
-The latter is needed to pick up the code generated xddl.h file.
+This currently builds a static libary.
 
 === Dependencies
 
+* Cmake
+* Ninja
 * C++17 or later compiler
-* Github desktop (for Windows only)
+
+Checkout the `.github/workflow/ccpp.yml` file to see how these are installed for
+the CI system on the latest OS versions.
 
 == Using Xenon
 
-Link with the libxenon.so library, found in
-`/usr/local/lib/x86_64-linux-gnu/libxenon.so` on Linux,
-`/usr/local/lib/libxenon.dylib` on mac.
+Link with the libxenon.so library, found in:
 
-The header files are found in `/usr/local/include/xenon`.
+* `/usr/local/lib//libxenon.so` on Linux,
+* `/usr/local/lib/libxenon.dylib` on MacOS.
+* `C:\Program Files (x86)\xenon\lib\xenon.lib` on Windows.
 
-The XDDL data files are found in `/usr/local/share/xddl`.
+Header files:
+
+* `/usr/local/include/xenon` on MacOS and Linux,
+* `C:\Program Files (x86)\xenon\include\xenon` on Windows.
+
+The XDDL data files:
+
+* `/usr/local/share/xddl` on MacOS and Linux,
+* `C:\Program Files (x86)\xenon\share\xddl` on Windows.
 
 See the `xenon/examples` directory for some common uses of the decoder.
 

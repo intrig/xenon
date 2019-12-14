@@ -106,6 +106,19 @@ jobs:
         cmake --build build
 
     - name: Test
+      run: ctest --build-config build
+
+    - name: Install (Windows)
+      if: runner.os == 'Windows'
+      run: cmake --install build -v
+
+    - name: Install (macOS and Linux)
+      if: runner.os != 'Windows'
+      run: sudo cmake --install build -v
+
+    - name: Check Install
       run: |
-        cd build
+        cmake -B instacheck/build -S instacheck -DCMAKE_BUILD_TYPE=Release
+        cmake --build instacheck/build
+        cd instacheck/build
         ctest
