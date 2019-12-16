@@ -98,7 +98,7 @@ jobs:
         echo "::set-env name=PATH::$env:PATH"
         .github\workflows\vsenv.bat -arch=amd64 -host_arch=amd64
 
-    - name: Build 
+    - name: Build
       run: |
         git submodule update --init --recursive
         cmake -E remove_directory build
@@ -106,7 +106,9 @@ jobs:
         cmake --build build
 
     - name: Test
-      run: ctest --build-config build
+      run: |
+        cd build
+        ctest
 
     - name: Install (Windows)
       if: runner.os == 'Windows'
