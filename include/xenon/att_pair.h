@@ -50,7 +50,7 @@ template <typename T> bool to_boolean(T value) {
     if (value == "false")
         return false;
     IT_PANIC(value << " must be true or false");
-};
+}
 
 inline void create_att_list(att_list &atts, const char **att_array) {
     atts.clear();

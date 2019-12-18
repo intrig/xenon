@@ -97,12 +97,12 @@ class xv_field {
 
     std::string path;
     int64_t value;
-    int length;
+    size_t length;
     std::string sbs;
     std::string desc;
 
     std::string file;
-    int xddl_line;
+    size_t xddl_line;
     size_t xv_line = 0;
     std::string xv_file;
 };

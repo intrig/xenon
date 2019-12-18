@@ -1,4 +1,4 @@
-.PHONY: all clean realclean check test update get-deps install uninstall
+.PHONY: all clean realclean check test upgrade-ict get-deps install uninstall
 .PHONY: check-install tags check-install2
 
 all: include/xenon/ict/ict.h build debug
@@ -19,7 +19,7 @@ clean:
 realclean:
 	rm -rf build
 
-check: build
+check: all
 	CTEST_OUTPUT_ON_FAILURE=1 ninja -C build test
 
 install: build
@@ -41,7 +41,7 @@ endif
 
 tags:
 	@echo Making tags...
-	@$(RM) tags; find . -name '*.cpp' \
+	@$(RM) tags; find . -name '*.cpp' -o -name '*.c' \
 	-o -name '*.h' > flist && \
 	ctags --file-tags=yes -L flist --totals && rm flist
 	@echo tags complete.
@@ -49,8 +49,11 @@ tags:
 include/xenon/ict/ict.h:
 	git submodule update --init --recursive
 
-update:
+upgrade-ict:
 	git submodule foreach git pull origin master
+
+copy-ict:
+	cp -r ../ict/*.h include/xenon
 
 get-deps:
 	@echo OS is $(TRAVIS_OS_NAME)

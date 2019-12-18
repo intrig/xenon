@@ -16,7 +16,7 @@ template <typename Op> void iterate(int n, Op op) {
         op();
     time.stop();
     cerr << time << '\n';
-};
+}
 
 void load_all_xddl(const fs::path &dir, xenon::spec_server &specs) {
     fs::directory_iterator end_itr;

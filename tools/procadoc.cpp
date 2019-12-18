@@ -109,7 +109,7 @@ bool parse_read(std::ostream &os, section_list /* sects */, const std::string &l
 void parse_line(std::ostream &os, const section_list &sects,
                 const std::string &line) {
     // %bit -> <bit>
-    const std::regex xddl_tag("\%([[:alnum:]]+)");
+    const std::regex xddl_tag("%([[:alnum:]]+)");
 
     // ^bit -> <bit>
     const std::regex tag_link("\\^([[:alnum:]]+)");

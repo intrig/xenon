@@ -6,9 +6,7 @@ WHITESPC  [ \t\r]
 %{
 
 // define this to be nothing since its deprecated in C++11
-#ifndef _WIN32
 #define register
-#endif
 
 #define YY_NO_UNISTD_H
 

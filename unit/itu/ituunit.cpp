@@ -27,7 +27,7 @@ void itu_unit::bit_lengths() {
     struct range_type {
         int64_t lower;
         int64_t upper;
-        int bit_size;
+        size_t bit_size;
     };
 
     range_type tests[] = {{0, 1, 1},     {0, 2, 2},     {0, 3, 2},
@@ -50,7 +50,7 @@ void itu_unit::bit_lengths() {
     range_type *last = tests + sizeof(tests) / sizeof(tests[0]);
 
     while (first != last) {
-        int bits = ict::required_bits(first->lower, first->upper);
+        size_t bits = ict::required_bits(first->lower, first->upper);
         IT_ASSERT_MSG("test " << c << " (" << first->lower << ", "
                               << first->upper << "): calculated " << bits
                               << ", expected " << first->bit_size,

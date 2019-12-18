@@ -54,7 +54,8 @@ static int script_EnumValue(lua::lua_State *L) {
 }
 
 #ifdef _MSC_VER
-#pragma warning(once : 4244)
+#pragma warning( push )
+#pragma warning( disable : 4244)
 #endif
 
 // get the value of a previous node
@@ -78,6 +79,10 @@ static int script_Slice(lua::lua_State *L) {
     lua::lua_pushnumber(L, num);
     return 1;
 }
+
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 
 static int script_TwosComplement(lua::lua_State *L) {
     auto n = get_cursor(L);
@@ -174,8 +179,8 @@ void xcase::vend_handler(spec::cursor, spec &parser) {
 
 type create_type_struct(recref url, spec::cursor parent) {
     std::shared_ptr<lua::state_wrapper> l = 0;
-    std::map<int, type::item_data> items;
-    std::map<std::pair<int, int>, type::item_data> ranges;
+    std::map<size_t, type::item_data> items;
+    std::map<std::pair<size_t, size_t>, type::item_data> ranges;
 
     for (auto c = parent.begin(); c != parent.end(); ++c) {
         auto t = c->tag();
@@ -698,11 +703,11 @@ void xwhile::vparse(spec::cursor self, message::cursor parent,
 
 // member functions
 type::~type() {
-    if (l.unique() && lua::get(l))
+    if ((l.use_count() == 1) && lua::get(l))
         lua::lua_close(lua::get(l));
 }
 
-type::item_data const &type::item_info(int64_t key) const {
+type::item_data const &type::item_info(size_t key) const {
     if (!items.empty()) {
         auto i = items.find(key);
         if (i != items.end())
@@ -719,7 +724,7 @@ type::item_data const &type::item_info(int64_t key) const {
 }
 
 std::string type::venum_string(spec::cursor, msg_const_cursor c) const {
-    auto key = c->value();
+    size_t key = c->value();
     if (!items.empty()) {
         auto i = items.find(key);
         if (i != items.end())
@@ -735,6 +740,11 @@ std::string type::venum_string(spec::cursor, msg_const_cursor c) const {
     }
     return "invalid value";
 }
+
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4244)
+#endif
 
 std::string type::value(spec::cursor x, message::const_cursor c) const {
     auto p = lua::get(l);
@@ -769,6 +779,10 @@ std::string type::value(spec::cursor x, message::const_cursor c) const {
 
     return std::string();
 }
+
+#ifdef _MSC_VER
+#pragma warning( pop )
+#endif
 
 std::string type::vdescription(spec::cursor referer,
                                message::const_cursor c) const {

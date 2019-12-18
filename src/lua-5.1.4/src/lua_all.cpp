@@ -4,6 +4,12 @@
 * all.c -- Lua core, libraries and interpreter in a single file
 */
 
+#if defined(_MSC_VER)
+#pragma warning( push )
+#pragma warning( disable : 4244 )
+#pragma warning( disable : 4334 )
+#endif
+
 #define luaall_c
 
 #include <cmath>
@@ -52,3 +58,6 @@ namespace xenon {
 #include "ltablib.c"
     } // lua
 } // ict
+#if defined(_MSC_VER)
+#pragma warning( pop )
+#endif

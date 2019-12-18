@@ -378,7 +378,7 @@
         <child>default</child>
         <code href="vparse"/>
         <public>
-        std::map&lt;int, int&gt; cases; // map of values to child index
+        std::map&lt;size_t, size_t&gt; cases; // map of values to child index
         bool has_default = false;
         </public>
     </element>
@@ -411,13 +411,13 @@
             mutable spec_cursor ref;
             recref href;
         };
-        item_data const &amp; item_info(int64_t key) const;
+        item_data const &amp; item_info(size_t key) const;
         bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }
         std::string value(spec_cursor referer, msg_const_cursor c) const;
         virtual ~type() final;
         std::shared_ptr&lt;lua::state_wrapper&gt; l = 0;
-        std::map&lt;int, item_data&gt; items;
-        std::map&lt;std::pair&lt;int, int&gt;, item_data&gt; ranges;
+        std::map&lt;size_t, item_data&gt; items;
+        std::map&lt;std::pair&lt;size_t, size_t&gt;, item_data&gt; ranges;
         </public>
     </element>
 

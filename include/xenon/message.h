@@ -181,6 +181,6 @@ struct heading {
     ht::index type;
     size_t width;
 };
-}; // namespace ht
+} // namespace ht
 
 } // namespace xenon
