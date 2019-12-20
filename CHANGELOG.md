@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - xddl: fixed bug with switch elements that had an empty last case
 - 3GPP/24.008: Fixed Code List decode length bug.
+- multivector: fixed access bug for empty cursors
+- bitstring: upgraded to use proper `bit_iterator`s
 
 ## Older versions
 

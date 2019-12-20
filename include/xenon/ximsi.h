@@ -21,7 +21,7 @@ bitstring encode_three(std::string &source, int start_index) {
 
     auto nvar = ict::netvar<uint16_t>(D);
 
-    auto bs = bitstring(bit_iterator(nvar.data.data()), 16);
+    auto bs = bitstring(bitstring::bit_iterator(nvar.data.data()), 16);
     bs.remove(0, 6);
 
     return bs;

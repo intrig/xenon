@@ -44,7 +44,7 @@ void doc_unit::allTypes() {
        << ict::from_integer<uint16_t>(16) << ict::from_integer<uint32_t>(32)
        << ict::from_integer<uint64_t>(64);
 
-    auto bs = ict::bitstring(ob.bits().begin(), ob.bits().bit_size());
+    auto bs = ob.bits();
 
     IT_ASSERT_MSG("bs.length == " << bs.bit_size(),
                   bs.bit_size() == (1 + 8 + 16 + 32 + 64));
