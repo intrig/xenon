@@ -95,7 +95,7 @@ static int script_TwosComplement(lua::lua_State *L) {
 
 static int script_Ascii(lua::lua_State *L) {
     auto &bits = get_cursor(L)->bits;
-    auto s = std::string(bits.begin(), bits.bit_size() / 8);
+    auto s = std::string(bits.data(), bits.bit_size() / 8);
     for (auto &c : s)
         if (!isprint(c))
             c = '.';

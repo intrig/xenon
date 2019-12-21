@@ -10,10 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add version number to tools, such as xenon-dm -v, derived from xenon/config.h
 - Upgrade 36.331 to r15
-- Build: CI testing with Travis now
+- Build: CI testing with Travis now: MacOS/Linux
+- Build: CI testing with Github Actions now: MacOS/Linux/Windows
 - Build: Using c++17 and no longer require boost for tests
-- Build: make install supported under MacOS/Linux
-- Build: Preliminary Windows support for build and test, static library only
+- Build: make install supported under MacOS/Linux/Windows
+- Build: Windows builds static library only
 - Build: New make rule to build for xcode: make xcode
  
 ### Changed
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 3GPP/24.008: Fixed Code List decode length bug.
 - multivector: fixed access bug for empty cursors
 - bitstring: upgraded to use proper `bit_iterator`s
+- xddl: fixed bug with poorly constructed xddl
 
 ## Older versions
 
