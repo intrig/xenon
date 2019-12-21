@@ -1,1 +1,0 @@
-subdir('3GPP')

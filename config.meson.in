@@ -1,7 +1,0 @@
-#pragma once
-/* This is a dummy file and should be removed once we move to cmake */
-namespace xenon {
-    inline auto version() {
-        return "";
-    }
-}
