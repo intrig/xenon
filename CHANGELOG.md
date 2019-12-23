@@ -4,17 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog].
 and this project adheres to [Semantic Versioning].
 
-## v2.3.0
+## v2.4.0
 
 This release is a giant step forward in the area of SQA.
 With continuous integration supported we now:
 build, test, install, and test the installation for
 all three major platforms and all three major compilers.
 
-All compiler warnings are squashed for all platforms, and going forward
+All compiler warnings are squashed for all platforms and going forward
 warnings are treated as errors.
-There is more room for code quality improvement, but this release makes for
-a solid base for our next primary objective: Upgrading to 5G.
+There is more room for code quality improvement, but this release takes an
+already solid code base to the next level.
+
+It for our next primary objective: Upgrading to 5G.
 
 ### Added
 
@@ -43,16 +45,17 @@ a solid base for our next primary objective: Upgrading to 5G.
 
 ## Older versions
 
-1. [2.2.0] - 2016-9-17
-2. [2.1.2] - 2016-8-19
-3. [2.1.1] - 2016-8-10
-4. [2.1.0] - 2016-8-8
-5. [2.0.0] - 2016-7.22
-6. [1.0.0] - 2016-7-22
+1. [2.3.0] - 2016-9-18
+2. [2.2.0] - 2016-9-17
+3. [2.1.2] - 2016-8-19
+4. [2.1.1] - 2016-8-10
+5. [2.1.0] - 2016-8-8
+6. [2.0.0] - 2016-7.22
+7. [1.0.0] - 2016-7-22
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
-
+[2.3.0]: https://github.com/intrig/xenon/releases/tag/v2.3.0
 [2.2.0]: https://github.com/intrig/xenon/releases/tag/v2.2.0
 [2.1.2]: https://github.com/intrig/xenon/releases/tag/v2.1.2
 [2.1.1]: https://github.com/intrig/xenon/releases/tag/v2.1.1
