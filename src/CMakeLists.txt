@@ -44,8 +44,11 @@ add_library(xenon ${lib-type}
 
 if (NOT MSVC)
     target_compile_options(xenon
-        PUBLIC -Wall -Wextra -Wpedantic -Werror -fdiagnostics-color=always
-            -Wno-implicit-fallthrough -Wno-keyword-macro -Wno-unneeded-internal-declaration)
+        PUBLIC -Wall -Wextra -Weverything -Wpedantic -fdiagnostics-color=always
+            -Wno-implicit-fallthrough -Wno-keyword-macro
+            -Wno-unneeded-internal-declaration
+            -Wno-c++98-compat
+            -Wno-c++98-compat-pedantic)
 endif ()
 
 target_include_directories(xenon
