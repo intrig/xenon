@@ -732,8 +732,12 @@ class SignedNumber : public BuiltinValue {
 
 class HexString : public BuiltinValue {
   public:
-    HexString(std::string const &s) { ict::string_to_int(number, s, 16); }
-
+    HexString(std::string const &s) {
+        size_t sz;
+        number = std::stoi(s, &sz, 16);
+        if (sz != s.size())
+            IT_PANIC("invalid hex string " << s);
+    }
     int number;
 };
 

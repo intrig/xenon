@@ -90,7 +90,7 @@ void itu_unit::splits() {
         {' ', "split on spaces ", {"split", "on", "spaces"}},
         {'.', "split.on.dots", {"split", "on", "dots"}},
         {"./", "split.on.any/test", {"split", "on", "any", "test"}},
-        {"./-", "split.on.any/test-", {"split", "on", "any", "test"}},
+        {"./-", "split.on.any/test2-", {"split", "on", "any", "test2"}},
         {"./-_",
          "pcapng/pcapng_interface_description_block",
          {"pcapng", "pcapng", "interface", "description", "block"}}

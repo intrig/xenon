@@ -26,10 +26,9 @@ class xv_mask {
 xv_mask mask;
 
 inline std::string filter_path(const std::string &p) {
-    int v;
     auto tokens = ict::split(p, '/');
     for (auto &i : tokens) {
-        if (!i.empty() && ict::string_to_int(v, i))
+        if (!i.empty() && ict::is_uint(i))
             i = "record";
     }
 
