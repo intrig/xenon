@@ -18,7 +18,7 @@ struct command_flags {
     std::string format = "nlvhs";
 };
 
-void process_xddl(ict::command const &line, command_flags const &flags) {
+static void process_xddl(ict::command const &line, command_flags const &flags) {
     auto i = line.targets.begin();
     xenon::spec_server d;
     d.add_spec(xenon::xddl_dir());

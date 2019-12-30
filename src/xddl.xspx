@@ -89,7 +89,7 @@
             <!-- xddl::cursor open(string64 tag, const recref &amp; href); -->
             std::map&lt;recref, spec_cursor&gt; recdef_map;
             std::map&lt;recref, spec_cursor&gt; type_map;
-            class spec_server * owner = 0;
+            class spec_server * owner = nullptr;
             int in_oob = 0;
         </code>
     </parser>
@@ -117,25 +117,26 @@
 
 
     <code id="vhref">
-        virtual recref vhref() const final { return href; };
+        virtual recref vhref() const final { return href; }
     </code>
 
     <code id="is_visible">
-        virtual bool is_visible() const final { return visible; };
+        virtual bool is_visible() const final { return visible; }
     </code>
 
     <code id="var_type">
-        virtual void vto_string(std::ostream &amp;) const { return; }; 
+        virtual void vto_string(std::ostream &amp;) const { return; }
         virtual void vto_html(spec_const_cursor c, std::ostream &amp; os) const { os &lt;&lt; c-&gt;name(); }
         virtual void vparse(spec_cursor, msg_cursor, ict::ibitstream &amp;) const;
-        virtual void vend_handler(spec_cursor, spec &amp;) { return; };
-        virtual std::string vdescription(spec_cursor, msg_const_cursor) const { return ""; };
-        virtual std::string venum_string(spec_cursor, msg_const_cursor) const { return ""; };
-        virtual void vset_ref(spec_cursor) {};
-        virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() { return std::make_pair(false, spec_cursor()); };
+        virtual void vend_handler(spec_cursor, spec &amp;) { return; }
+        virtual std::string vdescription(spec_cursor, msg_const_cursor) const { return ""; }
+        virtual std::string venum_string(spec_cursor, msg_const_cursor) const { return ""; }
+        virtual void vset_ref(spec_cursor) {}
+        virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() { return std::make_pair(false, spec_cursor()); }
         virtual recref vhref() const { return recref(); }
         virtual bool is_visible() const { return true; }
-
+        var_type() = default;
+        var_type(const var_type &amp;) = default;
         virtual ~var_type() = default;
     </code>
 
@@ -148,8 +149,8 @@
 
     </code>
     <code id="mutable_ref">
-        virtual void vset_ref(spec_cursor c) final { ref = c; };
-        virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() final { return std::make_pair(true, ref); };
+        virtual void vset_ref(spec_cursor c) final { ref = c; }
+        virtual std::pair&lt;bool, spec_cursor&gt; vget_ref() final { return std::make_pair(true, ref); }
         mutable spec_cursor ref;
     </code>
 
@@ -398,24 +399,28 @@
         <public>
         template &lt;typename Items, typename Ranges, typename LuaState&gt;
         type(recref id, LuaState l, Items &amp; items, Ranges &amp; ranges) : id(id), l(l), items(items), ranges(ranges) {}
-        #if 0
         type(type &amp;&amp; x) noexcept {
             id = std::move(x.id);
             l = x.l;
             items = std::move(x.items);
             ranges = std::move(x.ranges);
         }
-        #endif
+        type(type &amp; x) {
+            id = x.id;
+            l = x.l;
+            items = x.items;
+            ranges = x.ranges;
+        }
         struct item_data {
             std::string value;
             mutable spec_cursor ref;
             recref href;
         };
         item_data const &amp; item_info(size_t key) const;
-        bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == 0); }
+        bool empty() const { return ranges.empty() &amp;&amp; items.empty() &amp;&amp; (l == nullptr); }
         std::string value(spec_cursor referer, msg_const_cursor c) const;
         virtual ~type() final;
-        std::shared_ptr&lt;lua::state_wrapper&gt; l = 0;
+        std::shared_ptr&lt;lua::state_wrapper&gt; l = nullptr;
         std::map&lt;size_t, item_data&gt; items;
         std::map&lt;std::pair&lt;size_t, size_t&gt;, item_data&gt; ranges;
         </public>
@@ -437,7 +442,7 @@
     <element tag="script" has_cdata="true" end_handler="true">
         <code href="vend_handler"/>
         <public>
-            std::shared_ptr&lt;lua::state_wrapper&gt; l = 0;
+            std::shared_ptr&lt;lua::state_wrapper&gt; l = nullptr;
         </public>
     </element>
 

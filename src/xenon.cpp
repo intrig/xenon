@@ -36,7 +36,7 @@ static int script_datetime(lua::lua_State *L) {
 
 // get the description of a previous node
 static int script_Description(lua::lua_State *L) {
-    const char *s = lua::luaL_checklstring(L, 1, NULL);
+    const char *s = lua::luaL_checklstring(L, 1, nullptr);
     auto n = get_cursor(L);
     auto c = rfind_first(n, s);
     if (c.is_root())
@@ -60,7 +60,7 @@ static int script_EnumValue(lua::lua_State *L) {
 
 // get the value of a previous node
 static int script_Value(lua::lua_State *L) {
-    const char *s = lua::luaL_checklstring(L, 1, NULL);
+    const char *s = lua::luaL_checklstring(L, 1, nullptr);
     auto n = get_cursor(L);
     auto c = rfind_first(n, s);
     if (c.is_root())
@@ -111,7 +111,7 @@ static int script_Imsi_S(lua::lua_State *L) {
 
 static int script_Gsm7(lua::lua_State *L) {
     int fill = 0;
-    const char *s = lua::luaL_checklstring(L, 1, NULL);
+    const char *s = lua::luaL_checklstring(L, 1, nullptr);
     if (s) {
         auto c = rfind_first(get_cursor(L), s);
         if (!c.is_root())
@@ -177,8 +177,8 @@ void xcase::vend_handler(spec::cursor, spec &parser) {
     xs->cases[value] = i;
 }
 
-type create_type_struct(recref url, spec::cursor parent) {
-    std::shared_ptr<lua::state_wrapper> l = 0;
+static type create_type_struct(recref url, spec::cursor parent) {
+    std::shared_ptr<lua::state_wrapper> l = nullptr;
     std::map<size_t, type::item_data> items;
     std::map<std::pair<size_t, size_t>, type::item_data> ranges;
 
@@ -344,7 +344,7 @@ void link_local_refs(Cursor parent, RecMap &rec_map, TypeMap &type_map) {
     });
 }
 
-void link_anon_types(spec::cursor parent) {
+static void link_anon_types(spec::cursor parent) {
     ict::recurse(parent, [&](spec::cursor self) {
         auto t = self->uid;
         if ((t == field_uid || t == prop_uid) && has_anon_type(self))
@@ -359,7 +359,7 @@ Cursor find_child_with_tag(const Cursor &parent, std::string const &tag) {
                         [&](const element &c) { return c.tag() == tag; });
 }
 
-void link_reflective_properties(spec::cursor doc_root) {
+static void link_reflective_properties(spec::cursor doc_root) {
     // create a set of names for the globals
     auto globs = std::set<std::string>();
 
@@ -556,7 +556,7 @@ void prop::vparse(spec::cursor self, message::cursor parent,
 }
 
 // same as get_variable but filtered on props only
-message::cursor get_prop(message::cursor first, const std::string &name) {
+static message::cursor get_prop(message::cursor first, const std::string &name) {
     auto r = message::ascending_cursor(first);
     while (!r.is_root()) {
         if (r->name() == name && r->type == node::prop_node)
@@ -589,7 +589,7 @@ void setprop::vparse(spec::cursor self, message::cursor parent,
 
 void field::vparse(spec::cursor self, message::cursor parent,
                    ict::ibitstream &bs) const {
-    if (size_t l = std::max((int64_t)0, length.value(leaf(parent)))) {
+    if (size_t l = std::max(static_cast<int64_t>(0), length.value(leaf(parent)))) {
         auto c = parent.emplace(node::field_node, self, bs.read(l));
         if (c->bits.bit_size() < l)
             c->set_incomplete();
@@ -603,7 +603,7 @@ void field::vparse(spec::cursor self, message::cursor parent,
 }
 
 // TODO add this to ict::bitstring
-bitstring read_to(ict::ibitstream &bs, char ch) {
+static bitstring read_to(ict::ibitstream &bs, char ch) {
     ict::obitstream dest;
     auto last = bs.read(8);
     dest << last;
@@ -641,7 +641,7 @@ inline message::cursor add_repeat_record(spec::cursor self,
 void repeat::vparse(spec::cursor self, message::cursor parent,
                     ict::ibitstream &bs) const {
     auto rec = parent.emplace(node::repeat_node, self);
-    while (bs.remaining() > (size_t)minlen)
+    while (bs.remaining() > static_cast<size_t>(minlen))
         add_repeat_record(self, rec, bs);
 }
 
@@ -665,13 +665,14 @@ void bound_repeat::vparse(spec::cursor self, message::cursor parent,
     int64_t count = 0;
 
     // add the minimum for sure
-    while ((count < lb) && ((int64_t)((bs.tellg() - start_index)) < minlen)) {
+    while ((count < lb) &&
+           (static_cast<int64_t>((bs.tellg() - start_index)) < minlen)) {
         add_repeat_record(self, rep, bs);
         ++count;
     }
 
     // add up to maximum as long as there are bits remaining
-    while ((count < ub) && bs.remaining() > (size_t)minlen) {
+    while ((count < ub) && bs.remaining() > static_cast<size_t>(minlen)) {
         add_repeat_record(self, rep, bs);
         ++count;
     }
@@ -776,8 +777,6 @@ std::string type::value(spec::cursor x, message::const_cursor c) const {
             return "<script> must set description to a string";
         }
     }
-
-    return std::string();
 }
 
 #ifdef _MSC_VER
@@ -862,7 +861,7 @@ std::string node::name() const {
         return "error";
     default:
         break;
-    };
+    }
     return elem_of(elem).name();
 }
 
@@ -911,13 +910,7 @@ std::ostream &operator<<(std::ostream &os, const node &n) {
     return os;
 }
 
-std::string to_string(const node &n) {
-    std::ostringstream os;
-    os << n;
-    return os.str();
-}
-
-void to_html(spec::const_cursor self, std::ostream &os) {
+static void to_html(spec::const_cursor self, std::ostream &os) {
     if (self->v)
         self->v->vto_html(self, os);
     else

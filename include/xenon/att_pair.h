@@ -75,9 +75,9 @@ inline void validate_att_list(const att_list &atts,
     std::sort(valid.begin(), valid.end());
 
     std::sort(names.begin(), names.end());
-    auto i = std::adjacent_find(names.begin(), names.end());
-    if (i != names.end())
-        IT_PANIC("duplicate attribute name: " << *i);
+    auto dup = std::adjacent_find(names.begin(), names.end());
+    if (dup != names.end())
+        IT_PANIC("duplicate attribute name: " << *dup);
 
     // go through names and make sure each is in valid
     for (auto &i : names) {

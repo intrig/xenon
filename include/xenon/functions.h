@@ -41,7 +41,7 @@ struct path {
     const_iterator end() const { return p.end(); }
     const_iterator cend() const { return p.end(); }
     bool absolute() const { return abs; }
-    void absolute(bool abs) { this->abs = abs; }
+    void absolute(bool is_abs) { this->abs = is_abs; }
     bool empty() const { return p.empty(); }
     size_t size() const { return p.size(); }
 

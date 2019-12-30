@@ -16,7 +16,7 @@ struct attr {
     std::string value;
 };
 
-ict::osstream &operator<<(ict::osstream &strm, const attr &att) {
+static ict::osstream &operator<<(ict::osstream &strm, const attr &att) {
     if (!att.value.empty())
         strm << " " << att.key << "=\"" << att.value << "\"";
     return strm;

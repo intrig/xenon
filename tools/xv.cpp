@@ -5,8 +5,8 @@ using std::cerr;
 using std::cout;
 
 // globally used flags
-bool verbose = false;
-std::string xddl_path;
+static bool verbose = false;
+static std::string xddl_path;
 
 template <typename T> std::string location(T t) {
     ict::osstream os;
@@ -23,7 +23,7 @@ class xv_mask {
     bool show_desc;
 };
 
-xv_mask mask;
+static xv_mask mask;
 
 inline std::string filter_path(const std::string &p) {
     auto tokens = ict::split(p, '/');
@@ -263,7 +263,7 @@ class xv_file {
     bool name_only;
 };
 
-void validate_xv_file(const std::string &name, bool name_only,
+static void validate_xv_file(const std::string &name, bool name_only,
                       bool force_print) {
     xv_file file(name);
     file.name_only = name_only;
@@ -278,7 +278,7 @@ void validate_xv_file(const std::string &name, bool name_only,
     }
 }
 
-void print_xv_message(xenon::spec_server &spec, const std::string xddl_file,
+static void print_xv_message(xenon::spec_server &spec, const std::string xddl_file,
                       const std::string ascii_msg) {
     auto m = xenon::parse(spec, xenon::bitstring(ascii_msg));
     xv_message xm(xddl_file, m);

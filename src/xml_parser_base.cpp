@@ -2,22 +2,6 @@
 #include <xenon/xml_parser_base.h>
 
 namespace xenon {
-// order matters here, index is state()
-const char *state_names[] = {"First",         "StateStart",
-                             "Start1",        "CommentStart1",
-                             "CommentStart2", "CommentStart3",
-                             "CommentBody",   "CommentEnd1",
-                             "CommentEnd2",   "PI",
-                             "PIEnd1",        "StartTag1",
-                             "FirstAtt1",     "FirstAtt2",
-                             "AttName1",      "AttName2",
-                             "AttName2a",     "AttName3",
-                             "AttName4",      "AttValue1",
-                             "AttValue2",     "AttValue3",
-                             "Empty",         "EndTag1",
-                             "EndTag2",       "EndTag3",
-                             "Epilog",        "Epilog1"};
-
 xml_parser_base::xml_parser_base() {
     int i;
     // init once stuff

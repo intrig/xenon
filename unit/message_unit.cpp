@@ -6,7 +6,7 @@
 namespace xn = xenon;
 
 // Call for_each_path and return the number of matches.
-int count_test(xn::message const &m, std::string const &path) {
+static int count_test(xn::message const &m, std::string const &path) {
     int found = 0;
     xn::for_each_path(m, path, [&](xn::message::const_cursor) { found++; });
     return found;
@@ -18,12 +18,12 @@ struct first_type {
     int result; // -1 means not found
 };
 
-std::ostream &operator<<(std::ostream &os, const first_type &x) {
+static std::ostream &operator<<(std::ostream &os, const first_type &x) {
     os << x.bits << ' ' << x.path << ' ' << x.result;
     return os;
 }
 
-auto fv = std::vector<std::pair<std::string, std::vector<first_type>>> {
+static auto fv = std::vector<std::pair<std::string, std::vector<first_type>>> {
     {"field01/start",
      {
          {"@1", "foo", 1},
@@ -77,14 +77,15 @@ void unit::find_first_again() {
 
 void unit::for_each_path_test() {
     xn::spec_server s("xddlunit");
-    auto rec = xn::get_record(s, "field01/start");
-    auto m = xn::parse(rec, "@1");
+    {
+        auto rec = xn::get_record(s, "field01/start");
+        auto m = xn::parse(rec, "@1");
 
-    IT_ASSERT(count_test(m, "foo") == 1);
-    IT_ASSERT(count_test(m, "foo/boo") == 0);
-    IT_ASSERT(count_test(m, "goo") == 0);
-    IT_ASSERT(count_test(m, "goo/foo") == 0);
-
+        IT_ASSERT(count_test(m, "foo") == 1);
+        IT_ASSERT(count_test(m, "foo/boo") == 0);
+        IT_ASSERT(count_test(m, "goo") == 0);
+        IT_ASSERT(count_test(m, "goo/foo") == 0);
+    }
     {
         auto rec = xn::get_record(s, "find/A");
         auto m = xn::parse(rec, "@1");

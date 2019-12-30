@@ -7,12 +7,15 @@
 #include <string.h>
 
 namespace ict {
-namespace util {
-uint16_t char_to_number(char D) { return D == '0' ? 10 : D - '0'; }
 
-char number_to_char(uint16_t n) { return n == 10 ? '0' : n + '0'; }
+namespace detail {
+static uint16_t char_to_number(char D) { return D == '0' ? 10 : D - '0'; }
 
-bitstring encode_three(std::string &source, int start_index) {
+static char number_to_char(uint16_t n) {
+    return n == 10 ? '0' : static_cast<char>(n + '0');
+}
+
+static bitstring encode_three(std::string &source, int start_index) {
     auto D1 = char_to_number(source[start_index++]);
     auto D2 = char_to_number(source[start_index++]);
     auto D3 = char_to_number(source[start_index]);
@@ -27,11 +30,11 @@ bitstring encode_three(std::string &source, int start_index) {
     return bs;
 }
 
-std::string decode_three(bitstring bs) {
+static std::string decode_three(bitstring bs) {
     auto D = to_integer<uint16_t>(bs);
-    auto d1 = (D + 111) / 100;
-    auto d2 = (D + 110) / 10 % 10;
-    auto d3 = (D % 10) + 1;
+    uint16_t d1 = (D + 111) / 100;
+    uint16_t d2 = (D + 110) / 10 % 10;
+    uint16_t d3 = (D % 10) + 1;
 
     std::string value;
     value.reserve(3);
@@ -41,7 +44,7 @@ std::string decode_three(bitstring bs) {
     return value;
 }
 
-bitstring encode_bcd(char ch) {
+static bitstring encode_bcd(char ch) {
     switch (ch) {
     case '1':
         return bitstring("@0001");
@@ -68,7 +71,7 @@ bitstring encode_bcd(char ch) {
     }
 }
 
-char decode_bcd(bitstring bs) {
+static char decode_bcd(bitstring bs) {
     switch (to_integer<char>(bs)) {
     case 1:
         return '1';
@@ -95,24 +98,24 @@ char decode_bcd(bitstring bs) {
     }
 }
 
-} // namespace util
+} // namespace detail
 
-std::string decode_imsi(bitstring const &imsi_s) {
-    auto first_three = util::decode_three(imsi_s.substr(0, 10));
-    auto second_three = util::decode_three(imsi_s.substr(10, 10));
-    auto thousands = util::decode_bcd(imsi_s.substr(20, 4));
-    auto last_three = util::decode_three(imsi_s.substr(24, 10));
+inline std::string decode_imsi(bitstring const &imsi_s) {
+    auto first_three = detail::decode_three(imsi_s.substr(0, 10));
+    auto second_three = detail::decode_three(imsi_s.substr(10, 10));
+    auto thousands = detail::decode_bcd(imsi_s.substr(20, 4));
+    auto last_three = detail::decode_three(imsi_s.substr(24, 10));
 
     std::ostringstream os;
     os << first_three << second_three << thousands << last_three;
     return os.str();
 }
 
-bitstring encode_imsi(std::string &number) {
-    auto first_three = util::encode_three(number, 0);
-    auto second_three = util::encode_three(number, 3);
-    auto thousands = util::encode_bcd(number[6]);
-    auto last_three = util::encode_three(number, 7);
+inline bitstring encode_imsi(std::string &number) {
+    auto first_three = detail::encode_three(number, 0);
+    auto second_three = detail::encode_three(number, 3);
+    auto thousands = detail::encode_bcd(number[6]);
+    auto last_three = detail::encode_three(number, 7);
 
     obitstream os;
     os << first_three << second_three << thousands << last_three;

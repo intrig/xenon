@@ -34,7 +34,7 @@ struct node {
     inline const node_info_type &info() const;
     node() = default;
     node(node_type type, spec_cursor elem, ict::bitstring bs = ict::bitstring())
-        : type(type), elem(elem), bits(bs){};
+        : type(type), elem(elem), bits(bs){}
 
     bool empty() { return bits.empty(); }
     ict::string64 tag() const;

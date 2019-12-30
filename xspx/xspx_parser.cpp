@@ -354,7 +354,7 @@ std::ostream &xsp_parser::to_decl(std::ostream &os, const elem_type &elem,
               ": name_;}";
         os << "std::shared_ptr<var_type> v;";
         // os << "std::shared_ptr<model<var_type>> v2;";
-        os << "size_t line = 0;" << class_name << " * parser = 0;"
+        os << "size_t line = 0;" << class_name << " * parser = nullptr;"
            << "ict::string64 tag_;"
            << "std::string name_;";
     }
@@ -455,8 +455,8 @@ std::ostream &xsp_parser::start_handler_contents(std::ostream &os,
             parents.push_back(c);
             )";
         if (elem.has_stack)
-            os << elem.name << "_stack.push_back((" << elem.name
-               << "*)c->v.get());";
+            os << elem.name << "_stack.push_back(static_cast<" << elem.name
+               << "*>(c->v.get()));";
         if (elem.has_cdata)
             os << "cdata.clear();";
     }
@@ -527,7 +527,7 @@ void xsp_parser::const_content(std::ostream &os) const {
     for (const auto &choice : choices)
         add_children(os, choice);
 
-    os << "p.cdata_handler([&](const char * cdata){this->cdata += cdata; });";
+    os << "p.cdata_handler([&](const char * cstr){cdata += cstr; });";
 
     for (const auto &elem : elems.back())
         to_init(os, elem);

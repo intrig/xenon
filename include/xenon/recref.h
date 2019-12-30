@@ -104,7 +104,7 @@ template <typename Rec> void parse_recref(std::string const &ref, Rec &rec) {
 }
 
 struct recref {
-    recref(){};
+    recref(){}
 
     recref(const std::string &x) { parse_recref(x, *this); }
 
@@ -119,7 +119,7 @@ struct recref {
 
     bool empty() const {
         return path.empty() && file.empty() && anchor.empty();
-    };
+    }
 
     bool is_local() const {
         return path.empty() && file.empty() && !anchor.empty();

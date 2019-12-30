@@ -100,19 +100,19 @@ class DateTime {
 
     int Year() const { return FromTicks(DTYear); }
     int Hour() const {
-        return (int)((encoded & TicksMask) % TicksPerDay / TicksPerHour);
+        return static_cast<int>((encoded & TicksMask) % TicksPerDay / TicksPerHour);
     }
 
     int Minute() const {
-        return (int)((encoded & TicksMask) % TicksPerHour / TicksPerMinute);
+        return static_cast<int>((encoded & TicksMask) % TicksPerHour / TicksPerMinute);
     }
 
     int Second() const {
-        return (int)((encoded & TicksMask) % TicksPerMinute / TicksPerSecond);
+        return static_cast<int>((encoded & TicksMask) % TicksPerMinute / TicksPerSecond);
     }
 
     int Millisecond() const {
-        return (int)((encoded & TicksMask) % TicksPerSecond /
+        return static_cast<int>((encoded & TicksMask) % TicksPerSecond /
                      TicksPerMillisecond);
     }
 
@@ -133,7 +133,7 @@ class DateTime {
         int M = 1;
 
         // int days[12]  = daysmonth;
-        int totaldays = (int)((encoded & TicksMask) / TicksPerDay);
+        int totaldays = static_cast<int>((encoded & TicksMask) / TicksPerDay);
 
         num400 = (totaldays / dp400);
         totaldays -= num400 * dp400;
@@ -178,7 +178,7 @@ class DateTime {
     bool _reverse;
 };
 
-std::ostream &operator<<(std::ostream &strm, const DateTime &dt) {
+static std::ostream &operator<<(std::ostream &strm, const DateTime &dt) {
     using std::setfill;
     using std::setw;
     if (dt.ReverseDateTime()) {

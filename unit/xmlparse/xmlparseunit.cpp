@@ -15,10 +15,10 @@ class Scanner : public xenon::xml_parser_base {
         tag = s;
         for (ai = atts; (*ai)[0] != '\0'; ai += 2)
             att_map[*ai] = *(ai + 1);
-    };
-    void endElement(const char *) { att_map.clear(); };
-    void characterData(const char *s) { cdata_vec.push_back(s); };
-    void comment(const char *){};
+    }
+    void endElement(const char *) { att_map.clear(); }
+    void characterData(const char *s) { cdata_vec.push_back(s); }
+    void comment(const char *){}
 
     std::string tag;
     std::vector<std::string> cdata_vec;
@@ -271,7 +271,7 @@ void xml_parse_unit::atts() {
     }
 }
 
-const char *xml_files[] = {"simple.xml",
+static const char *xml_files[] = {"simple.xml",
                            "../xddlunit/bias01.xddl",
                            "../xddlunit/bias02.xddl",
                            "../xddlunit/expression01.xddl",

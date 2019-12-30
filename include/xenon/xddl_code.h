@@ -129,7 +129,7 @@ template <typename Stream> class Xml : public xml_parser_base {
 
         void my_sort(std::vector<attpair> &attvec) {
             std::vector<attpair> dest;
-            attpair name;
+            attpair att_name;
             attpair length;
             attpair start;
             attpair id;
@@ -139,7 +139,7 @@ template <typename Stream> class Xml : public xml_parser_base {
             std::vector<attpair>::iterator it;
             for (it = attvec.begin(); it != attvec.end(); ++it) {
                 if (it->first == "name")
-                    name = *it;
+                    att_name = *it;
                 else if (it->first == "length")
                     length = *it;
                 else if (it->first == "start")
@@ -154,8 +154,8 @@ template <typename Stream> class Xml : public xml_parser_base {
                 dest.insert(dest.begin(), start);
             if (!length.first.empty())
                 dest.insert(dest.begin(), length);
-            if (!name.first.empty())
-                dest.insert(dest.begin(), name);
+            if (!att_name.first.empty())
+                dest.insert(dest.begin(), att_name);
 
             if (!id.first.empty())
                 dest.push_back(id);

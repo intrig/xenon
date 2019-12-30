@@ -15,25 +15,26 @@ struct xml_error {
 // macro to throw error with "expected X before Y token" description
 #define THROW_EXPECTED(X, Y)                                                   \
     do {                                                                       \
-        std::ostringstream os;                                                 \
-        os << "expected '" << (X) << "' before '" << (Y) << "' token";         \
-        throw xenon::xml_error{os.str(), line(), column()};                    \
-    } while (0);
+        std::ostringstream out_stream_msg_;                                    \
+        out_stream_msg_ << "expected '" << (X) << "' before '" << (Y)          \
+                        << "' token";                                          \
+        throw xenon::xml_error{out_stream_msg_.str(), line(), column()};       \
+    } while (0)
 
 // macro to throw error with "unexpected X token" description
 #define THROW_UNEXPECTED(X)                                                    \
     do {                                                                       \
-        std::ostringstream os;                                                 \
-        os << "unexpected '" << X << "' token";                                \
-        throw xenon::xml_error{os.str(), line(), column()};                    \
-    } while (0);
+        std::ostringstream out_stream_msg_;                                    \
+        out_stream_msg_ << "unexpected '" << X << "' token";                   \
+        throw xenon::xml_error{out_stream_msg_.str(), line(), column()};       \
+    } while (0)
 
 // macro to throw an xml_exception with description
 #define IT_THROW_XML(desc)                                                     \
     do {                                                                       \
-        std::ostringstream os;                                                 \
-        os << desc;                                                            \
-        throw xenon::xml_error{os.str(), line(), column()};                    \
+        std::ostringstream out_stream_msg_;                                    \
+        out_stream_msg_ << desc;                                               \
+        throw xenon::xml_error{out_stream_msg_.str(), line(), column()};                    \
     } while (0)
 
 namespace xenon {
@@ -97,7 +98,7 @@ class xml_parser_base {
     virtual void endElement(const char *s) = 0;
     virtual void characterData(const char *s) = 0;
     virtual void comment(const char *s) = 0;
-    virtual void proc_inst(const char *){};
+    virtual void proc_inst(const char *){}
 
     enum { MaxAtts = 50 };
     enum { MaxCDataSize = 1024 * 10 };
@@ -106,7 +107,6 @@ class xml_parser_base {
     enum { MaxTagSize = 1024 };
     enum { MaxAttSize = 1024 * 10 };
 
-    // update the state_names array in the source file if you change this
     enum State {
         First,      // looking for S or first '<'
         StateStart, // parsing cdata, looking for '<' or '>'
@@ -401,9 +401,6 @@ class xml_parser_base {
                 THROW_UNEXPECTED(*ch_);
             }
             break;
-
-        default:
-            THROW_UNEXPECTED(*ch_);
         }
         return d;
     }
@@ -542,7 +539,7 @@ inline void xml_parser_base::xparse(const char *s, size_t len, bool final) {
                     *t_ = '\0';
                     t_ = *ti_; // t_ now holds the tag name
                     resetAtts();
-                    startElement(t_, (const char **)atts_);
+                    startElement(t_, const_cast<const char **>(atts_));
                     set(StateStart);
                     break;
                 default:
@@ -564,7 +561,7 @@ inline void xml_parser_base::xparse(const char *s, size_t len, bool final) {
                     break;
                 case '>': // (same as above case)
                     resetAtts();
-                    startElement(t_, (const char **)atts_);
+                    startElement(t_, const_cast<const char **>(atts_));
                     set(StateStart);
                     break;
                 default:
@@ -605,7 +602,7 @@ inline void xml_parser_base::xparse(const char *s, size_t len, bool final) {
                     break;
                 case '>': // done, call handler with attributes
                     lastAtt();
-                    startElement(t_, (const char **)atts_);
+                    startElement(t_, const_cast<const char **>(atts_));
                     resetAtts();
                     set(StateStart);
                     break;
@@ -631,7 +628,7 @@ inline void xml_parser_base::xparse(const char *s, size_t len, bool final) {
                     break;
                 case '>': // done, call handler with attributes
                     lastAtt();
-                    startElement(t_, (const char **)atts_);
+                    startElement(t_, const_cast<const char **>(atts_));
                     resetAtts();
                     set(StateStart);
                     break;
@@ -728,7 +725,7 @@ inline void xml_parser_base::xparse(const char *s, size_t len, bool final) {
             switch (*ch_) {
             case '>':
                 lastAtt();
-                startElement(t_, (const char **)atts_);
+                startElement(t_, const_cast<const char **>(atts_));
                 endElement(t_);
                 if (ti_ == (tags_ + 1))
                     set(Epilog);

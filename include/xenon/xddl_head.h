@@ -100,7 +100,7 @@ inline size_t create_pos_integer(Cursor parent, const std::string &s) {
     auto v = create_integer(parent, s);
     if (v <= 0)
         IT_PANIC("expected positive integer, got " << s);
-    return (size_t)v;
+    return static_cast<size_t>(v);
 }
 
 template <typename Cursor>
@@ -108,7 +108,7 @@ inline size_t create_size(Cursor parent, const std::string &s) {
     auto v = create_integer(parent, s);
     if (v < 0)
         IT_PANIC("expected non-negative integer, got " << s);
-    return (size_t)v;
+    return static_cast<size_t>(v);
 }
 
 // test functions for <choice> distinction

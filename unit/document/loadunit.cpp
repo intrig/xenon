@@ -7,7 +7,7 @@ using std::cout;
 
 void load_unit::sanity() {}
 
-void load_all_xddl(const fs::path &dir, xenon::spec_server &specs) {
+static void load_all_xddl(const fs::path &dir, xenon::spec_server &specs) {
     if (!exists(dir))
         return;
     fs::directory_iterator end_itr;
