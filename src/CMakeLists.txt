@@ -42,14 +42,39 @@ add_library(xenon ${lib-type}
     ${xddl_h}
 )
 
-if (NOT MSVC)
-    target_compile_options(xenon
-        PUBLIC -Wall -Wextra -Wpedantic -fdiagnostics-color=always
-            -Wno-implicit-fallthrough -Wno-keyword-macro
-            -Wno-unneeded-internal-declaration
-            -Wno-c++98-compat
-            -Wno-c++98-compat-pedantic)
-endif ()
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(xenon PUBLIC
+        -Wall -Wextra -Wpedantic -fdiagnostics-color=always
+        -Werror
+    )
+endif()
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(xenon PUBLIC
+        -fdiagnostics-color=always
+        -Weverything
+        -Wno-implicit-fallthrough -Wno-keyword-macro
+        -Wno-unneeded-internal-declaration
+        -Wno-c++98-compat
+        -Wno-c++98-compat-pedantic
+        -Wno-shadow-field-in-constructor
+        -Wno-sign-conversion
+        -Wno-implicit-float-conversion
+
+        # These are more informational
+        -Wno-padded
+        -Wno-weak-vtables
+        -Wno-exit-time-destructors
+        -Wno-global-constructors
+        -Wno-switch-enum
+
+        -Werror
+    )
+    # Remove all warnings from lua source
+    set_source_files_properties(lua-5.1.4/src/lua_all.cpp PROPERTIES COMPILE_OPTIONS
+        -Wno-everything)
+endif()
+
 
 target_include_directories(xenon
     PUBLIC ${CMAKE_SOURCE_DIR}/include

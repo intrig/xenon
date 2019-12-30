@@ -1,5 +1,5 @@
-.PHONY: all clean realclean check test upgrade-ict get-deps install uninstall
-.PHONY: check-install tags check-install2
+.PHONY: all clean realclean check test upgrade-ict install uninstall
+.PHONY: check-install tags update-ict
 
 all: include/xenon/ict/ict.h build debug
 	ninja -C build
@@ -12,6 +12,11 @@ debug:
 
 xcode:
 	mkdir $@ && cd $@ && cmake -GXcode -DCMAKE_BUILD_TYPE=Debug ..
+
+clang:
+	mkdir $@ && cd $@ && cmake -GNinja -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_C_COMPILER=/usr/local/clang_9.0.0/bin/clang \
+	-DCMAKE_CXX_COMPILER=/usr/local/clang_9.0.0/bin/clang++ ..
 
 clean:
 	@test -d build && ninja -C build clean || true
@@ -27,18 +32,6 @@ install: build
 
 uninstall:
 
-check-install: build
-ifeq ($(TRAVIS_OS_NAME),ubuntu-latest)
-	sudo ldconfig
-endif
-ifeq ($(TRAVIS_OS_NAME),linux)
-	sudo ldconfig
-endif
-	rm -rf instacheck/build
-	cd instacheck && mkdir build && cd build && cmake -GNinja ..
-	ninja -C instacheck/build
-	CTEST_OUTPUT_ON_FAILURE=1 ninja -C instacheck/build test
-
 tags:
 	@echo Making tags...
 	@$(RM) tags; find . -name '*.cpp' -o -name '*.c' \
@@ -49,23 +42,13 @@ tags:
 include/xenon/ict/ict.h:
 	git submodule update --init --recursive
 
+update-ict:
+	git submodule update --init --recursive
+
 upgrade-ict:
 	git submodule foreach git pull origin master
 
-copy-ict:
-	cp -r ../ict/*.h include/xenon
-
-get-deps:
-	@echo OS is $(TRAVIS_OS_NAME)
-ifeq ($(TRAVIS_OS_NAME),linux)
-	sudo apt-get update
-	sudo apt-get install -y ninja-build
-endif
-ifeq ($(TRAVIS_OS_NAME),osx)
-	sudo cp deps/osx/ninja /usr/local/bin
-endif
-
-check-install2:
+check-install:
 	cmake -E remove_directory instacheck/build
 	cmake -B instacheck/build -S instacheck -GNinja -DCMAKE_BUILD_TYPE=Release
 	cmake --build instacheck/build
