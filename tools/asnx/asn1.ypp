@@ -30,14 +30,13 @@ extern std::string current_string;
 extern int current_line;
 extern FILE *yyin;
 
-ModuleList *modlist;
-bool trace_on;
+static ModuleList *modlist;
+static bool trace_on;
 bool ignore_warnings;
 
 int yylex();
 
-int yyerror(const char *p) {
-    // TRACE("DefinedType");
+static int yyerror(const char *p) {
     IT_PANIC("Error: " << p << " at line " << current_line);
     return 0;
 }

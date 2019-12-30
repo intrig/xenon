@@ -25,7 +25,7 @@ using namespace std;
 std::string current_string;
 int current_line;
 
-int isatty(int) { return 0; }
+static int isatty(int) { return 0; }
 
 %}
 

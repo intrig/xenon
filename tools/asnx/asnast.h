@@ -14,12 +14,16 @@ class ExtensionMarker;
 class NamedValue;
 
 extern std::map<std::string, Value *> local_constants;
+extern std::string current_string;
+extern bool ignore_warnings;
+extern int yychar;
+extern int yynerrs;
 
 inline std::string &lcfirst(std::string &s) {
     if (s.empty())
         return s;
 
-    s[0] = std::tolower(s[0]);
+    s[0] = static_cast<char>(std::tolower(s[0]));
     return s;
 }
 
@@ -38,9 +42,10 @@ inline std::string var_length() {
 
 #define WARN(m)                                                                \
     do {                                                                       \
-        std::ostringstream os;                                                 \
-        os << "warning: " m << " [" << __FILE__ << ":" << __LINE__ << "]";     \
-        std::cerr << os.str() << std::endl;                                    \
+        std::ostringstream os_warn_;                                           \
+        os_warn_ << "warning: " m << " [" << __FILE__ << ":" << __LINE__       \
+                 << "]";                                                       \
+        std::cerr << os_warn_.str() << std::endl;                              \
     } while (0)
 
 extern int current_line;
@@ -76,10 +81,10 @@ class Name : public ast {
 
 class NamedNumber : public ast {
   public:
-    NamedNumber(Name *id) : id(id), value(0), is_extension_marker(false) {}
+    NamedNumber(Name *id) : id(id), value(nullptr), is_extension_marker(false) {}
     NamedNumber(Name *id, Value *value)
         : id(id), value(value), is_extension_marker(false) {}
-    NamedNumber(ExtensionMarker *) : value(0), is_extension_marker(true) {
+    NamedNumber(ExtensionMarker *) : value(nullptr), is_extension_marker(true) {
         id = new Name("ExtensionMarker");
     }
     virtual std::string name() const { return id->str(); }
@@ -114,7 +119,7 @@ class NamedNumberList : public ast {
 class Type : public ast {
   public:
     Type()
-        : ast(), index(-1), optional(false), extension(false), def_value(0),
+        : ast(), index(-1), optional(false), extension(false), def_value(nullptr),
           option_index(-1) {}
 
     virtual std::string instance() const {
@@ -206,16 +211,16 @@ class AlternativeTypeList : public ast {
         else {
             if (extension) {
                 ext_items.push_back(item);
-                item->index = ext_items.size();
+                item->index = static_cast<int>(ext_items.size());
             } else {
                 items.push_back(item);
-                item->index = items.size();
+                item->index = static_cast<int>(items.size());
             }
         }
     }
 
     std::string root_choice() const {
-        int range = ict::required_bits(0, items.size() - 1);
+        auto range = ict::required_bits(0, items.size() - 1);
 
         std::ostringstream xml;
         xml << "<enc><field name=''choice'' length=''" << range << "''>";
@@ -409,7 +414,7 @@ class Subtype : public Type {
 
 class SequenceOfSubtype : public Subtype {
   public:
-    SequenceOfSubtype(Type *type, SizeConstraint *spec) : Subtype(type, spec) {}
+    SequenceOfSubtype(Type *stype, SizeConstraint *sspec) : Subtype(stype, sspec) {}
 
     virtual std::string declaration(Name *) const;
     virtual std::string instance() const;
@@ -445,7 +450,7 @@ class NamedType : public Type {
                << "''> <!-- this has a default value, add property -->";
             os << type->instance(_name);
             os << "</if>";
-            type->def_value = 0;
+            type->def_value = nullptr;
         }
         return os.str();
     }

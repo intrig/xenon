@@ -3,7 +3,7 @@
 
 using namespace std;
 
-map<string, Type *> defined_types;
+static map<string, Type *> defined_types;
 map<string, Value *> local_constants;
 
 extern bool ignore_warnings;
@@ -14,15 +14,7 @@ TypeAssignment::TypeAssignment(Name *id, Type *type) : id(id), type(type) {
 
 string SingleValue::str() const { return lower()->qstr(); }
 
-string small_uint(const string &name) {
-    ostringstream os;
-    os << "<field name=''b0'' length=''1''/>"
-          "<field name=''"
-       << name << "'' length=''b0 ? 15 : 6''/>";
-    return os.str();
-}
-
-string xddl_property(const string &name, const string &value) {
+static string xddl_property(const string &name, const string &value) {
     ostringstream os;
     if (name.empty()) {
         os << "<!-- TODO trying to create a proprerty with empty name -->";
@@ -42,7 +34,7 @@ void ElementTypeList::add(Type *item) {
             item->option_index = option_index++;
         if (extension) {
             ext_items.push_back(item);
-            item->index = ext_items.size();
+            item->index = static_cast<int>(ext_items.size());
             if (TypeExtensionGroup *group =
                     dynamic_cast<TypeExtensionGroup *>(item)) {
                 ostringstream os;
@@ -51,7 +43,7 @@ void ElementTypeList::add(Type *item) {
             }
         } else {
             items.push_back(item);
-            item->index = items.size();
+            item->index = static_cast<int>(items.size());
         }
     }
 }
@@ -153,9 +145,7 @@ string SequenceOfSubtype::choice_sequence(Name *id) const {
 }
 
 string SequenceOfSubtype::instance() const {
-    ostringstream os;
     return instance(new Name("value"));
-    return os.str();
 }
 
 string SequenceOfSubtype::instance(Name *id) const {
@@ -182,9 +172,7 @@ string ValueRange::str() const {
        << (_upper ? _upper->str() : "null") << ")";
     return os.str();
 }
-string size_string(Value *lower, Value *upper) {
-    typedef long long int64_t;
-
+static string size_string(Value *lower, Value *upper) {
     if (lower == upper)
         return lower->qstr();
 
@@ -192,7 +180,7 @@ string size_string(Value *lower, Value *upper) {
     if (ict::is_integer(lower->qstr()) && ict::is_integer(upper->qstr())) {
         int64_t lb = ict::to_integer<int64_t>(lower->qstr());
         int64_t ub = ict::to_integer<int64_t>(upper->qstr());
-        int bits = ict::required_bits(lb, ub);
+        int bits = static_cast<int>(ict::required_bits(lb, ub));
         // IT_WARN("(" << lower->qstr() << ", " << upper->qstr() << ") = " <<
         // bits << " bits");
         os << bits;
@@ -310,7 +298,7 @@ string EnumeratedType::base_enum_field(Name *id,
     return os.str();
 }
 
-string ext_enum_field(Name *id, vector<NamedNumber *> items) {
+static string ext_enum_field(Name *id, vector<NamedNumber *> items) {
     ostringstream os;
     os << "<enc><field name=''b0'' length=''1''/></enc>"
           "<field name=''"
@@ -443,13 +431,13 @@ string OctetString::instance(Name *id, SubtypeSpec *spec) const {
         os << var_length() << "<record name=''" << id->str()
            << "'' length=''length * 8'' href=''#" << s->size_str() << "''/>";
 #endif
-    } else if (SizeConstraint *s = dynamic_cast<SizeConstraint *>(spec)) {
-        if (s->is_range()) {
+    } else if (SizeConstraint *sc = dynamic_cast<SizeConstraint *>(spec)) {
+        if (sc->is_range()) {
             os << spec->size_field() << "<field name=''" << id->str()
                << "'' length=''count * 8''/>";
         } else {
             os << "<field name=''" << id->str() << "'' length=''"
-               << s->size_str() << " * 8''/>";
+               << sc->size_str() << " * 8''/>";
         }
     } else
         PANIC();
@@ -546,7 +534,7 @@ string Subtype::instance(Name *id) const {
     // os << "<!-- Subtype::instance " << id->str() << " -->";
     type->def_value = def_value;
     os << type->instance(id, spec);
-    type->def_value = 0;
+    type->def_value = nullptr;
     return os.str();
 }
 
@@ -555,8 +543,6 @@ string Subtype::instance(Name *id, SubtypeSpec *) const {
     // this->spec is ValueRange (0..2047)
 
     // localspec is ValueRnage (1, 4)
-    abort();
-
     ostringstream os;
     IntegerType *int_type = dynamic_cast<IntegerType *>(type);
 
