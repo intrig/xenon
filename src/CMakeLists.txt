@@ -45,6 +45,7 @@ add_library(xenon ${lib-type}
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(xenon PUBLIC
         -Wall -Wextra -Wpedantic -fdiagnostics-color=always
+        -Wno-implicit-fallthrough
         -Werror
     )
 endif()
